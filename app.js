@@ -9,6 +9,7 @@ var express = require('express'),
 	Pages = db.get('pages'),
 	Pests = db.get('pests'),
 	Reviews = db.get('reviews'),
+	Faqs = db.get('faqs'),
 	Submissions = db.get('submissions'),
 	inProduction = false;
 
