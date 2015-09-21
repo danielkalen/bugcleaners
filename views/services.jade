@@ -1,0 +1,39 @@
+doctype html
+html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr', prefix='og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#')
+	head
+		meta(charset='UTF-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=0')
+		//- Begin Meta Data
+		link(rel="canonical", href=currentpage)
+		meta(property="og:url", content=currentpage)
+		link(rel="shortcut icon", href="/img/favicon.ico", type="image/x-icon")
+		meta(property="og:title", content=pagetitle + " | BugCleaners")
+		meta(property="fb:admins", content="http://www.facebook.com/bugcleaners")
+		meta(itemprop="name", content=pagetitle + " | BugCleaners")
+		//- End Meta data.
+		title= pagetitle + " | BugCleaners"
+		link(rel='stylesheet', href='/css/style.css', type='text/css')
+		link(rel='stylesheet', href='/css/services.css', type='text/css')
+		include ./_parts-global/takana.jade
+	body.innerpage(class!=body_class)
+		include ./_parts-global/form-mixins.jade
+		#page
+			include ./_parts-global/header.jade
+			main.main(role='main')
+				include ./_parts-global/hero.jade
+				
+				if (isMainServicesPage)
+					include ./_parts-home/service.jade
+					include ./_parts-services/pests.jade
+				else
+					if (body_class === 'residential')
+						include ./_parts-services/residential.jade
+					if (body_class === 'commercial')
+						include ./_parts-services/commercial.jade
+					include ./_parts-global/cta_inpage.jade
+					include ./_parts-services/pests.jade
+			
+					
+			include ./_parts-global/footer.jade
+		script(type='text/javascript', src='/js/global.min.js')
+		//- script(type='text/javascript', src='js/home.min.js')

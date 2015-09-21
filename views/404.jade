@@ -1,0 +1,67 @@
+doctype html
+html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr', prefix='og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#')
+	head
+		meta(charset='UTF-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=0')
+		//- Begin Meta Data
+		link(rel="canonical", href='http://bugcleaners.com')
+		meta(property="og:url", content='http://bugcleaners.com')
+		link(rel="shortcut icon", href="/img/favicon.ico", type="image/x-icon")
+		meta(property="og:title", content="Same-day Pest Control Services 24/7 | BugCleaners")
+		meta(property="fb:admins", content="http://www.facebook.com/bugcleaners")
+		meta(itemprop="name", content="Same-day Pest Control Services 24/7 | BugCleaners")
+		//- End Meta data.
+		title Same-day Pest Control Services 24/7 | BugCleaners
+		link(rel='stylesheet', href='/css/style.css', type='text/css')
+		link(rel='stylesheet', href='/css/404.css', type='text/css')
+		include ./_parts-global/takana.jade
+	body.page_404
+		include ./_parts-global/form-mixins.jade
+		#page
+			include ./_parts-global/header.jade
+			main.main(role='main')
+				section.error_404
+					.error_404-innerwrap
+						.error_404-icon
+							.error_404-icon-text Page Not Found
+
+						h2.error_404-title Sorry, that page doesn't exist!
+						.error_404-alternative You can either 
+							a.error_404-alternative-link(href="/") return to the homepage
+							|  or try one of the links below.
+
+						.error_404-links
+							.error_404-links-list
+								h5.error_404-links-list-title Our Services
+								a.error_404-links-list-item(href="/services") All Services
+								a.error_404-links-list-item(href="/services/commercial") Commercial
+								a.error_404-links-list-item(href="/services/residential") Residential
+								a.error_404-links-list-item(href="/get-quote") Request Quote
+							.error_404-links-list
+								h5.error_404-links-list-title Our Company
+								a.error_404-links-list-item(href="/about") About Us
+								a.error_404-links-list-item(href="/contact") Contact Us
+								a.error_404-links-list-item(href="/terms") Terms of Use
+								a.error_404-links-list-item(href="/privacy") Privacy Policy
+							.clearfix
+							.error_404-links-list
+								h5.error_404-links-list-title Pests Knowledge Base
+								a.error_404-links-list-item(href="/pests") All Pests
+								a.error_404-links-list-item(href="/pests/bed-bugs") Bed Bugs
+								a.error_404-links-list-item(href="/pests/termites") Termites
+								a.error_404-links-list-item(href="/pests/roaches") Roaches
+								a.error_404-links-list-item(href="/pests/rodents") Rodents
+								a.error_404-links-list-item(href="/pests/ants") Ants
+								a.error_404-links-list-item(href="/pests/others") Other Pests
+							.error_404-links-list
+								h5.error_404-links-list-title Resources &amp; Tips
+								a.error_404-links-list-item(href="/resources") All Resources
+								a.error_404-links-list-item(href="/resources") FAQs
+								a.error_404-links-list-item(href="/resources") Facts &amp; Tips
+
+				include ./_parts-global/cta_inpage.jade
+
+					
+			include ./_parts-global/footer.jade
+		script(type='text/javascript', src='js/global.min.js')
+		script(type='text/javascript', src='js/404.min.js')

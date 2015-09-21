@@ -1,0 +1,126 @@
+.hero
+	position: relative
+	height: 500px
+	width: 100%
+	// +max(1024)
+	// 	height: 380px
+	// +max(736)
+	// 	height: 340px
+
+	&:before
+		content: ''
+		position: absolute
+		z-index: 1
+		top: 0
+		left: 0
+		width: 100%
+		height: 100%
+		background-image: url(../img/img-banner.jpg)
+		background-position: 50% 50%
+		background-size: cover
+		+transform(scaleX(-1))
+
+		+max(1400)
+			background-image: url(../img/img-banner-medium.jpg)
+		+max(736)
+			background-image: url(../img/img-banner-small.jpg)
+		
+	&:after // Overlay
+		content: ''
+		position: absolute
+		z-index: 1
+		top: 0
+		left: 0
+		width: 100%
+		height: 100%
+		background-color: $black
+		opacity: .9
+
+	
+
+
+	&-innerwrap
+		position: absolute
+		z-index: 2
+		+unvalign
+		left: 0
+		right: 0
+		width: 100%
+		max-width: 1170px
+		+center(100px)
+		padding: 0 20px
+		box-sizing: border-box
+		+max(920)
+			+center(60px)
+
+
+	
+
+	&-title
+		width: 45%
+		max-width: 775px
+		font-size: 39px
+		color: white
+		line-height: 1.3
+		+max(1100)
+			font-size: 36px
+		+max(920)
+			width: 100%
+			max-width: 680px
+			text-align: center
+			+center
+			font-size: 36px
+		+max(620)
+			font-size: 30px
+		+max(350)
+			font-size: 26px
+
+		&-highlight
+			color: $primary
+
+
+	&-arrow
+		width: 45%
+		margin-top: 100px
+		position: relative
+		// color: white
+		color: $primary
+		+max(920)
+			width: 100%
+			margin-top: 40px
+			text-align: center
+		+max(520)
+			margin-top: 30px
+
+		&-text
+			font-size: 22px
+			font-weight: 600
+			+max(1100)
+				font-size: 20px
+			+max(620)
+				font-size: 18px
+			+max(520)
+				font-size: 16px
+			+max(350)
+				font-size: 15px
+
+		&-illus:after
+			+icon('b')
+			position: absolute
+			top: -11px
+			right: 39px
+			display: block
+			font-size: 50px
+			+max(1100)
+				right: 24px
+				font-size: 44px
+				top: -8px
+			+max(920)
+				+transform(rotate(90deg))
+				left: 0
+				right: 0
+				top: 40px
+				font-size: 38px
+			+max(520)
+				font-size: 34px
+				top: 31px

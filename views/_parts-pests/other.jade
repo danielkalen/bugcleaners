@@ -1,0 +1,27 @@
+.page_innerwrap
+	.body_text
+		.body_text-floated
+			.pest_others
+				each pest in others
+					.pest_others-item
+						.pest_others-item-image
+							.pest_others-item-image-innerwrap
+								img.pest_others-item-image-photo(src='/img/pests/'+pest.slug+'.jpg' alt=pest.name+' - BugCleaners')
+								.pest_others-item-image-text= 'Click to see how '+pest.name+' look like.'
+			
+
+						.pest_others-item-text
+							h3.pest_others-item-text-title= pest.name
+							p.pest_others-item-text-content= pest.content
+							
+							.pest_others-item-text-info.signs
+								h5.pest_others-item-text-info-title Warning Signs
+								p.pest_others-item-text-info-text=pest.signs
+		
+			.pest_info.prevention
+				h4.pest_info-title General Pest Prevention
+				ul.pest_info-list
+					each item in prevention
+						li.pest_info-list-item= item
+		
+

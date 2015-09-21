@@ -1,0 +1,125 @@
+.contact_options
+	position: relative
+	box-sizing: border-box
+
+	&-innerwrap
+		padding: 110px 0
+
+	&-icon
+		position: relative
+		top: -40px
+		// display: none
+		+size(74)
+		+center
+
+		&-regular
+			fill: none
+			// stroke: $grey-dark
+			stroke: darken($grey-dark, 5)
+		
+		&-low_opacity
+			// fill: $grey-dark
+			fill: darken($grey-dark, 5)
+			opacity: 0.26
+
+		// 24/7 text
+		&:after
+			content: '24/7'
+			position: absolute
+			left: 0
+			bottom: 13%
+			font-size: 13px
+			font-weight: 700
+			font-family: proxima
+			// color: $grey-dark
+			color: darken($grey-dark, 5)
+			opacity: 0.7
+			width: 100%
+			text-align: center
+
+	&-title
+		padding: 0 20px
+		margin-bottom: 40px
+		font-size: 30px
+		font-weight: 600
+		// font-size: 40px
+		// font-weight: 500
+		text-align: center
+		color: darken($grey-dark, 5)
+		box-sizing: border-box
+
+	&-list
+		position: relative
+		width: 100%
+		max-width: 620px
+		height: 150px
+		+center
+		background-color: #FFF
+		border: 1px solid darken($divider, 3)
+		border-radius: 3px
+		box-sizing: border-box
+		+clearfix
+
+		&-item
+			position: relative
+			overflow: hidden
+			width: 33.33%
+			height: 100%
+			float: left
+			// color: $text
+			color: lighten($grey-dark, 5)
+			cursor: pointer
+			+user-select(none)
+			box-sizing: border-box
+			transition: color 0.2s
+			+tap-highlight
+			&:nth-child(2)
+				border-left: 1px solid darken($divider, 3)
+				border-right: 1px solid darken($divider, 3)
+			&:hover,
+			&.selected
+				color: $primary
+
+			&:after
+				content: ''
+				position: absolute
+				bottom: 0
+				width: 100%
+				height: 5px
+				background-color: $primary
+				transition: all 0.2s
+				+transform(translateY(100%))
+			&.selected:after
+				+transform(translateY(0))
+
+			&-innerwrap
+				position: absolute
+				+valign
+				width: 100%
+				text-align: center
+
+			&-icon
+				max-width: 42px
+				+center
+				
+				&-low_opacity
+					opacity: 0.26
+				&-regular,
+				&-low_opacity
+					fill: $grey-dark
+					transition: fill 0.2s
+			
+			&:hover &-icon-regular,
+			&:hover &-icon-low_opacity,
+			&.selected &-icon-regular,
+			&.selected &-icon-low_opacity,
+				fill: $primary
+
+			&-name
+				margin-top: 7px
+				font-family: proxima
+				line-height: 1
+				font-size: 16px
+				font-weight: 700
+				letter-spacing: 0.6px
+				text-transform: uppercase

@@ -1,0 +1,44 @@
+.page_innerwrap
+	.body_text
+		.body_text-floated.left.width-seventy
+			each item in intro
+				p.body_text-p= item
+		
+			.pest_info.facts
+				h4.pest_info-title Facts
+				ul.pest_info-list
+					each item in facts
+						li.pest_info-list-item= item.charAt(item.length - 1) === '.' ? item : item + '.'
+			
+			.pest_info.signs
+				h4.pest_info-title Warning Signs
+				ul.pest_info-list
+					each item in signs
+						li.pest_info-list-item= item.charAt(item.length - 1) === '.' ? item : item + '.'
+		
+			.pest_info.prevention
+				h4.pest_info-title Prevention
+				ul.pest_info-list
+					each item in prevention
+						li.pest_info-list-item= item.charAt(item.length - 1) === '.' ? item : item + '.'
+		
+
+		.body_text-floated.right.width-thirty
+			.pest_image
+				.pest_image-innerwrap
+					img.pest_image-photo(src='/img/pests/'+body_class+'.jpg' alt=pagetitle+' - BugCleaners')
+					.pest_image-text= 'Click to see how '+pagetitle+' look like.'
+			-if (extra)
+				each item in extra
+					-if (item.slug === 'fact')
+						.pest_fact
+							.pest_fact-innerwrap
+								h5.pest_fact-title=item.title
+								.pest_fact-content=item.content
+					-if (item.slug === 'differences')
+						.pest_diff
+							.pest_diff-innerwrap
+								h5.pest_diff-title=item.title
+								ul.pest_diff-list
+									each diff in item.content
+										li.pest_diff-list-item=diff

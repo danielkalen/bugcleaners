@@ -1,0 +1,12 @@
+section.section.reviews
+	h2.reviews-title What Our Clients Say About Us
+
+	.reviews-list
+		each review in reviews
+			.reviews-list-item
+				.reviews-list-item-img
+					img.reviews-list-item-img-photo(alt=review.name+", "+review.position, src="/img/reviewers/"+review.slug+".jpg")
+				.reviews-list-item-name= review.name
+				.reviews-list-item-subtitle= review.subtitle
+				.reviews-list-item-excerpt
+					p.reviews-list-item-excerpt-text= review.review

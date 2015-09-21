@@ -1,0 +1,107 @@
+@import '_parts-global/_vars'
+@import '_parts-global/_elements'
+@import '_parts-page/page-cta'
+
+.error_404
+	position: relative
+	background-size: cover
+	background-image: url(/img/img-banner.jpg)
+	background-position: 50% 50%
+	
+	&:after // Overlay
+		content: ''
+		position: absolute
+		z-index: 1
+		top: 0
+		left: 0
+		width: 100%
+		height: 100%
+		background-color: $black
+		opacity: .9	
+
+	&-innerwrap
+		position: relative
+		padding: 8% 20px 5%
+		// position: absolute
+		// +valign
+		width: 100%
+		z-index: 2
+		color: $white
+		box-sizing: border-box
+		+max(620)
+			padding: 15% 20px 10%
+
+	&-icon
+		text-align: center
+		&:before
+			content: '404'
+			font-family: proxima
+			font-weight: 700
+			font-size: 130px
+			line-height: 1
+			color: $primary
+
+		&-text
+			position: relative
+			top: -5px
+			font-size: 25px
+			letter-spacing: 1.7px
+			line-height: 1
+			text-transform: uppercase
+			// font-weight: 700
+			font-family: proxima
+
+
+	&-title
+		margin-top: 41px
+		font-weight: 500
+		font-size: 40px
+		text-align: center
+		+max(620)
+			font-size: 32px
+	&-alternative
+		margin-top: 6px
+		// font-weight: 500
+		font-size: 22px
+		text-align: center
+		+max(620)
+			font-size: 20px
+
+		&-link
+			color: white
+			color: $primary
+			font-weight: 700
+			+tap-highlight
+			&:hover
+				text-decoration: underline
+
+
+	&-links
+		padding-top: 8%
+		width: 100%
+		max-width: 500px
+		text-align: center
+		+center
+		+clearfix
+		+max(620)
+			padding-top: 70px
+
+		&-list
+			width: 50%
+			float: left
+			margin-bottom: 30px
+
+			&-title
+				margin-bottom: 10px
+				font-size: 16px
+				font-weight: 600
+
+			&-item
+				display: block
+				font-size: 14px
+				font-weight: 500
+				color: white 
+				margin-bottom: 5px
+				opacity: 0.7
+				+tap-highlight
+

@@ -1,0 +1,12 @@
+
+config.codekit
+
+bugcleaners.sublime-project
+
+bugcleaners.sublime-workspace
+
+data
+
+.codekit-cache
+
+*.sassc

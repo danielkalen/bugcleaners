@@ -1,0 +1,152 @@
+.hero
+	position: relative
+	width: 100%
+	background-image: url(../img/img-banner.jpg)
+	background-position: 50% 50%
+	background-size: cover
+	+max(1400)
+		background-image: url(../img/img-banner-medium.jpg)
+	+max(736)
+		background-image: url(../img/img-banner-small.jpg)
+
+	.commercial &
+		background-image: url(../img/img-banner_commercial.jpg)
+		background-position: 50% 30%
+		+max(736)
+			background-image: url(../img/img-banner_commercial-small.jpg)
+	
+	.residential &
+		background-image: url(../img/img-banner_residential.jpg)
+		background-position: 50% 40%
+		+max(736)
+			background-image: url(../img/img-banner_residential-small.jpg)
+
+	&:after // Overlay
+		content: ''
+		position: absolute
+		z-index: 1
+		top: 0
+		left: 0
+		width: 100%
+		height: 100%
+		background-color: $black
+		opacity: .9	
+
+
+	&-innerwrap
+		position: relative
+		z-index: 2
+		width: 100%
+		max-width: 1170px
+		+center
+		padding: 50px 20px
+		box-sizing: border-box
+		+max(1024)
+			padding: 40px 20px
+
+
+
+	&-title
+		width: 100%
+		font-size: 44px
+		text-align: left
+		color: white
+		line-height: 1.25
+		+max(1024)
+			font-size: 38px
+		+max(736)
+			font-size: 34px
+		+max(350)
+			font-size: 32px
+
+		&-highlight
+			color: $primary
+
+
+	&-subtitle
+		color: white
+		width: 100%
+		max-width: 810px
+		margin-top: 10px
+		font-size: 23px
+		font-weight: 500
+		line-height: 1.4
+		opacity: 0.8
+		+max(736)
+			font-size: 16px
+			line-height: 1.5
+
+		.residential &,
+		.commercial &
+			font-size: 23px
+			+max(736)
+				font-size: 20px
+			+max(350)
+				font-size: 18px
+
+		.residential &
+			opacity: 0.9
+			margin-top: 5px
+		.commercial &
+			max-width: 620px
+			opacity: 0.9
+			margin-top: 5px
+
+		.pest &
+			+max(820)
+				width: 90%
+				font-size: 21px
+
+
+
+
+
+	&-button
+		position: absolute
+		display: block
+		// display: none
+		width: 180px
+		height: 50px
+		right: 20px
+		// top: 0
+		+valign(51%)
+		background-color: transparent
+		border: 2px solid $primary
+		border-radius: 3px
+		box-sizing: border-box
+		cursor: pointer
+		transition: background-color 0.15s
+		+max(1024)
+			display: none
+
+		+max(736)
+			width: 160px
+			height: 46px
+			margin-top: 40px
+
+
+		&-text
+			position: absolute
+			+valign
+			display: block
+			width: 100%
+			line-height: 1
+			text-transform: uppercase
+			font-family: proxima
+			font-size: 15px
+			font-weight: 700
+			color: $primary
+			letter-spacing: .4px
+			text-align: center
+			transition: color 0.15s
+			+user-select(none)
+
+			+max(736)
+				font-size: 14px
+
+
+		&:hover
+			background-color: $primary
+
+		&:hover &-text
+			color: white

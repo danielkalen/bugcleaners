@@ -1,0 +1,12 @@
+.pests_list
+	.pests_list-innerwrap
+		- pests = pests.slice(0, pests.length - 1); // Cuts off the internal 'Others' data
+		- pests.push({'name': 'Other Pests',   'slug': 'others',   'intro': ['While bed bugs, termites, cockroaches, rodents and ants are the more common infestation culprits, there are a variety of other animals that can infest your home or business.'] });
+		each pest in pests
+			a.pests_list-item(href="/pests/"+pest.slug, class=pest.slug)
+				.pests_list-item-icon
+					.pests_list-item-icon-img
+
+				.pests_list-item-text
+					h4.pests_list-item-text-title=pest.name
+					p.pests_list-item-text-content=pest.intro.join(' ').slice(0, 140) + '...'

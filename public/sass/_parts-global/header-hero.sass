@@ -1,0 +1,24 @@
+.hero
+	position: relative
+	width: 100%
+	background-image: url(../img/img-banner.jpg)
+	background-position: 50% 50%
+	background-size: cover
+	+max(1400)
+		background-image: url(../img/img-banner-medium.jpg)
+	+max(736)
+		background-image: url(../img/img-banner-small.jpg)
+		
+	&:after // Overlay
+		content: ''
+		position: absolute
+		z-index: 1
+		top: 0
+		left: 0
+		width: 100%
+		height: 100%
+		background-color: $black
+		opacity: .9	
+
+
+
