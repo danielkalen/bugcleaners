@@ -10,6 +10,7 @@ var express = require('express'),
 	Pests = db.get('pests'),
 	Reviews = db.get('reviews'),
 	Faqs = db.get('faqs'),
+	FaqCategories = db.get('faq_categories'),
 	Submissions = db.get('submissions'),
 	inProduction = false;
 
@@ -229,7 +230,6 @@ if (inProduction) {
 
 
 /* ========================================================================== */
-
 
 
 
