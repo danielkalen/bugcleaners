@@ -1,0 +1,33 @@
+-
+	var faqLists = {};
+
+	for (category in faqcategories) {
+	}
+	faqcategories.forEach(function(category, index, parentArray){
+		faqLists[category.name] = {"name": category.name, "slug": category.slug, "items": []};
+	});
+	faqs.forEach(function(faq){
+		var categories = faq.categories;
+
+		categories.forEach(function(categoryName, index, parentArray){
+			if (faqLists[categoryName] !== undefined) {
+				faqLists[categoryName].items.push(faq);
+			} else {
+				//- faqLists[categoryName] = [faq];
+			}
+		});
+	});
+
+.resources-faqs
+	each faqList in faqLists
+		ul.resources-faqs-list(id!=faqList.slug)
+			h4.resources-faqs-list-title!=faqList.name
+			
+			each faq in faqList.items
+				li.resources-faqs-list-item
+					h6.resources-faqs-list-item-question!= faq.question
+					.resources-faqs-list-item-answer!= faq.answer
+
+
+
+.clearfix

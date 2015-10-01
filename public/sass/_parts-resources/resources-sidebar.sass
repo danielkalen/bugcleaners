@@ -1,0 +1,58 @@
+&-sidebar
+	$catbg: #4E5359
+	$catbg: #59564e
+	$catbg: #4a4642
+	float: left
+	overflow: hidden
+	width: 23%
+	// background-color: $divider
+	background-color: $catbg
+	// border: 1px solid $divider-dark
+	border-radius: 3px
+	box-sizing: border-box
+
+	&-list
+		&-item
+			position: relative
+			height: 50px
+			background-color: $catbg
+			border-bottom: 1px solid darken($grey-dark, 8)
+			box-sizing: border-box
+			cursor: pointer
+			transition: background-color 0.25s, color 0.25s
+			&:last-child
+				border-bottom: 0
+
+			&-text
+				position: absolute
+				left: 20px
+				+valign(52%)
+				font-family: proxima
+				font-weight: 700
+				font-size: 14px
+				line-height: 1
+				// color: $text
+				color: $white
+				text-transform: uppercase
+
+			&:before
+				content: ''
+				position: absolute
+				left: 0
+				top: 0
+				width: 4px
+				height: 100%
+				background-color: $primary
+				+transform(translateX(-100%))
+				transition: all 0.25s
+
+			
+
+
+			&.active
+				background-color: darken($catbg, 6)
+			&.active:before
+				+transform(translateX(0))
+
+			&:hover
+				background-color: lighten($catbg, 8)

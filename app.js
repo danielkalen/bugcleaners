@@ -90,6 +90,23 @@ if (inProduction) {
 		});
 	});
 
+	// ==== Resources =================================================================================
+	app.get('(/resources|/faqs)', function(request, response){
+		var currentpage = request.hostname + request.originalUrl;
+		Faqs.find({}, function(error, faqs){
+			FaqCategories.find({}, function(error, faqcategories){
+				response.render('resources', {
+					'hero_title': '<span class="hero-title-highlight">FAQs</span> &amp; Resources',
+					'hero_subtitle': 'Get answers to the most common questions about pest control/extermination.',
+					'pagetitle': 'FAQs & Resources',
+					'faqs': faqs,
+					'faqcategories': faqcategories,
+					'currentpage': currentpage
+				});
+			});
+		});
+	});
+
 
 	// ==== All DB pages =================================================================================
 	var routePlainPage = function($slug) {

@@ -49,6 +49,8 @@ $checkIcon: 'M'
 
 	+fieldset-select($inputHeight, $inputColor, $style)
 
+	+fieldset-file($inputHeight, $inputColor, $style)
+
 	+fieldset-radio($inputHeight, $inputColor, $style)
 
 	+fieldset-checkbox($inputHeight, $inputColor, $style)
@@ -91,6 +93,8 @@ $checkIcon: 'M'
 				cursor: text
 			.select &
 				cursor: pointer
+			.file &
+				opacity: 1
 			// .textarea &
 			// 	position: relative
 			// 	opacity: 1
@@ -132,6 +136,9 @@ $checkIcon: 'M'
 			border-color: $contrast-color
 		.error &
 			border-color: $error-color
+
+		&:-ms-input-placeholder
+			color: darken($label-color, 10)
 
 
 
@@ -201,6 +208,63 @@ $checkIcon: 'M'
 
 
 
+// ==== File =================================================================================
+=fieldset-file($inputHeight, $inputColor, $style)
+	&.file
+		position: relative
+		z-index: 2
+		display: block
+		width: 100%
+		height: $inputHeight + 12
+		background-color: $inputColor
+		border: 1px solid $divider-dark
+		border-radius: 3px
+		box-sizing: border-box
+		font-size: 16px
+		font-weight: 500
+		// color: darken($grey-dark, 10)
+		color: $text
+		transition: all 0.2s
+
+		.focus &
+			border-color: $contrast-color
+		.error &
+			border-color: $error-color
+
+
+		@if $style == new
+			.filled &
+				padding: 20px 30px 0 15px
+				+max(520)
+					padding: 18px 30px 0 13px
+
+		&::-ms-clear
+			display: none !important
+
+	&-file
+		font-size: 14px
+		@if $style == new
+			position: absolute
+			+valign(65%)
+			left: 0
+			display: block
+			width: 100%
+			padding-left: 13px
+			+max(520)
+				padding-left: 10px
+		@else
+			position: absolute
+			+valign(50%)
+			left: 0
+			display: block
+			width: 100%
+			padding-left: 13px
+			+max(520)
+				padding-left: 10px
+
+
+
+
 
 
 
@@ -229,6 +293,9 @@ $checkIcon: 'M'
 
 		.error &
 			border-color: $error-color
+
+		&:-ms-input-placeholder
+			color: darken($label-color, 10)
 
 		@if $style == new
 			.filled &

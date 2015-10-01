@@ -3,23 +3,27 @@
 	box-sizing: border-box
 
 	&-innerwrap
-		padding: 110px 0
+		padding: 50px 0 0
+		+max(520)
+			padding: 30px 0 0
 
 	&-icon
 		position: relative
 		top: -40px
+		// opacity: 0.9
 		// display: none
 		+size(74)
 		+center
+		+max(520)
+			+size(64)
+
 
 		&-regular
 			fill: none
-			// stroke: $grey-dark
-			stroke: darken($grey-dark, 5)
+			stroke: darken($grey-dark, 0)
 		
 		&-low_opacity
-			// fill: $grey-dark
-			fill: darken($grey-dark, 5)
+			fill: darken($grey-dark, 0)
 			opacity: 0.26
 
 		// 24/7 text
@@ -36,17 +40,25 @@
 			opacity: 0.7
 			width: 100%
 			text-align: center
+			+max(520)
+				font-size: 12px
 
 	&-title
 		padding: 0 20px
-		margin-bottom: 40px
+		margin: 20px 0 20px
 		font-size: 30px
 		font-weight: 600
 		// font-size: 40px
 		// font-weight: 500
 		text-align: center
-		color: darken($grey-dark, 5)
+		color: darken($grey-dark, 0)
 		box-sizing: border-box
+		+max(620)
+			max-width: 365px
+			+center(10px, 20px)
+		+max(520)
+			font-size: 28px
+			+center(0px, 20px)
 
 	&-list
 		position: relative
@@ -59,6 +71,8 @@
 		border-radius: 3px
 		box-sizing: border-box
 		+clearfix
+		+max(520)
+			height: 130px
 
 		&-item
 			position: relative
@@ -99,8 +113,12 @@
 				text-align: center
 
 			&-icon
-				max-width: 42px
+				// max-width: 42px
+				// max-width: 36px
+				width: 42px
 				+center
+				+max(520)
+					width: 36px
 				
 				&-low_opacity
 					opacity: 0.26
@@ -119,7 +137,9 @@
 				margin-top: 7px
 				font-family: proxima
 				line-height: 1
-				font-size: 16px
+				font-size: 15px
 				font-weight: 700
 				letter-spacing: 0.6px
 				text-transform: uppercase
+				+max(520)
+					font-size: 13px

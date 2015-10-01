@@ -1,0 +1,97 @@
+mixin phoneFieldsetInput(name, label, classes, required, inputClasses)
+  - if (required) classes = classes + ' required'
+  .phone_support-options-item-form-fieldset.fieldset.input_text(class=classes)
+    label.phone_support-options-item-form-fieldset-label(for=name)=label
+    input.phone_support-options-item-form-fieldset-input.input(id=name, name=name, type="text", placeholder=label, class=inputClasses)
+
+
+
+mixin phoneFieldsetSelect(name, label, classes, required, items)
+  - if (required) classes = classes + ' required'
+  .phone_support-options-item-form-fieldset.fieldset.select(class=classes)
+    label.phone_support-options-item-form-fieldset-label(for=name)=label
+    select.phone_support-options-item-form-fieldset-select.default_component.input(id=name, name=name)
+      option(value='')=label
+      -if (items)
+        each item, index in items
+          option(value=index)=item
+    div.phone_support-options-item-form-fieldset-select.new
+
+
+mixin phoneFieldsetTextarea(name, label, classes, required, inputClasses)
+  - if (required) classes = classes + ' required'
+  .phone_support-options-item-form-fieldset.fieldset.textarea(class=classes)
+    label.phone_support-options-item-form-fieldset-label(for=name)=label
+    textarea.phone_support-options-item-form-fieldset-textarea.input(id=name, name=name, placeholder=label)
+
+
+mixin phoneFieldsetCheckboxSingle(name, label, classes, required)
+  - if (required) classes = classes + ' required'
+  .phone_support-options-item-form-fieldset.fieldset.checkbox(class=classes)
+    .phone_support-options-item-form-fieldset.fieldset-checkbox.input-button
+      div.phone_support-options-item-form-fieldset-checkbox-box
+      label.phone_support-options-item-form-fieldset-checkbox-label(for=name)=label
+      input.input.checkbox(id=name, name=name type='checkbox')
+
+
+mixin phoneFieldsetCheckbox(name, label, classes, required, items)
+  - if (required) classes = classes + ' required'
+  - classes = classes + ' options_' + items.length
+
+  .phone_support-options-item-form-fieldset.fieldset.checkbox(class=classes)
+    .phone_support-options-item-form-fieldset-label=label
+    each item, index in items
+      - id = name + '_' + index
+      .phone_support-options-item-form-fieldset-checkbox.input-button
+        div.phone_support-options-item-form-fieldset-checkbox-box
+        label.phone_support-options-item-form-fieldset-checkbox-label(for=id)=item
+        input.input.checkbox(id=id, name=name, type='checkbox', val=item)
+
+
+mixin phoneFieldsetRadio(name, label, classes, required, items)
+  - if (required) classes = classes + ' required'
+  - classes = classes + ' options_' + items.length
+
+  .phone_support-options-item-form-fieldset.fieldset.radio(class=classes)
+    .phone_support-options-item-form-fieldset-label=label
+    each item, index in items
+      - id = name + '_' + index
+      .phone_support-options-item-form-fieldset-radio.input-button
+        div.phone_support-options-item-form-fieldset-radio-box
+        label.phone_support-options-item-form-fieldset-radio-label(for=id)=item
+        input.input.radio(id=id, name=name, type='radio', val=item)
+
+
+mixin phoneFieldsetRadioSpecial(name, label, classes, required, items)
+  - if (required) classes = classes + ' required'
+  - classes = classes + ' options_3'
+
+  .phone_support-options-item-form-fieldset.fieldset.radio.radio_special(class=classes)
+    .phone_support-options-item-form-fieldset-label=label
+    each item, index in items
+      - id = name + '_' + index
+      .phone_support-options-item-form-fieldset-radio.input-button
+        div.phone_support-options-item-form-fieldset-radio-box
+        label.phone_support-options-item-form-fieldset-radio-label(for=id)=item
+          .phone_support-options-item-form-fieldset-radio-label-sub=index
+        input.input.radio(id=id, name=name, type='radio', val=item)
+
+
+mixin phoneFieldsetRange(name, label, classes, required)
+  //- - if (required) classes = classes + ' required'
+  .phone_support-options-item-form-fieldset.fieldset.range.required(class=classes)
+    .phone_support-options-item-form-fieldset-label=label
+    .phone_support-options-item-form-fieldset-range(class=classes)
+      .phone_support-options-item-form-fieldset-range-start
+      .phone_support-options-item-form-fieldset-range-end
+    input.phone_support-options-item-form-fieldset-input.input(id=name, name=name, type="hidden")
+
+
+
+mixin phoneFieldsetFile(name, label, classes, required, inputClasses)
+  - if (required) classes = classes + ' required'
+  .phone_support-options-item-form-fieldset.fieldset.file(class=classes)
+    label.phone_support-options-item-form-fieldset-label(for=name)=label
+    .phone_support-options-item-form-fieldset-file_wrap
+      input.phone_support-options-item-form-fieldset-file.input(id=name, name=name, type="file", class=inputClasses, accept='.pdf, .doc, .png, .tiff, .jpg, .rtf, .rtfd, .pages, .xls, .csv', multiple='')
+

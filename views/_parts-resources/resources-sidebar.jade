@@ -1,0 +1,31 @@
+//- Organize category order
+-
+	var orderDesired = ['General', 'Treatment', 'Safety', 'Bed Bugs', 'Termites', 'Ants', 'Rodents', 'Roaches'],
+		tempList = [],
+		tempListHold = [];
+	
+	faqcategories.forEach(function(category){
+		var indexInDesired = orderDesired.indexOf(category.name);
+		if (indexInDesired !== -1) {
+			tempList[indexInDesired] = category;
+		} else {
+			tempListHold.push(category);
+		}
+	});
+
+	if (tempListHold.length) {
+		tempListHold.forEach(function(categoryOnHold){
+			tempList.push(categoryOnHold);
+		});
+	}
+
+	faqcategories = tempList;
+//- div!=faqcategories
+
+
+.resources-sidebar-outerwrap
+	sidebar.resources-sidebar
+		ul.resources-sidebar-list
+			each category in faqcategories
+				.resources-sidebar-list-item(data-name!=category.slug)
+					.resources-sidebar-list-item-text!=category.name

@@ -1,13 +1,8 @@
 // @codekit-prepend '_plugins/jquery.js'
-
 // @codekit-prepend '_plugins/jquery-cache.js'
-
 // @codekit-prepend '_plugins/fastclick.js'
-
 // @codekit-prepend '_plugins/css_browser_selectors.js'
-
 // @codekit-prepend '_plugins/is.min.js'
-
 // @codekit-prepend '_parts-global/_helpers.js'
 
 
@@ -16,7 +11,8 @@ $window = $$(window);
 
 var	$this,
 	isMobileWidth = window.innerWidth <= 736,
-	isMobile = $$('html').hasClass('mobile')
+	isMobile = $$('html').hasClass('mobile'),
+	isContactPage = $$('body').hasClass('contact')
 ;
 
 
@@ -26,8 +22,22 @@ var	$this,
 // @codekit-append '_parts-global/header.js'
 
 $$('form').each(function(){
-	var $this = jQuery(this);
-	new Form($this);
+	var $this = jQuery(this),
+		name = $this.data('name'),
+		name = (name ? name : $this.data('action')),
+		options = {};
+
+	if (isContactPage) {
+		options['validateOnTyping'] = true;
+	}
+
+	if (window.forms[name] === undefined){
+		window.forms[name] = new Form($this, options);
+	} else {
+		var randomKey = util.random(6),
+			randomKey = '___'+randomKey.toString();
+		window.forms[name+randomKey] = new Form($this, options);
+	}
 });	
 
 
@@ -41,7 +51,6 @@ if ($('.cta-support-faq').length) {
 					contentHeight = $this.find('.cta-support-faq-list-item-content').height() + 50;
 				
 				$this.css('height', contentHeight);
-				log('height was set');
 			});	
 		};
 
