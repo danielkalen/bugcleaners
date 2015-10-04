@@ -56,7 +56,6 @@ $$(window).on('touchstart', function(event){
 
 
 
-confirm('"PushPark" Would like to use your location.');
 
 
 // ==== FAQ Accordion =================================================================================
