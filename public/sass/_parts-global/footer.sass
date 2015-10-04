@@ -53,7 +53,7 @@
 
 			&-link
 				color: white
-				+tap-highlight
+				+tap-animate($rgb: 255)
 		
 
 
@@ -105,17 +105,18 @@
 			
 			a
 				color: white
+				+tap-animate($rgb: 255)
 
-			a[class="Twitter"]:after
+			a[class*="Twitter"]:after
 				+icon('v')
 
-			a[class="Facebook"]:after
+			a[class*="Facebook"]:after
 				+icon('s')
 
-			a[class="GooglePlus"]:after
+			a[class*="GooglePlus"]:after
 				+icon('t')
 
-			a[class="LinkedIn"]:after
+			a[class*="LinkedIn"]:after
 				+icon('u')
 
 

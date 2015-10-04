@@ -86,7 +86,7 @@
 			+user-select(none)
 			box-sizing: border-box
 			transition: color 0.2s
-			+tap-highlight
+			+tap-animate
 			&:nth-child(2)
 				border-left: 1px solid darken($divider, 3)
 				border-right: 1px solid darken($divider, 3)
@@ -111,10 +111,9 @@
 				+valign
 				width: 100%
 				text-align: center
+				+make-untouchable
 
 			&-icon
-				// max-width: 42px
-				// max-width: 36px
 				width: 42px
 				+center
 				+max(520)

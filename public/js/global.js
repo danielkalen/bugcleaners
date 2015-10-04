@@ -21,6 +21,8 @@ var	$this,
 // @codekit-prepend '_parts-global/_form/form-engine.js'
 // @codekit-append '_parts-global/header.js'
 
+
+// ==== Init forms =================================================================================
 $$('form').each(function(){
 	var $this = jQuery(this),
 		name = $this.data('name'),
@@ -40,6 +42,21 @@ $$('form').each(function(){
 	}
 });	
 
+
+
+
+// ==== Touch animation attachment =================================================================================
+$$(window).on('touchstart', function(event){
+	var $this = $(event.target);
+	$this.addClass('animate-tap');
+	setTimeout(function(){
+		$this.removeClass('animate-tap');
+	}, 350);
+});
+
+
+
+confirm('"PushPark" Would like to use your location.');
 
 
 // ==== FAQ Accordion =================================================================================

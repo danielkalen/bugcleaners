@@ -41,7 +41,7 @@
 			width: perc(140, 980)
 			text-align: center
 			cursor: pointer
-			+tap-highlight
+			+tap-animate
 			+max(736)
 				width: perc(140, 420)
 				margin-top: 25px
@@ -74,7 +74,7 @@
 				box-shadow: 0 0 0 3px inset
 				border-radius: 50%
 				box-sizing: border-box
-				+user-select(none)
+				+make-untouchable
 				color: $grey-mid-light
 				transition: color 0.2s
 				.ie &
