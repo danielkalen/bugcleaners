@@ -20,8 +20,9 @@ section.section.cta
 								'other': 'Other',
 							})
 						+fieldsetInput('other', 'Please Describe', 'conditional-secondary')
-					+fieldsetInput('time_of_problem', 'Approx. time of problem', 'half first')
-					+fieldsetSelect('home_or_business', 'Home or Business?', 'half', true, {'home': 'Home', 'business': 'Business'})
+					+fieldsetSelect('home_or_business', 'Home or Business?', 'half first', true, {'home': 'Home', 'business': 'Business'})
+					//- +fieldsetSelect('pest_type', 'Home or Business?', 'half', false, {'home': 'Home', 'business': 'Business'})
+					+fieldsetInput('time_of_problem', 'Approx. time of problem', 'half')
 					.clearfix
 					+fieldsetTextarea('problem_description', 'Describe your problem (optional)', '')
 				.cta-form-step-group.contact

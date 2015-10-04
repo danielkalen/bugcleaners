@@ -2,18 +2,26 @@
 	$catbg: #4E5359
 	$catbg: #59564e
 	$catbg: #4a4642
-	float: left
 	overflow: hidden
-	width: 23%
-	// background-color: $divider
+	width: 100%
 	background-color: $catbg
-	// border: 1px solid $divider-dark
-	border-radius: 3px
 	box-sizing: border-box
+
+	&.fixed
+		position: fixed
+		top: 10px
+
+	&-outerwrap
+		position: relative
+		float: left
+		width: 23%
+		+max(736)
+			display: none
 
 	&-list
 		&-item
 			position: relative
+			overflow: hidden
 			height: 50px
 			background-color: $catbg
 			border-bottom: 1px solid darken($grey-dark, 8)

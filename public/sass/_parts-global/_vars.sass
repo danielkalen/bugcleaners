@@ -1,18 +1,18 @@
 // ==== Proper Syntax for background shorthand =================================================================================
-  // background:
-  //   [background-image]
-  //   [background-position]
-  //   [/ background-size]
-  //   [background-repeat]
-  //   [background-attachment]
-  //   [background-origin]
-  //   [background-clip]
-  //   [background-color]
+	// background:
+	//   [background-image]
+	//   [background-position]
+	//   [/ background-size]
+	//   [background-repeat]
+	//   [background-attachment]
+	//   [background-origin]
+	//   [background-clip]
+	//   [background-color]
 
 
 =maxmin($maxsize: 760, $minsize: 760, $maxdimension:width, $mindimension:width)
-  @media screen and (max-#{$maxdimension}: #{$maxsize}px) and (min-#{$mindimension}: #{$minsize}px)
-    @content
+	@media screen and (max-#{$maxdimension}: #{$maxsize}px) and (min-#{$mindimension}: #{$minsize}px)
+		@content
 
 
 // ==== Color =================================================================================
@@ -46,52 +46,80 @@ $stumbleupon: #f74425
 
 // ==== snippet mixins =================================================================================
 =overflow-touch
-  -webkit-overflow-scrolling: touch
+	-webkit-overflow-scrolling: touch
 
 =tap-highlight-reset
-  -webkit-tap-highlight-color: rgba(0,0,0,0)
+	-webkit-tap-highlight-color: rgba(0,0,0,0)
 
 =tap-highlight
-  -webkit-tap-highlight-color: rgba(0,0,0,0.2) !important
+	-webkit-tap-highlight-color: rgba(0,0,0,0.2) !important
 
 =tap-highlight-manual($pseudo: 'before')
-  position: relative
-  &:active:#{$pseudo}
-    content: ''
-    position: absolute
-    +balign
-    border-radius: 4px
-    width: 100%
-    height: 100%
-    padding: 4px
-    background-color: rgba(0,0,0,0.2)
+	position: relative
+	&:active:#{$pseudo}
+		content: ''
+		position: absolute
+		+balign
+		border-radius: 4px
+		width: 100%
+		height: 100%
+		padding: 4px
+		background-color: rgba(0,0,0,0.2)
+
+=tap-animate($pseudo: 'before', $rgb: 0, $opacity: 0.35, $position: relative)
+	position: $position
+	&:#{$pseudo}
+		content: ''
+		position: absolute
+		+balign
+		background-color: rgba($rgb,$rgb,$rgb,$opacity)
+		border-radius: 50%
+		display: block
+	&.animate-tap:#{$pseudo}
+		-webkit-animation: touchanimate 0.3s
+		-moz-animation: touchanimate 0.3s
+		animation: touchanimate 0.3s
+
+=inc-tap-area($padding: 13px, $manualPseudo: 'false', $pseudo: 'after')
+	@if $manualPseudo == 'false'
+		position: relative
+		&:#{$pseudo}
+			content: ''
+			position: absolute
+			z-index: 1
+			+balign
+			width: 100%
+			height: 100%
+			padding: $padding
+			// background-color: rgba(0,0,0,0.2)
+	@else
+		content: ''
+		position: absolute
+		z-index: 1
+		+balign
+		width: 100%
+		height: 100%
+		padding: $padding
+		// background-color: rgba(0,0,0,0.2)
 
 =make-untouchable
-  +user-select(none)
-  pointer-events: none
+	+user-select(none)
+	pointer-events: none
 
 =optimize-animation
-  +transform(translate3d(0,0,0))
-  -webkit-transform-style: preserve-3d
-  -webkit-backface-visibility: hidden
+	+transform(translate3d(0,0,0))
+	-webkit-transform-style: preserve-3d
+	-webkit-backface-visibility: hidden
 
-=inc-tap-area($manualPseudo: 'false')
-  @if $manualPseudo == 'false'
-    position: relative
-    &:after
-      content: ''
-      position: absolute
-      top: -10px
-      bottom: -10px
-      left: -10px
-      right: -10px
-  @else
-    content: ''
-    position: absolute
-    top: -10px
-    bottom: -10px
-    left: -10px
-    right: -10px
+=remove-appearance
+	-webkit-appearance: none !important
+	-moz-appearance: none !important
+	-ms-appearance: none !important
+	-o-appearance: none !important
+	appearance: none !important
+	outline: none !important
+	box-shadow: none !important
+	text-shadow: none !important
 
 
 
@@ -99,222 +127,222 @@ $stumbleupon: #f74425
 
 // ==== general mixinx =================================================================================
 =m($size: 760, $max: max, $dimension:width)
-  @media screen and (#{$max}-#{$dimension}: #{$size}px)
-    @content
+	@media screen and (#{$max}-#{$dimension}: #{$size}px)
+		@content
 
 =min($size: 760, $dimension:width)
-  @media screen and (min-#{$dimension}: #{$size}px)
-    @content
+	@media screen and (min-#{$dimension}: #{$size}px)
+		@content
 
 =max($size: 760, $dimension:width)
-  @media screen and (max-#{$dimension}: #{$size}px)
-    @content
+	@media screen and (max-#{$dimension}: #{$size}px)
+		@content
 
 =maxmin($maxsize: 760, $minsize: 760, $maxdimension:width, $mindimension:width)
-  @media screen and (max-#{$maxdimension}: #{$maxsize}px) and (min-#{$mindimension}: #{$minsize}px)
-    @content
+	@media screen and (max-#{$maxdimension}: #{$maxsize}px) and (min-#{$mindimension}: #{$minsize}px)
+		@content
 
 =portrait()
-  @media screen and (orientation: portrait)
-    @content
+	@media screen and (orientation: portrait)
+		@content
 
 =landscape()
-  @media screen and (orientation: landscape)
-    @content
+	@media screen and (orientation: landscape)
+		@content
 
 
 =center($top: 0, $bottom: 0)
-  @if ($top == 0 or $top == '0px') and ($bottom == 0 or $bottom == '0px')
-    margin: 0 auto
-  @else
-    margin: #{$top} auto #{$bottom}
+	@if ($top == 0 or $top == '0px') and ($bottom == 0 or $bottom == '0px')
+		margin: 0 auto
+	@else
+		margin: #{$top} auto #{$bottom}
 
 =valign($top: 50%)
-  top: $top
-  -webkit-transform: translateY(-50%)
-  -moz-transform: translateY(-50%)
-  -ms-transform: translateY(-50%)
-  -o-transform: translateY(-50%)
-  transform: translateY(-50%)
+	top: $top
+	-webkit-transform: translateY(-50%)
+	-moz-transform: translateY(-50%)
+	-ms-transform: translateY(-50%)
+	-o-transform: translateY(-50%)
+	transform: translateY(-50%)
 
 =halign($left: 50%)
-  left: $left
-  -webkit-transform: translateX(-50%)
-  -moz-transform: translateX(-50%)
-  -ms-transform: translateX(-50%)
-  -o-transform: translateX(-50%)
-  transform: translateX(-50%)
+	left: $left
+	-webkit-transform: translateX(-50%)
+	-moz-transform: translateX(-50%)
+	-ms-transform: translateX(-50%)
+	-o-transform: translateX(-50%)
+	transform: translateX(-50%)
 
 =balign($top: 50%, $left: 50%)
-  top: $top
-  left: $left
-  -webkit-transform: translateX(-50%) translateY(-50%)
-  -moz-transform: translateX(-50%) translateY(-50%)
-  -ms-transform: translateX(-50%) translateY(-50%)
-  -o-transform: translateX(-50%) translateY(-50%)
-  transform: translateX(-50%) translateY(-50%)
+	top: $top
+	left: $left
+	-webkit-transform: translateX(-50%) translateY(-50%)
+	-moz-transform: translateX(-50%) translateY(-50%)
+	-ms-transform: translateX(-50%) translateY(-50%)
+	-o-transform: translateX(-50%) translateY(-50%)
+	transform: translateX(-50%) translateY(-50%)
 
 =unvalign
-  top: 0
-  -webkit-transform: translateY(0)
-  -o-transform: translateY(0)
-  transform: translateY(0)
+	top: 0
+	-webkit-transform: translateY(0)
+	-o-transform: translateY(0)
+	transform: translateY(0)
 
 =ratio($percentual-height)
-  // Wrapper
-  position: relative
-  display: block
-  vertical-align: top
-  &:before
-    padding-top: $percentual-height
-    content: ''
-    display: block
-  // Content
-  > *
-    position: absolute
-    top: 0
-    left: 0
-    bottom: 0
-    right: 0
+	// Wrapper
+	position: relative
+	display: block
+	vertical-align: top
+	&:before
+		padding-top: $percentual-height
+		content: ''
+		display: block
+	// Content
+	> *
+		position: absolute
+		top: 0
+		left: 0
+		bottom: 0
+		right: 0
 
 =size($width, $height: $width)
-  width: #{$width}px
-  height: #{$height}px
+	width: #{$width}px
+	height: #{$height}px
 
 =clearfix
-  &:before,
-  &:after
-    content: ""
-    display: table
-  &:after
-    clear: both
+	&:before,
+	&:after
+		content: ""
+		display: table
+	&:after
+		clear: both
 
 =ellipsis($width: 100%)
-  display: inline-block
-  max-width: $width
-  overflow: hidden
-  text-overflow: ellipsis
-  white-space: nowrap
-  word-wrap: normal
+	display: inline-block
+	max-width: $width
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
+	word-wrap: normal
 
 =hyphens($opt)
-  -webkit-hyphens: $opt
-  -moz-hyphens: $opt
-  -o-hyphens: $opt
-  hyphens: $opt
+	-webkit-hyphens: $opt
+	-moz-hyphens: $opt
+	-o-hyphens: $opt
+	hyphens: $opt
 
 =user-select($opt)
-  -webkit-user-select: $opt
-  -khtml-user-select: $opt
-  -moz-user-select: $opt
-  -ms-user-select: $opt
-  user-select: $opt
+	-webkit-user-select: $opt
+	-khtml-user-select: $opt
+	-moz-user-select: $opt
+	-ms-user-select: $opt
+	user-select: $opt
 
 =linear-gradient($fromColor, $toColor)
-  background-color: $toColor
-  background-image: -webkit-gradient(linear, left top, left bottom, from($fromColor), to($toColor))
-  background-image: -webkit-linear-gradient(top, $fromColor, $toColor)
-  background-image: -moz-linear-gradient(top, $fromColor, $toColor)
-  background-image: -ms-linear-gradient(top, $fromColor, $toColor)
-  background-image: -o-linear-gradient(top, $fromColor, $toColor)
-  background-image: linear-gradient(top, $fromColor, $toColor)
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#{$fromColor}', EndColorStr='#{$toColor}')
+	background-color: $toColor
+	background-image: -webkit-gradient(linear, left top, left bottom, from($fromColor), to($toColor))
+	background-image: -webkit-linear-gradient(top, $fromColor, $toColor)
+	background-image: -moz-linear-gradient(top, $fromColor, $toColor)
+	background-image: -ms-linear-gradient(top, $fromColor, $toColor)
+	background-image: -o-linear-gradient(top, $fromColor, $toColor)
+	background-image: linear-gradient(top, $fromColor, $toColor)
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#{$fromColor}', EndColorStr='#{$toColor}')
 
 =appearance($appearance: none)
-  -webkit-appearance: $appearance
-  -moz-appearance: $appearance
-  -ms-appearance: $appearance
-  -o-appearance: $appearance
-  appearance: $appearance
+	-webkit-appearance: $appearance
+	-moz-appearance: $appearance
+	-ms-appearance: $appearance
+	-o-appearance: $appearance
+	appearance: $appearance
 
 =transition($transition)
-  -webkit-transition: $transition
-  -moz-transition: $transition
-  transition: $transition
+	-webkit-transition: $transition
+	-moz-transition: $transition
+	transition: $transition
 
 =transform($transform: none)
-  -webkit-transform: $transform
-  -moz-transform: $transform
-  -ms-transform: $transform
-  -o-transform: $transform
-  transform: $transform
+	-webkit-transform: $transform
+	-moz-transform: $transform
+	-ms-transform: $transform
+	-o-transform: $transform
+	transform: $transform
 
 =arrow_helper($arrowSize, $arrowColor, $margin, $side, $align)
-  @if $side == "top"
-    border-bottom-color: $arrowColor
-    top: -2 * $arrowSize
-  @if $side == "bottom"
-    border-top-color: $arrowColor
-    bottom: -2 * $arrowSize
-  @if $side == "left"
-    border-right-color: $arrowColor
-    left: -2 * $arrowSize
-  @if $side == "right"
-    border-left-color: $arrowColor
-    right: -2 * $arrowSize
-  @if $side == "right" or $side == "left"
-    @if $align == "center"
-      top: 50%
-      margin-top: -$arrowSize
-    @else if $align == "top"
-      top: $margin
-    @else if $align == "bottom"
-      bottom: $margin
-  @if $side == "bottom" or $side == "top"
-    @if $align == "center"
-      right: 50%
-      margin-right: -$arrowSize
-    @else if $align == "left"
-      left: $margin
-    @else if $align == "right"
-      right: $margin
+	@if $side == "top"
+		border-bottom-color: $arrowColor
+		top: -2 * $arrowSize
+	@if $side == "bottom"
+		border-top-color: $arrowColor
+		bottom: -2 * $arrowSize
+	@if $side == "left"
+		border-right-color: $arrowColor
+		left: -2 * $arrowSize
+	@if $side == "right"
+		border-left-color: $arrowColor
+		right: -2 * $arrowSize
+	@if $side == "right" or $side == "left"
+		@if $align == "center"
+			top: 50%
+			margin-top: -$arrowSize
+		@else if $align == "top"
+			top: $margin
+		@else if $align == "bottom"
+			bottom: $margin
+	@if $side == "bottom" or $side == "top"
+		@if $align == "center"
+			right: 50%
+			margin-right: -$arrowSize
+		@else if $align == "left"
+			left: $margin
+		@else if $align == "right"
+			right: $margin
 
 =arrow($side: "right", $align: "center", $size: 20px, $color: #f6f6f6, $borderColor: "none", $borderSize: 3px)
-  $selector: "&:after, &:before"
-  @if $borderColor == "none"
-    $selector: "&:after"
-  #{$selector}
-    border: solid transparent
-    content: " "
-    height: 0
-    width: 0
-    position: absolute
-    pointer-events: none
-    visibility: visible
-  &:after
-    border-width: $size
-    +arrow_helper($size, $color, $size, $side, $align)
-  @if $borderColor != "none"
-    &:before
-      border-width: $borderSize + $size
-      +arrow_helper($size + $borderSize, $borderColor, $size - $borderSize, $side, $align)
+	$selector: "&:after, &:before"
+	@if $borderColor == "none"
+		$selector: "&:after"
+	#{$selector}
+		border: solid transparent
+		content: " "
+		height: 0
+		width: 0
+		position: absolute
+		pointer-events: none
+		visibility: visible
+	&:after
+		border-width: $size
+		+arrow_helper($size, $color, $size, $side, $align)
+	@if $borderColor != "none"
+		&:before
+			border-width: $borderSize + $size
+			+arrow_helper($size + $borderSize, $borderColor, $size - $borderSize, $side, $align)
 
 =transform($transforms) 
-  -moz-transform: $transforms
-  -o-transform: $transforms
-  -ms-transform: $transforms
-  -webkit-transform: $transforms
-  transform: $transforms
+	-moz-transform: $transforms
+	-o-transform: $transforms
+	-ms-transform: $transforms
+	-webkit-transform: $transforms
+	transform: $transforms
 
 =transform-origin($transforms) 
-  -moz-transform-origin: $transforms
-  -o-transform-origin: $transforms
-  -ms-transform-origin: $transforms
-  -webkit-transform-origin: $transforms
-  transform-origin: $transforms
+	-moz-transform-origin: $transforms
+	-o-transform-origin: $transforms
+	-ms-transform-origin: $transforms
+	-webkit-transform-origin: $transforms
+	transform-origin: $transforms
 
 =user-select($opt)
-  -webkit-user-select: $opt
-  -khtml-user-select: $opt
-  -moz-user-select: $opt
-  -ms-user-select: $opt
-  user-select: $opt
+	-webkit-user-select: $opt
+	-khtml-user-select: $opt
+	-moz-user-select: $opt
+	-ms-user-select: $opt
+	user-select: $opt
 
 
 =icon($iconname)
-  content: $iconname
-  font-family: $iconfamily
-  line-height: 1
+	content: $iconname
+	font-family: $iconfamily
+	line-height: 1
 
 
 
@@ -332,13 +360,13 @@ $stumbleupon: #f74425
 // ==== Functions =================================================================================
 
 @function perc($target, $parent)
-  @return $target / $parent * 100%
+	@return $target / $parent * 100%
 
 @function golden($target)
-  @return #{$target * 1.618}px
+	@return #{$target * 1.618}px
 
 @function golden-down($target)
-  @return #{$target / 1.618}px
+	@return #{$target / 1.618}px
 
 
 
@@ -385,3 +413,45 @@ $ease-in-out-sine: cubic-bezier(0.445, 0.05, 0.55, 0.95)
 $ease-in-out-expo: cubic-bezier(1, 0, 0, 1)
 $ease-in-out-circ: cubic-bezier(0.785, 0.135, 0.15, 0.86)
 $ease-in-out-back: cubic-bezier(0.68, -0.55, 0.265, 1.55)
+
+
+
+
+
+
+
+
+
+
+@-moz-keyframes touchanimate
+	0% 
+		+size(10)
+		opacity: 0
+	50%
+		opacity: 0.6
+	100% 
+		opacity: 0
+		+size(65) 
+
+@-webkit-keyframes touchanimate
+	0% 
+		+size(10)
+		opacity: 0
+	50%
+		opacity: 0.6
+	100% 
+		opacity: 0
+		+size(65) 
+
+@keyframes touchanimate
+	0% 
+		+size(10)
+		opacity: 0
+	50%
+		opacity: 0.6
+	100% 
+		opacity: 0
+		+size(65)
+
+
+

@@ -11,6 +11,7 @@
 		+center
 		padding: 0 20px
 		box-sizing: border-box
+		+user-select(none)
 
 	&-logo
 		position: absolute
@@ -110,26 +111,27 @@
 	right: 20px
 	+size(37)
 	background-color: $primary
-	// background-color: $text
 	border-radius: 3px
 	cursor: pointer
 	display: none
 
 	+max(736)
 		display: block
-		+tap-highlight
-
-
+		+tap-animate($position: absolute)
 	&:after
-		+icon('x')
-		position: absolute
-		+valign
-		display: block
-		width: 100%
-		background-size: 100%
-		font-size: 24px
-		color: white
-		text-align: center
+		+inc-tap-area(13px, 'true')
+
+	&-icon
+		&:after
+			+icon('x')
+			position: absolute
+			+valign
+			display: block
+			width: 100%
+			background-size: 100%
+			font-size: 24px
+			color: white
+			text-align: center
 
 
 
@@ -140,8 +142,6 @@
 		height: 100%
 		top: 0
 		left: 0
-		// background-color: darken(rgba(247, 133, 21, 0.95), 10)
-		// background-color: rgba(0,0,0,0.9)
 		background-color: $black
 		opacity: .96
 		+transform(translateY(-100%))
@@ -156,6 +156,7 @@
 		right: 24px
 		cursor: pointer
 		+transform(rotate(45deg))
+		+tap-animate($rgb: 255, $position: absolute)
 
 		&:after
 			// content: 'x'
@@ -167,7 +168,7 @@
 
 	&-list
 		position: absolute
-		+valign(54%)
+		+valign(50%)
 		width: 100%
 
 		&-item
@@ -176,8 +177,10 @@
 			font-size: 34px
 			color: white
 			// color: $primary
-			height: 12vh
-			line-height: 1
+			// height: 12vh
+			line-height: 12vh
+			// line-height: 1
+			+tap-animate($rgb: 255)
 
 
 

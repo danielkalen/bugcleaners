@@ -151,13 +151,15 @@
 
 	+form-button(60px, $primary, 30px, true)
 	
-	&-button:before
-		content: ''
-		position: absolute
-		top: -24px
-		height: 1px
-		width: 100%
-		background-color: $divider
+	&-button
+		+inc-tap-area(20px)
+		&:before
+			content: ''
+			position: absolute
+			top: -24px
+			height: 1px
+			width: 100%
+			background-color: $divider
 
 
 
@@ -184,6 +186,7 @@
 			color: $grey
 			transition: color 0.2s
 			+tap-highlight
+			+inc-tap-area(15px, 'false', 'before')
 			&:after
 				content: ''
 				position: absolute

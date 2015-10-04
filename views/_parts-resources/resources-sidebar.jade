@@ -27,5 +27,5 @@
 	sidebar.resources-sidebar
 		ul.resources-sidebar-list
 			each category in faqcategories
-				.resources-sidebar-list-item(data-name!=category.slug)
+				.resources-sidebar-list-item(data-name!=category.slug, class!=category.slug)
 					.resources-sidebar-list-item-text!=category.name

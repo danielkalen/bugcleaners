@@ -266,6 +266,20 @@ function Util(){
 	   Various
 	   ========================================================================== */
 
+	// ==== Get Object Length =================================================================================
+	/**
+	 * Iterites through each direct property in an object and increments an eventually-returned length var;
+	 * @param  {obejct} object Object to iterate through
+	 * @return {number}        Length of the given object
+	 */
+	this.objectLength = function(object){
+		var length = 0;
+		for (i in object) {
+			length++;
+		}
+		return length;
+	};
+
 	// ==== String finder =================================================================================
 	/**
 	 * Searches a given string to see if it contains another string.
@@ -481,7 +495,7 @@ function Util(){
 			if (range === 'week') {
 				day = parseFloat(day) - 6;
 				if (day < 1) { // Check if day is 0 or lower, which indicates that we must go to the previous month.
-					day = 31;
+					day = util.date.getMonthDaysLimit(parseFloat(month) - 2) + day;
 					month = parseFloat(month) - 1;
 					if (month < 1) { // Check if month is 0 or lower, which indicates that we must go to the previous year.
 						month = 12;

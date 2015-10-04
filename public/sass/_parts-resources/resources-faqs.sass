@@ -2,11 +2,15 @@
 	$faqcolor: lighten($black, 10)
 	float: right
 	width: 73%
+	+max(736)
+		width: 100%
 
 	&-list
 		margin-bottom: 70px
 		&:last-child
 			margin-bottom: 0
+		+max(736)
+			margin-bottom: 50px
 
 		&-title
 			position: relative
@@ -16,6 +20,8 @@
 			font-weight: 600
 			color: $primary
 			line-height: 1
+			+max(520)
+				font-size: 26px
 
 		&-item
 			position: relative
@@ -60,9 +66,9 @@
 				color: $primary
 				transition: all 0.25s
 				.closed &
-					// color: $grey-mid
-					// color: $text
 					color: $faqcolor
+				+max(736)
+					font-size: 16px
 
 			&-answer
 				position: relative
