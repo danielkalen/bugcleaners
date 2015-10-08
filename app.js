@@ -12,6 +12,7 @@ var express = require('express'),
 	Faqs = db.get('faqs'),
 	FaqCategories = db.get('faq_categories'),
 	Submissions = db.get('submissions'),
+	Emails = db.get('emails'),
 	inProduction = false;
 
 
@@ -287,7 +288,8 @@ if (inProduction) {
 app.post('/ajax', function(request, response){
 	// response.send(request);
 	var params = request.body,
-		action = params.action;
+		action = params.action,
+		adminEmail = 'd@danielkalen.com';
 	
 	if (!action) {response.send('No Action Specified!'); response.end();}
 
@@ -307,7 +309,36 @@ app.post('/ajax', function(request, response){
 			'job_type': params.home_or_business,
 			'problem_description': params.problem_description
 		});
-		sendEmail('Daniel', 'd@danielkalen.com', '[BugCleaners] New Quote Request', 'Test Email');
+		var messageToSubmit = '\
+			<p><strong>Full Name: </strong>'+params.firstname +' '+ params.lastname+'</p>\
+			<p><strong>Email Address: </strong>'+params.email+'</p>\
+			<p><strong>Phone Number: </strong>'+params.phone+'</p>\
+			<p><strong>Pest Type: </strong>'+params.pest_type+'</p>\
+			<p><strong>Approx. time of problem: </strong>'+params.time_of_problem+'</p>\
+			<p><strong>Job Type: </strong>'+params.home_or_business+'</p>\
+			<p><strong>Problem Description: </strong>'+params.problem_description+'</p>\
+		';
+		sendEmail('Daniel', adminEmail, '[BugCleaners] New Quote Request', messageToSubmit);
+	}
+
+	if (action === 'send_email') {
+		var ajaxResponse = {};
+		ajaxResponse.success = true;
+		ajaxResponse.message = 'Thank you for your submission! Our support team will go over your message and will contact you shortly.';
+		response.json(ajaxResponse);
+		
+		Emails.insert({
+			'firstname': params.firstname,
+			'lastname': params.lastname,
+			'email': params.email,
+			'message': params.message
+		});
+		var messageToSubmit = '\
+			<p><strong>Full Name: </strong>'+params.firstname +' '+ params.lastname+'</p>\
+			<p><strong>Email Address: </strong>'+params.email+'</p>\
+			<p><strong>Message: </strong>'+params.message+'</p>\
+		';
+		sendEmail('Daniel', adminEmail, '[BugCleaners] Support Request', messageToSubmit);
 	}
 });
 
