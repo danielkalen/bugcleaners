@@ -1,0 +1,22 @@
+@import '_parts-global/_vars'
+@import '_parts-global/_elements'
+
+.main
+	// background-color: $subwhite
+	background-color: darken($white,2)
+
+.page_innerwrap
+	width: 100%
+	max-width: 1170px
+	padding: 50px 20px
+	+center
+	box-sizing: border-box
+	+max(736)
+		padding: 35px 20px
+
+.manage 
+	position: relative
+	+clearfix
+	@import '_parts-manage/manage-login'
+	@import '_parts-manage/manage-sidebar'
+	@import '_parts-manage/manage-content'

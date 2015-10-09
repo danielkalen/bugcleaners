@@ -1,0 +1,31 @@
+-
+	var sidebarItems = [
+		{
+			name: 'Pages',
+			slug: 'pages'
+		},
+		{
+			name: 'Pests',
+			slug: 'pests'
+		},
+		{
+			name: 'FAQs',
+			slug: 'faqs'
+		},
+		{
+			name: 'FAQ Categories',
+			slug: 'faqcategories'
+		},
+		{
+			name: 'Other',
+			slug: 'other'
+		}
+	];
+
+
+.manage-sidebar-outerwrap
+	sidebar.manage-sidebar
+		ul.manage-sidebar-list
+			each item in sidebarItems
+				.manage-sidebar-list-item(data-name!=item.slug, class!=item.slug)
+					.manage-sidebar-list-item-text!=item.name

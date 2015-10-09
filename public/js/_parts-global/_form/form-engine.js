@@ -110,6 +110,14 @@
 			e.preventDefault();
 		});
 
+		$thisForm.on('submit_form', function(){
+			var $activeStep = $thisForm.find('.step.show'),
+				$activeStep = ($activeStep.length ? $activeStep : $thisForm),
+				$button = $activeStep.find('.next'),
+				$button = ($button.length ? $button : $activeStep.find('.submit'));
+			$button.trigger('click');
+		});
+
 		if (this.options.validateOnTyping){
 			$thisForm.on('field_filled', function(){
 				var allFieldsAreValid = thisObject.Validate(false, false);
@@ -428,9 +436,13 @@
 
 		$inputField.focus(function(){
 			$(this).parent().addClass('focus');
+			$$(window).on('keypress', function(event){
+				event.keyCode === 13 ? $inputField.parents('form').trigger('submit_form') : null;
+			});
 		});
 		$inputField.blur(function(){
 			$(this).parent().removeClass('focus');
+			$$(window).off('keypress');
 		});
 
 		$inputField.on($onEvents, function(){

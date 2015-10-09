@@ -1,0 +1,276 @@
+&-content
+	$faqcolor: lighten($black, 10)
+	float: right
+	width: 73%
+	+max(736)
+		width: 100%
+
+	&-list
+		display: none
+		margin-bottom: 70px
+		&.show
+			display: block
+		&:last-child
+			margin-bottom: 0
+		+max(736)
+			margin-bottom: 50px
+		
+		// List title
+		&-title
+			position: relative
+			top: -1px
+			margin-bottom: 15px
+			font-size: 38px
+			font-weight: 600
+			color: $primary
+			line-height: 1
+			+max(520)
+				font-size: 26px
+
+		&-item
+			position: relative
+			overflow: hidden
+			margin-bottom: 15px
+			background-color: white
+			padding: 14px 20px
+			box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.13)
+			box-sizing: border-box
+			cursor: pointer
+			transition: height 0.35s
+			+tap-highlight
+
+			&-toggle
+				position: absolute
+				z-index: 2
+				right: 12px
+				+valign
+				+size(20)
+				cursor: pointer
+
+				&:after // Plus Icon
+					+icon('i')
+					position: absolute
+					+valign
+					right: 0
+					// right: 12px
+					font-size: 17px
+					color: $faqcolor
+					cursor: pointer
+					+transform(rotate(45deg) translateY(-50%))
+					+transform-origin(50% 0%)
+					transition: all 0.25s
+
+					.closed &
+						+transform(translateY(-50%))
+						+transform-origin(50% 50%)
+			
+			// Item title
+			&-title
+				position: relative
+				top: 2px
+				width: 92%
+				font-size: 22px
+				font-weight: 600
+				color: $primary
+				cursor: pointer
+				transition: all 0.25s
+				.closed &
+					color: $faqcolor
+					&:hover
+						color: $primary
+				+max(736)
+					font-size: 16px
+
+			&-content
+				position: relative
+				padding-top: 20px
+				padding-bottom: 10px
+				padding-right: 60px
+				font-size: 14px
+				font-weight: 500
+				line-height: 1.3
+				color: $text
+				opacity: 0
+				transition: opacity 0.25s
+				display: none
+
+				.show &
+					opacity: 1
+
+				&-field-container
+					position: relative
+					width: 100%
+					margin-bottom: 30px
+					+clearfix
+					&.half
+						width: 48.5%
+						float: right
+						&.first
+							float: left
+				&-field
+					position: relative
+					width: 100%
+					margin-bottom: 20px
+					+clearfix
+					&.half
+						width: 48.5%
+						float: right
+						&.first
+							float: left
+					&.contained_field
+						margin-bottom: 10px
+
+					&-label
+						display: block
+						margin-bottom: 3px
+						font-weight: 600
+						font-size: 16px
+					&-input
+						display: block
+						width: 100%
+						height: 41px
+						padding: 0 11px
+						background-color: $white
+						border: 1px solid $divider
+						&.textarea
+							padding: 10px 11px
+							min-height: 170px
+							resize: none
+							.contained_field &
+								min-height: 75px
+								&.small
+									min-height: 0
+									height: 38px
+					
+					&-add_more
+						position: relative
+						float: right
+						padding: 10px 15px 8px
+						background-color: white
+						border: 1px solid darken($divider,8)
+						border-radius: 3px
+						color: $primary
+						cursor: pointer
+						+user-select(none)
+						transition: background-color 0.2s
+						&:hover
+							background-color: darken($subwhite,2)
+
+						&:before
+							+icon('+')
+							position: absolute
+							left: 7px
+							+valign(55%)
+							font-size: 17px
+							font-family: avenir
+							font-weight: 600
+
+						&-text
+							position: relative
+							left: 7px
+							right: 0
+							width: 100%
+							text-align: center
+							font-family: proxima
+							font-size: 12px
+							font-weight: 700
+							line-height: 1
+							text-transform: uppercase
+
+
+					&-remove
+						position: absolute
+						right: -30px
+						+valign
+						+size(20)
+						background-color: $white
+						border-radius: 50%
+						box-sizing: border-box
+						cursor: pointer
+						opacity: 0
+						transition: opacity 0.2s
+
+						&:after
+							+icon('C')
+							position: absolute
+							+valign
+							left: 0
+							right: 0
+							width: 100%
+							font-size: 18px
+							text-align: center
+							color: $cons
+
+					&:hover &-remove
+						opacity: 1
+
+
+
+				// Save post button
+				&-button
+					position: relative
+					width: 100px
+					height: 32px
+					margin-top: 10px
+					background-color: $subwhite
+					border: 1px solid darken($divider,8)
+					border-radius: 3px
+					color: $primary
+					cursor: pointer
+					+user-select(none)
+					transition: background-color 0.2s
+					&:hover
+						background-color: darken($subwhite,2)
+
+					&-text
+						position: absolute
+						left: 0
+						right: 0
+						+valign(52%)
+						width: 100%
+						text-align: center
+						font-family: proxima
+						font-size: 14px
+						font-weight: 700
+						line-height: 1
+						text-transform: uppercase
+
+
+		// Add post button
+		&-button
+			position: relative
+			float: right
+			width: 100px
+			height: 32px
+			margin-top: 10px
+			background-color: white
+			border: 1px solid darken($divider,8)
+			border-radius: 3px
+			color: $primary
+			cursor: pointer
+			+user-select(none)
+			transition: background-color 0.2s
+			&:hover
+				background-color: darken($subwhite,2)
+
+			&:before
+				+icon('+')
+				position: absolute
+				left: 7px
+				+valign(50.5%)
+				font-size: 20px
+				font-family: avenir
+				font-weight: 600
+
+			&-text
+				position: absolute
+				left: 7px
+				right: 0
+				+valign(52%)
+				width: 100%
+				text-align: center
+				font-family: proxima
+				font-size: 14px
+				font-weight: 700
+				line-height: 1
+				text-transform: uppercase

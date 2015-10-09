@@ -1,0 +1,7 @@
+.manage_login
+	form.manage_login-form(action="/manage/login", method="post")
+		.manage_login-form-step.step.show
+			+fieldsetInput('username', 'Username', '', true)
+			+fieldsetPassword('password', 'Password', '', true)
+			button.manage_login-form-button.submit
+				.manage_login-form-button-text Login

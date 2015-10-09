@@ -7,15 +7,18 @@ var email = require('emailjs/email.js'),
 		ssl: true
 	}),
 	sendEmail = 
-		function(toName, toEmail, subject, message){
-			message = formatMessage(subject, message);
+		function(toName, toEmail, subject, message, attachment){
+            var attachments = attachment || {};
+            message = formatMessage(subject, message);
+            
 			var emailMessage = {
 				from:    "BugCleaners <info@bugcleaners.com>", 
 				to:      toName + " <"+toEmail+">",
 				subject: subject,
 				attachment: 
 				[
-					{data: message, alternative:true}
+					{data: message, alternative:true},
+                    attachments
 				]
 			};
 			

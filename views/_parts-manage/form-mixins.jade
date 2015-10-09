@@ -1,0 +1,103 @@
+mixin fieldsetInput(name, label, classes, required, inputClasses)
+  - if (required) classes = classes + ' required'
+  .manage_login-form-fieldset.fieldset.input_text(class=classes)
+    label.manage_login-form-fieldset-label(for=name)=label
+    input.manage_login-form-fieldset-input.input(id=name, name=name, type="text", placeholder=label, class=inputClasses)
+
+
+mixin fieldsetPassword(name, label, classes, required, inputClasses)
+  - if (required) classes = classes + ' required'
+  .manage_login-form-fieldset.fieldset.input_text(class=classes)
+    label.manage_login-form-fieldset-label(for=name)=label
+    input.manage_login-form-fieldset-input.input(id=name, name=name, type="password", placeholder=label, class=inputClasses)
+
+
+mixin fieldsetSelect(name, label, classes, required, items)
+  - if (required) classes = classes + ' required'
+  .manage_login-form-fieldset.fieldset.select(class=classes)
+    label.manage_login-form-fieldset-label(for=name)=label
+    select.manage_login-form-fieldset-select.default_component.input(id=name, name=name)
+      option(value='')=label
+      -if (items)
+        each item, index in items
+          option(value=index)=item
+    div.manage_login-form-fieldset-select.new
+
+
+mixin fieldsetTextarea(name, label, classes, required, inputClasses)
+  - if (required) classes = classes + ' required'
+  .manage_login-form-fieldset.fieldset.textarea(class=classes)
+    label.manage_login-form-fieldset-label(for=name)=label
+    textarea.manage_login-form-fieldset-textarea.input(id=name, name=name, placeholder=label)
+
+
+mixin fieldsetCheckboxSingle(name, label, classes, required)
+  - if (required) classes = classes + ' required'
+  .manage_login-form-fieldset.fieldset.checkbox(class=classes)
+    .manage_login-form-fieldset.fieldset-checkbox.input-button
+      div.manage_login-form-fieldset-checkbox-box
+      label.manage_login-form-fieldset-checkbox-label(for=name)=label
+      input.input.checkbox(id=name, name=name type='checkbox')
+
+
+mixin fieldsetCheckbox(name, label, classes, required, items)
+  - if (required) classes = classes + ' required'
+  - classes = classes + ' options_' + items.length
+
+  .manage_login-form-fieldset.fieldset.checkbox(class=classes)
+    .manage_login-form-fieldset-label=label
+    each item, index in items
+      - id = name + '_' + index
+      .manage_login-form-fieldset-checkbox.input-button
+        div.manage_login-form-fieldset-checkbox-box
+        label.manage_login-form-fieldset-checkbox-label(for=id)=item
+        input.input.checkbox(id=id, name=name, type='checkbox', val=item)
+
+
+mixin fieldsetRadio(name, label, classes, required, items)
+  - if (required) classes = classes + ' required'
+  - classes = classes + ' options_' + items.length
+
+  .manage_login-form-fieldset.fieldset.radio(class=classes)
+    .manage_login-form-fieldset-label=label
+    each item, index in items
+      - id = name + '_' + index
+      .manage_login-form-fieldset-radio.input-button
+        div.manage_login-form-fieldset-radio-box
+        label.manage_login-form-fieldset-radio-label(for=id)=item
+        input.input.radio(id=id, name=name, type='radio', val=item)
+
+
+mixin fieldsetRadioSpecial(name, label, classes, required, items)
+  - if (required) classes = classes + ' required'
+  - classes = classes + ' options_3'
+
+  .manage_login-form-fieldset.fieldset.radio.radio_special(class=classes)
+    .manage_login-form-fieldset-label=label
+    each item, index in items
+      - id = name + '_' + index
+      .manage_login-form-fieldset-radio.input-button
+        div.manage_login-form-fieldset-radio-box
+        label.manage_login-form-fieldset-radio-label(for=id)=item
+          .manage_login-form-fieldset-radio-label-sub=index
+        input.input.radio(id=id, name=name, type='radio', val=item)
+
+
+mixin fieldsetRange(name, label, classes, required)
+  //- - if (required) classes = classes + ' required'
+  .manage_login-form-fieldset.fieldset.range.required(class=classes)
+    .manage_login-form-fieldset-label=label
+    .manage_login-form-fieldset-range(class=classes)
+      .manage_login-form-fieldset-range-start
+      .manage_login-form-fieldset-range-end
+    input.manage_login-form-fieldset-input.input(id=name, name=name, type="hidden")
+
+
+
+mixin fieldsetFile(name, label, classes, required, inputClasses)
+  - if (required) classes = classes + ' required'
+  .manage_login-form-fieldset.fieldset.file(class=classes)
+    label.manage_login-form-fieldset-label(for=name)=label
+    .manage_login-form-fieldset-file_wrap
+      input.manage_login-form-fieldset-file.input(id=name, name=name, type="file", class=inputClasses, accept='.pdf, .doc, .png, .tiff, .jpg, .rtf, .rtfd, .pages, .xls, .csv', multiple='')
+

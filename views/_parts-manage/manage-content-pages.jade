@@ -1,0 +1,28 @@
+ul.manage-content-list.show.pages#pages
+	h4.manage-content-list-title Pages
+	
+	each page in pages
+		li.manage-content-list-item
+			.manage-content-list-item-toggle
+			h6.manage-content-list-item-title!= page.hero_title
+			.manage-content-list-item-content
+				.manage-content-list-item-content-field.half.first
+					label.manage-content-list-item-content-field-label Page Title
+					input.manage-content-list-item-content-field-input.input.editable(type="text", name="hero_title", value!=page.hero_title)
+				.manage-content-list-item-content-field.half
+					label.manage-content-list-item-content-field-label Page Subtitle
+					input.manage-content-list-item-content-field-input.input.editable(type="text", name="hero_subtitle", value!=page.hero_subtitle)
+				.clearfix
+				.manage-content-list-item-content-field
+					label.manage-content-list-item-content-field-label Content
+					textarea.manage-content-list-item-content-field-input.input.textarea.editable(name="content")=page.content
+				
+				.manage-content-list-item-content-button.save
+					.manage-content-list-item-content-button-text Save Page
+				.manage-content-list-item-content-status
+
+	.manage-content-list-button.add
+		.manage-content-list-button-text Add Page
+
+
+//- .clearfix

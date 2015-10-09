@@ -1,5 +1,8 @@
 var express = require('express'),
+	session = require('express-session'),
 	sendEmail = require('./email.js'),
+	passport = require('passport'),
+	passportStrategy = require('passport-local').Strategy,
 
 	compress = require('compression'),
 	bodyParser = require('body-parser'),
@@ -13,20 +16,54 @@ var express = require('express'),
 	FaqCategories = db.get('faq_categories'),
 	Submissions = db.get('submissions'),
 	Emails = db.get('emails'),
+	Users = db.get('users'),
 	inProduction = false;
 
 
-app.use(compress());						// Use Gzip
-app.use(bodyParser.json());					// Enable JSON request parsing
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(express.static('public')); 			// Allow static files requests.
-app.set('views', './views'); 				// Set main views folder.
-app.set('view engine', 'jade');				// Set templating engine to jade.
-if (inProduction) {
-	app.set('view cache', true);			// Enable cache for templating engine.
-} else {
-	// require('express-debug')(app);
-}
+/* ==========================================================================
+   Management page auth
+   ========================================================================== */
+	passport.use(new passportStrategy(function(username, password, done){
+		Users.findOne({'username': username}, function(error, user){
+			if (error) return done(error);
+			if (!user) return done(null, false);
+			if (user.password !== password) return done(null, false);
+			return done(null, user);
+		});
+	}));
+
+	passport.serializeUser(function(user, done){
+		done(null, user._id);
+	});
+
+	passport.deserializeUser(function(userID, done){
+		Users.findOne({_id: userID}, function(error, user){
+			if (error) return done(error);
+			done(null, user);
+		});
+	});
+
+
+/* ==========================================================================
+   Middleware
+   ========================================================================== */
+	app.use(compress());						// Use Gzip
+	app.use(bodyParser.json());					// Enable JSON request parsing
+	app.use(bodyParser.urlencoded({extended:true}));
+	app.use(express.static('public')); 			// Allow static files requests.
+	app.use(session({secret: 'bugcleaners', resave: false, }));
+	app.use(passport.initialize());
+	app.use(passport.session());
+	app.set('views', './views'); 				// Set main views folder.
+	app.set('view engine', 'jade');				// Set templating engine to jade.
+	if (inProduction) {
+		app.set('view cache', true);			// Enable cache for templating engine.
+	} else {
+		// require('express-debug')(app);
+	}
+
+
+
 
 
 
@@ -247,6 +284,41 @@ if (inProduction) {
 	});
 
 
+	// ==== Management Admin Page =================================================================================
+	app.get('/manage/login', function(request, response){
+		response.render('manage', {'login': true, 'currentpage': 'http://bugcleaners.com/manage/login'});
+	});
+	app.post('/manage/login', 
+		passport.authenticate('local', {failureRedirect: '/manage/login'}),
+		function(request, response){
+			response.redirect('/manage');
+		});
+	app.get('/manage/logout', function(request, response){
+		request.logout();
+		response.redirect('/');
+	});
+	app.get('/manage', 
+		require('connect-ensure-login').ensureLoggedIn('/manage/login'),
+		function(request, response){
+			var currentpage = request.hostname + request.originalUrl;
+			Pages.find({}, function(error, pages){
+				Pests.find({}, function(error, pests){
+					Faqs.find({}, function(error, faqs){
+						FaqCategories.find({}, function(error, faqcategories){
+							response.render('manage', {
+								'pages': pages,
+								'pests': pests,
+								'faqs': faqs,
+								'faqcategories': faqcategories,
+								'currentpage': currentpage
+							});
+						});
+					});
+				});
+			});
+		});
+
+
 /* ========================================================================== */
 
 
@@ -289,6 +361,7 @@ app.post('/ajax', function(request, response){
 	// response.send(request);
 	var params = request.body,
 		action = params.action,
+		adminName = 'Eric',
 		adminEmail = 'd@danielkalen.com';
 	
 	if (!action) {response.send('No Action Specified!'); response.end();}
@@ -318,7 +391,7 @@ app.post('/ajax', function(request, response){
 			<p><strong>Job Type: </strong>'+params.home_or_business+'</p>\
 			<p><strong>Problem Description: </strong>'+params.problem_description+'</p>\
 		';
-		sendEmail('Daniel', adminEmail, '[BugCleaners] New Quote Request', messageToSubmit);
+		sendEmail(adminName, adminEmail, '[BugCleaners] New Quote Request', messageToSubmit);
 	}
 
 	if (action === 'send_email') {
@@ -333,12 +406,36 @@ app.post('/ajax', function(request, response){
 			'email': params.email,
 			'message': params.message
 		});
+		var attachment = false;
+		if (params.attachment) {
+			attachment = params.attachment;
+		}
 		var messageToSubmit = '\
 			<p><strong>Full Name: </strong>'+params.firstname +' '+ params.lastname+'</p>\
 			<p><strong>Email Address: </strong>'+params.email+'</p>\
 			<p><strong>Message: </strong>'+params.message+'</p>\
 		';
-		sendEmail('Daniel', adminEmail, '[BugCleaners] Support Request', messageToSubmit);
+		sendEmail(adminName, adminEmail, '[BugCleaners] Support Request', messageToSubmit, attachment);
+	}
+
+	if (action === 'update_collection') {
+		var ajaxResponse = {},
+			authenticated = request.isAuthenticated();
+		if (!authenticated) {
+			ajaxResponse.success = false;
+			ajaxResponse.message = 'Not Authorized.';
+		} else {
+			ajaxResponse.success = true;
+			ajaxResponse.message = 'Post Saved/Updated.';
+		}
+		response.json(ajaxResponse);
+		
+		var collection = db.get(params.collection),
+			data = params.data;
+		
+		if (collection) {
+			collection.insert(data);
+		}
 	}
 });
 

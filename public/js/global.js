@@ -8,9 +8,9 @@
 
 
 
-$window = $$(window);
 
-var	$this,
+var	$window = $$(window),
+	$this,
 	isMobileWidth = window.innerWidth <= 736,
 	isMobile = $$('html').hasClass('mobile'),
 	isContactPage = $$('body').hasClass('contact')
