@@ -166,6 +166,22 @@
 			$this.attachEvents( $(this) );
 		});
 
+		$thisForm.find('.conditional').each(function(){
+			var $conditionalWrap = $(this),
+				$conditionalDepInput = $conditionalWrap.children('.conditional-secondary').find('.input');
+
+			$conditionalDepInput.prop('disabled', true);
+			$conditionalWrap.find('.conditional-primary .input').on('change', function(){
+				var $this = $(this);
+				if ( $this.val() === 'other' ) {
+					$conditionalWrap.addClass('show');
+					$conditionalDepInput.prop('disabled', false);
+				} else {
+					$conditionalWrap.removeClass('show');
+					$conditionalDepInput.prop('disabled', true);
+				}
+			});
+		});
 
 		if ( $thisForm.find('.state').length ) {
 			FormUtils.appendStateList();

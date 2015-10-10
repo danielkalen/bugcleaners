@@ -72,14 +72,15 @@ if ($('.cta-support-faq').length) {
 		};
 
 		$window.on('resize', util.debounce(setFaqHeight, 250));
+		setTimeout(function(){
+			$$('.cta-support-faq-list-item').each(function(){
+				var $this = jQuery(this);
+				$this.css('height', $this.height())
+							.addClass('closed');
 
-		$$('.cta-support-faq-list-item').each(function(){
-			var $this = jQuery(this);
-			$this.css('height', $this.height())
-						.addClass('closed');
-
-			$this.data('closed', true);
-		});	
+				$this.data('closed', true);
+			});	
+		}, 50);
 
 		$$('.cta-support-faq-list-item').on('click', function(){
 			var $this = jQuery(this),
@@ -99,7 +100,6 @@ if ($('.cta-support-faq').length) {
 			}
 
 			$this.data('closed', !closed);
-
 		});
 	})();
 }

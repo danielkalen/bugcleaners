@@ -166,13 +166,13 @@ if (!Array.from) {
 
 /* Object.forEach()
    ========================================================================== */
-if (!Object.prototype.forEach) {
-  Object.prototype.forEach = function(iterator, context) {
-      for (var key in this) {
-        iterator.call(context, this[key], key, this);
-      }
-   };
-}
+// if (!Object.prototype.forEach) {
+//   Object.prototype.forEach = function(iterator, context) {
+//       for (var key in this) {
+//         iterator.call(context, this[key], key, this);
+//       }
+//    };
+// }
 
 
 
