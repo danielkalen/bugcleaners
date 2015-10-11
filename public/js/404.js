@@ -1,12 +1,1 @@
-(function($){
-	var windowHeight = window.innerHeight,
-		pageHeight = document.getElementById('page').offsetHeight,
-		headerHeight = $('header')[0].offsetHeight,
-		ctaHeight = $('.inline_cta')[0].offsetHeight,
-		footerHeight = $('footer')[0].offsetHeight,
-		allHeight = headerHeight + ctaHeight + footerHeight;
-
-	if (pageHeight < windowHeight) {
-		$$('.error_404').css('min-height', windowHeight - allHeight);
-	}
-})(jQuery);
+!function($){var e=window.innerHeight,t=document.getElementById("page").offsetHeight,i=$("header")[0].offsetHeight,f=$(".inline_cta")[0].offsetHeight,n=$("footer")[0].offsetHeight,o=i+f+n;e>t&&$$(".error_404").css("min-height",e-o)}(jQuery);

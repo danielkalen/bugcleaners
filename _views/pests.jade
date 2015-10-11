@@ -1,0 +1,29 @@
+doctype html
+html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr', prefix='og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#')
+	head
+		meta(charset='UTF-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=0')
+		//- Begin Meta Data
+		link(rel="canonical", href=currentpage)
+		meta(property="og:url", content=currentpage)
+		link(rel="shortcut icon", href="/img/favicon.ico", type="image/x-icon")
+		meta(property="og:title", content=pagetitle + " | BugCleaners")
+		meta(property="fb:admins", content="http://www.facebook.com/bugcleaners")
+		meta(itemprop="name", content=pagetitle + " | BugCleaners")
+		//- End Meta data.
+		title= pagetitle + " | BugCleaners"
+		link(rel='stylesheet', href='/css/style.css', type='text/css')
+		link(rel='stylesheet', href='/css/pests.css', type='text/css')
+		include ./_parts-global/takana.jade
+	body.innerpage.pest(class!=body_class)
+		#page
+			include ./_parts-global/header.jade
+			main.main
+				include ./_parts-global/hero.jade
+				include ./_parts-pests/pests-all.jade
+				include ./_parts-global/cta_inpage.jade
+			
+					
+			include ./_parts-global/footer.jade
+		script(type='text/javascript', src='/js/global.js')
+		//- script(type='text/javascript', src='js/home.js')

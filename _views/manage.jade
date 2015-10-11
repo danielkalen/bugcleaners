@@ -1,0 +1,34 @@
+doctype html
+html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr', prefix='og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#')
+	head
+		meta(charset='UTF-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=0')
+		//- Begin Meta Data
+		link(rel="canonical", href=currentpage)
+		meta(property="og:url", content=currentpage)
+		link(rel="shortcut icon", href="/img/favicon.ico", type="image/x-icon")
+		meta(property="og:title", content="Management | BugCleaners")
+		meta(property="fb:admins", content="http://www.facebook.com/bugcleaners")
+		meta(itemprop="name", content="Management | BugCleaners")
+		//- End Meta data.
+		title= "Management | BugCleaners"
+		link(rel='stylesheet', href='/css/style.css', type='text/css')
+		link(rel='stylesheet', href='/css/manage.css', type='text/css')
+		include ./_parts-global/takana.jade
+	body.manage(class!=body_class)
+		#page
+			include ./_parts-global/header.jade
+			
+			main.main
+				.page_innerwrap.manage
+					include ./_parts-manage/form-mixins.jade
+					
+					if login
+						include ./_parts-manage/manage-login.jade
+					else
+						include ./_parts-manage/manage-sidebar.jade
+						include ./_parts-manage/manage-content.jade
+					
+			include ./_parts-global/footer.jade
+		script(type='text/javascript', src='/js/global.js')
+		script(type='text/javascript', src='/js/manage.js')

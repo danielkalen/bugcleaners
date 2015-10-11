@@ -54,7 +54,7 @@ var express = require('express'),
 	app.use(session({secret: 'bugcleaners', resave: false, }));
 	app.use(passport.initialize());
 	app.use(passport.session());
-	app.set('views', './views'); 				// Set main views folder.
+	app.set('views', './_views'); 				// Set main views folder.
 	app.set('view engine', 'jade');				// Set templating engine to jade.
 	if (inProduction) {
 		app.set('view cache', true);			// Enable cache for templating engine.
@@ -144,33 +144,6 @@ var express = require('express'),
 			});
 		});
 	});
-
-
-	// ==== All DB pages =================================================================================
-	var routePlainPage = function($slug) {
-		
-		app.get('/'+$slug, function(request, response){
-			var currentpage = request.hostname + request.originalUrl;
-			
-			Pages.findOne({'slug': $slug}, function(error, page){
-				response.render('plain', {
-					'hero_title': page.hero_title,
-					'hero_subtitle': page.hero_subtitle,
-					'content': page.content,
-					'pagetitle': page.hero_title,
-					'currentpage': currentpage
-				});
-			});
-		});
-	};
-	routePlainPage('terms');
-	routePlainPage('privacy');
-
-
-
-
-
-
 
 
 	// ==== Services Page =================================================================================
@@ -358,7 +331,6 @@ var express = require('express'),
    ========================================================================== */
 
 app.post('/ajax', function(request, response){
-	// response.send(request);
 	var params = request.body,
 		action = params.action,
 		adminName = 'Eric',
@@ -418,7 +390,31 @@ app.post('/ajax', function(request, response){
 		sendEmail(adminName, adminEmail, '[BugCleaners] Support Request', messageToSubmit, attachment);
 	}
 
-	if (action === 'update_collection') {
+	if (action === 'schedule_call') {
+		var ajaxResponse = {};
+		ajaxResponse.success = true;
+		ajaxResponse.message = 'You\'ve successfully scheduled a call back! Our support team will call you as soon as possible.';
+		response.json(ajaxResponse);
+		
+		Emails.insert({
+			'firstname': params.firstname,
+			'lastname': params.lastname,
+			'email': params.email,
+			'message': params.message
+		});
+		var attachment = false;
+		if (params.attachment) {
+			attachment = params.attachment;
+		}
+		var messageToSubmit = '\
+			<p><strong>Full Name: </strong>'+params.firstname +' '+ params.lastname+'</p>\
+			<p><strong>Email Address: </strong>'+params.email+'</p>\
+			<p><strong>Message: </strong>'+params.message+'</p>\
+		';
+		sendEmail(adminName, adminEmail, '[BugCleaners] Support Request', messageToSubmit, attachment);
+	}
+
+	if (action === 'update_item') {
 		var ajaxResponse = {},
 			authenticated = request.isAuthenticated();
 		if (!authenticated) {
@@ -430,11 +426,50 @@ app.post('/ajax', function(request, response){
 		}
 		response.json(ajaxResponse);
 		
-		var collection = db.get(params.collection),
-			data = params.data;
+		if (authenticated) {
+			var collection = db.get(params.collection),
+				isNew = params.new === 'true',
+				isFAQ = params.faq === 'true',
+				slug = params.slug,
+				id = params.id,
+				data = params.data;
+			
+			if (collection) {
+				if (isNew) {
+					collection.insert(data);
+				} else {
+					collection.updateById(id, data, function(error, data){
+						console.log(error, data);
+					});
+				}
+			}
+		}
+	}
+
+	if (action === 'delete_item') {
+		var ajaxResponse = {},
+			authenticated = request.isAuthenticated();
+		if (!authenticated) {
+			ajaxResponse.success = false;
+			ajaxResponse.message = 'Not Authorized.';
+		} else {
+			ajaxResponse.success = true;
+			ajaxResponse.message = 'Post Deleted.';
+		}
+		response.json(ajaxResponse);
 		
-		if (collection) {
-			collection.insert(data);
+		if (authenticated) {
+			var collection = db.get(params.collection),
+				slug = params.slug,
+				isFAQ = params.faq === 'true';
+			
+			if (collection) {
+				if (isFAQ) {
+					collection.remove({'question': slug});
+				} else {
+					collection.remove({'slug': slug});
+				}
+			}
 		}
 	}
 });
@@ -475,17 +510,37 @@ app.post('/ajax', function(request, response){
 
 
 
-// 404 Handling
-app.use(function(req, res, next) {
-  res.status(404).render('404');
+/* ==========================================================================
+   DB Pages / 404 hadnling
+   ========================================================================== */
+app.use(function(request, response, next) {
+	var url = request.url.slice(1);
+
+	Pages.findOne({'slug': url}, function(error, page){
+		if (page) {
+			var currentpage = request.hostname + request.originalUrl;
+			response.render('plain', {
+				'hero_title': page.hero_title,
+				'hero_subtitle': page.hero_subtitle,
+				'content': page.content,
+				'pagetitle': page.hero_title,
+				'currentpage': currentpage
+			});
+		} else {
+			response.status(404).render('404');
+		}
+	});
+	// response.status(404).render('404');
 });
 
 
 
 
+/* ==========================================================================
+   Init Server
+   ========================================================================== */
 server = app.listen(7889, function(){
 	var host = server.address().address,
 		port = server.address().port;
 	console.log('BugCleaners Server running on http://%s:%s', host, port);
-});
-server.on('error', function(message){console.log(message);}); // Log errors
+}).on('error', function(message){console.log(message);}); // Log errors

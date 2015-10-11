@@ -1,0 +1,45 @@
+.page_innerwrap
+	.body_text
+		.body_text-floated.left.width-seventy
+			p.body_text-p At BugCleaners, we have developed a reputation by helping our many commercial and industrial clients of all types keep pests in their place and out of their establishments. From restaurants and catering halls to factories and office buildings, our commercial services are second to none!
+			p.body_text-p We keep up to date with the latest technologies and have highly trained professionals that we feel offer the best service in the industry.
+			
+			p.body_text-list-title We offer five star rated services to all of our commercial and industrial clients – no matter what type of facility you have:
+			ul.body_text-list
+				li.body_text-list-item Offices
+				li.body_text-list-item Banks
+				li.body_text-list-item Factories
+				li.body_text-list-item Hospitality
+				li.body_text-list-item Food Service
+				li.body_text-list-item Correctional Facilities
+				li.body_text-list-item Hotels/Motels, Spas, etc.
+				li.body_text-list-item Medical Facilities – Hospitals, etc.
+				li.body_text-list-item Day Care Centers Schools, College Dormitories, etc.
+			
+			p.body_text-list-title Our Treatments and Services include:
+			ul.body_text-list
+				li.body_text-list-item Animal-Proof Barriers
+				li.body_text-list-item Baiting Systems
+				li.body_text-list-item Disinfecting
+				li.body_text-list-item Exclusions
+				li.body_text-list-item Exterminating
+				li.body_text-list-item Fumigation
+				li.body_text-list-item Inspection Letters
+				li.body_text-list-item Liquid Bait
+				li.body_text-list-item Mosquito Control
+				li.body_text-list-item Prevention
+				li.body_text-list-item Removal
+				li.body_text-list-item Solid Bait
+				li.body_text-list-item Spraying
+				li.body_text-list-item Trapping
+				li.body_text-list-item Green, Environmentally Safe Pest Control
+		
+		.body_text-floated.right.width-thirty
+			.reviews-list
+				.reviews-list-item(itemscope, itemtype="http://schema.org/Review")
+					.reviews-list-item-img
+						img.reviews-list-item-img-photo(alt=review.name+", "+review.position, src="/img/reviewers/"+review.slug+".jpg")
+					.reviews-list-item-name(itemprop="author")= review.name
+					.reviews-list-item-subtitle(itemprop="jobTitle")= review.subtitle
+					.reviews-list-item-excerpt
+						p.reviews-list-item-excerpt-text(itemprop="reviewBody")= review.review
