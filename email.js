@@ -1,8 +1,11 @@
 var email = require('emailjs/email.js'),
 	emailServer = email.server.connect({
-		user: "info@bugcleaners.com",
-		password: "Ari23k",
-		host: "smtpout.secureserver.net",
+        // user: "info@bugcleaners.com",
+        // password: "Ari23k",
+        // host: "smtpout.secureserver.net",
+		user: "support@bugcleaners.com",
+		password: "Ari23kalendarov",
+		host: "smtp.gmail.com",
 		port: 465,
 		ssl: true
 	}),
@@ -17,8 +20,8 @@ var email = require('emailjs/email.js'),
 				subject: subject,
 				attachment: 
 				[
-					{data: message, alternative:true},
-                    attachments
+					{data: message, alternative:true}//,
+                    // attachments
 				]
 			};
 			
