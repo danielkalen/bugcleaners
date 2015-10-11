@@ -1,0 +1,36 @@
+{
+  "name": "bugcleaners",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.14.0",
+    "connect-ensure-login": "^0.1.1",
+    "compression": "^1.5.2",
+    "connect-flash": "^0.1.1",
+    "express": "^4.13.3",
+    "express-session": "^1.11.3",
+    "jade": "^1.11.0",
+    "emailjs": "^0.3.16",
+    "monk": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "passport": "^0.3.0",
+    "lokijs": "^1.3.10",
+    "mongodb": "^2.0.43",
+    "express-debug": "^1.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielkalen/bugcleaners.git"
+  },
+  "author": "Daniel Kalen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielkalen/bugcleaners/issues"
+  },
+  "homepage": "https://github.com/danielkalen/bugcleaners#readme"
+}
