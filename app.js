@@ -17,9 +17,14 @@ var express = require('express'),
 	Submissions = db.get('submissions'),
 	Emails = db.get('emails'),
 	Users = db.get('users'),
+	inProduction = true,
+	port = 8080;
+
+// ==== Conditional Production Mode =================================================================================
+if (__dirname.indexOf('MAMP') !== -1) {
 	inProduction = false;
-
-
+	port = 7889;
+}
 /* ==========================================================================
    Management page auth
    ========================================================================== */
