@@ -96,6 +96,7 @@ if (__dirname.indexOf('MAMP') !== -1) {
 		response.render('get-quote', {
 			'hero_title': 'Keep Your House &amp; Business <span class="hero-title-highlight">Pest-Free</span>, The Way They Should Be.',
 			'reviews': request.reviewsDB,
+			'production': inProduction,
 			'currentpage': currentpage
 		});
 	});
@@ -106,6 +107,7 @@ if (__dirname.indexOf('MAMP') !== -1) {
 		response.render('landing', {
 			'hero_title': 'Keep Your House &amp; Business <span class="hero-title-highlight">Pest-Free</span>, The Way They Should Be.',
 			'reviews': request.reviewsDB,
+			'production': inProduction,
 			'currentpage': currentpage
 		});
 	});
@@ -118,6 +120,7 @@ if (__dirname.indexOf('MAMP') !== -1) {
 			'hero_subtitle': 'Discover and get to know BugCleaners and the team behind it.',
 			'pagetitle': 'About Us',
 			'reviews': request.reviewsDB,
+			'production': inProduction,
 			'currentpage': currentpage
 		});
 	});
@@ -129,6 +132,7 @@ if (__dirname.indexOf('MAMP') !== -1) {
 			'hero_title': '<span class="hero-title-highlight">Contact</span> BugCleaners',
 			'hero_subtitle': '24/7 emergency call support &amp; same/next-day extermination services.',
 			'pagetitle': 'Contact Us',
+			'production': inProduction,
 			'currentpage': currentpage
 		});
 	});
@@ -144,6 +148,7 @@ if (__dirname.indexOf('MAMP') !== -1) {
 					'pagetitle': 'FAQs & Resources',
 					'faqs': faqs,
 					'faqcategories': faqcategories,
+					'production': inProduction,
 					'currentpage': currentpage
 				});
 			});
@@ -159,6 +164,7 @@ if (__dirname.indexOf('MAMP') !== -1) {
 			'hero_title': 'Our <span class="hero-title-highlight">Pest</span> Services',
 			'hero_subtitle': 'Whether you see silverfish or roaches in the kitchen, bed bugs in the bedroom or mice or rats in your restaurant, factory or other facility, pest control is a must! We first identify the problem and then utilize the most effective eradication methods available to ensure your complete satisfaction.',
 			'pagetitle': 'Services',
+			'production': inProduction,
 			'currentpage': currentpage,
 			'isMainServicesPage': true
 		});
@@ -178,6 +184,7 @@ if (__dirname.indexOf('MAMP') !== -1) {
 					'body_class': 'residential',
 					'pagetitle': 'Residential Services',
 					'review': review,
+					'production': inProduction,
 					'currentpage': currentpage
 				});
 			});
@@ -191,6 +198,7 @@ if (__dirname.indexOf('MAMP') !== -1) {
 					'body_class': 'commercial',
 					'pagetitle': 'Commercial Services',
 					'review': review,
+					'production': inProduction,
 					'currentpage': currentpage
 				});
 			});
@@ -214,6 +222,7 @@ if (__dirname.indexOf('MAMP') !== -1) {
 				'hero_subtitle': 'No matter what type of infestation your home or business may have, BugCleaners offers the very best in pest control services!',
 				'pagetitle': 'Pests',
 				'pests': pests,
+				'production': inProduction,
 				'currentpage': currentpage
 			});
 		});
@@ -237,6 +246,7 @@ if (__dirname.indexOf('MAMP') !== -1) {
 						'signs': pestData.signs,
 						'prevention': pestData.prevention,
 						'extra': pestData.extra,
+						'production': inProduction,
 						'currentpage': currentpage
 					});
 				} else {
@@ -254,6 +264,7 @@ if (__dirname.indexOf('MAMP') !== -1) {
 					'others': pestData.data,
 					'prevention': pestData.prevention,
 					'signs': pestData.signs,
+					'production': inProduction,
 					'currentpage': currentpage
 				});
 			});
@@ -288,6 +299,7 @@ if (__dirname.indexOf('MAMP') !== -1) {
 								'pests': pests,
 								'faqs': faqs,
 								'faqcategories': faqcategories,
+								'production': inProduction,
 								'currentpage': currentpage
 							});
 						});
@@ -529,6 +541,7 @@ app.use(function(request, response, next) {
 				'hero_subtitle': page.hero_subtitle,
 				'content': page.content,
 				'pagetitle': page.hero_title,
+				'production': inProduction,
 				'currentpage': currentpage
 			});
 		} else {
