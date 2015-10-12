@@ -544,7 +544,7 @@ app.use(function(request, response, next) {
 /* ==========================================================================
    Init Server
    ========================================================================== */
-server = app.listen(7889, function(){
+server = app.listen(port, function(){
 	var host = server.address().address,
 		port = server.address().port;
 	console.log('BugCleaners Server running on http://%s:%s', host, port);
