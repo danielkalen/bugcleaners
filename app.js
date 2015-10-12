@@ -24,6 +24,7 @@ var express = require('express'),
 if (__dirname.indexOf('MAMP') !== -1) {
 	inProduction = false;
 	port = 7889;
+	console.log('not in production', __dirname);
 }
 /* ==========================================================================
    Management page auth
