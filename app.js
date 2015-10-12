@@ -87,7 +87,8 @@ if (__dirname.indexOf('MAMP') !== -1) {
 	// ==== Main Page =================================================================================
 	app.get('/', function(request, response){
 		response.render('index', {
-			'reviews': request.reviewsDB
+			'reviews': request.reviewsDB,
+			'production': inProduction
 		});
 	});
 
