@@ -25,7 +25,7 @@ var email = require('emailjs/email.js'),
 				]
 			};
 			
-			emailServer.send(emailMessage, function(error, message){console.log(error||message)});
+			emailServer.send(emailMessage, function(error, message){if (error) console.log(error);});
 		};
 
 var emailTemplate = '<div id="body" style="background-color:#e3e3e3; width:100%; -webkit-text-size-adjust:none !important; margin:0; padding: 70px 0 70px 0;">\
