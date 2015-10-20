@@ -139,6 +139,7 @@
 			.addClass('closed')
 			.data('closed', true)
 			.data('new', true)
+			.data('slug', '')
 			.attr('id', '');
 		$clonedItem.find('.manage-content-list-item-title').html('New '+itemType);
 		$clonedItem.find('.manage-content-list-item-content-field-container').each(function(){
@@ -159,7 +160,7 @@
 		var $this = $(this),
 			item = $this.parents('.manage-content-list-item'),
 			collection = item.parent().attr('id'),
-			slug = item.data('slug'),
+			slug = item.data('slug') || item.find('input[name="slug"]').val(),
 			id = item.attr('id'),
 			isNew = item.data('new'),
 			isNew = isNew ? isNew : false,
