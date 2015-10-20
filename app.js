@@ -64,7 +64,7 @@ var express = require('express'),
 	}
 	app.use(function(request, response, next){
 		if (/^www\./.test(request.headers.host)) {
-			response.redirect(request.protocol+'://'+request.headers.host.replace(/^www\./, '')+request.url, 301);
+			response.redirect(301, request.protocol+'://'+request.headers.host.replace(/^www\./, '')+request.url);
 		} else {
 			next();
 		}
