@@ -2,10 +2,15 @@
 // @codekit-prepend '_plugins/jquery-cache.js'
 // @codekit-prepend '_plugins/fastclick.js'
 // @codekit-prepend '_plugins/css_browser_selectors.js'
-// @codekit-prepend '_plugins/is.min.js'
 // @codekit-prepend '_parts-global/_helpers.js'
 // @codekit-prepend '_parts-global/_polyfills.js'
 
+var domReadyInterval = setInterval(function(){
+	if (document.readyState === 'complete') {
+		clearInterval(domReadyInterval);
+		document.documentElement.className += ' fonts-loaded';
+	}
+}, 60);
 
 
 
@@ -26,21 +31,9 @@ var	$window = $$(window),
 // ==== Init forms =================================================================================
 $$('form').each(function(){
 	var $this = jQuery(this),
-		name = $this.data('name'),
-		name = (name ? name : $this.data('action')),
 		options = {};
 
-	if (isContactPage) {
-		options['validateOnTyping'] = true;
-	}
-
-	if (window.forms[name] === undefined){
-		window.forms[name] = new Form($this, options);
-	} else {
-		var randomKey = util.random(6),
-			randomKey = '___'+randomKey.toString();
-		window.forms[name+randomKey] = new Form($this, options);
-	}
+	$this.data('Form', new Form($this, options));
 });	
 
 

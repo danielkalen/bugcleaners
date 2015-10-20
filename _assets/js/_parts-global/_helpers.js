@@ -492,6 +492,17 @@ function Util(){
 				month = dateBreakdown[2],
 				year = dateBreakdown[1];
 
+			if (typeof range === 'number') {
+				day = parseFloat(day) - range;
+				if (day < 1) { // Check if day is 0 or lower, which indicates that we must go to the previous month.
+					day = util.date.getMonthDaysLimit(parseFloat(month) - 2) + day;
+					month = parseFloat(month) - 1;
+					if (month < 1) { // Check if month is 0 or lower, which indicates that we must go to the previous year.
+						month = 12;
+						year = parseFloat(year) - 1;
+					}
+				}
+			}
 			if (range === 'week') {
 				day = parseFloat(day) - 6;
 				if (day < 1) { // Check if day is 0 or lower, which indicates that we must go to the previous month.
@@ -512,6 +523,8 @@ function Util(){
 			}
 			if (range === 'year') {
 				year = parseFloat(year) - 1;
+				month = parseFloat(month) + 1;
+				day = 1;
 			}
 
 			month = month.toString().length < 2 ? '0'+month : month;

@@ -270,6 +270,7 @@
 				if (type == false || !type) type = 'error';
 
 				$this.options.callbackOnResults();
+				$thisForm.trigger('submitted');
 				if ($results.length) $results.html('<div class="results-message '+type+'">' + response.message + '</div>');
 			}, 'json')
 					.fail(function(){

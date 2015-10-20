@@ -6,6 +6,7 @@ var express = require('express'),
 
 	compress = require('compression'),
 	bodyParser = require('body-parser'),
+	forceSSL = require('express-force-ssl'),
 	app = express(),
 
 	db = require('monk')('localhost:27017/bugcleaners'),
@@ -17,15 +18,9 @@ var express = require('express'),
 	Submissions = db.get('submissions'),
 	Emails = db.get('emails'),
 	Users = db.get('users'),
-	inProduction = true,
-	port = 8080;
+	inProduction = __dirname.includes('MAMP') ? false : true,
+	port = inProduction ? 8080 : 7889;
 
-// ==== Conditional Production Mode =================================================================================
-if (__dirname.indexOf('MAMP') !== -1) {
-	inProduction = false;
-	port = 7889;
-	console.log('not in production', __dirname);
-}
 /* ==========================================================================
    Management page auth
    ========================================================================== */
@@ -63,10 +58,19 @@ if (__dirname.indexOf('MAMP') !== -1) {
 	app.set('views', './_views'); 				// Set main views folder.
 	app.set('view engine', 'jade');				// Set templating engine to jade.
 	if (inProduction) {
+		console.log('In production');
+		app.use(forceSSL);
 		app.set('view cache', true);			// Enable cache for templating engine.
 	} else {
 		// require('express-debug')(app);
 	}
+	app.use(function(request, response, next){
+		if (/^www\./.test(request.headers.host)) {
+			response.redirect(request.protocol+'://'+request.headers.host.replace(/^www\./, '')+request.url, 301);
+		} else {
+			next();
+		}
+	});
 
 
 
@@ -346,7 +350,7 @@ if (__dirname.indexOf('MAMP') !== -1) {
 
 
 /* ==========================================================================
-   Ajax requerst handling
+   Ajax request handling
    ========================================================================== */
 
 app.post('/ajax', function(request, response){
