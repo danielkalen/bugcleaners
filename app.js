@@ -51,9 +51,9 @@ var express = require('express'),
 	app.use(express.static('public', {maxAge: 2592000000})); 			// Allow static files requests.
 	app.use(bodyParser.json());					// Enable JSON request parsing
 	app.use(bodyParser.urlencoded({extended:true}));
-	app.use(session({secret: 'bugcleaners', resave: false, }));
-	app.use(passport.initialize());
-	app.use(passport.session());
+	app.use('/manage', session({secret: 'bugcleaners', resave: false }));
+	app.use('/manage', passport.initialize());
+	app.use('/manage', passport.session());
 	app.set('views', './_views'); 				// Set main views folder.
 	app.set('view engine', 'jade');				// Set templating engine to jade.
 	if (inProduction) {
