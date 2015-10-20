@@ -62,20 +62,6 @@ var express = require('express'),
 	} else {
 		// require('express-debug')(app);
 	}
-	// app.use('/*', function(request, response, next){ // Expires Header
-	// 	response.header("Cache-Control", "public, max-age=2592000");
-	// 	response.header("Expires", new Date(Date.now() + 2592000000).toUTCString());
-	// 	next();
-	// });
-	// app.use(function(request, response, next){ // WWW redirect
-	// 	if (/^www\./.test(request.headers.host)) {
-	// 		console.log('Has www', request.headers.host);
-	// 		response.redirect(301, request.protocol+'://'+request.headers.host.replace(/^www\./, '')+request.url);
-	// 	} else {
-	// 		console.log('No www', request.toString().includes('www'));
-	// 		next();
-	// 	}
-	// });
 
 
 
