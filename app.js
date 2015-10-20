@@ -62,15 +62,15 @@ var express = require('express'),
 	} else {
 		// require('express-debug')(app);
 	}
-	app.use(function(request, response, next){
-		if (/^www\./.test(request.headers.host)) {
-			console.log('Has www', request.headers.host);
-			response.redirect(301, request.protocol+'://'+request.headers.host.replace(/^www\./, '')+request.url);
-		} else {
-			console.log('No www', request.headers.host);
-			next();
-		}
-	});
+	// app.use(function(request, response, next){
+	// 	if (/^www\./.test(request.headers.host)) {
+	// 		console.log('Has www', request.headers.host);
+	// 		response.redirect(301, request.protocol+'://'+request.headers.host.replace(/^www\./, '')+request.url);
+	// 	} else {
+	// 		console.log('No www', request.toString().includes('www'));
+	// 		next();
+	// 	}
+	// });
 
 
 
