@@ -59,7 +59,7 @@ var express = require('express'),
 	app.set('view engine', 'jade');				// Set templating engine to jade.
 	if (inProduction) {
 		console.log('In production');
-		app.use(forceSSL);
+		// app.use(forceSSL);
 		app.set('view cache', true);			// Enable cache for templating engine.
 	} else {
 		// require('express-debug')(app);
