@@ -6,7 +6,6 @@ var express = require('express'),
 
 	compress = require('compression'),
 	bodyParser = require('body-parser'),
-	forceSSL = require('express-force-ssl'),
 	app = express(),
 
 	db = require('monk')('localhost:27017/bugcleaners'),
@@ -59,7 +58,6 @@ var express = require('express'),
 	app.set('view engine', 'jade');				// Set templating engine to jade.
 	if (inProduction) {
 		console.log('In production');
-		// app.use(forceSSL);
 		app.set('view cache', true);			// Enable cache for templating engine.
 	} else {
 		// require('express-debug')(app);
