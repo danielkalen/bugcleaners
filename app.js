@@ -50,7 +50,7 @@ var express = require('express'),
 	app.use(compress());						// Use Gzip
 	app.use(bodyParser.json());					// Enable JSON request parsing
 	app.use(bodyParser.urlencoded({extended:true}));
-	app.use(express.static('public')); 			// Allow static files requests.
+	app.use(express.static('public', {maxAge: 2592000000})); 			// Allow static files requests.
 	app.use(session({secret: 'bugcleaners', resave: false, }));
 	app.use(passport.initialize());
 	app.use(passport.session());
@@ -62,7 +62,12 @@ var express = require('express'),
 	} else {
 		// require('express-debug')(app);
 	}
-	// app.use(function(request, response, next){
+	// app.use('/*', function(request, response, next){ // Expires Header
+	// 	response.header("Cache-Control", "public, max-age=2592000");
+	// 	response.header("Expires", new Date(Date.now() + 2592000000).toUTCString());
+	// 	next();
+	// });
+	// app.use(function(request, response, next){ // WWW redirect
 	// 	if (/^www\./.test(request.headers.host)) {
 	// 		console.log('Has www', request.headers.host);
 	// 		response.redirect(301, request.protocol+'://'+request.headers.host.replace(/^www\./, '')+request.url);
