@@ -48,9 +48,9 @@ var express = require('express'),
    Middleware
    ========================================================================== */
 	app.use(compress());						// Use Gzip
+	app.use(express.static('public', {maxAge: 2592000000})); 			// Allow static files requests.
 	app.use(bodyParser.json());					// Enable JSON request parsing
 	app.use(bodyParser.urlencoded({extended:true}));
-	app.use(express.static('public', {maxAge: 2592000000})); 			// Allow static files requests.
 	app.use(session({secret: 'bugcleaners', resave: false, }));
 	app.use(passport.initialize());
 	app.use(passport.session());
