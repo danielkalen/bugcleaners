@@ -4,6 +4,7 @@
 // @codekit-prepend '_plugins/css_browser_selectors.js'
 // @codekit-prepend '_parts-global/_helpers.js'
 // @codekit-prepend '_parts-global/_polyfills.js'
+// @codekit-prepend '_parts-global/fonts_dynamic_loading.js'
 
 var domReadyInterval = setInterval(function(){
 	if (document.readyState === 'complete') {
