@@ -2,7 +2,10 @@ ul.manage-content-list.show.pages#pages
 	h4.manage-content-list-title Pages
 	
 	each page in pages
-		li.manage-content-list-item(id!=page._id, data-slug!=page.slug)
+		- hasDisabledProp = typeof page.disabled === 'undefined' ? false : page.disabled;
+		- disabled = hasDisabledProp ? 'disabled' : '';
+		li.manage-content-list-item(id!=page._id, data-slug!=page.slug, class!=disabled)
+			.manage-content-list-item-disable.disable_item
 			.manage-content-list-item-toggle
 			h6.manage-content-list-item-title!= page.hero_title
 			.manage-content-list-item-content

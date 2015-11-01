@@ -2,7 +2,10 @@ ul.manage-content-list.faqcategories#faqcategories
 	h4.manage-content-list-title FAQ Categories
 	
 	each category in faqcategories
-		li.manage-content-list-item(id!=category._id, data-slug!=category.slug)
+		- hasDisabledProp = typeof category.disabled === 'undefined' ? false : category.disabled;
+		- disabled = hasDisabledProp ? 'disabled' : '';
+		li.manage-content-list-item(id!=category._id, data-slug!=category.slug, class!=disabled)
+			.manage-content-list-item-disable.disable_item
 			.manage-content-list-item-toggle
 			h6.manage-content-list-item-title!= category.name
 			.manage-content-list-item-content

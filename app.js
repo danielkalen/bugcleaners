@@ -51,9 +51,9 @@ var express = require('express'),
 	app.use(express.static('public', {maxAge: 2592000000})); 			// Allow static files requests.
 	app.use(bodyParser.json());					// Enable JSON request parsing
 	app.use(bodyParser.urlencoded({extended:true}));
-	app.use('/manage', session({secret: 'bugcleaners', resave: false }));
-	app.use('/manage', passport.initialize());
-	app.use('/manage', passport.session());
+	app.use('(/manage|/ajax)', session({secret: 'bugcleaners', resave: false }));
+	app.use('(/manage|/ajax)', passport.initialize());
+	app.use('(/manage|/ajax)', passport.session());
 	app.set('views', './_views'); 				// Set main views folder.
 	app.set('view engine', 'jade');				// Set templating engine to jade.
 	if (inProduction) {
@@ -436,7 +436,7 @@ app.post('/ajax', function(request, response){
 			ajaxResponse.message = 'Not Authorized.';
 		} else {
 			ajaxResponse.success = true;
-			ajaxResponse.message = 'Post Saved/Updated.';
+			ajaxResponse.message = 'Item Saved/Updated.';
 		}
 		response.json(ajaxResponse);
 		
@@ -468,7 +468,7 @@ app.post('/ajax', function(request, response){
 			ajaxResponse.message = 'Not Authorized.';
 		} else {
 			ajaxResponse.success = true;
-			ajaxResponse.message = 'Post Deleted.';
+			ajaxResponse.message = 'Item Deleted.';
 		}
 		response.json(ajaxResponse);
 		
@@ -486,6 +486,36 @@ app.post('/ajax', function(request, response){
 			}
 		}
 	}
+
+	if (action === 'disable_item') {
+		var ajaxResponse = {},
+			authenticated = request.isAuthenticated();
+		if (!authenticated) {
+			ajaxResponse.success = false;
+			ajaxResponse.message = 'Not Authorized.';
+		} else {
+			ajaxResponse.success = true;
+			ajaxResponse.message = 'Item Disabled.';
+		}
+		response.json(ajaxResponse);
+		
+		if (authenticated) {
+			var collection = db.get(params.collection),
+				slug = params.slug,
+				disable = params.disable === 'true' ? true : false,
+				isFAQ = params.faq === 'true';
+			
+			if (collection) {
+				if (isFAQ) {
+					collection.update({'question': slug}, {$set: {'disabled': disable}});
+				} else {
+					collection.update({'slug': slug}, {$set: {'disabled': disable}});
+				}
+			}
+		}
+	}
+
+	response.end();
 });
 
 
@@ -531,7 +561,7 @@ app.use(function(request, response, next) {
 	var url = request.url.slice(1);
 
 	Pages.findOne({'slug': url}, function(error, page){
-		if (page) {
+		if (page && !page.disabled) {
 			var currentpage = request.hostname + request.originalUrl;
 			response.render('plain', {
 				'hero_title': page.hero_title,

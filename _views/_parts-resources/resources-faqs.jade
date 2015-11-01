@@ -26,9 +26,11 @@
 			
 			ul.resources-faqs-list-innerwrap
 				each faq in faqList.items
-					li.resources-faqs-list-item(itemscope, itemtype="http://schema.org/Question")
-						h6.resources-faqs-list-item-question(itemprop="name")!= faq.question
-						.resources-faqs-list-item-answer(itemprop="acceptedAnswer")!= faq.answer
+					- disabled = typeof faq.disabled === 'undefined' ? false : faq.disabled;
+					if (!disabled)
+						li.resources-faqs-list-item(itemscope, itemtype="http://schema.org/Question")
+							h6.resources-faqs-list-item-question(itemprop="name")!= faq.question
+							.resources-faqs-list-item-answer(itemprop="acceptedAnswer")!= faq.answer
 
 
 

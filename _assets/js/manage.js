@@ -264,6 +264,35 @@
 		}
 
 	});
+
+
+
+	/* ==========================================================================
+	   Disable item button
+	   ========================================================================== */
+	$$('.manage-content-list').on('click', '.disable_item', function(){
+		var $this = $(this),
+			item = $this.parent(),
+			collection = item.parent().attr('id'),
+			disable = item.hasClass('disabled') ? false : true,
+			isFAQ = collection === 'faqs',
+			slug = item.data('slug'),
+			id = item.attr('id');
+
+		dataToSend = {
+			'action': 'disable_item',
+			'id': id,
+			'slug': slug,
+			'disable': disable,
+			'faq': isFAQ,
+			'collection': collection
+		}
+		
+		$.post('/ajax', dataToSend, function(response){
+			if (response.success) item.toggleClass('disabled');
+		}, 'JSON');
+
+	});
 	
 	
 	

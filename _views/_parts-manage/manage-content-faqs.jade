@@ -15,7 +15,10 @@ ul.manage-content-list.faqs#faqs
 	h4.manage-content-list-title FAQs
 	
 	each faq in faqs
-		li.manage-content-list-item(id!=faq._id, data-slug!=faq.question)
+		- hasDisabledProp = typeof faq.disabled === 'undefined' ? false : faq.disabled;
+		- disabled = hasDisabledProp ? 'disabled' : '';
+		li.manage-content-list-item(id!=faq._id, data-slug!=faq.question, class!=disabled)
+			.manage-content-list-item-disable.disable_item
 			.manage-content-list-item-toggle
 			h6.manage-content-list-item-title!= faq.question
 			.manage-content-list-item-content

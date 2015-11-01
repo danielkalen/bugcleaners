@@ -5,7 +5,10 @@ ul.manage-content-list.pests#pests
 	h4.manage-content-list-title Pests
 	
 	each pest in pests
-		li.manage-content-list-item(id!=pest._id, data-slug!=pest.slug)
+		- hasDisabledProp = typeof pest.disabled === 'undefined' ? false : pest.disabled;
+		- disabled = hasDisabledProp ? 'disabled' : '';
+		li.manage-content-list-item(id!=pest._id, data-slug!=pest.slug, class!=disabled)
+			.manage-content-list-item-disable.disable_item
 			.manage-content-list-item-toggle
 			h6.manage-content-list-item-title!= pest.name
 			.manage-content-list-item-content
