@@ -29,7 +29,7 @@ ul.manage-content-list.faqs#faqs
 					label.manage-content-list-item-content-field-label Answer
 					input.manage-content-list-item-content-field-input.input.editable(type="text", name="answer", value!=faq.answer)
 		
-				.manage-content-list-item-content-field-container.editable_of_array.half.first(data-name="categories")
+				.manage-content-list-item-content-field-container.editable_array.half.first(data-name="categories")
 					label.manage-content-list-item-content-field-label Categories
 					each category in faq.categories
 						- var current = faq.categories.pop();
