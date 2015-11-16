@@ -348,7 +348,7 @@ app.post('/ajax', function(request, response){
 	var params = request.body,
 		action = params.action,
 		adminName = 'Eric',
-		adminEmail = 'd@danielkalen.com';
+		adminEmail = 'info@bugcleaners.com';
 	
 	if (!action) {response.send('No Action Specified!'); response.end();}
 
