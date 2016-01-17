@@ -17,7 +17,7 @@ var express = require('express'),
 	Submissions = db.get('submissions'),
 	Emails = db.get('emails'),
 	Users = db.get('users'),
-	inProduction = __dirname.includes('MAMP') ? false : true,
+	inProduction = __dirname.includes('Projects') ? false : true,
 	port = inProduction ? 8080 : 7889;
 
 /* ==========================================================================

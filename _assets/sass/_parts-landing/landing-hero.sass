@@ -81,7 +81,7 @@
 
 	&-arrow
 		width: 45%
-		margin-top: 100px
+		margin-top: 110px
 		position: relative
 		// color: white
 		color: $primary
@@ -93,6 +93,9 @@
 			margin-top: 30px
 
 		&-text
+			position: absolute
+			+valign
+			max-width: 78%
 			font-size: 22px
 			font-weight: 600
 			+max(1100)
@@ -107,7 +110,8 @@
 		&-illus:after
 			+icon('b')
 			position: absolute
-			top: -11px
+			+valign
+			// top: -11px
 			right: 39px
 			display: block
 			font-size: 50px
