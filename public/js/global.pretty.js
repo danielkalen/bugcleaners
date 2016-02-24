@@ -3655,7 +3655,7 @@ if (!Promise) {
   });
 
   (function() {
-    var $mobileNav, $mobileNavItems, $mobileNavTrigger, HEADERHEIGHT, SAFETYMARGIN, revealItems, setMobileNavHeight;
+    var $mobileNav, $mobileNavItems, $mobileNavTrigger, HEADERHEIGHT, SAFETYMARGIN, lockPage, revealItems, setMobileNavHeight, unlockPage;
     $mobileNav = $$('.header-mobile_nav');
     $mobileNavItems = $$('.header-mobile_nav-list-item');
     $mobileNavTrigger = $$('.header-mobile_nav-trigger');
@@ -3663,6 +3663,17 @@ if (!Promise) {
     SAFETYMARGIN = 20;
     setMobileNavHeight = function() {
       return $mobileNav[0].style.height = ((window.innerHeight - HEADERHEIGHT) + SAFETYMARGIN) + 'px';
+    };
+    lockPage = function() {
+      if (window.pageYOffset > 0) {
+        $$('html, body').animate({
+          scrollTop: 0
+        }, 250);
+      }
+      return $$('body')[0].style.overflow = 'hidden';
+    };
+    unlockPage = function() {
+      return $$('body')[0].style.overflow = '';
     };
     revealItems = function() {
       var iteration;
@@ -3679,12 +3690,14 @@ if (!Promise) {
       var open;
       open = $mobileNavTrigger.data('open');
       if (open) {
+        unlockPage();
         $mobileNav[0].style = '';
         $mobileNavTrigger.add($mobileNav).removeClass('active rotate');
         setTimeout(function() {
           return $mobileNavItems.removeClass('reveal');
         }, 350);
       } else {
+        lockPage();
         setMobileNavHeight();
         $mobileNavTrigger.add($mobileNav).addClass('active');
         revealItems();

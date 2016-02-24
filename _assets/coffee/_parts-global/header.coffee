@@ -9,6 +9,14 @@ do ()-> # Mobile nav display logic
 	setMobileNavHeight = ()->
 		$mobileNav[0].style.height = ((window.innerHeight - HEADERHEIGHT) + SAFETYMARGIN)+'px'
 
+	lockPage = ()->
+		if window.pageYOffset > 0
+			$$('html, body').animate({scrollTop: 0}, 250)
+		$$('body')[0].style.overflow = 'hidden'
+	
+	unlockPage = ()-> 
+		$$('body')[0].style.overflow = ''
+
 	revealItems = ()->
 		iteration = 1
 		$mobileNavItems.each ()->
@@ -22,12 +30,14 @@ do ()-> # Mobile nav display logic
 		open = $mobileNavTrigger.data('open')
 
 		if open
+			unlockPage()
 			$mobileNav[0].style = ''
 			$mobileNavTrigger.add($mobileNav).removeClass('active rotate')
 			setTimeout ()->
 				$mobileNavItems.removeClass('reveal')
 			, 350
 		else
+			lockPage()
 			setMobileNavHeight()
 			$mobileNavTrigger.add($mobileNav).addClass('active')
 			revealItems()

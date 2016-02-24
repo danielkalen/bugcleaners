@@ -7,6 +7,7 @@
 # @import '_parts-global/_polyfills.js'
 # @import '_parts-global/form-engine.js'
 # @import '_parts-global/ensure-min_height.coffee'
+# @import '_parts-global/header.coffee'
 # @import _plugins/sortable.js
 
 $window = $$(window)

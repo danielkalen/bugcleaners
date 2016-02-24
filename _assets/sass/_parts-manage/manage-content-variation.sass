@@ -41,6 +41,7 @@
 		font-weight: 600
 		color: $primary
 		cursor: pointer
+		+user-select(none)
 		transition: all 0.25s
 		.closed &
 			color: $faqcolor
@@ -67,6 +68,8 @@
 
 		&-fieldset
 			+fieldset($style:new, $inputHeight:52px, $textareaHeight: 150px, $margin:2.5%, $bgColor:$white, $textColor:$black, $borderColor:$divider, $labelColor:lighten($black, 45), $fontSize:14px, $labelSize:10px, $iconSize:12px, $widthRules:true)
+			+max(520)
+				width: 100% !important
 
 			&.reviews
 				padding: 0

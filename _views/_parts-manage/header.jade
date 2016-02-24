@@ -16,3 +16,17 @@ header#masthead.header
 					a.header-nav-item(href="/manage/leads") Leads
 				div.header-button.logout
 					.header-button-text Logout
+
+				.header-mobile_nav-trigger
+					.header-mobile_nav-trigger-icon
+						.header-mobile_nav-trigger-icon-bar.first
+						.header-mobile_nav-trigger-icon-bar.second
+						.header-mobile_nav-trigger-icon-bar.third
+
+	.header-mobile_nav
+		unless isLoginPage
+			.header-mobile_nav-list
+				a.header-mobile_nav-list-item(href="/manage") Pages
+				a.header-mobile_nav-list-item(href="/manage/posts") Posts
+				a.header-mobile_nav-list-item(href="/manage/leads") Leads
+				a.header-mobile_nav-list-item.logout(href="#") Logout

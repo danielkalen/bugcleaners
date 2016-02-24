@@ -104,15 +104,17 @@ router.get '/manage/logout', (req, res)->
 router.get '/manage/pages', require('connect-ensure-login').ensureLoggedIn('/manage/login'), (req, res)->
 	currentPage = req.hostname + req.originalUrl
 	Pages.find {}, (error, pages)->
-		res.render 'manage',
-			# 'pages': filterImageFields(pages)
-			'pages': pages
-			'production': inProduction
-			'fieldSchemas': SETTINGS.fieldSchemas
-			'currentPage': currentPage
-			'bodyClass': 'pages'
-			'settings': SETTINGS
-			'app': SETTINGS.app
+		Posts.find {}, (error, posts)->
+			res.render 'manage',
+				# 'pages': filterImageFields(pages)
+				'pages': pages
+				'posts': posts
+				'production': inProduction
+				'fieldSchemas': SETTINGS.fieldSchemas
+				'currentPage': currentPage
+				'bodyClass': 'pages'
+				'settings': SETTINGS
+				'app': SETTINGS.app
 
 
 
