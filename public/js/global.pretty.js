@@ -3655,23 +3655,49 @@ if (!Promise) {
   });
 
   (function() {
-    var $mobileNav, $mobileNavClose, $mobileNavOverlay;
-    $mobileNav = $$('.mobile-nav');
-    $mobileNavClose = $$('.mobile-nav-close');
-    $mobileNavOverlay = $$('.mobile-nav-overlay');
-    $mobileNav.on('click', function() {
-      var clicked, task;
-      clicked = $mobileNav.data('clicked');
-      task = !clicked ? 'add' : 'remove';
-      $mobileNavOverlay[task + "Class"]('show');
-      return $mobileNav.data('clicked', !clicked);
+    var $mobileNav, $mobileNavItems, $mobileNavTrigger, HEADERHEIGHT, SAFETYMARGIN, revealItems, setMobileNavHeight;
+    $mobileNav = $$('.header-mobile_nav');
+    $mobileNavItems = $$('.header-mobile_nav-list-item');
+    $mobileNavTrigger = $$('.header-mobile_nav-trigger');
+    HEADERHEIGHT = 98;
+    SAFETYMARGIN = 20;
+    setMobileNavHeight = function() {
+      return $mobileNav[0].style.height = ((window.innerHeight - HEADERHEIGHT) + SAFETYMARGIN) + 'px';
+    };
+    revealItems = function() {
+      var iteration;
+      iteration = 1;
+      return $mobileNavItems.each(function() {
+        return setTimeout((function(_this) {
+          return function() {
+            return $(_this).addClass('reveal');
+          };
+        })(this), 150 * iteration++);
+      });
+    };
+    $mobileNavTrigger.on('click', function() {
+      var open;
+      open = $mobileNavTrigger.data('open');
+      if (open) {
+        $mobileNav[0].style = '';
+        $mobileNavTrigger.add($mobileNav).removeClass('active rotate');
+        setTimeout(function() {
+          return $mobileNavItems.removeClass('reveal');
+        }, 350);
+      } else {
+        setMobileNavHeight();
+        $mobileNavTrigger.add($mobileNav).addClass('active');
+        revealItems();
+        setTimeout(function() {
+          return $mobileNavTrigger.addClass('rotate');
+        }, 250);
+      }
+      return $mobileNavTrigger.data('open', !open);
     });
-    return $mobileNavClose.on('click', function(event) {
-      var clicked;
-      event.stopPropagation();
-      clicked = $mobileNav.data('clicked');
-      $mobileNavOverlay.removeClass('show');
-      return $mobileNav.data('clicked', !clicked);
+    return $$(window).on('resize', function() {
+      if ($mobileNav.hasClass('active')) {
+        return setMobileNavHeight();
+      }
     });
   })();
 
