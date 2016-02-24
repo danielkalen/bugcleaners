@@ -13,4 +13,4 @@ mixin pests_treated(values)
 				- var pestSlug = pest.toLowerCase().split(' ').join('_');
 				.pests_treated-list-item(class=pestSlug)
 					.pests_treated-list-item-icon
-					strong.pests_treated-list-item-name=pest
+					strong.pests_treated-list-item-name=pest.split('_').join(' ').replace(/\b(.)/g, function(entire, match){return match.toUpperCase()})
