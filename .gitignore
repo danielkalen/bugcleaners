@@ -11,3 +11,5 @@ data
 .codekit-cache
 
 *.sassc
+
+logfile
