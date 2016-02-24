@@ -4,6 +4,12 @@
 	background-image: url(../img/img-banner.jpg)
 	background-position: 50% 50%
 	background-size: cover
+	&.center
+		height: 420px
+		+max(800, height)
+			height: 380px
+		+max(520)
+			height: 360px
 	+max(1400)
 		background-image: url(../img/img-banner-medium.jpg)
 	+max(736)
@@ -30,7 +36,7 @@
 		width: 100%
 		height: 100%
 		background-color: $black
-		opacity: .9	
+		opacity: 0.9	
 
 
 	&-innerwrap
@@ -41,26 +47,46 @@
 		+center
 		padding: 50px 20px
 		box-sizing: border-box
+		.center &
+			position: absolute
+			+valign(52%)
+			left: 0
+			right: 0
+			+max(520)
+				top: 50%
+
 		+max(1024)
 			padding: 40px 20px
 
 
 
 	&-title
-		width: 100%
+		width: 85%
 		font-size: 44px
+		font-weight: 400
 		text-align: left
 		color: white
 		line-height: 1.25
+		.center &
+			text-align: center
+			width: 100%
+			max-width: 780px
+			+center
 		+max(1024)
 			font-size: 38px
+			.center &
+				max-width: 700px
 		+max(736)
 			font-size: 34px
 		+max(350)
 			font-size: 32px
 
-		&-highlight
+		b,
+		em,
+		strong
 			color: $primary
+			font-weight: 400
+			font-style: normal
 
 
 	&-subtitle
@@ -72,6 +98,11 @@
 		font-weight: 500
 		line-height: 1.4
 		opacity: 0.8
+		.center &
+			text-align: center
+			width: 90%
+			max-width: 600px
+			+center
 		+max(736)
 			margin-top: 0
 			font-size: 16px
@@ -118,8 +149,15 @@
 		cursor: pointer
 		transition: background-color 0.15s
 		+tap-animate($rgb: 255, $position: absolute)
+		.center &
+			position: relative
+			+unvalign
+			right: auto
+			+center(40px)
+		
 		+max(1024)
-			display: none
+			.left &
+				display: none
 
 		+max(736)
 			width: 160px

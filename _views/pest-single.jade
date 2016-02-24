@@ -1,0 +1,81 @@
+doctype html
+html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr', prefix='og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#')
+	head
+		meta(charset='UTF-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=0')
+		//- Begin Meta Data
+		link(rel="canonical", href=currentPage)
+		meta(property="og:url", content=currentPage)
+		link(rel="shortcut icon", href="/img/favicon.ico", type="image/x-icon")
+		meta(property="fb:admins", content=app.fb)
+		meta(property="og:title", content=pest.name+" | "+app.name)
+		meta(itemprop="name", content=pest.name+" | "+app.name)
+		meta(name="description", content=pest.short_desc)
+		meta(property="og:description", content=pest.short_desc)
+		//- End Meta data.
+		title=pest.name+" | "+app.name
+		link(rel='stylesheet', href='/css/global.css', type='text/css')
+		link(rel='stylesheet', href='/css/pest-single.css', type='text/css')
+		include ./_parts-global/takana.jade
+		include ./_parts-global/field-generator.jade
+		include ./_parts-global/sections.jade
+	body.pest(class=bodyClass)
+		#page
+			include ./_parts-page/header.jade
+			main.main
+				include ./_parts-page/hero.jade
+				+hero('left', '*'+pest.name+'* - Pest Knowledge Base', pest.short_desc, 'Get Free Quote')
+
+				.page
+					.wrapper_block
+						div.width_70
+							if pest.intro_paragraphs
+								.pest-intro!=markdown.render(pest.intro_paragraphs).body
+						
+							if pest.facts && pest.facts.length && pest.facts[0]
+								.pest-info.facts
+									h4.pest-info-title Facts
+									ul.pest-info-list
+										each item in pest.facts
+											if item
+												li.pest-info-list-item= item.charAt(item.length - 1) === '.' ? item : item + '.'
+							
+							if pest.signs && pest.signs.length && pest.signs[0]
+								.pest-info.signs
+									h4.pest-info-title Warning Signs
+									ul.pest-info-list
+										each item in pest.signs
+											if item
+												li.pest-info-list-item= item.charAt(item.length - 1) === '.' ? item : item + '.'
+						
+							if pest.preventions && pest.preventions.length && pest.preventions[0]
+								.pest-info.prevention
+									h4.pest-info-title Prevention
+									ul.pest-info-list
+										each item in pest.preventions
+											if item
+												li.pest-info-list-item= item.charAt(item.length - 1) === '.' ? item : item + '.'
+							
+
+						div.width_30
+							-if (pest.image)
+								.pest_image
+									.pest_image-innerwrap
+										img.pest_image-photo(src=pest.image || '/img/pests/'+pest.slug+'.jpg', alt=pest.name+' - BugCleaners')
+										.pest_image-text= 'Click to see how '+pest.name+' look like.'
+							
+							-if (pest.sidebar_blocks && pest.sidebar_blocks.length)
+								each block in pest.sidebar_blocks
+									aside.pest-sidebar_block
+										.pest-sidebar_block-innerwrap
+											h5.pest-sidebar_block-title!=markdown.render(block.title).body
+											.pest-sidebar_block-content!=markdown.render(block.content).body
+
+			include ./_parts-sections/cta_divider.jade
+			+cta_divider
+			
+					
+			include ./_parts-page/footer.jade
+		script(type='text/javascript', src='/js/global.js')
+		script(type='text/javascript', src='/js/pest-single.js')
+		include ./_parts-global/analytics.jade

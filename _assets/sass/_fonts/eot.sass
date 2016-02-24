@@ -1,24 +1,36 @@
-=font-face($name, $font-files, $eot: false, $weight: false, $style: false)
+=font-face($name, $font-file, $type, $base64: true, $eot: false, $weight: false, $style: false)
+  @if $type == 'woff'
+    $prefix: 'data:application/font-ttf;charset=utf-8;base64,'
+    $b64type: 'woff'
+  @elseif $type == 'ttf'
+    $prefix: 'data:application/font-ttf;charset=utf-8;base64,'
+    $b64type: 'truetype'
+  @elseif $type == 'eot'
+    $prefix: 'data:font/opentype;charset=utf-8;base64,'
+    $b64type: 'embedded-opentype'
   $iefont: unquote("#{$eot}?#iefix")
   @font-face
     font-family: quote($name)
-    @if $eot
-      src: font-url($eot)
-      $font-files: font-url($iefont) unquote("format('embedded-opentype')"), $font-files
-    src: $font-files
+
+    @if $base64
+      src: unquote("url(#{$prefix}#{$font-file})") unquote("format('#{$b64type}')")
+    @else
+      src: unquote("url(#{$font-file})") unquote("format('#{$b64type}')")
+    
     @if $weight
       font-weight: $weight
     @if $style
       font-style: $style
 
 
-+font-face('Avenir', inline-font-files('AvenirLTStd-Book.eot'), $weight: 400)
-+font-face('Avenir', inline-font-files('AvenirLTStd-Medium.eot'), $weight: 500)
-+font-face('Avenir', inline-font-files('AvenirLTStd-Heavy.eot'), $weight: 600)
-+font-face('Avenir', inline-font-files('AvenirLTStd-Black.eot'), $weight: 700)
 
-+font-face('proxima', inline-font-files('proximanova-light.eot'), $weight: 300)
-+font-face('proxima', inline-font-files('proximanova-regular.eot'), $weight: 400)
-+font-face('proxima', inline-font-files('proximanova-semibold.eot'), $weight: 600)
-+font-face('proxima', inline-font-files('proximanova-bold.eot'), $weight: 700)
-+font-face('proxima', inline-font-files('proximanova-extrabold.eot'), $weight: 800)
++font-face('Avenir', base64Font('AvenirLTStd-Book.eot'), $type:'eot', $weight: 400)
++font-face('Avenir', base64Font('AvenirLTStd-Medium.eot'), $type:'eot', $weight: 500)
++font-face('Avenir', base64Font('AvenirLTStd-Heavy.eot'), $type:'eot', $weight: 600)
++font-face('Avenir', base64Font('AvenirLTStd-Black.eot'), $type:'eot', $weight: 700)
+
+// +font-face('proxima', base64Font('proximanova-light.eot'), $type:'eot', $weight: 300)
++font-face('proxima', base64Font('proximanova-regular.eot'), $type:'eot', $weight: 400)
+// +font-face('proxima', base64Font('proximanova-semibold.eot'), $type:'eot', $weight: 600)
++font-face('proxima', base64Font('proximanova-bold.eot'), $type:'eot', $weight: 700)
+// +font-face('proxima', base64Font('proximanova-extrabold.eot'), $type:'eot', $weight: 800)

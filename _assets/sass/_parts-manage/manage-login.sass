@@ -3,24 +3,23 @@
 		width: 100%
 		max-width: 500px
 		+center
-		padding: 50px
+		padding: 45px 50px
 		background-color: white
 		border: 1px solid $divider
 		border-radius: 4px
 		box-sizing: border-box
 
 		&-fieldset
-			+fieldset
+			+fieldset($inputHeight: 50px, $bgColor: $subwhite, $textColor:$black, $borderColor:transparent, $fontSize: 15.1px, $placeholder:true, $labelMargin: 12px)
 		
-		+form-button($buttonHeight: 50px, $buttonColor: $divider-dark, $margin-top:20px, $arrow: false)
 		
 		&-button
+			+form-button($buttonHeight: 50px, $buttonColor: $divider-dark, $margin-top:20px, $arrow: false)
+			float: none
 			background-color: $primary
 			&:hover
 				background-color: darken($primary, 10)
 
 			&-text
-				font-size: 17px
 				text-transform: uppercase
-				font-family: proxima
 

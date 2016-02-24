@@ -4,6 +4,8 @@
 .main
 	// background-color: $subwhite
 	background-color: darken($white,2)
+	overflow-x: hidden
+	+overflow-touch
 
 .page_innerwrap
 	width: 100%
@@ -20,3 +22,5 @@
 	@import '_parts-manage/manage-login'
 	@import '_parts-manage/manage-sidebar'
 	@import '_parts-manage/manage-content'
+
+@import '_parts-manage/manage-leads'

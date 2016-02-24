@@ -1,0 +1,20 @@
+mixin cta_with_faqs(values)
+	-
+		var defaultValues = {
+			'title':'Get Your <b>Free Quote</b>',
+			'subtitle':'Instantly receive a bottom line quote.',
+			'form':{},
+			'faqs_small':[],
+			'benefit_points':[]
+		}; values = extend(defaultValues,values);
+
+	section.section.cta_with_faqs
+		.cta_with_faqs-innerwrap
+			h2.cta_with_faqs-title!=markdown.render(values.title).body
+			.cta_with_faqs-subtitle!=values.subtitle
+
+			+form(values.form)
+			.cta_with_faqs-support
+				+benefit_points(values.benefit_points)
+				+faqs_small(values.faqs_small)
+				

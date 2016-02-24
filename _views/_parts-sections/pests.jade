@@ -1,0 +1,13 @@
+mixin pests
+	.pests_list
+		.pests_list-innerwrap
+			each pest in pests
+				- disabled = typeof pest.disabled === 'undefined' ? false : pest.disabled;
+				if (!disabled)
+					a.pests_list-item(href="/pests/"+pest.slug, class=pest.slug)
+						.pests_list-item-icon
+							.pests_list-item-icon-img
+
+						.pests_list-item-text
+							h4.pests_list-item-text-title=pest.name
+							p.pests_list-item-text-content=pest.intro_paragraphs.slice(0, 140) + '...'

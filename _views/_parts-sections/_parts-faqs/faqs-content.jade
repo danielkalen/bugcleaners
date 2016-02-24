@@ -1,0 +1,35 @@
+-
+	var faqLists = {};
+
+	for (category in faq_categories) {
+	}
+	faq_categories.forEach(function(category){
+		faqLists[category.title] = {"title": category.title, "slug": category.slug, "items": []};
+	});
+	faqs.forEach(function(faq){
+		faq.categories.forEach(function(categoryName){
+			if (faqLists[categoryName] !== undefined) {
+				faqLists[categoryName].items.push(faq);
+			} else {
+				//- faqLists[categoryName] = [faq];
+			}
+		});
+	});
+
+.faqs-content
+	each faqList in faqLists
+		.faqs-content-list(id=faqList.slug)
+			//- .faqs-content-list-title!=faqList.title
+			h4.faqs-content-list-title!=faqList.title
+			
+			ul.faqs-content-list-innerwrap
+				- console.log(faqList)
+				each faq in faqList.items
+					if (faq.enabled)
+						li.faqs-content-list-item(itemscope, itemtype="http://schema.org/Question")
+							h6.faqs-content-list-item-question(itemprop="title")!= faq.question
+							.faqs-content-list-item-answer(itemprop="acceptedAnswer")!= faq.answer
+
+
+
+.clearfix

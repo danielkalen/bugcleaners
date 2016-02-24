@@ -1,0 +1,17 @@
+mixin cta_divider(values)
+	-
+		var defaultValues = {
+			'title':'Get Your *Free Quote*',
+			'subtitle':'Instantly receive a bottom line quote.',
+			'button_text':'Get Free Quote',
+			'color_scheme':'light'
+		}; values = extend(defaultValues,values);
+	
+	section.cta_divider(class=values.color_scheme)
+		.cta_divider-innerwrap
+			
+			h4.cta_divider-title!=markdown.render(values.title).body
+			.cta_divider-subtitle!=values.subtitle
+			
+			a.cta_divider-button(href="/get-quote")
+				.cta_divider-button-text!=values.button_text

@@ -1,0 +1,10 @@
+mixin hero(hero_style, hero_title, hero_subtitle, hero_button_text, hero_button_url)
+	.hero(class=hero_style)
+		.hero-innerwrap
+			h1.hero-title!=markdown.render(hero_title).body
+			if hero_subtitle
+				.hero-subtitle!=hero_subtitle
+			
+			a.hero-button(href=hero_button_url || "/get-quote")
+				.hero-button-text!=hero_button_text
+

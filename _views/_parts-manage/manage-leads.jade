@@ -1,0 +1,247 @@
+-
+	var columns = {
+		'checkbox': '<input type="checkbox" class="leads-table-checkbox">',
+		'date': 'Date',
+		'status': 'Status',
+		'source_page': 'Source Page',
+		'lead_contact': 'Lead Contact',
+		'lead_details': 'Lead Details',
+		'notes': 'Notes',
+		'browser_and_ip': 'Browser &amp; IP',
+		'actions': 'Actions'
+	};
+	var leadStatuses = {
+		'pending': 'Pending', 
+		'duplicate': 'Potential Duplicate', 
+		'partial': 'Partial Capture', 
+		'spam': 'Spam', 
+		'complete': 'Complete/Valid'
+	};
+
+mixin bulk
+	-
+		var bulkActions = {
+			'delete': 'Delete',
+			'mark_complete': 'Mark as Complete/Valid',
+			'unmark_complete': 'Mark as Incomplete/Invalid',
+			'mark_spam': 'Mark As Spam',
+			'unmark_spam': 'Mark As Not Spam',
+		}
+	//- each actionLabel, actionName in bulkActions
+	.leads-bulk
+		.leads-bulk-title Bulk Actions
+		+fieldGenerator({
+			'type': 'select',
+			'name': 'bulk-action',
+			'className': 'leads-bulk',
+			'label': 'Select Bulk Action',
+			'values': bulkActions
+		})
+		.leads-bulk-button
+			.leads-bulk-button-text Apply
+
+
+mixin navigation
+	-
+		var perPage = 30, 
+			currentPage = currentPageIndex || 1,
+			currentPage = parseInt(currentPage),
+			existingPages = Math.ceil(leadCount / perPage),
+			tooMany = (existingPages > 7 ? true:false),
+			lastPage, isStart, isEnd, isCloseToStart, isCloseToEnd, allowedNavItems;
+
+			if (tooMany) {
+				lastPage = parseInt(existingPages);
+				isStart = currentPage === 1 || currentPage === 2;
+				isEnd = currentPage === lastPage || currentPage === lastPage-1;
+				isCloseToStart = currentPage === 5;
+				isCloseToEnd = currentPage === lastPage-4;
+				isVeryCloseToStart = currentPage === 3 || currentPage === 4;
+				isVeryCloseToEnd = currentPage === lastPage-2 || currentPage === lastPage-3;
+				
+				if (isVeryCloseToStart) {
+					if (currentPage === 3) {
+						allowedNavItems = [1,2,(currentPage),(currentPage+1),'...',(lastPage-1), lastPage];
+					} else {
+						allowedNavItems = [1,2,(currentPage-1),(currentPage),(currentPage+1),'...',(lastPage-1), lastPage];
+					}
+				} else if (isVeryCloseToEnd) {
+					if (currentPage === lastPage-2) {
+						allowedNavItems = [1,2,'...',(currentPage-1),(currentPage),(lastPage-1),lastPage];
+					} else {
+						allowedNavItems = [1,2,'...',(currentPage-1),(currentPage),(currentPage+1),(lastPage-1),lastPage];
+					}
+				} else {
+					if (isCloseToStart) {
+						allowedNavItems = [1,2,3,(currentPage-1),(currentPage),(currentPage+1),'...',(lastPage-1),lastPage];
+					} else if (isCloseToEnd) {
+						allowedNavItems = [1,2,'...',(currentPage-1),(currentPage),(currentPage+1),(lastPage-2),(lastPage-1),lastPage];
+					} else {
+						if (isStart) {
+							allowedNavItems = [(currentPage-1),(currentPage),(currentPage+1),'...',(lastPage-1),lastPage];
+							if ( allowedNavItems[0] === 0 ) allowedNavItems.shift();
+						} else if (isEnd) {
+							allowedNavItems = [1,2,'...',(currentPage-1),(currentPage),(currentPage+1)];
+							lastInArray = allowedNavItems.length-1;
+							if ( allowedNavItems[lastInArray] === lastPage+1 ) allowedNavItems.pop();
+						} else { // All other cases
+							allowedNavItems = [1,2,'...',(currentPage-1),(currentPage),(currentPage+1),'...',(lastPage-1),lastPage];
+						}
+					}
+				}
+			} else {
+				allowedNavItems = [1,2,3,4,5,6,7];
+			}
+	
+	.leads-nav
+		- if (currentPage !== 1)
+			- var prevNavIndex = currentPage - 1;
+			a.leads-nav-item.back(href="/manage/leads/"+prevNavIndex)
+				.leads-nav-item-text
+
+		each navItem,index in allowedNavItems
+			-
+				var navItemIndex = index+1;
+					isActive = navItem === currentPage ? 'active':'',
+					navItemURL = navItem === '...' ? '#':"/manage/leads/"+navItem;
+			- if (existingPages >= navItem || navItem === '...')
+				a.leads-nav-item(class=isActive href=navItemURL)
+					.leads-nav-item-text=navItem
+
+
+		- if (currentPage !== existingPages)
+			- var nextNavIndex = existingPages;
+			a.leads-nav-item.next(href="/manage/leads/"+nextNavIndex)
+				.leads-nav-item-text
+
+
+
+form.leads(data-action="none")
+	.step.show
+		//- .leads-filters.filters_count-8
+		//- 	.leads-filters-title Filters
+		//- 	+fieldsetSelect('leads-filters', 'status', 'Status', 'Status', '', true, false, leadStatuses, '', '', false, false)
+		//- 	+fieldsetInput('leads-filters', 'source_page', 'Source Page', 'Source Page', '', true, false, '', '', '', false, false)
+		//- 	+fieldsetInput('leads-filters', 'variation', 'Variation', 'Variation', '', true, false, '', '', '', false, false)
+		//- 	+fieldsetInput('leads-filters', 'lead_contact', 'Lead Contact Contains', 'Lead Contact Contains', '', true, false, '', '', '', false, false)
+		//- 	+fieldsetInput('leads-filters', 'lead_details', 'Lead Details Contains', 'Lead Details Contains', '', true, false, '', '', '', false, false)
+		//- 	+fieldsetInput('leads-filters', 'ip', 'IP Address', 'IP Address', '', true, false, '', '', '', false, false)
+		//- 	+fieldsetInput('leads-filters', 'date_start', 'Date From', 'Date From', '', true, false, '', '', '', false, false)
+		//- 	+fieldsetInput('leads-filters', 'date_end', 'Date Until', 'Date Until', '', true, false, '', '', '', false, false)
+		
+		+navigation
+		table.leads-table.chart.horizontal
+			thead
+				each columnLabel,columnName in columns
+					th.thead-item(class=columnName)
+						.thead-item-icon
+						.thead-item-text!=columnLabel
+			
+			
+			tbody
+				if leads
+					each lead in leads
+						- lead._id = lead._id.toString();
+						tr(data-id=lead._id)
+							td.tbody-item.checkbox
+								input.leads-table-checkbox(type="checkbox" data-id=lead._id)
+							
+							-
+								var leadDate = new Date(lead.date),
+									displayYear = (leadDate.getMonth()+1)+'/'+('0'+leadDate.getDate()).slice(-2)+'/'+leadDate.getFullYear(),
+									displayHour = leadDate.getHours() > 12 ? leadDate.getHours()-12 : leadDate.getHours(),
+									displayAmPm = leadDate.getHours() > 12 ? 'PM':'AM',
+									displayTime = ('0'+displayHour).slice(-2)+':'+leadDate.getMinutes()+' '+displayAmPm,
+									displayDate = displayYear+'<br />'+displayTime;
+							td.tbody-item.date!=displayDate
+							
+
+							td.tbody-item.status
+								- lead.status = lead.status ? lead.status : 'pending'
+								.tbody-item-status(class=lead.status data-status=lead.status data-status_old=lead.status_old)
+									.tbody-item-status-text=leadStatuses[lead.status]
+							
+
+							td.tbody-item.source_page
+								.tbody-item-source!='<b>/'+lead.source_page+'</b><br />(variation #'+lead.currentVariation+')'
+							
+
+							td.tbody-item.lead_contact
+								.tbody-item-lead_details-item(data-field_name="full_name")
+									b Name:
+									.tbody-item-lead_details-item-value.lead-value=' '+lead.first_name+' '+lead.last_name
+									.tbody-item-lead_details-item-edit.lead-edit
+								.tbody-item-lead_details-item(data-field_name="email")
+									b Email:
+									.tbody-item-lead_details-item-value.lead-value=' '+lead.email
+									.tbody-item-lead_details-item-edit.lead-edit
+								.tbody-item-lead_details-item(data-field_name="phone")
+									b Phone:
+									.tbody-item-lead_details-item-value.lead-value=' '+lead.phone
+									.tbody-item-lead_details-item-edit.lead-edit
+
+						
+							td.tbody-item.lead_details
+								- var fieldsToOmit = ['_id', 'first_name', 'last_name', 'email', 'phone', 'currentVariation', 'source_page', 'form_type', 'action', 'url', 'referrer', 'status', 'date', 'ip', 'user_agent', 'full_name', 'notes'];
+								each fieldValue, fieldName in lead
+									- if (!fieldsToOmit.includes(fieldName))
+										- var fieldNameCaps = fieldName.replace(/[_-]/g, ' ').replace(/\b(.)/g, function(entire, match){return match.toUpperCase()});
+										.tbody-item-lead_details-item(data-field_name=fieldNameCaps)
+											b=fieldNameCaps+': '
+											.tbody-item-lead_details-item-value.lead-value=fieldValue
+											.tbody-item-lead_details-item-edit.lead-edit
+
+
+							td.tbody-item.notes
+								textarea.tbody-item-notes=lead.notes
+							
+							td.tbody-item.browser_and_ip
+								-
+									lead.user_agent = lead.user_agent || {browser: {'name': 'Unknown', 'version': 'N/A'}, os: {'name': 'Unknown', 'version': 'N/A'}}
+									var leadBrowser = lead.user_agent.browser,
+										leadDevice = lead.user_agent.os,
+										browser = 'unknown',
+										deviceType = lead.user_agent.device.type || 'desktop';
+									if (leadBrowser.name.toLowerCase().includes('safari')) 		browser = 'safari';
+									if (leadBrowser.name.toLowerCase().includes('firefox')) 	browser = 'firefox';
+									if (leadBrowser.name.toLowerCase().includes('chrome')) 		browser = 'chrome';
+									if (leadBrowser.name.toLowerCase().includes('internet')) 	browser = 'internet_explorer';
+									if (leadBrowser.name.toLowerCase().includes('ie')) 			browser = 'internet_explorer';
+									if (leadBrowser.name.toLowerCase().includes('edge')) 		browser = 'edge';
+									if (leadBrowser.name.toLowerCase().includes('android')) 	browser = 'android';
+
+								.tbody-item-browser_details(class=browser+' '+deviceType)
+									.tbody-item-browser_details-icon
+									.tbody-item-browser_details-version=leadBrowser.version.slice(0, 5)
+									.tbody-item-browser_details-text
+										.tbody-item-browser_details-text-row!="<b>Browser:</b> "+leadBrowser.name
+										.tbody-item-browser_details-text-row!="<b>Version:</b> "+leadBrowser.version
+										.tbody-item-browser_details-text-row!="<b>Device:</b> "+leadDevice.name+" ("+leadDevice.version+")"
+								
+								- lead.ip = lead.ip ? lead.ip.replace('::ffff:', '') : 'NO IP';
+								.tbody-item-ip
+								.tbody-item-ip_details(data-ip=lead.ip)
+									.tbody-item-ip_details-text
+										.tbody-item-ip_details-text-header!="<b>Address:</b> "+lead.ip
+										.tbody-item-ip_details-text-body Loading
+							
+
+							td.tbody-item.actions
+								- if (lead.status !== 'complete')
+									.tbody-item-actions-item.lead-action.complete(data-id=lead._id data-action="mark_complete")
+										.tbody-item-actions-item-text Mark Complete/Valid
+								- else
+									.tbody-item-actions-item.lead-action.uncomplete(data-id=lead._id data-action="unmark_complete")
+										.tbody-item-actions-item-text Mark Incomplete/Invalid
+
+								- if (lead.status === 'spam')
+									.tbody-item-actions-item.lead-action.unspam(data-id=lead._id data-action="unmark_spam")
+										.tbody-item-actions-item-text Mark as Not Spam
+								- else
+									.tbody-item-actions-item.lead-action.spam(data-id=lead._id data-action="mark_spam")
+										.tbody-item-actions-item-text Mark as Spam
+								
+								.tbody-item-actions-item.lead-action.delete(data-id=lead._id data-action="delete")
+									.tbody-item-actions-item-text Delete Lead
+		+bulk
+		+navigation

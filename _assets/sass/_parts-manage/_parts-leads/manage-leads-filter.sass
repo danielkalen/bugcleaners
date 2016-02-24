@@ -1,0 +1,124 @@
+&-filters
+	margin-bottom: 15px
+	width: 77%
+	// margin-top: 20px
+	+clearfix
+	float: left
+	+max(736)
+		float: none
+		width: 100%
+
+	&-title
+		font-size: 16px
+		font-weight: 600
+		margin-bottom: 3px
+
+	&-button
+		position: relative
+		top: 1px
+		display: block
+		float: left
+		width: 100px
+		height: 41px
+		background-color: $grey-light
+		border-radius: 2px
+		box-sizing: border-box
+		cursor: pointer
+		transition: 0.15s background-color
+		+user-select(none)
+		&:hover
+			background-color: $primary
+
+		&-text
+			position: absolute
+			+valign(53%)
+			width: 100%
+			line-height: 1
+			font-weight: 600
+			text-transform: uppercase
+			text-align: center
+			color: white
+
+
+	&-item 
+		float: left
+		margin-right: 10px
+		.filters_count-2 &,
+		.filters_count-3 &
+			width: perc(204, 832)
+			+max(736)
+				width: perc(271, 832)
+		.filters_count-5 &
+			width: perc(136, 832)
+			+max(736)
+				width: perc(237, 832)
+				margin-bottom: 6px
+		.filters_count-8 &
+			width: perc(164, 832)
+			margin-bottom: 10px
+			+max(736)
+				width: perc(183, 832)
+
+		&-title
+			position: absolute
+			z-index: 20
+			font-size: 10px
+			font-family: avenir
+			font-weight: 600
+			line-height: 1
+			color: $label-color
+			padding: 11px 11px 0
+			visibility: hidden
+			opacity: 0
+			transition: opacity 0.2s
+			.filled &
+				opacity: 1
+				visibility: visible
+			.focus &
+				color: $contrast-color
+			.error &
+				color: $error-color
+
+		&-input
+			-webkit-appearance: none
+			-moz-appearance: none
+			-ms-appearance: none
+			appearance: none
+			box-shadow: none !important
+			position: relative
+			z-index: 2
+			display: block
+			width: 100%
+			height: 42px !important
+			padding: 4px 10px 0 10px
+			background-color: white
+			border: 1px solid $divider
+			border-radius: 3px
+			box-sizing: border-box
+			font-family: avenir
+			font-size: 14px
+			font-weight: 500
+			// color: $grey-darker
+			transition: all 0.2s !important
+			+max(736)
+				font-size: 12px
+
+			.focus &
+				border-color: $contrast-color
+			.error &
+				border-color: $error-color
+			.filled &
+				padding: 16px 10px 0 10px
+
+		select
+			padding: 4px 10px 0 5px
+			color: darken($grey-light, 6)
+		.webkit & select
+			padding: 4px 10px 0 9px
+
+		&.filled select
+			padding: 16px 10px 0 5px
+			// color: $grey-darker
+		.webkit &.filled select
+			padding: 15px 10px 0 9px
+

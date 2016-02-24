@@ -32,12 +32,17 @@
 		font-weight: 600
 		font-size: 18px
 		color: $text
-		&-highlight
-			color: $primary
 		+max(736)
 			font-size: 16px
 		+max(620)
 			display: none
+		
+		b,
+		em,
+		strong
+			color: $primary
+			font-weight: 600
+			font-style: normal
 
 	&-nav
 		position: absolute
@@ -101,6 +106,34 @@
 				text-align: center
 				color: white
 				+user-select(none)
+
+
+	&-button
+		+valign
+		position: relative
+		display: block
+		float: right
+		width: 110px
+		height: 37px
+		background-color: $primary
+		border-radius: 3px
+		box-sizing: border-box
+		+user-select(none)
+		+max(736)
+			display: none
+
+		&-text
+			position: absolute
+			+valign(57%)
+			width: 100%
+			font-weight: 800
+			font-size: 14px
+			line-height: 1
+			letter-spacing: 0.8px
+			text-align: center
+			// color: $black
+			text-transform: uppercase
+			color: white
 
 
 

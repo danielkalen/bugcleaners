@@ -1,0 +1,88 @@
+&-actions-item
+	position: relative
+	display: inline-block
+	+size(25)
+	margin-top: 4px
+	margin-left: 4px
+	background-color: lighten($grey-lighter, 13)
+	border: 1px solid $divider
+	box-sizing: border-box
+	border-radius: 2px
+	cursor: pointer
+	&:first-child
+		margin-left: 0
+	+max(736)
+		+size(33)
+		margin: 5px 3px 0
+	
+	// Icon
+	&:before
+		+icon('')
+		position: absolute
+		+valign(51.5%)
+		display: block
+		width: 100%
+		text-align: center
+		// color: $contrast
+
+	&.complete:before
+		content: 'H'
+		font-size: 14px
+		color: $pros
+	&.uncomplete:before
+		content: 'C'
+		font-size: 14px
+		color: $pros
+	&.spam:before
+		content: '6'
+		font-size: 14px
+		color: $primary
+	&.unspam:before
+		content: '!'
+		font-size: 14px
+		color: $pros
+	&.delete:before
+		content: '7'
+		font-size: 14px
+		color: $cons
+	
+
+	&-text
+		position: absolute
+		z-index: 10
+		+halign
+		top: 33px
+		display: block
+		// width: 52px
+		padding: 6px 8px 5px
+		border-radius: 2px
+		background-color: $black
+		font-family: avenir
+		font-weight: 700
+		line-height: 1
+		font-size: 10px
+		letter-spacing: .4px
+		text-transform: uppercase
+		color: white
+		+arrow($side: "top", $align: "center", $size: 5px, $color: $black, $borderColor: "none", $borderSize: 3px)
+		opacity: 0
+		visibility: hidden
+		transition: opacity 0.20s linear 0.25s, visibility 0.20s linear 0.25s
+		.has_list &
+			width: 160px
+
+		&-list
+			width: 100%
+			margin-top: 10px
+			text-transform: none
+			&-title
+				margin-bottom: 5px
+
+			&-item
+				margin-bottom: 3px
+				+ellipsis(90%)
+
+	&:hover &-text
+		visibility: visible
+		opacity: 1
+

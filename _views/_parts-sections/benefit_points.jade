@@ -1,0 +1,6 @@
+mixin benefit_points(items)
+	.benefit_points
+		for item in items
+			.benefit_points-item(class=item.icon)
+				.benefit_points-item-icon
+				.benefit_points-item-text!=item.text

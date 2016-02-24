@@ -1,4 +1,7 @@
+@import 'manage-content-mixins'
+
 &-content
+	position: relative
 	$faqcolor: lighten($black, 10)
 	float: right
 	width: 73%
@@ -14,6 +17,7 @@
 			margin-bottom: 0
 		+max(736)
 			margin-bottom: 50px
+
 		
 		// List title
 		&-title
@@ -24,279 +28,219 @@
 			font-weight: 600
 			color: $primary
 			line-height: 1
+			transition: color 0.25s
 			+max(520)
 				font-size: 26px
+			.disabled &
+				color: rgba(0,0,0,0.3)
 
-		&-item
-			position: relative
-			// overflow: hidden
-			margin-bottom: 15px
-			background-color: white
-			padding: 14px 20px
-			box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.13)
-			box-sizing: border-box
-			cursor: pointer
-			opacity: 1
-			transition: height 0.35s, opacity 0.35s
-			+tap-highlight
-			&.disabled
-				opacity: 0.6
-
-			&-disable
-				position: absolute
-				+valign(51%)
-				+size(18)
-				right: -28px
-				color: $divider-dark
-				transition: color 0.25s
-				.disabled &
-					color: $error-color
-				&:hover
-					color: darken($divider-dark, 10)
-				&:after
-					+icon('C')
-					font-size: 18px
-
-			&-toggle
-				position: absolute
-				z-index: 2
-				right: 12px
-				+valign
-				+size(20)
-				cursor: pointer
-
-				&:after // Plus Icon
-					+icon('i')
-					position: absolute
-					+valign
-					right: 0
-					// right: 12px
-					font-size: 17px
-					color: $faqcolor
-					cursor: pointer
-					+transform(rotate(45deg) translateY(-50%))
-					+transform-origin(50% 0%)
-					transition: all 0.25s
-
-					.closed &
-						+transform(translateY(-50%))
-						+transform-origin(50% 50%)
+			&-text
+				display: inline-block
 			
-			// Item title
-			&-title
+			&-page_action
 				position: relative
+				display: inline-block
 				top: 2px
-				width: 92%
-				font-size: 22px
-				font-weight: 600
-				color: $primary
-				cursor: pointer
-				transition: all 0.25s
-				.closed &
-					color: $faqcolor
-					&:hover
-						color: $primary
-				+max(736)
-					font-size: 16px
-
-			&-content
-				position: relative
-				padding-top: 20px
-				padding-bottom: 10px
-				padding-right: 60px
-				font-size: 14px
-				font-weight: 500
-				line-height: 1.3
-				color: $text
+				+size(21)
+				left: 11px
+				margin-right: 10px
+				color: $divider-dark
 				opacity: 0
-				transition: opacity 0.25s
-				display: none
+				transition: color 0.25s, opacity 0.25s
+				.disabled &
+					opacity: 1
+					&.disable_page
+						color: $error-color
+				
+				&.disable_page:hover
+					color: darken($divider-dark, 15)
+				&.clone_page:hover
+					color: $primary
+				&.delete_page:hover
+					color: $error-color
+				
+				&:after
+					position: absolute
+					font-size: 21px
+					font-weight: 400
+				&.disable_page:after
+					+icon('!')
+				&.clone_page:after
+					+icon('8')
+				&.delete_page:after
+					+icon('C')
 
-				.show &
+				&-text
+					position: absolute
+					z-index: 10
+					+halign
+					bottom: 33px
+					display: block
+					// width: 52px
+					padding: 6px 8px 5px
+					border-radius: 2px
+					background-color: $black
+					font-family: avenir
+					font-weight: 700
+					line-height: 1
+					font-size: 10px
+					letter-spacing: .4px
+					text-transform: uppercase
+					color: white
+					+arrow($side: "bottom", $align: "center", $size: 5px, $color: $black, $borderColor: "none", $borderSize: 3px)
+					opacity: 0
+					visibility: hidden
+					transition: opacity 0.20s linear 0.25s, visibility 0.20s linear 0.25s
+					.has_list &
+						width: 160px
+
+				&:hover &-text
+					visibility: visible
 					opacity: 1
 
-				&-field-container
-					position: relative
-					width: 100%
-					margin-bottom: 30px
-					+clearfix
-					&.half
-						width: 48.5%
-						float: right
-						&.first
-							float: left
-				&-field
-					position: relative
-					width: 100%
-					margin-bottom: 20px
-					+clearfix
-					&.half
-						width: 48.5%
-						float: right
-						&.first
-							float: left
-					&.contained_field
-						margin-bottom: 10px
-					
-					&.error
-						animation: shakey 0.2s
-						color: $error-color
 
-					&-label
-						display: block
-						margin-bottom: 3px
-						font-weight: 600
-						font-size: 16px
-					&-input
-						display: block
-						width: 100%
-						height: 41px
-						padding: 0 11px
-						background-color: $white
-						border: 1px solid $divider
-						&.textarea
-							padding: 10px 11px
-							min-height: 170px
-							resize: none
-							.contained_field &
-								min-height: 75px
-								&.small
-									min-height: 0
-									height: 38px
-					
-					&-add_more
-						position: relative
-						float: right
-						padding: 10px 15px 8px
-						background-color: white
-						border: 1px solid darken($divider,8)
-						border-radius: 3px
-						color: $primary
-						cursor: pointer
-						+user-select(none)
-						transition: background-color 0.2s
-						&:hover
-							background-color: darken($subwhite,2)
-
-						&:before
-							+icon('+')
-							position: absolute
-							left: 7px
-							+valign(55%)
-							font-size: 17px
-							font-family: avenir
-							font-weight: 600
-
-						&-text
-							position: relative
-							left: 7px
-							right: 0
-							width: 100%
-							text-align: center
-							font-family: proxima
-							font-size: 12px
-							font-weight: 700
-							line-height: 1
-							text-transform: uppercase
+			&:hover &-page_action
+				opacity: 1
 
 
-					&-remove
-						position: absolute
-						right: -30px
-						+valign
-						+size(20)
-						background-color: $white
-						border-radius: 50%
-						box-sizing: border-box
-						cursor: pointer
-						opacity: 0
-						transition: opacity 0.2s
+		&-variation_options
+			position: absolute
+			top: 0
+			right: 0
 
-						&:after
-							+icon('C')
-							position: absolute
-							+valign
-							left: 0
-							right: 0
-							width: 100%
-							font-size: 18px
-							text-align: center
-							color: $cons
+			&-name
+				position: relative
+				top: 9px
+				right: 8px
+				float: left
+				font-size: 14px
+				font-weight: 600
+				line-height: 1
+				+transform(translateX(-170px))
+				transition: all 0.35s
+				.on + &
+					+transform(translateX(0))
 
-					&:hover &-remove
-						opacity: 1
+			&-toggle
+				position: relative
+				z-index: 2
+				float: right
+				width: 50px
+				height: 26px
+				+center(2px)
+				background-color: rgb(230,230,230)
+				border: 1px solid rgba(190, 190, 190, 0.4)
+				border-radius: 20px
+				cursor: pointer
+				+transform(translateX(-170px))
+				transition: all 0.35s
+				&.on
+					+transform(translateX(0))
 
-
-
-				// Save post button
-				&-button
-					position: relative
-					float: left
-					width: 100px
-					height: 32px
-					margin-top: 10px
-					background-color: $subwhite
-					border: 1px solid darken($divider,8)
-					border-radius: 3px
-					color: $primary
-					cursor: pointer
+				&-ball
+					position: absolute
+					left: 0
+					right: 0
+					+size(26)
+					+center
+					background-color: white
+					border-radius: 50%
+					border: 1px solid $divider
+					box-sizing: border-box
+					-webkit-transform: translateX(-50%)
+					transform: translateX(-50%)
+					transition: -webkit-transform 0.2s, transform 0.2s
 					+user-select(none)
-					transition: background-color 0.2s
-					&:hover
-						background-color: darken($subwhite,2)
-					&.delete
-						margin-left: 10px
-						color: $divider-dark
+					.on &
+						-webkit-transform: translateX(50%)
+						transform: translateX(50%)
+						border: 1px solid $pros
+				
+				// BG color
+				&:before
+					content: ''
+					position: absolute
+					top: 0
+					left: 0
+					width: 25px
+					height: 100%
+					background-color: $pros
+					border-radius: 50px 0 0 50px
+					opacity: 0
+					transition: all 0.2s
+				&.on:before
+					opacity: 1
+					width: 35px
 
-					&-text
-						position: absolute
-						left: 0
-						right: 0
-						+valign(52%)
-						width: 100%
-						text-align: center
-						font-family: proxima
-						font-size: 14px
-						font-weight: 700
-						line-height: 1
-						text-transform: uppercase
+			&-conditional
+				position: absolute
+				right: 0
+				visibility: visible
+				opacity: 1
+				transition: opacity 0.35s, visibility 0.35s
+				.on ~ &
+					visibility: hidden
+					opacity: 0
+				
+				&-label
+					position: relative
+					top: 7px
+					left: -10px
+					float: left
+					font-size: 14px
+					font-weight: 600
+					text-align: right
+				
+				&-input
+					position: relative
+					top: 5px
+					display: block
+					text-align: center
+					float: right
+					width: 30px
+					font-size: 14px
+					font-weight: 600
+					border: 1px solid $divider
+					border-radius: 3px
+
+
+		&-data
+			margin-bottom: 20px
+			+clearfix
+
+			&-field
+				position: relative
+				width: 100%
+				// margin-bottom: 20px
+				+clearfix
+				&.half
+					width: 48.5%
+					float: right
+					&.first
+						float: left
+
+				&-label
+					display: block
+					margin-bottom: 3px
+					font-weight: 600
+					font-size: 16px
+				&-input
+					display: block
+					width: 100%
+					height: 41px
+					padding: 0 11px
+					background-color: white
+					border: 1px solid $divider
+
 
 
 		// Add post button
-		&-button
-			position: relative
-			float: right
-			width: 100px
-			height: 32px
-			margin-top: 10px
-			background-color: white
-			border: 1px solid darken($divider,8)
-			border-radius: 3px
-			color: $primary
-			cursor: pointer
-			+user-select(none)
-			transition: background-color 0.2s
-			&:hover
-				background-color: darken($subwhite,2)
+		+add_button
 
-			&:before
-				+icon('+')
-				position: absolute
-				left: 7px
-				+valign(50.5%)
-				font-size: 20px
-				font-family: avenir
-				font-weight: 600
+		@import 'manage-content-variation'
 
-			&-text
-				position: absolute
-				left: 7px
-				right: 0
-				+valign(52%)
-				width: 100%
-				text-align: center
-				font-family: proxima
-				font-size: 14px
-				font-weight: 700
-				line-height: 1
-				text-transform: uppercase
+
+
+
+
+

@@ -4,115 +4,209 @@ $label-color: $grey-mid
 $error-color: #E34B4F
 $text-color: $text
 $dropdownIcon: 'c'
-$checkIcon: 'M'
+$checkIcon: '3'
+$placeholderIcon: '3'
+$deleteIcon: '7'
 
 
-
-=fieldset($style: new, $inputHeight: 48px, $inputColor: white, $textareaHeight: 78px)
+=fieldset($style:new, $textareaStyle:new, $inputHeight:48px, $textareaHeight:78px, $bgColor:white, $textColor:$text-color, $labelColor:fade-out($textColor, 0.3), $borderColor:$textColor, $fontSize:14px, $labelSize:11px, $iconSize:18px, $margin:4.5%, $paddingLeft:15px, $paddingRight:15px, $labelMargin: 12px, $iconMargin:12px, $borderRadius:3px, $checkmarkTop:68%, $widthRules:false, $alignRadioLabels:false, $hasIcon:false, $iconPosition:right, $placeholder:true, $iconMarginForOld:69%, $renderAll:true, $renderLabel:false, $renderInput:false, $renderSelect:false, $renderFile:false, $renderRadio:false, $renderCheckbox:false, $renderCheckboxSingle:false, $renderTextarea:false, $renderGroup:false, $renderRepeater:false)
 	position: relative
+	float: left
 	width: 100%
-	+center
-	border: 0
+	text-align: left
 	+clearfix
-
 	@if $style == new
-		margin-bottom: 18px
+		margin-bottom: $margin
+	&.error
+		-webkit-animation: shakey 0.2s
+		animation: shakey 0.2s
+		color: $error-color
 	
+		&.has_error_msg:after
+			content: attr(data-error)
+			position: absolute
+			bottom: -16px
+			right: 0
+			max-height: 17px
+			padding: 5px 7px 1px
+			background-color: $error-color
+			border-radius: 0 0 3px 3px
+			font-size: 11px
+			font-weight: 600
+			line-height: 1
+			color: white
+
+	&.has_desc:after
+		content: attr(data-desc)
+		position: absolute
+		bottom: -20px
+		left: 0
+		max-width: 100%
+		font-size: 11px
+		font-weight: 500
+		line-height: 1
+		color: fade-out($textColor, 0.3)
+
+
+
+	@if $widthRules
+		&.width
+			&_1-2
+				width: (100% - $margin)/2
+			&_1-3
+				width: (100% - ($margin*2))/3
+			&_1-4
+				width: (100% - ($margin*3))/4
+			&_1-5
+				width: (100% - ($margin*4))/5
+			&_1-6
+				width: (100% - ($margin*5))/6
+			&_2-3
+				width: (100% - $margin) * (2/3)
+			&_3-4
+				width: (100% - $margin) * (3/4)
+
+		margin-right: $margin
+		&.is_last
+			margin-right: 0
+		
+		&.dependant_fieldset
+			height: 0
+			margin-bottom: 0
+			opacity: 0
+			transition: all 0.3s
+			&.reveal_dependant
+				height: $inputHeight
+				opacity: 1
+				margin-bottom: $margin
+
+
 	// Icon base
 	&:before
 		position: absolute
-		+valign
-		right: 12px
 		z-index: 3
-		font-size: 18px
-		font-family: gvcons
-		line-height: 1
-		color: $grey-light
+		+icon('')
+		font-size: $iconSize
+		color: $textColor
 		transition: all 0.2s
-
-	&.error
-		animation: shakey 0.2s
-		color: $error-color
-
-	&.half
-		float: left
-		width: perc(280px, 580px)
+		@if $iconPosition == right
+			right: $iconMargin
+		@else
+			left: $iconMargin
 		
-		// &:nth-child(2n)
-		// 	margin-left: perc(18px, 580px)
+		@if $style == new
+			+valign
+		@else
+			top: $iconMarginForOld
 
-	+fieldset-label($style)
+		
 
-	+fieldset-input_n_select($inputHeight, $inputColor, $style)
-
-	+fieldset-input($inputHeight, $inputColor, $style)
-
-	+fieldset-select($inputHeight, $inputColor, $style)
-
-	+fieldset-file($inputHeight, $inputColor, $style)
-
-	+fieldset-radio($inputHeight, $inputColor, $style)
-
-	+fieldset-checkbox($inputHeight, $inputColor, $style)
-
-	+fieldset-textarea($inputColor, $textareaHeight, $style)
+	
+	@if $renderAll or $renderLabel
+		+fieldset-label($style, $textareaStyle, $inputHeight, $textareaHeight, $bgColor, $textColor, $labelColor, $borderColor, $fontSize, $labelSize, $iconSize, $margin, $paddingLeft, $paddingRight, $labelMargin, $iconMargin, $borderRadius, $checkmarkTop, $widthRules, $alignRadioLabels, $hasIcon, $iconPosition, $placeholder, $iconMarginForOld)
+	
+	@if $renderAll or $renderInput or $renderSelect
+		+fieldset-input_n_select($style, $textareaStyle, $inputHeight, $textareaHeight, $bgColor, $textColor, $labelColor, $borderColor, $fontSize, $labelSize, $iconSize, $margin, $paddingLeft, $paddingRight, $labelMargin, $iconMargin, $borderRadius, $checkmarkTop, $widthRules, $alignRadioLabels, $hasIcon, $iconPosition, $placeholder, $iconMarginForOld)
+	
+	@if $renderAll or $renderInput
+		+fieldset-input($style, $textareaStyle, $inputHeight, $textareaHeight, $bgColor, $textColor, $labelColor, $borderColor, $fontSize, $labelSize, $iconSize, $margin, $paddingLeft, $paddingRight, $labelMargin, $iconMargin, $borderRadius, $checkmarkTop, $widthRules, $alignRadioLabels, $hasIcon, $iconPosition, $placeholder, $iconMarginForOld)
+	
+	@if $renderAll or $renderSelect
+		+fieldset-select($style, $textareaStyle, $inputHeight, $textareaHeight, $bgColor, $textColor, $labelColor, $borderColor, $fontSize, $labelSize, $iconSize, $margin, $paddingLeft, $paddingRight, $labelMargin, $iconMargin, $borderRadius, $checkmarkTop, $widthRules, $alignRadioLabels, $hasIcon, $iconPosition, $placeholder, $iconMarginForOld)
+	
+	@if $renderAll or $renderFile
+		+fieldset-file($style, $textareaStyle, $inputHeight, $textareaHeight, $bgColor, $textColor, $labelColor, $borderColor, $fontSize, $labelSize, $iconSize, $margin, $paddingLeft, $paddingRight, $labelMargin, $iconMargin, $borderRadius, $checkmarkTop, $widthRules, $alignRadioLabels, $hasIcon, $iconPosition, $placeholder, $iconMarginForOld)
+	
+	@if $renderAll or $renderRadio
+		+fieldset-radio($style, $textareaStyle, $inputHeight, $textareaHeight, $bgColor, $textColor, $labelColor, $borderColor, $fontSize, $labelSize, $iconSize, $margin, $paddingLeft, $paddingRight, $labelMargin, $iconMargin, $borderRadius, $checkmarkTop, $widthRules, $alignRadioLabels, $hasIcon, $iconPosition, $placeholder, $iconMarginForOld)
+	
+	@if $renderAll or $renderCheckbox
+		+fieldset-checkbox($style, $textareaStyle, $inputHeight, $textareaHeight, $bgColor, $textColor, $labelColor, $borderColor, $fontSize, $labelSize, $iconSize, $margin, $paddingLeft, $paddingRight, $labelMargin, $iconMargin, $borderRadius, $checkmarkTop, $widthRules, $alignRadioLabels, $hasIcon, $iconPosition, $placeholder, $iconMarginForOld)
+	
+	@if $renderAll or $renderCheckboxSingle
+		+fieldset-checkbox_single($style, $textareaStyle, $inputHeight, $textareaHeight, $bgColor, $textColor, $labelColor, $borderColor, $fontSize, $labelSize, $iconSize, $margin, $paddingLeft, $paddingRight, $labelMargin, $iconMargin, $borderRadius, $checkmarkTop, $widthRules, $alignRadioLabels, $hasIcon, $iconPosition, $placeholder, $iconMarginForOld)
+	
+	@if $renderAll or $renderTextarea
+		+fieldset-textarea($style, $textareaStyle, $inputHeight, $textareaHeight, $bgColor, $textColor, $labelColor, $borderColor, $fontSize, $labelSize, $iconSize, $margin, $paddingLeft, $paddingRight, $labelMargin, $iconMargin, $borderRadius, $checkmarkTop, $widthRules, $alignRadioLabels, $hasIcon, $iconPosition, $placeholder, $iconMarginForOld)
+	
+	@if $renderAll or $renderGroup
+		+fieldset-group($style, $textareaStyle, $inputHeight, $textareaHeight, $bgColor, $textColor, $labelColor, $borderColor, $fontSize, $labelSize, $iconSize, $margin, $paddingLeft, $paddingRight, $labelMargin, $iconMargin, $borderRadius, $checkmarkTop, $widthRules, $alignRadioLabels, $hasIcon, $iconPosition, $placeholder, $iconMarginForOld)
+	
+	@if $renderAll or $renderRepeater
+		+fieldset-repeater($style, $textareaStyle, $inputHeight, $textareaHeight, $bgColor, $textColor, $labelColor, $borderColor, $fontSize, $labelSize, $iconSize, $margin, $paddingLeft, $paddingRight, $labelMargin, $iconMargin, $borderRadius, $checkmarkTop, $widthRules, $alignRadioLabels, $hasIcon, $iconPosition, $placeholder, $iconMarginForOld)
 
 	@if $style == old
 		.checkmark
-			top: 68%
+			top: $checkmarkTop
 
 
 
 // ==== Label =================================================================================
-=fieldset-label($style: new)
+=fieldset-label($style:new, $textareaStyle:new, $inputHeight:48px, $textareaHeight:78px, $bgColor:white, $textColor:$text-color, $labelColor:fade-out($textColor, 0.3), $borderColor:$textColor, $fontSize:14px, $labelSize:11px, $iconSize:18px, $margin:4.5%, $paddingLeft:15px, $paddingRight:15px, $labelMargin: 12px, $iconMargin:12px, $borderRadius:3px, $checkmarkTop:68%, $widthRules:false, $alignRadioLabels:false, $hasIcon:false, $iconPosition:right, $placeholder:true, $iconMarginForOld: 69%)
 	@if $style == new	
 		&-label
 			position: absolute
 			z-index: 20
-			font-size: 11px
+			font-size: $labelSize
 			font-weight: 600
 			line-height: 1
-			color: $label-color
-			padding: 16px 16px 0
+			color: $labelColor
+			padding: $labelMargin ($paddingRight+1) 0 ($paddingLeft+1)
 			opacity: 0
 			transition: opacity 0.2s
 			cursor: default
 			pointer-events: none
-			+max(520)
-				padding: 11px 14px 0
-
-			.filled &
+			.filled > &
 				opacity: 1
-			.focus &
+			.focus > &
 				color: $contrast-color
-			.error &
+			.error > &
 				color: $error-color
-			.textarea &
+			.fieldtype_text &
 				cursor: text
-			.input_text &
-				cursor: text
-			.select &
+			.fieldtype_select &
 				cursor: pointer
-			.file &
+			.fieldtype_file &
 				opacity: 1
-			// .textarea &
-			// 	position: relative
-			// 	opacity: 1
-			// 	padding: 0
-			// 	font-size: 15px
-			// 	font-weight: 700
-			// 	color: $text-color
+				padding: ($labelMargin - 3) ($paddingRight+1) 0 ($paddingLeft+1)
+			.fieldtype_radio &,
+			.fieldtype_radio_hybrid &,
+			.fieldtype_checkbox &
+				position: relative
+				margin-bottom: 10px
+				font-size: 13px
+				line-height: 1.2
+				color: $textColor
+				padding: 0
+				opacity: 1
+				text-align: left
+			@if $textareaStyle == old
+				.fieldtype_textarea &
+					position: relative
+					opacity: 1
+					padding: 0
+					font-size: 15px
+					font-weight: 700
+					color: $textColor
+					cursor: text
 		
-	@if $style == old	
+	@if $style == old
 		&-label
-			margin: 30px 0 10px
-			font-size: 15px
-			text-align: left
+			position: relative
+			margin-bottom: 10px
 			font-weight: 600
+			font-size: 14px
+			line-height: 1.2
+			color: $textColor
+			padding: 0
+			opacity: 1
+			text-align: left
+			.mobile &
+				+user-select(none)
 
 
 // ==== Input & Select =================================================================================
-=fieldset-input_n_select($inputHeight, $inputColor, $style)
+=fieldset-input_n_select($style:new, $textareaStyle:new, $inputHeight:48px, $textareaHeight:78px, $bgColor:white, $textColor:$text-color, $labelColor:fade-out($textColor, 0.3), $borderColor:$textColor, $fontSize:14px, $labelSize:11px, $iconSize:18px, $margin:4.5%, $paddingLeft:15px, $paddingRight:15px, $labelMargin: 12px, $iconMargin:12px, $borderRadius:3px, $checkmarkTop:68%, $widthRules:false, $alignRadioLabels:false, $hasIcon:false, $iconPosition:right, $placeholder:true, $iconMarginForOld: 69%)
 	&-input,
 	&-select
 		position: relative
@@ -120,232 +214,290 @@ $checkIcon: 'M'
 		display: block
 		width: 100%
 		height: $inputHeight
-		background-color: $inputColor
-		border: 1px solid $divider-dark
-		border-radius: 3px
-		box-sizing: border-box
-		font-size: 16px
+		background-color: $bgColor
+		border: 1px solid $borderColor
+		border-radius: $borderRadius
+		font-size: $fontSize
 		font-weight: 500
-		// color: darken($grey-dark, 10)
-		color: $text
+		color: $textColor
+		box-sizing: border-box
 		transition: all 0.2s
-		+max(520)
-			height: $inputHeight - 8
-
-		.focus &
+		.focus > &
 			border-color: $contrast-color
-		.error &
+		.error > &
 			border-color: $error-color
 
+		
+		@if $placeholder
+			$placeholderColor: fade-out($textColor, 0.55)
+		@else
+			$placeholderColor: $textColor
+		
 		&:-ms-input-placeholder
-			color: darken($label-color, 10)
-
+			color: $placeholderColor !important
+			opacity: 1
+	
+		&::-ms-input-placeholder
+			color: $placeholderColor !important
+			opacity: 1
+	
+		&::-webkit-input-placeholder
+			color: $placeholderColor !important
+			opacity: 1
+	
+		&::-moz-placeholder
+			color: $placeholderColor !important
+			opacity: 1
+	
+		&:-moz-placeholder
+			color: $placeholderColor !important
+			opacity: 1
+	
+		&::placeholder
+			color: $placeholderColor !important
+			opacity: 1
 
 
 // ==== Input =================================================================================
-=fieldset-input($inputHeight, $inputColor, $style)
+=fieldset-input($style:new, $textareaStyle:new, $inputHeight:48px, $textareaHeight:78px, $bgColor:white, $textColor:$text-color, $labelColor:fade-out($textColor, 0.3), $borderColor:$textColor, $fontSize:14px, $labelSize:11px, $iconSize:18px, $margin:4.5%, $paddingLeft:15px, $paddingRight:15px, $labelMargin: 12px, $iconMargin:12px, $borderRadius:3px, $checkmarkTop:68%, $widthRules:false, $alignRadioLabels:false, $hasIcon:false, $iconPosition:right, $placeholder:true, $iconMarginForOld: 69%)
 	&-input
-		padding: 4px 30px 0 15px
-		+max(520)
-			padding: 4px 30px 0 13px
-
+		padding: 4px $paddingRight 0 $paddingLeft
 		@if $style == new
-			.filled &
-				padding: 20px 30px 0 15px
-				+max(520)
-					padding: 18px 30px 0 13px
+			.filled > &
+				padding: (($inputHeight * 0.307)) $paddingRight 0 $paddingLeft
 
 		&::-ms-clear
 			display: none !important
 
 
 
-
 // ==== Select =================================================================================
-=fieldset-select($inputHeight, $inputColor, $style)
-	&.select
+=fieldset-select($style:new, $textareaStyle:new, $inputHeight:48px, $textareaHeight:78px, $bgColor:white, $textColor:$text-color, $labelColor:fade-out($textColor, 0.3), $borderColor:$textColor, $fontSize:14px, $labelSize:11px, $iconSize:18px, $margin:4.5%, $paddingLeft:15px, $paddingRight:15px, $labelMargin: 12px, $iconMargin:12px, $borderRadius:3px, $checkmarkTop:68%, $widthRules:false, $alignRadioLabels:false, $hasIcon:false, $iconPosition:right, $placeholder:true, $iconMarginForOld: 69%)
+	&.fieldtype_select
 		&:after
 			+icon($dropdownIcon)
 			position: absolute
 			z-index: 3
 			+valign(54%)
 			right: 12px
-			font-size: 16px
-			color: $text-color
+			font-size: $iconSize
+			color: $textColor
 			pointer-events: none
 			cursor: default
+			@if $style == old
+				top: $iconMarginForOld
 
+	@if $placeholder
+		$placeholderColor: fade-out($textColor, 0.5)
+	@else
+		$placeholderColor: $textColor
 
 	&-select
-		color: darken($label-color, 10)
-		padding: 0 30px 0 15px
+		color: $placeholderColor
+		padding: 0px $paddingRight 0 $paddingLeft
 		line-height: $inputHeight + 1
 		box-sizing: border-box
-		transition: color 0.0001s, padding 0.2s
-		+max(520)
-			padding: 0 30px 0 13px
-			line-height: $inputHeight - 5
-
-		.valid &
-			color: $text-color
+		transition: color 0.0001s, padding 0.2s, border-color 0.2s
+		+tap-highlight
+		.valid > &
+			color: $textColor
 		@if $style == new
-			.filled &
-				padding: 8px 30px 0 15px
-				+max(520)
-					padding: 5px 30px 0 13px
+			.filled > &
+				padding: (($inputHeight * 0.127)) $paddingRight 0 $paddingLeft
 
 		&.default_component
 			position: relative
 			z-index: 2
 			opacity: 0
 		
-		&.new
+		&.new_component
 			position: absolute
 			z-index: 1
 			top: 0
 			left: 0
+			+ellipsis(100%)
+			display: block
+			@if $style == old
+				top: auto
+				bottom: 0
 
 
 
 
 // ==== File =================================================================================
-=fieldset-file($inputHeight, $inputColor, $style)
-	&.file
+=fieldset-file($style:new, $textareaStyle:new, $inputHeight:48px, $textareaHeight:78px, $bgColor:white, $textColor:$text-color, $labelColor:fade-out($textColor, 0.3), $borderColor:$textColor, $fontSize:14px, $labelSize:11px, $iconSize:18px, $margin:4.5%, $paddingLeft:15px, $paddingRight:15px, $labelMargin: 12px, $iconMargin:12px, $borderRadius:3px, $checkmarkTop:68%, $widthRules:false, $alignRadioLabels:false, $hasIcon:false, $iconPosition:right, $placeholder:true, $iconMarginForOld: 69%)
+	&.fieldtype_file
 		position: relative
 		z-index: 2
 		display: block
-		width: 100%
-		height: $inputHeight + 12
-		background-color: $inputColor
-		border: 1px solid $divider-dark
-		border-radius: 3px
+		height: $inputHeight
+		background-color: $bgColor
+		border: 1px solid $borderColor
+		border-radius: $borderRadius
 		box-sizing: border-box
-		font-size: 16px
+		font-size: $fontSize
 		font-weight: 500
-		// color: darken($grey-dark, 10)
-		color: $text
+		color: $textColor
 		transition: all 0.2s
+		+max(520)
+			height: $inputHeight - 8
 
-		.focus &
+	&-file
+		font-size: $fontSize
+		position: absolute
+		+valign(65%)
+		left: 0
+		display: block
+		width: 100%
+		padding-left: 13px
+		+max(520)
+			padding-left: 10px
+		@if $style == old
+			top: 50%
+
+		.focus > div > &
 			border-color: $contrast-color
-		.error &
+		.error > div > &
 			border-color: $error-color
-
-
-		@if $style == new
-			.filled &
-				padding: 20px 30px 0 15px
-				+max(520)
-					padding: 18px 30px 0 13px
 
 		&::-ms-clear
 			display: none !important
 
-	&-file
-		font-size: 14px
-		@if $style == new
-			position: absolute
-			+valign(65%)
-			left: 0
-			display: block
-			width: 100%
-			padding-left: 13px
-			+max(520)
-				padding-left: 10px
-		@else
-			position: absolute
-			+valign(50%)
-			left: 0
-			display: block
-			width: 100%
-			padding-left: 13px
-			+max(520)
-				padding-left: 10px
 
 
+		&-outerwrap
+			position: relative
+			width: 100%
+			height: 100%
+
+		&-preview
+			position: absolute
+			+valign
+			right: 5px
+			height: 85%
+			max-width: 60px
+			overflow: hidden
+
+			img
+				display: block
+				width: 100%
+				height: 100%
 
 
 
 
 
 // ==== Textarea =================================================================================
-=fieldset-textarea($inputColor, $textareaHeight, $style)
+=fieldset-textarea($style:new, $textareaStyle:new, $inputHeight:48px, $textareaHeight:78px, $bgColor:white, $textColor:$text-color, $labelColor:fade-out($textColor, 0.3), $borderColor:$textColor, $fontSize:14px, $labelSize:11px, $iconSize:18px, $margin:4.5%, $paddingLeft:15px, $paddingRight:15px, $labelMargin: 12px, $iconMargin:12px, $borderRadius:3px, $checkmarkTop:68%, $widthRules:false, $alignRadioLabels:false, $hasIcon:false, $iconPosition:right, $placeholder:true, $iconMarginForOld: 69%)
 	&-textarea
 		position: relative
 		z-index: 2
 		width: 100%
+		max-width: 100%
 		height: $textareaHeight
-		padding: 14px 15px 0
-		background-color: $inputColor
-		border: 1px solid $divider-dark
-		border-radius: 2px
-		font-size: 16px
+		background-color: $bgColor
+		border: 1px solid $borderColor
+		border-radius: $borderRadius
+		font-size: $fontSize
 		font-weight: 500
-		color: $text-color
-		box-shadow: 0px !important
+		color: $textColor
 		box-sizing: border-box
 		transition: all 0.2s
-		+max(520)
-			padding: 14px 10px 0
-		
-		// @if $style == new
-		// 	margin-top: 5px 
+		box-shadow: none !important
+		outline: 0 !important
+		@if $style == new and $textareaStyle == old
+			margin-top: 5px 
+		@if $textareaStyle == new
+			padding: $paddingLeft $paddingRight 0 $paddingLeft
+			.filled > &
+				padding: ($paddingLeft*1.6) $paddingRight ($paddingLeft*1.4) $paddingLeft
+		@else
+			padding: 12px $paddingRight 0 $paddingLeft
 
-		.error &
+		.error > &
 			border-color: $error-color
-
+		
+		&::-ms-input-placeholder,
 		&:-ms-input-placeholder
-			color: darken($label-color, 10)
+			color: darken($label-color, 6)
 
-		@if $style == new
-			.filled &
-				padding: 29px 15px 15px
-				+max(520)
-					padding: 23px 10px 15px
-
-
-// ==== radio =================================================================================
-=fieldset-radio($inputHeight, $inputColor, $style)
-	&.radio
+// ==== Radio =================================================================================
+=fieldset-radio($style:new, $textareaStyle:new, $inputHeight:48px, $textareaHeight:78px, $bgColor:white, $textColor:$text-color, $labelColor:fade-out($textColor, 0.3), $borderColor:$textColor, $fontSize:14px, $labelSize:11px, $iconSize:18px, $margin:4.5%, $paddingLeft:15px, $paddingRight:15px, $labelMargin: 12px, $iconMargin:12px, $borderRadius:3px, $checkmarkTop:68%, $widthRules:false, $alignRadioLabels:false, $hasIcon:false, $iconPosition:right, $placeholder:true, $iconMarginForOld: 69%)
+	&.fieldtype_radio
 		display: block
-		// float: none
-		// clear: both
 		+clearfix
 
-	&-radio
+	&-radio,
+	&-radio_hybrid
 		position: relative
 		float: left
 		min-height: $inputHeight
-		padding: 10px
+		// padding: 10px
 		background-color: white
-		border: 1px solid $divider
-		border-radius: 3px
+		border: 1px solid $borderColor
+		border-radius: $borderRadius
 		color: $grey
 		box-sizing: border-box
 		cursor: pointer
+		.mobile &
+			+tap-highlight-manual
 
+		@if $widthRules
+			.options_2 &
+				width: perc(207px, 430px)
+				margin-right: perc(16px, 574px)		
+			.options_3 &
+				width: perc(135px, 430px)
+				margin-right: perc(16px, 574px)
+			.options_4 &
+				width: perc(97px, 430px)
+				margin-right: perc(14px, 574px)
+			.options_5 &
+				width: perc(76.4px, 430px)
+				margin-right: perc(16px, 574px)
+			.options_6 &
+				width: perc(65px, 430px)
+				margin-right: perc(10px, 574px)
+			.options_7 &
+				width: perc(54.5px, 430px)
+				margin-right: perc(8px, 574px)
+			.options_8 &
+				width: perc(47.5px, 430px)
+				margin-right: perc(8px, 574px)
+
+
+			.options_3.rows_2 &,
+			.options_4.rows_2 &
+				width: perc(207px, 430px)
+				margin-right: perc(16px, 574px)
+				margin-top: perc(16px, 574px)
+				&:nth-child(n+2):nth-child(-n+3)
+					margin-top: 0
+				&:nth-child(3),
+				&:nth-child(5),
+				&:nth-child(7),
+					margin-right: 0
+
+			.options_5.rows_2 &,
+			.options_6.rows_2 &
+				width: perc(135px, 430px)
+				margin-right: perc(16px, 574px)
+				margin-top: perc(16px, 574px)
+				&:nth-child(n+2):nth-child(-n+4)
+					margin-top: 0
+				&:nth-child(4),
+				&:nth-child(7),
+					margin-right: 0
 		
-		.options_2 &
-			width: perc(207px, 430px)
-			margin-right: perc(16px, 574px)		
-		.options_3 &
-			width: perc(135px, 430px)
-			margin-right: perc(16px, 574px)
-		.options_4 &
-			width: perc(97px, 430px)
-			margin-right: perc(14px, 574px)
-		.options_5 &
-			width: perc(76.4px, 430px)
-			margin-right: perc(10px, 574px)
-		.options_6 &
-			width: perc(65px, 430px)
-			margin-right: perc(10px, 574px)
-		.options_7 &
-			width: perc(54.5px, 430px)
-			margin-right: perc(8px, 574px)
-		.options_8 &
-			width: perc(47.5px, 430px)
-			margin-right: perc(8px, 574px)
+			.options_7.rows_2 &,
+			.options_8.rows_2 &
+				width: perc(97px, 430px)
+				margin-right: perc(18px, 574px)
+				margin-top: perc(18px, 574px)
+				&:nth-child(n+2):nth-child(-n+5)
+					margin-top: 0
+				&:nth-child(5)
+					margin-right: 0
 
 
 		&:last-child
@@ -353,23 +505,23 @@ $checkIcon: 'M'
 
 		&.checked
 			color: lighten($primary, 8)
-			
+
 			// Active Border
 			&:after
 				content: ''
 				position: absolute
 				top: -1px
 				left: -1px
-				border-radius: 3px
+				border-radius: $borderRadius
 				width: 99%
 				height: 96%
 				border: 2px solid lighten($primary, 8)
 
 		&-label
-			font-size: 14px
+			display: block
+			font-size: $fontSize
 			font-weight: 600
 			line-height: 1
-			text-transform: uppercase
 			text-align: center
 			cursor: pointer
 			+user-select(none)
@@ -379,18 +531,22 @@ $checkIcon: 'M'
 				.mobile-hidden
 					display: none
 
+			@if $alignRadioLabels
+				position: absolute
+				+valign(53%)
+				left: 0
+				right: 0
+
 			.options_3 &
-				font-size: 12px
+				font-size: $fontSize - 2
 				font-weight: 700
-				+max(350)
-					font-size: 11px
 
 			.options_6 &
 				position: absolute
 				+valign
 				left: 0
 				right: 0
-				font-size: 14px
+				font-size: $fontSize
 				font-weight: 600
 
 
@@ -403,8 +559,7 @@ $checkIcon: 'M'
 
 
 // ==== Checkbox =================================================================================
-=fieldset-checkbox($inputHeight, $inputColor, $style)
-	
+=fieldset-checkbox($style:new, $textareaStyle:new, $inputHeight:48px, $textareaHeight:78px, $bgColor:white, $textColor:$text-color, $labelColor:fade-out($textColor, 0.3), $borderColor:$textColor, $fontSize:14px, $labelSize:11px, $iconSize:18px, $margin:4.5%, $paddingLeft:15px, $paddingRight:15px, $labelMargin: 12px, $iconMargin:12px, $borderRadius:3px, $checkmarkTop:68%, $widthRules:false, $alignRadioLabels:false, $hasIcon:false, $iconPosition:right, $placeholder:true, $iconMarginForOld: 69%)
 	&-checkbox
 		margin-top: 13px
 		cursor: pointer
@@ -416,11 +571,11 @@ $checkIcon: 'M'
 		&-box
 			position: relative
 			float: left
-			+size(19)
-			margin-right: 10px
+			+size(14)
+			margin-right: 5px
 			background-color: white
-			border: 1px solid $divider
-			border-radius: 3px
+			border: 1px solid $borderColor
+			border-radius: $borderRadius
 			box-sizing: border-box
 
 			.checked &:after
@@ -429,7 +584,7 @@ $checkIcon: 'M'
 				left: 1px
 				top: 1px
 				width: 100%
-				font-size: 14px
+				font-size: $fontSize*0.6
 				text-align: center
 				color: lighten($primary, 7)
 
@@ -437,9 +592,11 @@ $checkIcon: 'M'
 			position: relative
 			float: left
 			font-weight: 500
-			font-size: 14px
-			line-height: 20px
+			font-size: $fontSize
+			color: $textColor
+			line-height: 1
 			cursor: pointer
+			pointer-events: none
 			+max(420)
 				font-size: 13px
 
@@ -456,23 +613,25 @@ $checkIcon: 'M'
 
 
 // ==== Checkbox Single =================================================================================
-=fieldset-checkbox_single($inputHeight, $inputColor, $style)
+=fieldset-checkbox_single($style:new, $textareaStyle:new, $inputHeight:48px, $textareaHeight:78px, $bgColor:white, $textColor:$text-color, $labelColor:fade-out($textColor, 0.3), $borderColor:$textColor, $fontSize:14px, $labelSize:11px, $iconSize:18px, $margin:4.5%, $paddingLeft:15px, $paddingRight:15px, $labelMargin: 12px, $iconMargin:12px, $borderRadius:3px, $checkmarkTop:68%, $widthRules:false, $alignRadioLabels:false, $hasIcon:false, $iconPosition:right, $placeholder:true, $iconMarginForOld: 69%)
 	&-checkbox_single
 		&-label
-			font-size: 14px
+			font-size: $fontSize
 			line-height: 1
 			font-weight: 500
-			color: $text-color
+			color: $textColor
 			display: block
 			margin-left: 19px
+			pointer-events: none
+			+user-select(none)
 
 		&-box
 			position: relative
 			float: left
 			+size(14)
 			margin-right: 5px
-			background-color: $inputColor
-			border: 1px solid $divider
+			background-color: $bgColor
+			border: 1px solid $borderColor
 			border-radius: 4px
 			box-sizing: border-box
 			cursor: pointer
@@ -499,7 +658,144 @@ $checkIcon: 'M'
 
 
 
+// ==== Group =================================================================================
+=fieldset-group($style:new, $textareaStyle:new, $inputHeight:48px, $textareaHeight:78px, $bgColor:white, $textColor:$text-color, $labelColor:fade-out($textColor, 0.3), $borderColor:$textColor, $fontSize:14px, $labelSize:11px, $iconSize:18px, $margin:4.5%, $paddingLeft:15px, $paddingRight:15px, $labelMargin: 12px, $iconMargin:12px, $borderRadius:3px, $checkmarkTop:68%, $widthRules:false, $alignRadioLabels:false, $hasIcon:false, $iconPosition:right, $placeholder:true, $iconMarginForOld: 69%)
+	&-group
+		position: relative
+		background-color: $subwhite
+		+clearfix
+		
+		&-title
+			margin-top: 20px
+			padding-bottom: 5px
+			margin-bottom: 10px
+			border-bottom: 1px solid $borderColor
+			font-weight: 500
+			font-size: $fontSize * 1.418
+			color: $primary
+			+user-select(none)
 
+
+
+
+
+
+
+// ==== Repeater Group =================================================================================
+=fieldset-repeater($style:new, $textareaStyle:new, $inputHeight:48px, $textareaHeight:78px, $bgColor:white, $textColor:$text-color, $labelColor:fade-out($textColor, 0.3), $borderColor:$textColor, $fontSize:14px, $labelSize:11px, $iconSize:18px, $margin:4.5%, $paddingLeft:15px, $paddingRight:15px, $labelMargin: 12px, $iconMargin:12px, $borderRadius:3px, $checkmarkTop:68%, $widthRules:false, $alignRadioLabels:false, $hasIcon:false, $iconPosition:right, $placeholder:true, $iconMarginForOld: 69%)
+	&-repeater,
+	&-repeater_group
+		.repeater-template
+			display: none
+	
+
+	&.has_fields > &-repeater_group 
+		> .repeater-button
+			display: inline-block
+		> .repeater-placeholder
+			display: none
+
+
+	&-repeater_group
+		position: relative
+		background-color: $subwhite
+		+clearfix
+		
+		&-title
+			margin-top: 20px
+			padding-bottom: 5px
+			margin-bottom: 10px
+			border-bottom: 1px solid $borderColor
+			font-weight: 500
+			font-size: $fontSize * 1.418
+			color: $primary
+			+user-select(none)
+
+		&-placeholder
+			position: relative
+			top: 2px
+			text-align: center
+			font-size: 16px
+			padding: 20px 0
+			line-height: 1
+			font-weight: 600
+			opacity: 0.3
+			+user-select(none)
+
+			&:before
+				+icon($placeholderIcon)
+				position: absolute
+				z-index: 1
+				+valign
+				left: 0
+				right: 0
+				font-size: 36px
+				opacity: 0.2
+				font-weight: 400
+
+		.repeater-button
+			display: none
+			&.disabled
+				cursor: not-allowed !important
+
+		
+		&-groups
+			&-item
+				position: relative
+				margin-top: 20px
+				&:first-child
+					margin-top: 0
+				&-title
+					+user-select(none)
+
+
+	&-repeater
+		&-fields
+			&-item
+				position: relative
+				+clearfix
+
+				&-delete
+					position: absolute
+					top: ($inputHeight/2)-6
+					// top: 22px
+					right: -22px
+					// +valign
+					+size(16)
+					box-sizing: border-box
+					cursor: pointer
+					opacity: 0
+					transition: opacity 0.2s
+
+					&:after
+						+icon($deleteIcon)
+						position: absolute
+						+valign
+						left: 0
+						right: 0
+						width: 100%
+						font-size: 16px
+						text-align: center
+						color: $error-color
+		
+				&:hover &-delete
+					opacity: 1
+
+
+
+
+				// Resets
+				.fieldset
+					margin-bottom: 10px
+
+				input
+					padding: 4px $paddingRight 0 $paddingLeft !important
+
+				.new_component
+					padding: 0px $paddingRight 0 $paddingLeft
+
+				label
+					display: none
 
 
 
@@ -543,46 +839,46 @@ $checkIcon: 'M'
 
 
 // ==== Form Button =================================================================================
-=form-button($buttonHeight: 50px, $buttonColor: $contrast, $margin-top:25px, $arrow: true)
-	&-button
-		position: relative
-		display: block
-		width: 100%
-		margin-top: $margin-top
-		height: $buttonHeight
-		border-radius: 3px
-		background-color: $buttonColor
-		font-weight: 600
-		line-height: 55px
-		color: white
-		cursor: pointer
-		transition: all 0.2s
-		+user-select(none)
+=form-button($buttonHeight: 50px, $borderRadius:3px, $buttonColor: $contrast, $margin-top:25px, $arrow: true)
+	position: relative
+	float: left
+	display: block
+	width: 100%
+	margin-top: $margin-top
+	height: $buttonHeight
+	border-radius: $borderRadius
+	background-color: $buttonColor
+	font-weight: 600
+	line-height: 55px
+	color: white
+	cursor: pointer
+	transition: all 0.2s
+	+user-select(none)
 
-		&:hover
-			background-color: darken($buttonColor, 7)
+	&:hover
+		background-color: darken($buttonColor, 7)
 
-		&-text
-			position: absolute
-			+valign(54%)
-			left: 0
-			font-size: 22px
-			font-weight: 700
-			line-height: 1
-			text-align: center
+	&-text
+		position: absolute
+		+valign(54%)
+		left: 0
+		font-size: 22px
+		font-weight: 700
+		line-height: 1
+		text-align: center
+		
+		@if $arrow == false
+			right: 0
 			
-			@if $arrow == false
-				right: 0
-				
-			@if $arrow == true
-				right: 30px
-				// right: 0
+		@if $arrow == true
+			right: 16px
 
-				&:after
-					+icon('b')
-					position: absolute
-					top: 0px
-					padding-left: 10px
-					font-size: 23px
-					font-weight: 400
-					letter-spacing: -10px	
+			&:after
+				+icon('b')
+				text-transform: none
+				position: absolute
+				top: 0px
+				padding-left: 8px
+				font-size: 23px
+				font-weight: 400
+				letter-spacing: -10px

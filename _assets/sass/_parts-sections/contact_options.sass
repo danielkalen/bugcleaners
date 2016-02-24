@@ -1,0 +1,68 @@
+.contact_options
+	position: relative
+	padding: 60px 20px
+	box-sizing: border-box
+
+	&-innerwrap
+		padding: 50px 0 0
+		+max(520)
+			padding: 30px 0 0
+
+	&-icon
+		position: relative
+		top: -40px
+		// opacity: 0.9
+		// display: none
+		+size(74)
+		+center
+		+max(520)
+			+size(64)
+
+
+		&-regular
+			fill: none
+			stroke: darken($grey-dark, 0)
+		
+		&-low_opacity
+			fill: darken($grey-dark, 0)
+			opacity: 0.26
+
+		// 24/7 text
+		&:after
+			content: '24/7'
+			position: absolute
+			left: 0
+			bottom: 13%
+			font-size: 13px
+			font-weight: 700
+			font-family: proxima
+			// color: $grey-dark
+			color: darken($grey-dark, 5)
+			opacity: 0.7
+			width: 100%
+			text-align: center
+			+max(520)
+				font-size: 12px
+
+	&-title
+		padding: 0 20px
+		margin: 20px 0 20px
+		font-size: 30px
+		font-weight: 600
+		text-align: center
+		color: darken($grey-dark, 0)
+		box-sizing: border-box
+		+max(620)
+			max-width: 365px
+			+center(10px, 20px)
+		+max(520)
+			font-size: 28px
+			+center(0px, 20px)
+	
+
+	@import '_parts-contact_options/tabs'
+	@import '_parts-contact_options/content'
+
+@import '_parts-contact_options/content-livechat'
+@import '_parts-contact_options/content-email'
+@import '_parts-contact_options/content-phone'

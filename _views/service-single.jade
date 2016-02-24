@@ -1,0 +1,44 @@
+doctype html
+html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr', prefix='og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#')
+	head
+		meta(charset='UTF-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=0')
+		//- Begin Meta Data
+		link(rel="canonical", href=currentPage)
+		meta(property="og:url", content=currentPage)
+		link(rel="shortcut icon", href="/img/favicon.ico", type="image/x-icon")
+		meta(property="fb:admins", content=app.fb)
+		meta(property="og:title", content=service.name+" Services | "+app.name)
+		meta(itemprop="name", content=service.name+" Services | "+app.name)
+		meta(name="description", content=service.short_desc)
+		meta(property="og:description", content=service.short_desc)
+		//- End Meta data.
+		title=service.name+" Services | "+app.name
+		link(rel='stylesheet', href='/css/global.css', type='text/css')
+		link(rel='stylesheet', href='/css/page.css', type='text/css')
+		include ./_parts-global/takana.jade
+		include ./_parts-global/field-generator.jade
+		include ./_parts-global/sections.jade
+	
+	body.innerpage.service(class=bodyClass)
+		#page
+			include ./_parts-page/header.jade
+			main.main
+				include ./_parts-page/hero.jade
+				+hero('left', '*'+service.name+'* Services', service.short_desc, 'Get Free Quote')
+				.page
+					.wrapper_block
+						div.width_70
+							.content_block!=markdown.render(service.content).body
+						div.width_30
+							+reviews({reviews:service.reviews})
+
+			include ./_parts-sections/cta_divider.jade
+			include ./_parts-sections/pests_treated.jade
+			+pests_treated
+			+cta_divider
+			
+					
+			include ./_parts-page/footer.jade
+		script(type='text/javascript', src='/js/global.js')
+		include ./_parts-global/analytics.jade

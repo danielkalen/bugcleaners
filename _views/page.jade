@@ -1,0 +1,46 @@
+doctype html
+html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr', prefix='og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#')
+	head
+		meta(charset='UTF-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=0')
+		//- Begin Meta Data
+		link(rel="canonical", href=currentPage)
+		meta(property="og:url", content=currentPage)
+		link(rel="shortcut icon", href="/img/favicon.ico", type="image/x-icon")
+		meta(property="fb:admins", content=app.fb)
+		meta(property="og:title", content=page.title+" | "+app.name)
+		meta(itemprop="name", content=page.title+" | "+app.name)
+		meta(name="description", content=page.meta_desc)
+		meta(property="og:description", content=page.meta_desc)
+		//- End Meta data.
+		title=page.title+" | "+app.name
+		link(rel='stylesheet', href='/css/global.css', type='text/css')
+		link(rel='stylesheet', href='/css/page.css', type='text/css')
+		include ./_parts-global/takana.jade
+
+
+
+
+
+	include ./_parts-global/field-generator.jade
+	include ./_parts-global/sections.jade
+
+
+
+	body(class=body_class)
+		#page
+			include ./_parts-page/header.jade
+			
+			main.main
+				include ./_parts-page/hero.jade
+				+hero(page.hero_style, page.hero_title, page.hero_desc, page.hero_button_text, page.hero_button_url)
+				
+				.page
+					if page.blocks
+						each block in page.blocks
+							+renderSection(block)
+
+					
+			include ./_parts-page/footer.jade
+		script(type='text/javascript', src='/js/global.js')
+		include ./_parts-global/analytics.jade

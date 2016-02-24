@@ -1,8 +1,7 @@
-.hero
-	.hero-innerwrap
-		.hero-title!= hero_title
-
-		.hero-arrow
-			.hero-arrow-text Hire Brooklyn's top bed bug experts to inspect your house for free!
-			//- .hero-arrow-text Instantly receive a bottom line quote.
-			.hero-arrow-illus
+mixin hero(hero_title, hero_subtitle, hero_button_text, hero_button_url)
+	.hero
+		.hero-innerwrap
+			.hero-title!=markdown.render(hero_title).body
+			.hero-arrow
+				.hero-arrow-text!= hero_subtitle
+				.hero-arrow-illus

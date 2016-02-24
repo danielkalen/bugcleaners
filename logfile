@@ -1,0 +1,19 @@
+error: Could not read .foreverignore file.
+error: ENOTDIR: not a directory, open '/Users/danielkalen/Projects/bugcleaners/app.coffee/.foreverignore'
+BugCleaners Server running on http://:::7889
+error: restarting script because change changed
+error: Forever detected script was killed by signal: SIGKILL
+error: Script restart attempt #1
+BugCleaners Server running on http://:::7889
+error: restarting script because change changed
+error: Forever detected script was killed by signal: SIGKILL
+error: Script restart attempt #2
+BugCleaners Server running on http://:::7889
+error: restarting script because change changed
+error: Forever detected script was killed by signal: SIGKILL
+error: Script restart attempt #3
+BugCleaners Server running on http://:::7889
+error: restarting script because change changed
+error: Forever detected script was killed by signal: SIGKILL
+error: Script restart attempt #4
+BugCleaners Server running on http://:::7889

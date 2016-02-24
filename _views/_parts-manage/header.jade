@@ -1,0 +1,18 @@
+header#masthead.header
+	.header-innerwrap
+		
+		a.header-logo(href='/')
+			img.header-logo-img(src='/img/logo.png', width=app.logo.width, height=app.logo.height, alt=app.name, title=app.name+' Logo')
+
+		-if (currentPage)
+			- var isManagePage = currentPage.indexOf('manage') !== -1;
+			- var isLoginPage = currentPage.indexOf('login') !== -1;
+
+
+			unless isLoginPage
+				nav.header-nav
+					a.header-nav-item(href="/manage") Pages
+					a.header-nav-item(href="/manage/posts") Posts
+					a.header-nav-item(href="/manage/leads") Leads
+				div.header-button.logout
+					.header-button-text Logout

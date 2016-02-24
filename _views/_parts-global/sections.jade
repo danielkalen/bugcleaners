@@ -1,0 +1,42 @@
+include ../_parts-sections/benefit_points.jade
+include ../_parts-sections/contact_options.jade
+include ../_parts-sections/content_block.jade
+include ../_parts-sections/cta_divider.jade
+include ../_parts-sections/form.jade
+include ../_parts-sections/cta_with_faqs.jade
+include ../_parts-sections/faqs.jade
+include ../_parts-sections/faqs_small.jade
+include ../_parts-sections/pests.jade
+include ../_parts-sections/pests_treated.jade
+include ../_parts-sections/reviews.jade
+include ../_parts-sections/services.jade
+include ../_parts-sections/wrapper_block.jade
+
+mixin renderSection(passedBlock)
+	case passedBlock.slug
+		when 'benefit_points'
+			+benefit_points(passedBlock)
+		when 'contact_options'
+			+contact_options
+		when 'content_block'
+			+content_block(passedBlock)
+		when 'cta_divider'
+			+cta_divider(passedBlock)
+		when 'cta_with_faqs'
+			+cta_with_faqs(passedBlock)
+		when 'faqs'
+			+faqs
+		when 'faqs_small'
+			+faqs_small(passedBlock)
+		when 'form'
+			+form(passedBlock)
+		when 'pests'
+			+pests
+		when 'pests_treated'
+			+pests_treated(passedBlock)
+		when 'reviews'
+			+reviews(passedBlock)
+		when 'services'
+			+services
+		when 'wrapper_block'
+			+wrapper_block(passedBlock.blocks)

@@ -1,0 +1,38 @@
+.benefit_points
+	+clearfix
+
+	&-item
+		position: relative
+		float: left
+		text-align: center
+		+max(520)
+			float: none
+			width: 100% !important
+			max-width: 170px
+			+center(0, 30px)
+			padding: 0 !important
+
+		&:nth-child(1)
+			width: perc(171, 530)
+		&:nth-child(2)
+			width: perc(130, 530)
+			padding: 0 perc(42, 530)
+		&:nth-child(3)
+			width: perc(144, 530)
+
+		&-icon
+			color: $grey
+			&:after
+				font-size: 60px
+
+			.protection &:after
+				+icon('o')
+			.turnaround &:after
+				+icon('q')
+			.price &:after
+				+icon('j')
+
+		&-text
+			margin-top: 9px
+			font-size: 14px
+			color: darken($grey, 10)

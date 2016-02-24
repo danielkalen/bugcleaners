@@ -1,0 +1,877 @@
+{
+	"app": {
+		"name": "BugCleaners",
+		"slug": "bugcleaners",
+		"url": "http://bugcleaners.com",
+		"logo": "http://bugcleaners.com/img/logo-footer.png",
+		"color": "#f78515",
+		"db": "localhost:27017/bugcleaners",
+		"fb": "http://www.facebook.com/bugcleaners",
+		"phone": "(800) 216-2124",
+		"logo": {
+			"width": 237,
+			"height": 64
+		}
+	},
+	"admin": {
+		"name": "BugCleaners",
+		"email": "info@bugcleaners.com"
+	}, 
+	"email": {
+		"host": "smtp.gmail.com",
+		"address": "info@bugcleaners.com",
+		"password": "ari23kalendarov",
+		"port": 465,
+		"ssl": true
+	},
+	"fieldSchemas": {
+		"blocks": {
+			"contact_options": {
+				"slug": "contact_options",
+				"name": "Contact Options",
+				"fields": {}
+			},
+			"content_block": {
+				"slug": "content_block",
+				"name": "Content Block",
+				"fields": {
+					"content": {
+						"type": "textarea",
+						"name": "content",
+						"label": "Content",
+						"required": true
+					}
+				}
+			},
+			"cta_divider": {
+				"slug": "cta_divider",
+				"name": "CTA Divider",
+				"fields": {
+					"title": {
+						"type": "text",
+						"name": "title",
+						"label": "Title",
+						"width": "1-2",
+						"required": true,
+						"defaultValue": "Get Your *Free Quote*"
+					},
+					"subtitle": {
+						"type": "text",
+						"name": "subtitle",
+						"label": "Subtitle",
+						"width": "1-2",
+						"required": true,
+						"defaultValue": "Instantly receive a bottom line quote"
+					},
+					"button_text": {
+						"type": "text",
+						"name": "button_text",
+						"label": "Button Text",
+						"width": "1-2",
+						"required": true,
+						"defaultValue": "Get Free Quote"
+					},
+					"color_scheme": {
+						"type": "select",
+						"name": "color_scheme",
+						"label": "Color Scheme",
+						"width": "1-2",
+						"required": true,
+						"defaultValue": "light",
+						"useKeyInsteadOfValue": true,
+						"values": {
+							"light": "Light",
+							"dark": "Dark"
+						}
+					}
+				}
+			},
+			"cta_with_faqs": {
+				"slug": "cta_with_faqs",
+				"name": "CTA Area with FAQs",
+				"fields": {
+					"title": {
+						"type": "text",
+						"name": "title",
+						"label": "Title",
+						"width": "1-2",
+						"required": true
+					},
+					"subtitle": {
+						"type": "text",
+						"name": "subtitle",
+						"label": "Subtitle",
+						"width": "1-2",
+						"required": true
+					},
+					"form": {
+						"type": "template",
+						"width": "1-1",
+						"required": true,
+						"value": "form"
+					},
+					"faqs_small": {
+						"type": "template",
+						"width": "1-1",
+						"required": true,
+						"value": "faqs_small"
+					},
+					"benefit_points": {
+						"type": "template",
+						"width": "1-1",
+						"required": true,
+						"value": "benefit_points"
+					}
+				}
+			},
+			"faqs": {
+				"slug": "faqs",
+				"name": "FAQs List",
+				"fields": {}
+			},
+			"reviews": {
+				"slug": "reviews",
+				"name": "Reviews",
+				"fields": {
+					"title": {
+						"type": "text",
+						"name": "title",
+						"label": "Section Title",
+						"width": "1-1"
+					},
+					"reviews": {
+						"type": "template",
+						"value": "reviews",
+						"required": true
+					}
+				}
+			},
+			"pests": {
+				"slug": "pests",
+				"name": "Pests List",
+				"fields": {}
+			},
+			"pests_treated": {
+				"slug": "pests_treated",
+				"name": "Pests Treated",
+				"fields": {
+					"title": {
+						"type": "text",
+						"name": "title",
+						"label": "Section Title",
+						"width": "1-1",
+						"required": true,
+						"defaultValue": "The Pests We Provide Treatment For"
+					},
+					"pests": {
+						"type": "repeater",
+						"name": "pests",
+						"label": "Pests",
+						"width": "1-1",
+						"button_text": "Add Pest",
+						"maximum": 7,
+						"required": true,
+						"fields": [
+							{
+								"type": "select",
+								"name": "pest",
+								"label": "Pest",
+								"required": true,
+								"useKeyInsteadOfValue": true,
+								"needsArrayConversion": true,
+								"values": ["Roaches", "Bed Bugs", "Rodents", "Termites", "Ants", "Mosquitoes", "Others"]
+							}
+						],
+						"defaultValue": ["roaches", "bed_bugs", "rodents", "termites", "ants", "mosquitoes", "others"],
+						"values": ["roaches", "bed_bugs", "rodents", "termites", "ants", "mosquitoes", "others"]
+					}
+				}
+			},
+			"services": {
+				"slug": "services",
+				"name": "Services List",
+				"fields": {}
+			},
+			"wrapper_block": {
+				"slug": "wrapper_block",
+				"name": "Wrapper Block",
+				"fields": {
+					"blocks": {
+						"type": "repeater_group",
+						"name": "blocks",
+						"label": "Blocks/Sections",
+						"label_single": "Block",
+						"button_text": "Add Block",
+						"width": "1-1",
+						"required": true,
+						"collapsed": true,
+						"fields": [
+							{
+								"type": "template",
+								"value": "width",
+								"width": "1-2",
+								"required": true
+							},
+							{
+								"type": "select",
+								"name": "slug",
+								"label": "Select Block",
+								"required": true,
+								"width": "1-2",
+								"useKeyInsteadOfValue": true,
+								"dynamicValues": "fieldSchemas.blocks",
+								"dynamicType": "settings"
+							}
+						]
+					}
+				}
+			}
+		},
+		"templates": {
+			"form":{
+				"type": "group",
+				"name": "form",
+				"label": "Form",
+				"collapsed": "true",
+				"fields":[
+					{
+						"type": "select",
+						"name": "form_style",
+						"label": "Form Style",
+						"required": true,
+						"useKeyInsteadOfValue":true,
+						"width": "1-2",
+						"values": {
+							"boxed-standard": "Boxed (All in one step)",
+							"boxed-stepped": "Boxed (Multiple Steps)",
+							"neo-stepped": "Tool-like (Multiple Steps, 1 question at a time)"
+						}
+					},
+					{
+						"type": "radio",
+						"name": "include_phone",
+						"label": "Include Phone Hotline Field Below Form?",
+						"required": true,
+						"defaultValue": true,
+						"useKeyInsteadOfValue":true,
+						"width": "1-2",
+						"values": {
+							"true": "True",
+							"false": "False"
+						}
+					},
+					{
+						"type": "template",
+						"value": "form_steps"
+					}
+				]
+			},
+			"form_steps": {
+				"type": "repeater_group",
+				"name": "form_steps",
+				"label": "Form Steps",
+				"label_single": "Step",
+				"button_text": "Add Step",
+				"collapsed": true,
+				"minimum": 1,
+				"fields": [
+					{
+						"type": "text",
+						"name": "title",
+						"label": "Step Title (optional)",
+						"width": "1-2"
+					},
+					{
+						"type": "text",
+						"name": "button",
+						"label": "Button Text",
+						"required": true,
+						"width": "1-2"
+					},
+					{
+						"type": "radio",
+						"name": "arrow",
+						"label": "Button Has Arrow?",
+						"required": true,
+						"useKeyInsteadOfValue":true,
+						"width": "1-2",
+						"values": {
+							"true": "True",
+							"false": "False"
+						}
+					},
+					{
+						"type": "repeater_group",
+						"name": "fields",
+						"label": "Fields",
+						"button_text": "Add Field",
+						"width": "1-1",
+						"required": true,
+						"collapsed": true,
+						"fields": [
+							{
+								"type": "select",
+								"name": "type",
+								"label": "Type",
+								"required": true,
+								"useKeyInsteadOfValue":true,
+								"width": "1-3",
+								"values": {
+									"text": "Text Field",
+									"tel": "Phone Field",
+									"email": "Email Field",
+									"fullname": "Full Name Field",
+									"textarea": "Textarea Field",
+									"select": "Select Field",
+									"radio": "Choice Field",
+									"radio_hybrid": "Choice Field (Multi)",
+									"checkbox": "Checkboxes Field",
+									"checkbox_single": "Checkbox (single) Field"
+								}
+							},
+							{
+								"type": "text",
+								"name": "name",
+								"label": "Name (Internal Purposes)",
+								"required": true,
+								"forcePattern": "name",
+								"width": "1-3"
+							},
+							{
+								"type": "text",
+								"name": "label",
+								"label": "Label",
+								"required": true,
+								"width": "1-3"
+							},
+							{
+								"type": "select",
+								"name": "rows",
+								"label": "Number of Rows",
+								"required": true,
+								"useKeyInsteadOfValue":true,
+								"depends_on": "type",
+								"conditionScope": "sibling",
+								"condition": "radio, radio_hybrid",
+								"defaultValue": "1",
+								"values": {
+									"1": "1 Row",
+									"2": "2 Rows",
+									"3": "3 Rows"
+								}
+							},
+							{
+								"type": "repeater",
+								"name": "values",
+								"label": "Possible Values",
+								"button_text": "Add Another Value",
+								"width": "1-1",
+								"required": true,
+								"depends_on": "type",
+								"conditionScope": "sibling",
+								"condition": "select, radio, radio_hybrid, checkbox, checkbox_single",
+								"fields": [
+									{
+										"type": "text",
+										"name": "value",
+										"label": "Option",
+										"required": true
+									}
+								]
+							},
+							{
+								"type": "select",
+								"name": "width",
+								"label": "Width",
+								"required": true,
+								"useKeyInsteadOfValue":true,
+								"width": "1-3",
+								"values": {
+									"1-1": "1/1 (Full Width)",
+									"1-2": "1/2 (Half Width)",
+									"1-4": "1/4 (Quarter Width)",
+									"3-4": "3/4 (Three-fourths Width)"
+								}
+							},
+							{
+								"type": "radio",
+								"name": "required",
+								"label": "Field is required?",
+								"required": true,
+								"useKeyInsteadOfValue":true,
+								"defaultValue": "false",
+								"width": "1-3",
+								"values": {
+									"true": "True",
+									"false": "False"
+								}
+							}
+						]
+					}
+				]
+			},
+			"reviews": {
+				"type": "repeater_group",
+				"name": "reviews",
+				"label": "Reviews",
+				"button_text": "Add Review",
+				"width": "1-1",
+				"collapsed": true,
+				"minimum": 1,
+				"maximum": 3,
+				"fields": [
+					{
+						"type": "text",
+						"name": "author",
+						"label": "Author/Authors",
+						"required": true,
+						"width": "1-3"
+					},
+					{
+						"type": "text",
+						"name": "subtitle",
+						"label": "Subtitle",
+						"required": true,
+						"width": "1-3"
+					},
+					{
+						"type": "file",
+						"name": "image",
+						"label": "Image File",
+						"width": "1-3",
+						"maximum": 200
+					},
+					{
+						"type": "textarea",
+						"name": "body",
+						"label": "Review Body",
+						"required": true,
+						"width": "1-1",
+						"height": 100
+					}
+				]
+			},
+			"faqs_small": {
+				"type": "repeater_group",
+				"name": "faqs_small",
+				"label": "FAQs",
+				"button_text": "Add FAQ",
+				"collapsed": true,
+				"minimum": 1,
+				"maximum": 5,
+				"fields": [
+					{
+						"type": "text",
+						"name": "question",
+						"label": "Question",
+						"required": true,
+						"width": "1-1"
+					},
+					{
+						"type": "textarea",
+						"name": "answer",
+						"label": "Answer",
+						"required": true,
+						"width": "1-1",
+						"height": 90
+					}
+				]
+			},
+			"benefit_points": {
+				"type": "repeater_group",
+				"name": "benefit_points",
+				"label": "Benefit Points",
+				"button_text": "Add Point",
+				"minimum": 1,
+				"maximum": 3,
+				"collapsed": true,
+				"fields": [
+					{
+						"type": "select",
+						"name": "icon",
+						"label": "Icon",
+						"required": true,
+						"width": "1-2",
+						"useKeyInsteadOfValue": true,
+						"values": {
+							"protection": "Protection",
+							"turnaround": "Turnaround",
+							"price": "Price"
+						}
+					},
+					{
+						"type": "text",
+						"name": "text",
+						"label": "Text",
+						"required": true,
+						"width": "1-2"
+					}
+				]
+			},
+			"width": {
+				"type": "select",
+				"name": "width",
+				"label": "Section Width",
+				"useKeyInsteadOfValue":true,
+				"values": {
+					"10": "10%",
+					"20": "20%",
+					"30": "30%",
+					"40": "40%",
+					"50": "50%",
+					"60": "60%",
+					"70": "70%",
+					"80": "80%",
+					"90": "90%",
+					"100": "100%"
+				}
+			}
+		},
+		"page": {
+			"standard": {
+				"varNotes": {
+					"type": "text",
+					"name": "varNotes",
+					"label": "Variation Notes",
+					"width": "1-2"
+				},
+				"type": {
+					"type": "select",
+					"name": "type",
+					"label": "Page Type",
+					"required": true,
+					"width": "1-2",
+					"defaultValue": "standard",
+					"useKeyInsteadOfValue": true,
+					"values": {
+						"standard": "Standard",
+						"landing": "Landing"
+					}
+				},
+				"title": {
+					"type": "text",
+					"name": "title",
+					"label": "Page Title",
+					"width": "1-2",
+					"required": true
+				},
+				"meta_desc": {
+					"type": "text",
+					"name": "meta_desc",
+					"label": "Meta Description (for SEO)",
+					"width": "1-2",
+					"required": true
+				},
+				"hero_title": {
+					"type": "text",
+					"name": "hero_title",
+					"label": "Hero Title",
+					"width": "1-1",
+					"required": true
+				},
+				"hero_desc": {
+					"type": "textarea",
+					"name": "hero_desc",
+					"label": "Hero Description",
+					"width": "1-1",
+					"height": 80
+				},
+				"hero_style": {
+					"type": "select",
+					"name": "hero_style",
+					"label": "Hero Style/Orientation",
+					"width": "1-2",
+					"required": true,
+					"useKeyInsteadOfValue": true,
+					"defaultValue": "left",
+					"values": {
+						"center": "Centered",
+						"left": "Left Aligned"
+					},
+					"depends_on": "type",
+					"conditionScope": "sibling",
+					"condition": "standard"
+				},
+				"hero_button_text": {
+					"type": "text",
+					"name": "hero_button_text",
+					"label": "Hero Button Text",
+					"width": "1-2",
+					"required": true,
+					"defaultValue": "Get Free Quote"
+				},
+				"hero_button_url": {
+					"type": "text",
+					"name": "hero_button_url",
+					"label": "Hero Button URL",
+					"width": "1-2",
+					"required": true,
+					"defaultValue": "/get-quote"
+				},
+				"header_text": {
+					"type": "text",
+					"name": "header_text",
+					"label": "Header Text",
+					"width": "1-2",
+					"required": true,
+					"defaultValue": "The Pest Authority Trusted By *Thousands*",
+					"depends_on": "type",
+					"conditionScope": "sibling",
+					"condition": "landing"
+				},
+				"form": {
+					"type": "template",
+					"value": "form",
+					"width": "1-1",
+					"required": true,
+					"depends_on": "type",
+					"conditionScope": "sibling",
+					"condition": "landing"
+				},
+				"benefit_points": {
+					"type": "template",
+					"value": "benefit_points",
+					"width": "1-1",
+					"required": true,
+					"depends_on": "type",
+					"conditionScope": "sibling",
+					"condition": "landing"
+				},
+				"faqs_small": {
+					"type": "template",
+					"value": "faqs_small",
+					"width": "1-1",
+					"required": true,
+					"depends_on": "type",
+					"conditionScope": "sibling",
+					"condition": "landing"
+				},
+				"blocks": {
+					"type": "repeater_group",
+					"name": "blocks",
+					"label": "Blocks/Sections",
+					"label_single": "Block",
+					"button_text": "Add Block",
+					"width": "1-1",
+					"required": true,
+					"collapsed": true,
+					"fields": [
+						{
+							"type": "select",
+							"name": "slug",
+							"label": "Select Block",
+							"required": true,
+							"width": "1-1",
+							"useKeyInsteadOfValue": true,
+							"dynamicValues": "fieldSchemas.blocks",
+							"dynamicType": "settings"
+						}
+					]
+				}
+			}
+		},
+		"post": {
+			"pest": {
+				"name": {
+					"type": "text",
+					"name": "name",
+					"label": "Name",
+					"width": "1-2",
+					"required": true
+				},
+				"slug": {
+					"type": "text",
+					"name": "slug",
+					"label": "Slug",
+					"forcePattern": "slug",
+					"width": "1-2",
+					"required": true
+				},
+				"short_desc": {
+					"type": "text",
+					"name": "short_desc",
+					"label": "Short Description",
+					"width": "1-2",
+					"required": true
+				},
+				"image": {
+					"type": "file",
+					"name": "image",
+					"label": "Image",
+					"width": "1-2"
+				},
+				"intro_paragraphs": {
+					"type": "textarea",
+					"name": "intro_paragraphs",
+					"label": "Intro Paragraphs",
+					"width": "1-1",
+					"required": true
+				},
+				"sidebar_blocks": {
+					"type": "repeater_group",
+					"name": "sidebar_blocks",
+					"label": "Sidebar Blocks",
+					"width": "1-1",
+					"button_text": "Add Block",
+					"fields":[
+						{
+							"type": "text",
+							"name": "title",
+							"label": "Block Title",
+							"width": "1-1",
+							"required":true
+						},
+						{
+							"type": "textarea",
+							"name": "content",
+							"label": "Block Content",
+							"width": "1-1",
+							"height": 90,
+							"required":true
+						}
+					]
+				},
+				"facts": {
+					"type": "repeater",
+					"name": "facts",
+					"label": "Facts",
+					"button_text": "Add Fact",
+					"width": "1-2",
+					"fields": [
+						{
+							"type": "text",
+							"name": "fact",
+							"label": "Fact",
+							"required": true
+						}
+					]
+				},
+				"signs": {
+					"type": "repeater",
+					"name": "signs",
+					"label": "Warning Signs",
+					"button_text": "Add Warning Sign",
+					"width": "1-2",
+					"fields": [
+						{
+							"type": "text",
+							"name": "sign",
+							"label": "Warning Sign",
+							"required": true
+						}
+					]
+				},
+				"preventions": {
+					"type": "repeater",
+					"name": "preventions",
+					"label": "Preventions",
+					"button_text": "Add Prevention",
+					"width": "1-1",
+					"fields": [
+						{
+							"type": "text",
+							"name": "prevention",
+							"label": "Prevention",
+							"required": true
+						}
+					]
+				}
+			},
+			"service": {
+				"name": {
+					"type": "text",
+					"name": "name",
+					"label": "Name",
+					"width": "1-2",
+					"required": true
+				},
+				"slug": {
+					"type": "text",
+					"name": "slug",
+					"label": "Slug",
+					"forcePattern": "slug",
+					"width": "1-2",
+					"required": true
+				},
+				"short_desc": {
+					"type": "textarea",
+					"name": "short_desc",
+					"label": "Short Description",
+					"width": "1-2",
+					"required": true
+				},
+				"teaser": {
+					"type": "textarea",
+					"name": "teaser",
+					"label": "Teaser Text",
+					"width": "1-2",
+					"required": true
+				},
+				"content": {
+					"type": "textarea",
+					"name": "content",
+					"label": "Content",
+					"width": "1-1",
+					"required": true
+				},
+				"reviews": {
+					"type": "template",
+					"value": "reviews",
+					"width": "1-1",
+					"required": true
+				}
+			},
+			"faq": {
+				"question": {
+					"type": "text",
+					"name": "question",
+					"label": "Question",
+					"width": "1-1",
+					"required": true
+				},
+				"answer": {
+					"type": "textarea",
+					"name": "answer",
+					"label": "Answer",
+					"width": "1-1",
+					"height": 100,
+					"required": true
+				},
+				"categories": {
+					"type": "repeater",
+					"name": "categories",
+					"label": "Categories to include this FAQ in",
+					"button_text": "Add Category",
+					"width": "1-2",
+					"required": true,
+					"fields": [
+						{
+							"type": "select",
+							"name": "category",
+							"label": "Category",
+							"dynamicValues": "posts.faq_category",
+							"dynamicType": "db"
+						}
+					]
+				}
+			},
+			"faq_category": {
+				"title": {
+					"type": "text",
+					"name": "title",
+					"label": "Title",
+					"width": "1-2",
+					"required": true
+				},
+				"slug": {
+					"type": "text",
+					"name": "slug",
+					"label": "Slug",
+					"forcePattern": "slug",
+					"width": "1-2",
+					"required": true
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,61 @@
+.leads-nav
+	margin: 10px 0 15px
+	display: block
+	float: right
+	font-size: 0
+	
+	&.upper
+		margin: 38px 0 4px
+		+max(736)
+			margin: 0 0 4px
+
+	&-item
+		font-size: 13px
+		position: relative
+		display: inline-block
+		+size(25)
+		margin-top: 4px
+		margin-right: 5px
+		background-color: white
+		border: 1px solid $divider
+		box-sizing: border-box
+		border-radius: 2px
+		cursor: pointer
+		&:last-child
+			margin-right: 0
+
+		&-text
+			position: absolute
+			+valign(53%)
+			display: block
+			width: 100%
+			line-height: 1
+			text-align: center
+			font-weight: 600
+			color: lighten($grey, 7)
+			transition: color 0.2s
+
+			.active &
+				color: $primary
+
+			&:before
+				position: relative
+				+icon('')
+				display: block
+				letter-spacing: -5px
+				font-size: 12px
+				font-weight: 400
+			
+			.next &:before
+				content: 'Q'
+				left: -2px
+				// top: -1px
+			.back &:before
+				content: 'R'
+				right: 2px
+				// top: 0px
+
+		&:hover &-text
+			color: $primary
+
+

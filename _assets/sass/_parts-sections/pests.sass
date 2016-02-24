@@ -1,0 +1,174 @@
+.pests_list
+	padding: 80px 0 20px
+	+max(736)
+		padding: 60px 0 20px
+	
+	&-innerwrap
+		width: 100%
+		max-width: 690px
+		+center
+		padding: 0 20px
+		box-sizing: border-box
+	
+	&-item
+		position: relative
+		display: block
+		color: $black
+		width: 100%
+		margin-bottom: 70px
+		box-sizing: border-box
+		cursor: pointer
+		+clearfix
+		&:hover &-icon:before
+			background-color: black 
+			opacity: 0.7
+		&:hover &-icon:after
+			color: $primary
+		
+		// Show arrow
+		&:hover &-text-title:after
+			+transform(translateX(0))
+			opacity: 1
+
+
+		&-icon
+			position: relative
+			float: left
+			+size(160)
+			border: 5px solid $grey-lighter
+			border-radius: 50%
+			box-sizing: border-box
+			transition: all 0.225s
+			+max(620)
+				+size(145)
+			+max(520)
+				+size(135)
+				float: none
+				+center
+
+			&-img
+				position: absolute
+				top: 0
+				left: 0
+				width: 100%
+				height: 100%
+				border-radius: 50%
+				background-size: cover
+				background-image: url(/img/img-residential.jpg)
+				filter: gray
+				filter: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' height='0'><filter id='greyscale'><feColorMatrix type='matrix' values='0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0' /></filter></svg>#greyscale")
+				filter: grayscale(100%)
+				-webkit-filter: grayscale(100%)
+
+
+			&:before  // Orange/Black Overlay
+				content: ''
+				position: absolute
+				z-index: 2
+				top: 0
+				right: 0
+				width: 100%
+				height: 100%
+				background-color: $primary
+				border-radius: 50%
+				opacity: 0.85
+				transition: opacity 0.225s, background-color 0.225s
+
+			&:after  // Bug Icon
+				+icon('h')
+				position: absolute
+				z-index: 3
+				+valign
+				width: 100%
+				font-size: 70px
+				text-align: center
+				color: $grey-lighter
+				opacity: 1
+				transition: all 0.225s
+				.roaches &
+					+icon('m')
+					font-size: 74px
+				.bed-bugs &
+					+icon('e')
+					font-size: 59px
+				.rodents &
+					+icon('n')
+					font-size: 78px
+				.termites &
+					+icon('p')
+					font-size: 57px
+				.ants &
+					+icon('a')
+					font-size: 58px
+				.mosquitos &
+					+icon('g')
+					font-size: 43px
+
+
+		&:nth-child(2n) &-icon
+			float: right
+			margin-right: 0
+			margin-left: 20px
+			+max(520)
+				float: none
+				+center
+
+
+
+
+		&-text
+			text-align: left
+			float: right
+			width: perc(600, 830)
+			position: absolute
+			+valign(46%)
+			right: 0
+			+max(620)
+				width: perc(570, 830)
+			+max(520)
+				position: static
+				+unvalign
+				float: none
+				clear: both
+				width: 100%
+				max-width: 310px
+				+center(15px)
+				text-align: center
+			
+			&-title
+				position: relative
+				margin: 7px 0 9px
+				padding-bottom: 4px
+				border-bottom: 2px solid $divider
+				font-weight: 500
+				font-size: 29px
+				line-height: 1
+				color: $primary
+				+max(620)
+					font-size: 26px
+					+center(7px, 4px)
+					border-bottom: 0
+				
+				&:after  // Arrow Icon
+					+icon('b')
+					position: absolute
+					margin-left: 10px
+					+transform(translateX(35%))
+					font-size: 28px
+					text-align: center
+					color: $primary
+					opacity: 0
+					transition: all 0.225s
+
+			&-content
+				line-height: 1.35
+				font-size: 18px
+				font-weight: 500
+				+max(620)
+					font-size: 16px
+		
+
+		&:nth-child(2n) &-text
+			right: auto
+			left: 0
+

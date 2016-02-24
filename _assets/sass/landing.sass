@@ -1,7 +1,53 @@
-@import _parts-global/_vars
-@import _parts-global/_elements
-@import _parts-landing/landing-hero
-@import _parts-landing/landing-service
-@import _parts-landing/landing-pests
-@import _parts-landing/landing-reviews
-@import _parts-landing/landing-cta
+@import '_parts-global/_vars'
+@import '_parts-global/_elements'
+@import '_parts-global/header'
+@import '_parts-global/footer'
+@import '_parts-global/normalize'
+@import '_parts-global/fonts'
+@import '_parts-global/icons'
+@import '_parts-global/form'
+@import '_parts-global/animations'
+@import '_parts-landing/landing-hero'
+@import '_parts-sections/benefit_points'
+@import '_parts-sections/content_block'
+@import '_parts-sections/cta_divider'
+@import '_parts-sections/faqs_small'
+@import '_parts-sections/form.boxed'
+@import '_parts-sections/pests_treated'
+@import '_parts-sections/reviews'
+@import '_parts-sections/services'
+@import '_parts-sections/wrapper_block'
+
+
+body
+	font-family: avenir
+	background-color: $white
+
+
+
+.cta_with_faqs
+	position: relative
+	max-width: 1170px
+	padding: 60px 20px
+	+center
+	box-sizing: border-box
+	+clearfix
+	
+	&-support
+		position: relative
+		width: 45%
+		float: left
+	
+	.faqs_small
+		margin-top: 60px
+
+	.form_boxed
+		position: absolute
+		z-index: 2
+		top: -410px
+		right: 20px
+
+
+.services
+	border-top: 1px solid $divider
+	background-color: white

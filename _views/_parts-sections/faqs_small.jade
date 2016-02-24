@@ -1,0 +1,9 @@
+mixin faqs_small(items)
+	.faqs_small
+		h4.faqs_small-title(title="Frequently Asked Questions") FAQs
+		
+		.faqs_small-list
+			for item in items
+				.faqs_small-list-item(itemscope, itemtype="http://schema.org/Question")
+					h6.faqs_small-list-item-title(itemprop="name")!=item.question
+					p.faqs_small-list-item-content(itemprop="acceptedAnswer")!=item.answer

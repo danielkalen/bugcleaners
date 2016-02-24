@@ -29,6 +29,7 @@ $divider: $grey-lighter
 $divider-dark: $grey-mid-light
 $white: #fbfbfb
 $subwhite: #f1f1f1
+$subberwhite: #f5f5f5
 $black: #181818
 $pros: #72c322
 $cons: #cc4820
@@ -53,6 +54,9 @@ $stumbleupon: #f74425
 
 =tap-highlight
 	-webkit-tap-highlight-color: rgba(0,0,0,0.2) !important
+
+=tap-color
+	+tap-highlight-reset
 
 =tap-highlight-manual($pseudo: 'before')
 	position: relative
@@ -122,9 +126,6 @@ $stumbleupon: #f74425
 	text-shadow: none !important
 
 
-
-
-
 // ==== general mixinx =================================================================================
 =m($size: 760, $max: max, $dimension:width)
 	@media screen and (#{$max}-#{$dimension}: #{$size}px)
@@ -142,20 +143,21 @@ $stumbleupon: #f74425
 	@media screen and (max-#{$maxdimension}: #{$maxsize}px) and (min-#{$mindimension}: #{$minsize}px)
 		@content
 
-=portrait()
-	@media screen and (orientation: portrait)
-		@content
+// =e($element)
+//   &-#{$element}
+//     @content
 
-=landscape()
-	@media screen and (orientation: landscape)
-		@content
-
-
-=center($top: 0, $bottom: 0)
-	@if ($top == 0 or $top == '0px') and ($bottom == 0 or $bottom == '0px')
-		margin: 0 auto
+=center($top: 0, $bottom: 0, $important: '')
+	@if $top == 0 and $bottom == 0
+		@if $important != ''
+			margin: 0 auto !important 
+		@else
+			margin: 0 auto
 	@else
-		margin: #{$top} auto #{$bottom}
+		@if $important != ''
+			margin: #{$top} auto #{$bottom} !important
+		@else
+			margin: #{$top} auto #{$bottom}
 
 =valign($top: 50%)
 	top: $top
@@ -188,26 +190,33 @@ $stumbleupon: #f74425
 	-o-transform: translateY(0)
 	transform: translateY(0)
 
-=ratio($percentual-height)
+=ratio($percentual-height, $content-fix: true)
 	// Wrapper
 	position: relative
 	display: block
 	vertical-align: top
-	&:before
+	&:after
 		padding-top: $percentual-height
 		content: ''
 		display: block
 	// Content
-	> *
-		position: absolute
-		top: 0
-		left: 0
-		bottom: 0
-		right: 0
+	@if $content-fix == true
+		> *
+			position: absolute
+			top: 0
+			left: 0
+			bottom: 0
+			right: 0
 
 =size($width, $height: $width)
 	width: #{$width}px
 	height: #{$height}px
+
+=inheritSize($width:true, $height: true)
+	@if $width
+		width: 100%
+	@if $height
+		height: 100%	
 
 =clearfix
 	&:before,
@@ -260,12 +269,84 @@ $stumbleupon: #f74425
 	-moz-transition: $transition
 	transition: $transition
 
-=transform($transform: none)
-	-webkit-transform: $transform
-	-moz-transform: $transform
-	-ms-transform: $transform
-	-o-transform: $transform
-	transform: $transform
+
+=transitionTransform($time:0.25s, $additional:false)
+	$transformTransition: transform $time, -ms-transform $time, -moz-transform $time, -webkit-transform $time
+	@if $additional
+		transition: $transformTransition, $additional
+	@else
+		transition: $transformTransition
+
+
+=tooltip($side: 'top')
+	position: absolute
+	z-index: 10
+	+halign
+	@if $side == 'top'
+		top: 33px
+	@if $side == 'bottom'
+		bottom: 33px
+	display: block
+	padding: 6px 8px 5px
+	border-radius: 2px
+	background-color: #181818
+	font-family: avenir
+	font-weight: 700
+	line-height: 1
+	font-size: 10px
+	letter-spacing: .4px
+	text-transform: uppercase
+	color: white
+	+arrow($side: $side, $align: "center", $size: 5px, $color: #181818, $borderColor: "none", $borderSize: 3px)
+	opacity: 0
+	visibility: hidden
+	transition: opacity 0.2s, visibility 0.2s
+
+=tooltip-hover
+	visibility: visible
+	opacity: 1
+	transition: opacity 0.20s linear 0.25s, visibility 0.20s linear 0.25s
+
+
+=transform($transforms) 
+	-moz-transform: $transforms
+	-o-transform: $transforms
+	-ms-transform: $transforms
+	-webkit-transform: $transforms
+	transform: $transforms
+
+=transform-origin($transforms) 
+	-moz-transform-origin: $transforms
+	-o-transform-origin: $transforms
+	-ms-transform-origin: $transforms
+	-webkit-transform-origin: $transforms
+	transform-origin: $transforms
+
+
+=filter($filters)
+	-webkit-filter: $filters
+	-moz-filter: $filters
+	-ms-filter: $filters
+	-o-filter: $filters
+	filter: $filters
+
+
+=user-select($opt)
+	-webkit-user-select: $opt
+	-khtml-user-select: $opt
+	-moz-user-select: $opt
+	-ms-user-select: $opt
+	user-select: $opt
+
+
+=icon($iconname)
+	content: $iconname
+	font-family: $iconfamily
+	line-height: 1
+
+
+
+
 
 =arrow_helper($arrowSize, $arrowColor, $margin, $side, $align)
 	@if $side == "top"
@@ -317,32 +398,76 @@ $stumbleupon: #f74425
 			border-width: $borderSize + $size
 			+arrow_helper($size + $borderSize, $borderColor, $size - $borderSize, $side, $align)
 
-=transform($transforms) 
-	-moz-transform: $transforms
-	-o-transform: $transforms
-	-ms-transform: $transforms
-	-webkit-transform: $transforms
-	transform: $transforms
-
-=transform-origin($transforms) 
-	-moz-transform-origin: $transforms
-	-o-transform-origin: $transforms
-	-ms-transform-origin: $transforms
-	-webkit-transform-origin: $transforms
-	transform-origin: $transforms
-
-=user-select($opt)
-	-webkit-user-select: $opt
-	-khtml-user-select: $opt
-	-moz-user-select: $opt
-	-ms-user-select: $opt
-	user-select: $opt
 
 
-=icon($iconname)
-	content: $iconname
-	font-family: $iconfamily
-	line-height: 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ==== Animations =================================================================================
+=keyframes($name, $ms:true, $moz:true, $webkit:true, $all:true)
+	@keyframes #{$name}
+		@content
+
+	@if $ms and $all
+		+keyframes-ms($name)
+			@content
+	@if $moz and $all
+		+keyframes-moz($name)
+			@content
+	@if $webkit and $all
+		+keyframes-webkit($name)
+			@content
+
+=keyframes-ms($name)
+	@-ms-keyframes #{$name}
+		@content
+
+=keyframes-moz($name)
+	@-moz-keyframes #{$name}
+		@content
+
+=keyframes-webkit($name)
+	@-webkit-keyframes #{$name}
+		@content
+
+
+
+
+
+=keyframesTransform($name, $map)
+	@keyframes #{$name}
+		@each $stage, $transform in $map
+			#{$stage}
+				transform: $transform
+	
+	@-ms-keyframes #{$name}
+		@each $stage, $transform in $map
+			#{$stage}
+				-ms-transform: $transform
+	
+	@-moz-keyframes #{$name}
+		@each $stage, $transform in $map
+			#{$stage}
+				-moz-transform: $transform
+	
+	@-webkit-keyframes #{$name}
+		@each $stage, $transform in $map
+			#{$stage}
+				-webkit-transform: $transform
+
+
+
 
 
 
@@ -367,6 +492,12 @@ $stumbleupon: #f74425
 
 @function golden-down($target)
 	@return #{$target / 1.618}px
+
+@function letter-spacing($target)
+	@return #{$target / 1000}em
+
+@function letter-spacing-px($target, $font-size)
+	@return #{($target*$font-size) / 1000}px
 
 
 
@@ -413,45 +544,3 @@ $ease-in-out-sine: cubic-bezier(0.445, 0.05, 0.55, 0.95)
 $ease-in-out-expo: cubic-bezier(1, 0, 0, 1)
 $ease-in-out-circ: cubic-bezier(0.785, 0.135, 0.15, 0.86)
 $ease-in-out-back: cubic-bezier(0.68, -0.55, 0.265, 1.55)
-
-
-
-
-
-
-
-
-
-
-@-moz-keyframes touchanimate
-	0% 
-		+size(10)
-		opacity: 0
-	50%
-		opacity: 0.6
-	100% 
-		opacity: 0
-		+size(65) 
-
-@-webkit-keyframes touchanimate
-	0% 
-		+size(10)
-		opacity: 0
-	50%
-		opacity: 0.6
-	100% 
-		opacity: 0
-		+size(65) 
-
-@keyframes touchanimate
-	0% 
-		+size(10)
-		opacity: 0
-	50%
-		opacity: 0.6
-	100% 
-		opacity: 0
-		+size(65)
-
-
-

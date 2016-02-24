@@ -1,0 +1,10 @@
+mixin services
+	section.section.services
+		.services-innerwrap
+			each service in services
+				a.services-item(class=service.slug itemscope, itemtype="http://schema.org/Product", href="/services/"+service.slug)
+					.services-item-icon
+						.services-item-icon-img
+
+					h3.services-item-title(itemprop="name")!='<strong>'+service.name+'</strong> Services'
+					div.services-item-content(itemprop="descripiton")!=markdown.render(service.teaser).body

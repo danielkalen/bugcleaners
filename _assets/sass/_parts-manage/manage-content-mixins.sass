@@ -1,0 +1,107 @@
+$faqcolor: lighten($black, 10)
+
+=toggle($size:20, $top:3, $right:0)
+	position: absolute
+	z-index: 2
+	right: ($right*1px)
+	top: ($top*1px)
+	// +valign
+	+size($size)
+	cursor: pointer
+
+	&:after // Plus Icon
+		+icon('i')
+		position: absolute
+		+valign
+		right: 0
+		// right: 12px
+		font-size: (($size*1px)*0.85)
+		color: $faqcolor
+		cursor: pointer
+		+transform(rotate(45deg) translateY(-50%))
+		+transform-origin(50% 0%)
+		transition: all 0.25s
+
+		.collapsed > &,
+		.closed > &
+			+transform(translateY(-50%))
+			+transform-origin(50% 50%)
+
+=divider-full_width
+	&:nth-last-child(2)
+		&:after
+			display: none
+
+	&:after
+		position: absolute
+		bottom: 0
+		left: 0
+		height: 3px
+		display: block
+		width: 100%
+		background-color: $divider
+		content: ''
+
+
+
+=add_button($width: 146, $height: 36, $font-size: 14)
+	&-add
+		position: relative
+		float: right
+		// width: ($width*1px)
+		height: ($height*1px)
+		margin-top: 10px
+		padding: 0 20px
+		background-color: white
+		border: 1px solid darken($divider,8)
+		border-radius: 3px
+		color: $primary
+		cursor: pointer
+		+user-select(none)
+		transition: background-color 0.2s
+		&:hover
+			background-color: darken($subwhite,2)
+
+		&:before
+			+icon('+')
+			position: absolute
+			left: 7px
+			+valign(50.5%)
+			font-size: 20px
+			font-size: (($font-size*1.42)*1px)
+			font-family: avenir
+			font-weight: 600
+
+		&-text
+			position: relative
+			left: 7px
+			right: 0
+			+valign(52%)
+			width: 100%
+			text-align: center
+			font-family: proxima
+			font-size: ($font-size*1px)
+			font-weight: 700
+			line-height: 1
+			text-transform: uppercase
+
+=placeholder
+	&-placeholder
+		position: relative
+		top: 2px
+		text-align: center
+		font-size: 16px
+		padding: 20px 0
+		line-height: 1
+		font-weight: 600
+		opacity: 0.3
+		&:before
+			+icon('3')
+			position: absolute
+			z-index: 1
+			+valign
+			left: 0
+			right: 0
+			font-size: 36px
+			opacity: 0.2
+			font-weight: 400

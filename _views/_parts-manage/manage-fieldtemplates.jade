@@ -1,0 +1,34 @@
+div.fieldTemplates#fieldTemplates(style="display:none;")
+	div(data-name="page")
+		+renderPage
+
+	
+	div(data-name="variation")
+		+renderVariation
+
+	
+	div(data-name="post-pest")
+		+renderPostPest
+
+	
+	div(data-name="post-faq")
+		+renderPostFaq
+
+	
+	div(data-name="post-faq_category")
+		+renderPostFaqCategory
+
+	
+	div(data-name="post-service")
+		+renderPostService
+	
+
+	div(data-name="sidebarItem")
+		.manage-sidebar-list-item
+			.manage-sidebar-list-item-text
+	
+	div(data-name="blocks")
+		each block in fieldSchemas.blocks
+			div(id="block-"+block.slug)
+				each field in block.fields
+					+fieldGeneratorWrapper(field)

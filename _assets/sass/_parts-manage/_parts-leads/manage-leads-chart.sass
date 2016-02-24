@@ -1,0 +1,353 @@
+.chart.horizontal
+	width: 100%
+	background: white
+	margin-top: 10px
+	border: 1px solid $divider
+	border-radius: 4px
+	border-collapse: separate
+	+max(736)
+		display: block
+
+	thead
+		height: 70px
+		+max(736)
+			display: none
+
+	&.chart_variable
+		position: relative
+
+		// Overlay
+		&:before
+			content: ''
+			position: absolute
+			z-index: 10
+			top: 73
+			left: 0
+			width: 100%
+			height: 100%
+			background-color: white
+			border: 1px solid $divider
+			border-top: 0
+			border-bottom: 0
+			border-radius: 4px
+			opacity: 0.65
+			box-sizing: border-box
+			.webkit &
+				border: 0
+
+		// Loading gif
+		&:after
+			content: ''
+			position: absolute
+			z-index: 11
+			top: 25%
+			left: 0
+			right: 0
+			display: block
+			+size(64)
+			+center
+			background-image: url(/theme/images/loading.gif)
+			background-size: cover
+		
+		// Body blur
+		tbody
+			-webkit-filter: blur(4px)
+			filter: blur(4px)
+			// filter: url(#blur-effect)
+			transition: filter 0.35s, -webkit-filter 0.35s
+			.safari &
+				transition: -webkit-filter 0.01s
+		
+		// Cancel everything out once loaded
+		&.loaded
+			&:before,
+			&:after
+				display: none
+			tbody
+				-webkit-filter: none
+				filter: none
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.thead
+	&-item
+		position: relative
+		height: 70px
+		border-bottom: 3px solid $primary
+		text-align: center
+		color: $primary
+
+		&.checkbox
+			padding: 0 10px
+			width: 40px
+		&.date
+			width: 90px
+		&.status
+			width: 60px
+		&.source_page
+			width: 130px
+		&.variation
+			width: 70px
+		&.lead_contact,
+		&.lead_details
+			min-width: 200px
+		&.browser_and_ip
+			width: 130px
+		&.notes
+			width: 170px
+		&.actions
+			width: 130px
+			+clearfix
+
+
+
+
+		&-text
+			position: absolute
+			left: 0
+			right: 0
+			bottom: 7px
+			font-family: proxima
+			font-size: 13px 
+			font-weight: 700
+			color: $primary
+			text-transform: uppercase
+			letter-spacing: .6px
+
+
+		&-icon
+			position: absolute
+			left: 0
+			right: 0
+			top: 15px
+			font-weight: 400
+
+			.date &:before
+				+icon('A')
+				font-size: 20px
+			.status &:before
+				+icon('N')
+				font-size: 22px
+			.source_page &:before
+				+icon('3')
+				font-size: 21px
+			.lead_contact &:before
+				+icon('F')
+				font-size: 22px
+			.lead_details &:before
+				+icon('F')
+				font-size: 22px
+			.notes &:before
+				+icon('#')
+				font-size: 20px
+			.browser_and_ip &:before
+				+icon('0')
+				font-size: 21px
+			.actions &:before
+				+icon('4')
+				font-size: 22px
+
+
+
+
+.chart.sticky-table
+	position: fixed
+	display: none
+	top: 0
+	left: 0
+	right: 0
+	max-width: 1130px
+	+center(0)
+	background: 0
+	border-bottom: 0
+	border-radius: 0
+	z-index: 5
+	box-sizing: border-box
+
+	&.show 
+		display: table
+
+	tr
+		background-color: white
+
+	+max(1130)
+		width: 100%
+		padding: 0 20px
+		border-top: 0 
+
+	@media screen and (max-width:1170px) and (min-width: 1131px) 
+		width: 96.5%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.chart tbody 
+	+max(736)
+		display: block
+		border-top: 0
+
+		tr
+			position: relative
+			display: block
+			width: 100%
+			min-height: 300px
+			padding: 30px 20px
+			border-top: 1px solid $divider
+			box-sizing: border-box
+
+			&:first-child
+				border-top: 0
+
+
+.tbody
+
+	&-item
+		height: auto
+		padding: 7px 0
+		border-top: 1px solid $divider
+		font-size: 13px
+		text-align: center
+		box-sizing: border-box
+		+max(736)
+			display: block
+			border-top: 0
+			height: auto
+
+
+		&-source
+			+ellipsis(90%)
+			max-width: 200px
+			display: block
+			+center
+
+		@import 'chart_rows/chart-row_status'
+		@import 'chart_rows/chart-row_source_page'
+		@import 'chart_rows/chart-row_lead_details'
+		@import 'chart_rows/chart-row_notes'
+		@import 'chart_rows/chart-row_browser'
+		@import 'chart_rows/chart-row_ip'
+		@import 'chart_rows/chart-row_actions'
+
+
+		+max(736)
+			height: auto !important
+			padding: 3px 0
+			&.checkbox
+				display: none
+			&.form
+				&:before
+					content: 'Source:'
+					font-weight: 700
+			&.lines
+				&:before
+					content: 'Lines:'
+					font-weight: 700
+			&-source
+				max-width: 400px
+				&:before
+					content: 'Source URL: '
+					font-weight: 700
+			&.provider
+				font-weight: 700
+			&.type
+				&:before
+					content: 'Type:'
+					font-weight: 700
+			&.email
+				&:before
+					content: 'Email:'
+					font-weight: 700
+			&.subscription_type
+				&:before
+					content: 'Subscription Type:'
+					font-weight: 700
+
+
+	+max(736)
+		tbody tr
+			padding: 15px
+			.clicks.clicks_individual &,
+			.emails &
+				min-height: 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+//	Remove first row's top border
+tr:first-child .tbody-item
+	border-top: 0
+
+
+
+
+.leads-table-checkbox
+	+size(15)
+	border: 1px solid $divider !important
+	border-radius: 3px !important
+	+appearance(checkbox !important)

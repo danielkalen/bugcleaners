@@ -1,0 +1,475 @@
+&-item
+	position: relative
+	// overflow: hidden
+	margin-bottom: 15px
+	background-color: white
+	padding: 14px 20px
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.13)
+	box-sizing: border-box
+	cursor: pointer
+	opacity: 1
+	transition: height 0.35s, opacity 0.35s
+	+tap-highlight
+	&.disabled
+		opacity: 0.6
+
+	&-disable
+		position: absolute
+		top: 20px
+		// +valign(51%)
+		+size(18)
+		right: -28px
+		color: $divider-dark
+		transition: color 0.25s
+		.disabled > &
+			color: $error-color
+		&:hover
+			color: darken($divider-dark, 10)
+		&:after
+			+icon('!')
+			font-size: 18px
+
+	&-toggle
+		+toggle(20, 18, 12)
+
+	// Item title
+	&-title
+		position: relative
+		top: 2px
+		width: 92%
+		font-size: 22px
+		font-weight: 600
+		color: $primary
+		cursor: pointer
+		transition: all 0.25s
+		.closed &
+			color: $faqcolor
+			&:hover
+				color: $primary
+		+max(736)
+			font-size: 16px
+
+	&.show &-content
+		opacity: 1
+	
+	&-content
+		position: relative
+		padding-top: 20px
+		padding-bottom: 10px
+		font-size: 14px
+		font-weight: 500
+		line-height: 1.3
+		color: $text
+		opacity: 0
+		transition: opacity 0.25s
+		display: none
+
+
+		&-fieldset
+			+fieldset($style:new, $inputHeight:52px, $textareaHeight: 150px, $margin:2.5%, $bgColor:$white, $textColor:$black, $borderColor:$divider, $labelColor:lighten($black, 45), $fontSize:14px, $labelSize:10px, $iconSize:12px, $widthRules:true)
+
+			&.reviews
+				padding: 0
+
+			&.dependant_fieldset
+				display: none
+				height: auto
+				&.reveal_dependant
+					display: block
+					height: auto
+
+			&.fieldtype_select
+				&:after
+					opacity: 0.3
+
+			&.fieldtype_repeater
+				margin-bottom: 40px
+			&-repeater
+				&-title
+					margin-bottom: 5px
+					font-weight: 600
+					font-size: 15px
+					line-height: 1
+
+
+			&-radio
+				position: relative
+				top: -5px
+				width: 100px
+				max-width: 47%
+				min-height: 34px
+				margin-right: 10px
+
+				&-label
+					font-size: 13.1px
+					position: absolute
+					+valign(51%)
+					left: 0
+					right: 0
+					line-height: 1
+			&.fieldtype_radio &-label
+				font-size: 12px
+
+
+			&.fieldtype_repeater_group,
+			&.fieldtype_group
+				position: relative
+				margin: 20px 0
+				&.nested_3
+					margin: 0px 0 15px
+			
+			&-group
+				position: relative
+				padding: 20px
+				box-sizing: border-box
+				background-color: $subwhite
+				border: 1px solid $divider
+				box-sizing: border-box
+				+clearfix
+				opacity: 1
+				transition: opacity 0.25s
+				.collapsed > &
+					opacity: 0
+				.nested_1 &
+					background-color: white
+				.nested_2 &
+					background-color: $subwhite
+				.nested_3 &
+					border: 0
+					background-color: white
+
+				&-title
+					margin-bottom: 5px
+					margin-top: 0
+					font-size: 22px
+					font-weight: 600
+					cursor: pointer
+					border-bottom: 0
+					color: $primary
+					.collapsed > &
+						color: $black
+					.nested_1 &
+						margin-bottom: 0
+						font-size: 17px
+						font-weight: 700
+					.nested_3 &
+						font-size: 15.2px
+
+				&-toggle
+					+toggle($top:5)
+					.nested_1 &
+						top: 0px
+
+
+
+
+			&-repeater_group
+				position: relative
+				background-color: $subwhite
+				border: 1px solid $divider
+				box-sizing: border-box
+				+clearfix
+				opacity: 1
+				transition: opacity 0.25s
+				.collapsed > &
+					opacity: 0
+				.nested_1 &
+					background-color: white
+				.nested_3 &
+					border: 0
+					background-color: $subwhite
+
+				&-title
+					margin-bottom: 5px
+					margin-top: 0
+					font-size: 22px
+					font-weight: 600
+					cursor: pointer
+					border-bottom: 0
+					color: $primary
+					.collapsed > &
+						color: $black
+					.nested_1 &
+						margin-bottom: 0
+						font-size: 17px
+						font-weight: 700
+					.nested_3 &
+						font-size: 15px
+
+				&-toggle
+					+toggle($top:5)
+					.nested_1 &
+						top: 0px
+				+placeholder
+
+				&-groups
+					+clearfix
+					&-item
+						position: relative
+						box-sizing: border-box
+						padding: 20px
+						margin-top: 0
+						border-bottom: 2px solid $divider
+						+clearfix
+						.nested_3 &
+							padding: 0 20px
+							border: 0
+							&:first-child
+								padding-top: 20px
+
+						.nested_3 &:first-child &-actions
+							top: 40px
+						.nested_3 &:hover &-actions-item
+							opacity: 1
+
+						&-title
+							font-size: 18px
+							font-weight: 600
+							padding-bottom: 5px
+							.nested_1 &
+								display: none
+
+						&-fields
+							.nested_1 &
+								& + .clearfix
+									display: none
+
+
+						// Step actions
+						&-actions
+							position: relative
+							top: -3px
+							width: 50%
+							max-width: 230px
+							+clearfix
+							.nested_1 &
+								max-width: 31.66667%
+								float: left
+							.nested_3 &
+								position: absolute
+								top: 20px
+								right: 3px
+
+							
+							&-item
+								position: relative
+								float: left
+								width: 47%
+								height: 35px
+								margin-top: 8px
+								// height: 50px
+								background-color: darken($subwhite,2)
+								border: 1px solid darken($divider,8)
+								border-radius: 3px
+								color: $divider-dark
+								cursor: pointer
+								+user-select(none)
+								transition: background-color 0.2s
+								&:last-child
+									float: right
+								&:hover
+									background-color: $subberwhite
+
+								&:before
+									position: absolute
+									+valign
+									left: 11%
+									font-size: 18px
+									line-height: 0 !important
+									transition: color 0.2s
+									.nested_2 &
+										font-size: 16px
+								&.repeater-clone:before
+									+icon('8')
+									color: $grey
+								&.repeater-delete:before
+									+icon('7')
+									color: $grey
+
+								&-text
+									position: absolute
+									left: 8px
+									right: 0
+									+valign(54%)
+									width: 100%
+									text-align: center
+									font-family: proxima
+									font-size: 14px
+									font-weight: 700
+									line-height: 1
+									text-transform: uppercase
+									color: $grey
+									transition: color 0.2s
+									.nested_2 &
+										font-size: 11px
+									.nested_3 &
+										display: none
+								
+								&.repeater-clone:hover &-text,
+								&.repeater-clone:hover:before
+									color: $primary
+								&.repeater-delete:hover &-text,
+								&.repeater-delete:hover:before
+									color: $error-color
+								
+
+								.nested_3 &
+									position: absolute
+									right: 0
+									+size(16)
+									margin-top: 0
+									border: 0
+									box-sizing: border-box
+									cursor: pointer
+									opacity: 0
+									transition: opacity 0.2s
+									&.repeater-clone
+										display: none
+
+									&:before
+										display: none
+
+									&:after
+										+icon($deleteIcon)
+										position: absolute
+										+valign
+										left: 0
+										right: 0
+										width: 100%
+										font-size: 16px
+										text-align: center
+										color: $error-color
+					
+
+
+				.repeater-button
+					margin: 20px
+					.nested_3 &
+						margin-top: 0
+
+
+
+			&-button
+				position: relative
+				float: right
+				padding: 10px 15px 8px
+				background-color: white
+				border: 1px solid darken($divider,8)
+				border-radius: 3px
+				color: $primary
+				cursor: pointer
+				+user-select(none)
+				transition: background-color 0.2s
+				&:hover
+					background-color: darken($subwhite,2)
+
+				&:before
+					+icon('+')
+					position: absolute
+					left: 7px
+					+valign(55%)
+					font-size: 17px
+					font-family: avenir
+					font-weight: 600
+
+				&-text
+					position: relative
+					left: 7px
+					right: 0
+					width: 100%
+					text-align: center
+					font-family: proxima
+					font-size: 12px
+					font-weight: 700
+					line-height: 1
+					text-transform: uppercase
+
+					
+			
+
+
+
+
+
+		// Actions buttons
+		&-button
+			position: relative
+			float: left
+			width: 100px
+			height: 32px
+			margin-top: 10px
+			background-color: $subwhite
+			border: 1px solid darken($divider,8)
+			border-radius: 3px
+			color: $divider-dark
+			cursor: pointer
+			+user-select(none)
+			margin-right: 10px
+			transition: background-color 0.2s
+			&:nth-last-child(3)
+				margin-right: 0
+			&:hover
+				background-color: darken($subwhite,2)
+			&.save
+				color: $primary
+
+			&:before
+				position: absolute
+				+valign
+				left: 11%
+				font-size: 18px
+				line-height: 0 !important
+			&.save:before
+				+icon('Z')
+			&.clone:before
+				+icon('8')
+			&.delete:before
+				+icon('7')
+
+			&-text
+				position: absolute
+				left: 8px
+				right: 0
+				+valign(54%)
+				width: 100%
+				text-align: center
+				font-family: proxima
+				font-size: 14px
+				font-weight: 700
+				line-height: 1
+				text-transform: uppercase
+
+
+		&-status
+			float: left
+			margin-left: 10px
+			margin-top: 19px
+			font-weight: 600
+			.save_success &
+				color: $pros
+			.save_error &
+				color: $cons
+
+
+
+.dynamic_block
+	clear: both
+	border: 1px solid $divider
+	padding: 20px
+	margin-bottom: 15px
+	background-color: white
+	box-sizing: border-box
+	+clearfix
+
+	> .fieldtype_repeater_group
+		padding: 0
+	> .fieldset:last-child
+		margin-bottom: 0
+		padding-bottom: 0
+
+	.fieldtype_repeater > .repeater-container > .repeater-button
+		display: block
+		margin-right: 0
+
+.dynamic_block_backup
+	display: none

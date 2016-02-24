@@ -1,0 +1,539 @@
+- stylesOutput = '';
+mixin fieldGenerator(options)
+	-
+		origOptions = options;
+		defaultOptions = {
+			'className':'',
+			'type':'',
+			'fieldType':'',
+			'name':'',
+			'realname':'',
+			'label':'',
+			'label_single':'',
+			'placeholder':'',
+			'defaultValue':'',
+			'values':[],
+			'valueIcons':[],
+			'width':'1-1',
+			'height':'',
+			'rows':'',
+			'icon':'',
+			'pattern':'',
+			'forcePattern':'',
+			'comments':'',
+			'desc':'',
+			'error':'',
+			'minimum':0,
+			'maximum':false,
+			'nested':0,
+			'required':false,
+			'depends_on':false,
+			'condition':false,
+			'sibling_dependent':false,
+			'conditionScope':'form',
+			'comparison':false,
+			'extraClasses':'',
+			'checkmark':false,
+			'useKeyInsteadOfValue':false,
+			'has_title':false,
+			'collapsed':false,
+			'disabled_forever':false,
+			'is_last':false
+		}; options = extend(defaultOptions, options);
+
+		if (options.type === 'repeater' || options.type === 'repeater_group' || options.type === 'group') {
+			if (typeof origOptions.has_title === 'undefined') options.has_title = true;
+		}
+
+		// ==== Aliases =================================================================================
+		if (typeof options.default !== 'undefined') options.defaultValue = options.default;
+		if (typeof options.dependsOn !== 'undefined') options.depends_on = options.dependsOn;
+
+
+
+		// ==== Label & Placeholder =================================================================================
+		if (!options.label) {
+			capitalizedWords = []
+			label = options.name.split('_')
+			label.forEach(function(word){
+				capitalizedWords.push(word[0].toUpperCase() + word.slice(1));
+			});
+			options.label = capitalizedWords.join(" ");
+		}
+		
+		if (!options.label_single) {
+			options.label_single = options.label.slice(0, options.label.length-1);
+		}
+		options.placeholder = options.placeholder ? options.placeholder : options.label;
+
+		// ==== Field Name =================================================================================
+		if (!options.realname) {
+			options.realname = options.name;
+		}
+
+
+
+		// ==== Field ID =================================================================================
+		options.id = options.className+'_'+options.name;
+		if (options.id.indexOf('[]') !== -1) {
+			options.id = options.id.replace(/\[\]/, '_'+options.repeaterIndex);
+		}
+
+
+
+		// ==== Field Type =================================================================================
+		options.fieldType = options.type;
+		if (options.type === 'full_name' || options.type === 'fullname') {
+			options.type = 'full_name';
+			options.fieldType = 'text';
+		}
+		if (options.type === 'checkbox_single') options.fieldType = 'checkbox';
+		if (options.type === 'radio_hybrid') options.fieldType = 'checkbox';
+
+
+
+		// ==== Field Width =================================================================================
+		if (options.width === 'wide')			options.width = '1-1';
+		if (options.width === 'full')			options.width = '1-1';
+		if (options.width === 'half')			options.width = '1-2';
+		if (options.width === 'half_width')		options.width = '1-2';
+		if (options.width === 'third')			options.width = '1-3';
+		if (options.width === 'quarter')		options.width = '1-4';
+
+		if (typeof origOptions.is_last === 'undefined') {
+			options.is_last = isLast(options.width);
+		} else {
+			isLast(options.width);
+		}
+
+
+
+		// ==== Attrs =================================================================================
+		attrs = {};
+		if (options.negative_dependant) options.comparison = '!=';
+		if (options.defaultValue && options.defaultValue.constructor === Boolean) options.defaultValue = booleanToString(options.defaultValue);
+		if (options.defaultValue && options.defaultValue.constructor === String)
+			attrs['data-default_value'] = options.defaultValue;
+		if (options.sibling_dependent)		options.conditionScope = 'sibling'
+		if (options.conditionScope)			attrs['data-condition_scope'] = options.conditionScope;
+		if (options.forcePattern)			attrs['data-force_pattern'] = options.forcePattern;
+		if (options.depends_on)				attrs['data-depends_on'] = options.depends_on;
+		if (options.condition)				attrs['data-condition'] = options.condition;
+		if (options.comparison)				attrs['data-comparison'] = options.comparison;
+		if (options.has_title)				attrs['data-has_title'] = 1;
+		if (options.collapsed)				attrs['data-collapsed'] = 1;
+		if (options.required)				attrs['data-required'] = 1;
+		if (options.comments)				attrs['data-comments'] = options.comments;
+		if (options.realname)				attrs['data-realname'] = options.realname;
+		if (options.pattern)				attrs['data-pattern'] = options.pattern;
+		if (options.is_last)				attrs['data-is_last'] = 1;
+		if (options.minimum)				attrs['data-minimum'] = options.minimum;
+		if (options.maximum)				attrs['data-maximum'] = options.maximum;
+		if (options.nexted)					attrs['data-nexted'] = options.nexted;
+		if (options.height)					attrs['data-height'] = options.height;
+		if (options.width)					attrs['data-width'] = options.width;
+		if (options.error)					attrs['data-error'] = options.error;
+		if (options.desc)					attrs['data-desc'] = options.desc;
+		if (options.name)					attrs['data-name'] = options.name;
+		if (options.type)					attrs['data-type'] = options.type;
+		if (options.icon)					attrs['data-icon'] = options.icon;
+		if (options.rows)					attrs['data-rows'] = options.rows;
+		if (options.id)						attrs['data-id'] = options.id;
+		if (options.type === 'repeater_group' && options.label)		attrs['data-label'] = options.label;
+
+
+		
+		// ==== Fieldset Classes =================================================================================
+		fieldsetClasses = "";
+		if (options.depends_on)			fieldsetClasses += " dependant_fieldset";
+		if (options.realname)			fieldsetClasses += " "+options.realname;
+		if (options.required)			fieldsetClasses += " required";
+		if (options.is_last)			fieldsetClasses += " is_last";
+		if (options.nested)				fieldsetClasses += " nested_"+options.nested;
+		if (options.width)				fieldsetClasses += " width_"+options.width;
+		if (options.rows)				fieldsetClasses += " rows_"+options.rows;
+		if (options.name)				fieldsetClasses += " "+options.name;
+		if (options.type)				fieldsetClasses += " fieldtype_"+options.type;
+		if (options.type === 'checkbox' || options.type === 'radio' || options.type === 'radio_hybrid') fieldsetClasses += " options_"+objectToArray(options.values).length;
+		if (options.type === 'repeater' || options.type === 'repeater_group') fieldsetClasses += " dont-error";
+
+		if (options.extraClasses) fieldsetClasses += options.extraClasses;
+
+
+
+		// ==== Input Classes =================================================================================
+		inputClasses = "";
+		if (options.type === 'tel') 		inputClasses += " phone";
+		if (options.type === 'email') 		inputClasses += " email";
+		if (options.type === 'full_name') 	inputClasses += " full_name";
+		if (options.disabled_forever) 		inputClasses += " disabled_forever";
+
+
+
+
+		// ==== Values array fix =================================================================================
+		if (options.type === 'select' || options.type === 'radio' || options.type === 'radio_hybrid' || options.type === 'checkbox' || options.type === 'checkbox_single') {
+			if (typeof options.values === 'object' && Array.isArray(options.values)) {
+				var temp = {};
+				options.values.forEach(function(value, index){
+					var key = options.useKeyInsteadOfValue ? value : index;
+					temp[key] = value;
+				});
+				options.values = temp;
+			}
+		}
+
+
+
+
+		className = options.className;
+	div(class="#{className}-fieldset fieldset #{fieldsetClasses}")&attributes(attrs)
+	
+		case options.type
+			when 'text'
+			when 'full_name'
+			when 'password'
+			when 'tel'
+			when 'email'
+				label(for=options.id class="#{className}-fieldset-label")!=options.label
+				input(class="#{className}-fieldset-input input #{inputClasses}" type="#{options.fieldType}" name="#{options.name}" id=options.id placeholder="#{options.placeholder}" value="#{options.defaultValue}")
+				+renderCheckmark(options.checkmark)
+				
+
+
+			when 'textarea'
+				label(for=options.id class="#{className}-fieldset-label")!=options.label
+				textarea(class="#{className}-fieldset-textarea input #{inputClasses}" name="#{options.name}" id=options.id placeholder="#{options.placeholder}")!=options.defaultValue
+				+renderCheckmark(options.checkmark)
+				
+			
+			
+
+
+			when 'select'
+				label(for=options.id class="#{className}-fieldset-label")!=options.label
+				select(class="#{className}-fieldset-select default_component input #{inputClasses}"  name="#{options.name}" id=options.id)
+					option(value="")!=options.label
+					each itemLabel, itemValue in options.values
+						-
+							if (options.defaultValue !== '' && typeof options.defaultValue === 'boolean') {
+								options.defaultValue = options.defaultValue.toString();
+							}
+							if (typeof itemLabel.label !== 'undefined') {
+								itemValue = itemLabel.name;
+								itemLabel = itemLabel.label;
+							}
+							itemValue = itemValue ? itemValue:itemLabel;
+							itemValue = options.useKeyInsteadOfValue ? itemValue:itemLabel;
+							selectedAttr = itemValue === booleanToString(options.defaultValue) ? {'selected':''}:{};
+							options.defaultValue = options.defaultValue ? options.defaultValue : options.label;
+								
+						option(value=itemValue)&attributes(selectedAttr)!=itemLabel
+			
+				div(class="#{className}-fieldset-select new_component")!=options.defaultValue
+
+
+
+
+
+			when 'file'
+				label(for=options.id class="#{className}-fieldset-label")!=options.label
+				div(class="#{className}-fieldset-file-outerwrap")
+					input(class="#{className}-fieldset-file input #{inputClasses}" type="#{options.fieldType}" name="#{options.name}" id=options.id placeholder="#{options.placeholder}" value="#{options.defaultValue}")
+					div(class="#{className}-fieldset-file-preview file-preview")
+				+renderCheckmark(options.checkmark)
+				
+		
+			
+
+			when 'checkbox_single'
+				- checkedAttr = options.defaultValue ? {'checked':'checked'} : {};
+				div(class="#{className}-fieldset-checkbox_single input-button")
+					div(class="#{className}-fieldset-checkbox_single-box")
+					label(class="#{className}-fieldset-checkbox_single-label")!=options.label
+					input(class="input checkbox #{inputClasses}" type="checkbox" name="#{options.name}" id=options.id)&attributes(checkedAttr)
+				
+		
+			
+
+			when 'checkbox'
+			when 'radio_hybrid'
+				div(class="#{className}-fieldset-label")!=options.label
+				each itemLabel, itemValue in options.values
+					-
+						var index = itemValue;
+						if (typeof itemLabel.label !== 'undefined') {
+							itemValue = itemLabel.name;
+							itemLabel = itemLabel.label;
+						}
+						itemValue = itemValue ? itemValue:itemLabel;
+						itemValue = options.useKeyInsteadOfValue ? itemValue:itemLabel;
+						checkedAttr = (options.defaultValue.constructor === Array && options.defaultValue.includes(itemValue)) ? {'checked':'checked'} : {};
+					div(class="#{className}-fieldset-#{options.type} input-button")
+						div(class="#{className}-fieldset-#{options.type}-box")
+						label(class="#{className}-fieldset-#{options.type}-label" for="#{options.id}_#{index}")!=itemLabel
+						input(class="input checkbox #{inputClasses}"  type="checkbox" name="#{options.name}[]" id="#{options.id}_#{index}" value="#{itemValue}")&attributes(checkedAttr)
+				
+		
+			
+
+			when 'radio'
+				div(class="#{className}-fieldset-label")!=options.label
+				each itemLabel, itemValue in options.values
+					-
+						var index = itemValue;
+						if (typeof itemLabel.label !== 'undefined') {
+							itemValue = itemLabel.name;
+							itemLabel = itemLabel.label;
+						}
+						itemValue = itemValue ? itemValue:itemLabel;
+						itemValue = options.useKeyInsteadOfValue ? itemValue:itemLabel;
+						checkedAttr = itemValue === booleanToString(options.defaultValue) ? {'checked':'checked'} : {};
+
+					div(class="#{className}-fieldset-radio input-button")
+						label(class="#{className}-fieldset-radio-label" for="#{options.id}_#{index}")!=itemLabel
+						input(class="input radio #{inputClasses}"  type="radio" name="#{options.name}" id="#{options.id}_#{index}" value="#{itemValue}")&attributes(checkedAttr)
+
+
+				
+			
+			when 'repeater_group'
+				-
+					if (options.minimum && !options.values.length) {
+						for (var groupIndex = 0; groupIndex<options.minimum; groupIndex++) {
+							options.values.push({});
+							for (var valueIndex = 0; valueIndex<options.fields.length; valueIndex++) {
+								options.values[groupIndex][options.fields[valueIndex].name] = '';
+							}
+						}
+					}
+					resetRowPercentage()
+			
+				if options.has_title
+					div(class="#{className}-fieldset-repeater_group-title repeater-toggle")!=options.label
+					div(class="#{className}-fieldset-repeater_group-toggle repeater-toggle")
+				div(class="#{className}-fieldset-repeater_group repeater-container")
+					div(class="#{className}-fieldset-repeater_group-placeholder repeater-placeholder") Click/tap to start adding #{options.label.toLowerCase()}
+					div(class="#{className}-fieldset-repeater_group-template repeater-template")
+						div(class="#{className}-fieldset-repeater_group-groups-item repeater-item")
+							div(class="#{className}-fieldset-repeater_group-groups-item-title repeater-item-title")!=options.label_single+' xyz'
+							div(class="#{className}-fieldset-repeater_group-groups-item-fields repeater-item-fields")
+								- var templateFields = JSON.parse(JSON.stringify(options.fields))
+								each field in templateFields
+									-
+										if (!field.realname) {
+											field.realname = field.name;
+										}
+										field.name = options.name+'---'+field.name+'[]';
+										field.className = options.className;
+										field.disabled_forever = true;
+										field.repeaterIndex = 'xyz';
+										field.nested = options.nested+1
+									+fieldGenerator(field)
+							.clearfix
+							div(class="#{className}-fieldset-repeater_group-groups-item-actions")
+								div(class="#{className}-fieldset-repeater_group-groups-item-actions-item repeater-clone")
+									div(class="#{className}-fieldset-repeater_group-groups-item-actions-item-text") Clone
+								div(class="#{className}-fieldset-repeater_group-groups-item-actions-item repeater-delete")
+									div(class="#{className}-fieldset-repeater_group-groups-item-actions-item-text") Delete
+					
+					div(class="#{className}-fieldset-repeater_group-groups repeater-items")
+						each group,groupIndex in options.values
+							div(class="#{className}-fieldset-repeater_group-groups-item repeater-item")
+								div(class="#{className}-fieldset-repeater_group-groups-item-title repeater-item-title")!=options.label_single+' '+(groupIndex+1)
+								div(class="#{className}-fieldset-repeater_group-groups-item-fields repeater-item-fields")
+									- var templateFields = JSON.parse(JSON.stringify(options.fields))
+									each field,fieldIndex in templateFields
+										-
+											if (!field.realname) {
+												field.realname = field.name;
+											}
+											field.name = options.name+'---'+field.name+'[]';
+											field.className = options.className;
+											field.defaultValue = group[field.realname];
+											if (field.type.indexOf('repeater') !== -1) {
+												field.values = group[field.realname];
+											}
+											field.repeaterIndex = groupIndex+1;
+											field.nested = options.nested+1
+										+fieldGenerator(field)
+								.clearfix
+								div(class="#{className}-fieldset-repeater_group-groups-item-actions")
+									div(class="#{className}-fieldset-repeater_group-groups-item-actions-item repeater-clone")
+										div(class="#{className}-fieldset-repeater_group-groups-item-actions-item-text") Clone
+									div(class="#{className}-fieldset-repeater_group-groups-item-actions-item repeater-delete")
+										div(class="#{className}-fieldset-repeater_group-groups-item-actions-item-text") Delete
+						
+					div(class="#{className}-fieldset-button repeater-button")
+						div(class="#{className}-fieldset-button-text")!=options.button_text
+
+				- bringBackRowPercentage()
+				
+
+
+
+			when 'repeater'
+				-
+					if (!options.values) options.values = [];
+					if (options.values.constructor !== Array) options.values = objectToArray(options.values);
+					if (!options.values.length) {
+						options.values.push('');
+					}
+					resetRowPercentage()
+				div(class="#{className}-fieldset-repeater-title")!=options.label
+				div(class="#{className}-fieldset-toggle repeater-toggle")
+				div(class="#{className}-fieldset-repeater repeater-container")
+					div(class="#{className}-fieldset-repeater-template repeater-template")
+						- var templateFields = JSON.parse(JSON.stringify(options.fields))
+						each field in templateFields
+							-
+								if (!field.realname) {
+									field.realname = field.name;
+								}
+								field.name = options.name+'[]';
+								field.className = options.className;
+								field.disabled_forever = true;
+								field.repeaterIndex = 'xyz';
+							
+							div(class="#{className}-fieldset-repeater-fields-item repeater-item")
+								div(class="#{className}-fieldset-repeater-fields-item-fields repeater-item-fields")
+									+fieldGenerator(field)
+								div(class="#{className}-fieldset-repeater-fields-item-delete repeater-delete")
+					
+			
+
+					div(class="#{className}-fieldset-repeater-fields repeater-items")
+						each value,valueIndex in options.values
+							-
+								var field = options.fields[0];
+								if (!field.realname) {
+									field.realname = field.name;
+								}
+								field.name = options.name+'[]';
+								field.className = options.className;
+								field.defaultValue = value;
+								field.repeaterIndex = valueIndex+1;
+					
+							div(class="#{className}-fieldset-repeater-fields-item repeater-item")
+								div(class="#{className}-fieldset-repeater-fields-item-fields repeater-item-fields")
+									+fieldGenerator(field)
+								div(class="#{className}-fieldset-repeater-fields-item-delete repeater-delete")
+				
+					div(class="#{className}-fieldset-button repeater-button")
+						div(class="#{className}-fieldset-button-text")!=options.button_text
+				- bringBackRowPercentage()
+
+
+				
+			
+			when 'group'
+				- resetRowPercentage()
+				if options.has_title
+					div(class="#{className}-fieldset-group-title group-toggle")!=options.label
+					div(class="#{className}-fieldset-group-toggle group-toggle")
+
+				div(class="#{className}-fieldset-group group-container")
+					-
+						var templateFields = JSON.parse(JSON.stringify(options.fields));
+						values = options.defaultValue ? objectToArray(options.defaultValue) : [];
+					each field,fieldIndex in templateFields
+						-
+							if (!field.realname) {
+								field.realname = field.name;
+							}
+							field.className = options.className;
+							if (values.length) {
+								field.defaultValue = values[fieldIndex];
+								if (field.type.indexOf('repeater') !== -1) {
+									field.values = field.defaultValue;
+								}
+								if (field.defaultValue) {
+									if (typeof field.defaultValue === 'boolean') {
+										field.defaultValue = !!field.defaultValue;
+									}
+								}
+							}
+							field.nested = options.nested+1;
+						+fieldGenerator(field)
+					.clearfix
+						
+
+				- bringBackRowPercentage()
+
+
+
+	-
+		if (options.icon && !options.checkmark) {
+			stylesOutput += " ."+options.className+"-fieldset."+options.name+":before {content:\""+options.icon+"\"}";
+		}
+
+		if (options.valueIcons.length) {
+			options.valueIcons.forEach(function(iconValue, iconIndex){
+				stylesOutput += " ."+options.className+"-fieldset."+options.name+" ."+options.name+"-fieldset-"+options.type+":nth-child("+(iconIndex+2)+"}):before {content:\"#{iconValue}\"}";
+			});
+		}
+
+
+
+
+
+
+mixin renderCheckmark(shouldRender)
+	if shouldRender
+		.checkmark
+			.checkmark-wrap
+				span.checkmark-line.short
+				span.checkmark-line.long
+			.checkmark-placeholder
+			.checkmark-fix
+
+
+-
+	var rowPercentage = 0,
+		rowPercentageBeforeReset = 0;
+	function parseWidth(string){
+		var delim = string.includes('/') ? '/':'-',
+			split = string.split(delim);
+		return parseFloat(split[0])/parseFloat(split[1]);
+	}
+	function isLast(fieldsetWidth){
+		rowPercentage += parseWidth(fieldsetWidth);
+		if (rowPercentage >= 1) {
+			rowPercentage = 0;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	function resetRowPercentage(){
+		rowPercentageBeforeReset = rowPercentage;
+		rowPercentage = 0;
+	}
+	function bringBackRowPercentage(){
+		rowPercentage = rowPercentageBeforeReset;
+	}
+	function extend(obj, src) {
+		for (var key in src) {
+			if (src.hasOwnProperty(key)) obj[key] = src[key];
+		} return obj;
+	}
+	function getLength(obj) {
+		var count = 0;
+		for (var key in obj) {
+			if (obj.hasOwnProperty(key)) count++;
+		}
+		return count;
+	}
+
+	function objectToArray(object) {
+		if (object.constructor === Array) return object;
+		return Object.keys(object).map(function(key) { return object[key] });
+	}
+
+	function booleanToString(subject) {
+		if (typeof subject === 'boolean') {
+			if (subject === true) subject = 'true';
+			if (subject === false) subject = 'false';
+		}
+		return subject;
+	}

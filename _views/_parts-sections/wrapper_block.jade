@@ -1,0 +1,7 @@
+mixin wrapper_block(blocks)
+	.wrapper_block
+		each block in blocks
+			- block.width = block.width.charAt(block.width.length-1) === '%' ? block.width.slice(0, block.width.length-1) : block.width;
+			- var classWidth = 'width_'+block.width;
+			div(class=classWidth)
+				+renderSection(block)

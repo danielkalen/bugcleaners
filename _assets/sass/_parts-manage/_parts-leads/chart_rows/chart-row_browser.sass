@@ -1,0 +1,127 @@
+&-browser_details
+	position: relative
+	display: block
+	box-sizing: border-box
+	cursor: pointer
+
+	$browserIcons: ("firefox":'U', "safari":'(', "chrome":'S', "android":'V', "opera":'W', "internet_explorer":'T', "edge":'T')
+	$browserColors: ("firefox": #e95d00, "safari": #00bee7, "chrome": #f9d400, "android": #5cb048, "opera": #d94b30, "internet_explorer": #00bee7)
+	
+	&-icon
+		display: block
+		+size(30)
+		position: relative
+		+halign
+
+		
+		&:before
+			+icon('X')
+			position: absolute
+			+balign
+			font-size: 36px
+			color: lighten($grey, 10)
+			transition: color 0.25s
+			.desktop &
+				content: '%'
+			.tablet &
+				content: "'"
+			.mobile &
+				content: '&'
+				font-size: 54px
+
+		&:after
+			+icon('X')
+			position: absolute
+			top: 3px
+			left: 0
+			right: 0
+			font-size: 14px
+			color: lighten($grey, 10)
+			.tablet &
+				top: 7px
+				font-size: 14px
+			.mobile &
+				font-size: 13px
+				top: 9px
+		
+		&:hover:after
+			color: $black
+		
+	@each $browser,$icon in $browserIcons
+		&.#{$browser} &-icon:after
+			content: $icon
+
+	
+	@each $browser,$color in $browserColors
+		&.#{$browser}:hover &-icon:after
+			color: $color
+	
+	
+	&-version
+		display: block
+		width: 28px
+		+center(4px, 7px)
+		padding: 2px 0 0px
+		background-color: lighten($divider, 8)
+		border: 1px solid $grey
+		border-radius: 2px
+		font-weight: 600
+		font-size: 10px
+		line-height: 1
+		text-align: center
+		color: darken($grey-dark, 10)
+		transition: color 0.25s
+		// Temporarily hide version
+		visibility: hidden
+		margin: 0
+		+size(0)
+	
+	@each $browser,$color in $browserColors
+		.#{$browser} &-icon:hover + &-version
+			color: $color
+
+	&-text
+		position: absolute
+		z-index: 10
+		+halign
+		top: 53px
+		display: block
+		width: 150px
+		padding: 9px 8px 5px
+		border-radius: 2px
+		background-color: $black
+		font-family: avenir
+		font-weight: 700
+		line-height: 1
+		font-size: 10px
+		letter-spacing: .4px
+		text-align: left
+		color: white
+		+arrow($side: "top", $align: "center", $size: 5px, $color: $black, $borderColor: "none", $borderSize: 3px)
+		opacity: 0
+		visibility: hidden
+		transition: opacity 0.20s linear 0.25s, visibility 0.20s linear 0.25s
+
+		&-row
+			margin-bottom: 6px
+			font-weight: 400
+			b
+				font-weight: 900
+
+		.ready &
+			width: 200px
+			font-size: 11px
+			font-weight: 700
+			text-align: left
+			text-transform: none
+
+			strong
+				font-weight: 500
+
+
+	&:hover &-text
+		visibility: visible
+		opacity: 1
+
+
+

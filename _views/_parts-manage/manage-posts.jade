@@ -1,0 +1,94 @@
+.manage-content(id="posts")
+	-
+		var POSTS = {
+			"pest":[],
+			"service":[],
+			"faq":[],
+			"faq_category":[]
+		};
+
+	if posts.length
+		each post in posts
+			- POSTS[post.type].push(post)
+
+
+
+
+
+
+
+
+	form.manage-content-list(id="pest" class="pest")
+		h4.manage-content-list-title
+			.manage-content-list-title-text Pests
+		
+		if POSTS.pest.length
+			each pest in POSTS.pest
+				+renderPostPest(pest)
+		else
+			+renderPostPest
+
+		.manage-content-list-add.add
+			.manage-content-list-add-text Add Pest
+
+
+
+
+
+
+
+
+	form.manage-content-list(id="service" class="service")
+		h4.manage-content-list-title
+			.manage-content-list-title-text Services
+		
+		if POSTS.service.length
+			each service in POSTS.service
+				+renderPostService(service)
+		else
+			+renderPostService
+
+		.manage-content-list-add.add
+			.manage-content-list-add-text Add Service
+
+
+
+
+
+
+
+
+	form.manage-content-list(id="faq" class="faq")
+		h4.manage-content-list-title
+			.manage-content-list-title-text FAQs
+		
+		if POSTS.faq.length
+			each faq in POSTS.faq
+				+renderPostFaq(faq)
+		else
+			+renderPostFaq
+
+		.manage-content-list-add.add
+			.manage-content-list-add-text Add Faq
+
+
+
+
+
+
+
+
+
+	form.manage-content-list(id="faq_category" class="faq_category")
+		h4.manage-content-list-title
+			.manage-content-list-title-text FAQ categories
+		
+		if POSTS.faq_category.length
+			each faq_category in POSTS.faq_category
+				+renderPostFaqCategory(faq_category)
+		else
+			+renderPostFaqCategory
+
+		.manage-content-list-add.add
+			.manage-content-list-add-text Add Category
+

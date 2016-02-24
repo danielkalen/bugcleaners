@@ -1,0 +1,55 @@
+.leads-bulk
+	margin-top: 15px
+	width: 77%
+	+clearfix
+	float: left
+	+max(736)
+		display: none
+
+	&-title
+		font-size: 18px
+		font-weight: 600
+		margin: 10px 0 3px
+
+	&-button
+		position: relative
+		top: 1px
+		display: block
+		float: left
+		width: 100px
+		height: 50px
+		background-color: $grey-light
+		border-radius: 2px
+		box-sizing: border-box
+		cursor: pointer
+		transition: 0.15s background-color
+		+user-select(none)
+		&:hover
+			background-color: $primary
+
+		&-text
+			position: absolute
+			+valign(52%)
+			width: 100%
+			font-family: montserrat
+			font-weight: 300
+			font-size: 15px
+			line-height: 1
+			letter-spacing: 1.3px
+			text-transform: uppercase
+			text-align: center
+			color: white
+
+	&-fieldset 
+		+fieldset($inputHeight: 50px, $bgColor: white, $textColor: $black, $borderColor:$divider, $placeholder: $black)
+		position: relative
+		float: left
+		width: perc(264, 832)
+		margin-right: 10px
+		border: 1px solid $divider
+
+		&-input,
+		&-select
+			font-size: 14px
+		
+

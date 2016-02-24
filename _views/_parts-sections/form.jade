@@ -1,0 +1,63 @@
+mixin form(values)
+	-
+		var defaultValues = {
+			'title':'Get Your <b>Free Quote</b>',
+			'subtitle':'Instantly receive a bottom line quote.',
+			'button_text':'Get Free Quote',
+			'include_phone':true,
+			'form_steps': []
+		}; values = extend(defaultValues,values);
+
+		var formStyle = values.form_style.match(/-(.+)$/)[1],
+			formType = values.form_style.match(/^(.+)-/)[1];
+	
+	if formType === 'boxed'
+		form.form.form_boxed(class=formStyle data-action="cta_form" data-variation=currentVariation novalidate)
+			each step,index in values.form_steps
+				-
+					var action = index === values.form_steps.length -1 ? 'submit' : 'next',
+						buttonClasses = step.arrow ? action+' has_arrow' : action;
+				.form_boxed-step.step(class=number)
+					.form_boxed-step-title=step.title
+					each field in step.fields
+						-
+							field.className = 'form_boxed';
+							field.required = typeof field.required !== 'undefined' ? field.required : true;
+						+fieldGenerator(field)
+					
+					- if (formStyle === 'stepped' || action === 'submit')
+						.form_boxed-step-button(class=buttonClasses)
+							.form_boxed-step-button-text!=step.button
+			
+			.form_boxed-results.the_results.results
+			input(type="hidden" name="currentVariation" value=currentVariation)
+			input(type="hidden" name="source_page" value=currentPageSlug)
+			input(type="hidden" name="form_type" value=formType)
+			
+			if values.include_phone
+				.form_boxed-alt Or you can call us directly at 
+					a.form_boxed-alt-link(href="tel:800-216-2124") (800) 216-2124
+					| .
+
+	else
+		form.form.form_neo(class=formStyle data-action="cta_form" data-variation=currentVariation novalidate)
+			each step,index in values.form_steps
+				-
+					var action = index === values.form_steps.length -1 ? 'submit' : 'next',
+						buttonClasses = step.arrow ? action+' has_arrow' : action;
+				.form_neo-step.step(class=number)
+					.form_neo-step-title=step.title
+					each field in step.fields
+						-
+							field.className = 'form_boxed';
+							field.required = typeof field.required !== 'undefined' ? field.required : true;
+						+fieldGenerator(field)
+					
+					.form_neo-step-button(class=buttonClasses)
+						.form_neo-step-button-text!=step.button
+						//- .form_neo-step-button-text.mobile!=step.button_mobile
+			
+			.form_boxed-results.the_results.results
+			input(type="hidden" name="currentVariation" value=currentVariation)
+			input(type="hidden" name="source_page" value=currentPageSlug)
+			input(type="hidden" name="form_type" value=formType)

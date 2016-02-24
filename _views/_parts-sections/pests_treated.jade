@@ -1,0 +1,16 @@
+mixin pests_treated(values)
+	-
+		var defaultValues = {
+			'title':'The Pests We Provide Treatment For',
+			'pests':["roaches", "bed_bugs", "rodents", "termites", "ants", "mosquitoes", "others"],
+		}; values = extend(defaultValues,values);
+	
+	section.section.pests_treated
+		h2.pests_treated-title!=values.title
+		
+		.pests_treated-list
+			for pest in values.pests
+				- var pestSlug = pest.toLowerCase().split(' ').join('_');
+				.pests_treated-list-item(class=pestSlug)
+					.pests_treated-list-item-icon
+					strong.pests_treated-list-item-name=pest

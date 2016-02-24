@@ -1,0 +1,48 @@
+.wrapper_block
+	width: 100%
+	max-width: 1170px
+	+center
+	padding: 20px
+	box-sizing: border-box
+	+clearfix
+	.hero + &,
+	&:first-child
+		padding: 50px 20px
+
+	> div[class*="width_"]
+		float: left
+		box-sizing: border-box
+		padding: 0 1%
+		&:first-child
+			padding-left: 0
+		&:last-child
+			padding-right: 0
+		+max(736)
+			float: none
+			width: 100%
+		
+		> section
+			padding-top: 0
+
+
+	> .width_10
+		width: 10%
+	> .width_20
+		width: 20%
+	> .width_30
+		width: 30%
+	> .width_40
+		width: 40%
+	> .width_50
+		width: 50%
+	> .width_60
+		width: 60%
+	> .width_70
+		width: 70%
+	> .width_80
+		width: 80%
+	> .width_90
+		width: 90%
+	> .width_100
+		width: 100%
+		float: none

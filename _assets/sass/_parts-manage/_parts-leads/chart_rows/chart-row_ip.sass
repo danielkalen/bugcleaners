@@ -1,0 +1,80 @@
+&-ip
+	display: inline-block
+	margin-right: 3px
+
+&-ip_details
+	position: relative
+	display: inline-block
+	// display: block
+	// +center
+	top: 6px
+	+size(16)
+	background-color: lighten($grey-lighter, 13)
+	background-color: $black
+	// border: 1px solid $divider
+	box-sizing: border-box
+	border-radius: 50%
+	cursor: pointer
+	
+	// Icon
+	&:before
+		// +icon('')
+		content: 'IP'
+		position: absolute
+		+valign(54%)
+		line-height: 1
+		display: block
+		width: 100%
+		font-size: 11.1px
+		font-weight: 700
+		font-family: avenir
+		text-align: center
+		color: white
+		// color: $black
+		// color: $contrast
+	
+	&-text
+		position: absolute
+		z-index: 10
+		+halign
+		top: 33px
+		display: block
+		padding: 6px 8px 5px
+		border-radius: 2px
+		background-color: $black
+		font-family: avenir
+		font-weight: 700
+		line-height: 1
+		font-size: 10px
+		letter-spacing: .4px
+		text-transform: uppercase
+		color: white
+		+arrow($side: "top", $align: "center", $size: 5px, $color: $black, $borderColor: "none", $borderSize: 3px)
+		opacity: 0
+		visibility: hidden
+		transition: opacity 0.20s linear 0.25s, visibility 0.20s linear 0.25s
+		
+		&-header
+			margin-bottom: 6px
+		
+		&-body
+			&-row
+				margin-bottom: 6px
+
+		.ready &
+			width: 200px
+			font-size: 11px
+			font-weight: 700
+			text-align: left
+			text-transform: none
+
+			strong
+				font-weight: 500
+
+
+	&:hover &-text
+		visibility: visible
+		opacity: 1
+
+
+

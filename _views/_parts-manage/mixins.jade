@@ -1,0 +1,534 @@
+-
+	function getFieldSchemas(){
+		if (fieldSchemas) {
+			return JSON.parse(JSON.stringify(fieldSchemas));
+		} else {
+			return {};
+		}
+	}
+
+mixin renderPage(page)
+	-
+		if (page) {
+			var pageName = page.name,
+				pageSlug = page.slug,
+				classDisabled = page.enabled ? '' : 'disabled',
+				classEnabled = page.rotation ? 'on' : '',
+				attributes = {
+					'id': page._id,
+					'class': classDisabled+' {{slug}}',
+					'data-slug': page.slug,
+					'data-rotation': classEnabled
+				},
+				toggleAttributes = {
+					'class': '{{state}}'
+				},
+				numberFieldAttributes = {
+					'max': page.variations.length,
+					'value': parseFloat(page.currentVariation)+1
+				};
+		} else {
+			var pageName = 'New Page',
+				pageSlug = 'new-page',
+				classEnabled = '',
+				attributes = {'data-rotation':'', 'class':'{{slug}}'},
+				toggleAttributes = {'class': '{{state}}'},
+				numberFieldAttributes = {max:1, value:1};
+		}
+
+	form.manage-content-list.show&attributes(attributes)
+		h4.manage-content-list-title
+			.manage-content-list-title-text=pageName
+			.manage-content-list-title-page_action.disable_page
+				.manage-content-list-title-page_action-text Disable
+			.manage-content-list-title-page_action.clone_page
+				.manage-content-list-title-page_action-text Clone
+			.manage-content-list-title-page_action.delete_page
+				.manage-content-list-title-page_action-text Delete
+		
+		div.manage-content-list-variation_options
+			.manage-content-list-variation_options-toggle.rotation&attributes(toggleAttributes)
+				.manage-content-list-variation_options-toggle-ball
+			.manage-content-list-variation_options-name Enable Variation Rotation
+			.manage-content-list-variation_options-conditional.show_if_no_variations
+				.manage-content-list-variation_options-conditional-label Variation Used
+				input.manage-content-list-variation_options-conditional-input.currentVariation.page_data(type="number" min="1")&attributes(numberFieldAttributes)
+		
+		div.manage-content-list-data
+			.manage-content-list-data-field.half.first
+				label.manage-content-list-data-field-label Page Name
+				input.manage-content-list-data-field-input.input.page_data(type="text" name="name" value=pageName)
+			.manage-content-list-data-field.half
+				label.manage-content-list-data-field-label Page Slug (url.com/slug)
+				input.manage-content-list-data-field-input.input.page_data(type="text" name="slug" value=pageSlug)
+
+		if page
+			each variation,index in page.variations
+				+renderVariation(variation,index,page)
+		else
+			+renderVariation
+
+		.manage-content-list-add.add
+			.manage-content-list-add-text Add Variation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mixin renderVariation(variation, index, page)
+	-
+		if (variation) {
+			var classDisabled = variation.enabled ? '' : 'disabled',
+				title = "Variation {{index}}",
+				attributes = {
+					'id': page.slug+'_variation_'+index,
+					'class': classDisabled,
+					'data-variation': index,
+					'data-slug': page.slug
+				};
+		} else {
+			var title = 'Variation {{index}}',
+				attributes = {};
+		}
+
+	.manage-content-list-item.step&attributes(attributes)
+		.manage-content-list-item-disable.variation_action.disable
+		.manage-content-list-item-toggle.variation_action.toggle_open
+		h6.manage-content-list-item-title.variation_action.toggle_open
+			span=title
+			span  {{notes}}
+		.manage-content-list-item-content.step-innerwrap.toggled_content
+			each field,name in getFieldSchemas().page.standard
+				-
+					if (variation && typeof variation[name] !== 'undefined') {
+						field.defaultValue = variation[name];
+						if (field.type.includes('repeater') || field.type.includes('group') || field.type === 'template') {
+							field.values = variation[name];
+						}
+					}
+
+				+fieldGeneratorWrapper(field)
+
+
+			.clearfix
+			.manage-content-list-item-content-button.save
+				.manage-content-list-item-content-button-text Save
+			.manage-content-list-item-content-button.clone
+				.manage-content-list-item-content-button-text Clone
+			.manage-content-list-item-content-button.delete
+				.manage-content-list-item-content-button-text Delete
+			.manage-content-list-item-content-status
+			.clearfix
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mixin renderPostPest(pest)
+	-
+		if (pest) {
+			var	classDisabled = pest.enabled ? '' : 'disabled',
+				attributes = {
+					'id': pest._id,
+					'class': classDisabled,
+					'data-slug': pest.slug,
+					'data-name': pest.name,
+					'data-single': 'Pest'
+				};
+		} else {
+			var attributes = {'data-single': 'Pest', 'data-new':'true'};
+		}
+		resetRowPercentage();
+
+	.manage-content-list-item.step.closed&attributes(attributes)
+		.manage-content-list-item-disable.post_action.disable
+		.manage-content-list-item-toggle.post_action.toggle_open
+		h6.manage-content-list-item-title.post_action.toggle_open 
+	
+		.manage-content-list-item-content.step-innerwrap.toggled_content
+			each field,name in getFieldSchemas().post.pest
+				-
+					if (pest && typeof pest[name] !== 'undefined') {
+						field.defaultValue = pest[name];
+						if (field.type.includes('repeater') || field.type.includes('group') || field.type === 'template') {
+							field.values = pest[name];
+						}
+					}
+				+fieldGeneratorWrapper(field)
+
+
+			.clearfix
+			.manage-content-list-item-content-button.save
+				.manage-content-list-item-content-button-text Save
+			.manage-content-list-item-content-button.clone
+				.manage-content-list-item-content-button-text Clone
+			.manage-content-list-item-content-button.delete
+				.manage-content-list-item-content-button-text Delete
+			.manage-content-list-item-content-status
+			.clearfix
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mixin renderPostService(service)
+	-
+		if (service) {
+			var	classDisabled = service.enabled ? '' : 'disabled',
+				attributes = {
+					'id': service._id,
+					'class': classDisabled,
+					'data-slug': service.slug,
+					'data-name': service.name,
+					'data-single': 'Service'
+				};
+		} else {
+			var attributes = {'data-single': 'Service', 'data-new':'true'};
+		}
+		resetRowPercentage();
+
+	.manage-content-list-item.step.closed&attributes(attributes)
+		.manage-content-list-item-disable.post_action.disable
+		.manage-content-list-item-toggle.post_action.toggle_open
+		h6.manage-content-list-item-title.post_action.toggle_open 
+	
+		.manage-content-list-item-content.step-innerwrap.toggled_content
+			each field,name in getFieldSchemas().post.service
+				-
+					if (service && typeof service[name] !== 'undefined') {
+						field.defaultValue = service[name];
+						if (field.type.includes('repeater') || field.type.includes('group') || field.type === 'template') {
+							field.values = service[name];
+						}
+					}
+				+fieldGeneratorWrapper(field)
+
+
+			.clearfix
+			.manage-content-list-item-content-button.save
+				.manage-content-list-item-content-button-text Save
+			.manage-content-list-item-content-button.clone
+				.manage-content-list-item-content-button-text Clone
+			.manage-content-list-item-content-button.delete
+				.manage-content-list-item-content-button-text Delete
+			.manage-content-list-item-content-status
+			.clearfix
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mixin renderPostFaq(faq)
+	-
+		if (faq) {
+			var	classDisabled = faq.enabled ? '' : 'disabled',
+				attributes = {
+					'id': faq._id,
+					'class': classDisabled,
+					'data-slug': faq.slug,
+					'data-name': faq.question,
+					'data-single': 'FAQ'
+				};
+		} else {
+			var attributes = {'data-single': 'FAQ', 'data-new':'true'};
+		}
+		resetRowPercentage();
+
+	.manage-content-list-item.step.closed&attributes(attributes)
+		.manage-content-list-item-disable.post_action.disable
+		.manage-content-list-item-toggle.post_action.toggle_open
+		h6.manage-content-list-item-title.post_action.toggle_open 
+	
+		.manage-content-list-item-content.step-innerwrap.toggled_content
+			each field,name in getFieldSchemas().post.faq
+				-
+					if (faq && typeof faq[name] !== 'undefined') {
+						field.defaultValue = faq[name];
+						if (field.type.includes('repeater') || field.type.includes('group') || field.type === 'template') {
+							field.values = faq[name];
+						}
+					}
+
+				+fieldGeneratorWrapper(field)
+
+
+			.clearfix
+			.manage-content-list-item-content-button.save
+				.manage-content-list-item-content-button-text Save
+			.manage-content-list-item-content-button.clone
+				.manage-content-list-item-content-button-text Clone
+			.manage-content-list-item-content-button.delete
+				.manage-content-list-item-content-button-text Delete
+			.manage-content-list-item-content-status
+			.clearfix
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mixin renderPostFaqCategory(faq_category)
+	-
+		if (faq_category) {
+			var	classDisabled = faq_category.enabled ? '' : 'disabled',
+				attributes = {
+					'id': faq_category._id,
+					'class': classDisabled,
+					'data-slug': faq_category.slug,
+					'data-name': faq_category.title,
+					'data-single': 'FAQ Category'
+				};
+		} else {
+			var attributes = {'data-single': 'FAQ Category', 'data-new':'true'};
+		}
+		resetRowPercentage();
+
+	.manage-content-list-item.step.closed&attributes(attributes)
+		.manage-content-list-item-disable.post_action.disable
+		.manage-content-list-item-toggle.post_action.toggle_open
+		h6.manage-content-list-item-title.post_action.toggle_open 
+	
+		.manage-content-list-item-content.step-innerwrap.toggled_content
+			each field,name in getFieldSchemas().post.faq_category
+				-
+					if (faq_category && typeof faq_category[name] !== 'undefined') {
+						field.defaultValue = faq_category[name];
+						if (field.type.includes('repeater') || field.type.includes('group')) {
+							field.values = faq_category[name];
+						}
+					}
+				+fieldGeneratorWrapper(field)
+
+
+			.clearfix
+			.manage-content-list-item-content-button.save
+				.manage-content-list-item-content-button-text Save
+			.manage-content-list-item-content-button.clone
+				.manage-content-list-item-content-button-text Clone
+			.manage-content-list-item-content-button.delete
+				.manage-content-list-item-content-button-text Delete
+			.manage-content-list-item-content-status
+			.clearfix
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mixin fieldGeneratorWrapper(field)
+	-
+		field = replaceTemplateField(field);
+		field = replaceDynamicValues(field);
+		field = applyArrayConversion(field);
+
+		field.className = 'manage-content-list-item-content';
+	+fieldGenerator(field)
+
+
+
+
+
+-
+	var COLLECTIONS = {
+		'posts': posts || [],
+		// 'faq_categories': posts.faq_categories || [],
+		'fieldSchemas': getFieldSchemas()
+	}
+
+
+
+	function replaceDynamicValues(field){		
+		if (typeof field.dynamicValues !== 'undefined') {
+			var dynamicValues = field.dynamicValues,
+				source = field.dynamicType,
+				collection, valueType, values;
+
+			if (source === 'db') {
+				collection = dynamicValues.split('.')[0];
+				valueType = dynamicValues.split('.')[1];
+				values = COLLECTIONS[collection].filter(function(obj){
+					if (obj.type === valueType) return true;
+				});
+
+			} else if (source === 'settings') {
+				var params = dynamicValues.split('.');
+					collection = params[0];
+					values = settings;
+				
+				while (params.length) values = values[params.shift()];							
+			}
+
+			values = JSON.parse(JSON.stringify(values));
+			if (Array.isArray(values)) {
+				var temp = {};
+				values.forEach(function(obj){
+					temp[obj.slug] = obj;
+				});
+				values = temp;
+			}
+
+			for (var key in values) {
+				values[key] = values[key].name || values[key].title;
+			}
+			field.values = values;
+		}
+		
+		if (field.type.includes('repeater') || field.type.includes('group')) {
+			field.fields.forEach(function(childField, childIndex){
+				field.fields[childIndex] = replaceDynamicValues(childField);
+			});
+		}
+
+
+		field = replaceTemplateField(field);
+		field = addDynamicBlocks(field);
+		return field;
+	}
+
+
+	function replaceTemplateField(field){
+		if (field.type === 'template') {
+			var templates = getFieldSchemas().templates;
+
+			field = extend(field, templates[field.value]);
+		}
+
+		if (field.type.includes('repeater') || field.type.includes('group')) {
+			field.fields.forEach(function(childField, childIndex){
+				field.fields[childIndex] = replaceTemplateField(childField);
+			});
+		}
+		return field;
+	}
+
+
+	function applyArrayConversion(field){
+		if (field.type === 'select' && field.needsArrayConversion) {
+			if (Array.isArray(field.values)) {
+				var	temp = {};
+				field.values.forEach(function(value){
+					var slugVersion = value.toLowerCase().replace(/\s/g, '_');
+					temp[slugVersion] = value;
+				});
+				field.values = temp;
+			}
+		}
+
+		if (field.type.includes('repeater') || field.type.includes('group')) {
+			field.fields.forEach(function(childField, childIndex){
+				field.fields[childIndex] = applyArrayConversion(childField);
+			});
+		}
+		return field;
+	}
+
+
+	function addDynamicBlocks(field) {
+		if (!field.name.includes('blocks')) {
+			return field;
+		} else {
+			if (field.values) {
+				var blockValues = [];
+				field.values.forEach(function(valueGroup){
+					if (valueGroup.slug) {
+						blockValues.push(valueGroup);
+					} else {
+						blockValues.push([])
+					}
+				});
+				
+				if (blockValues.length) {
+					var hasBlockValues = false;
+
+					blockValues.forEach(function(blockValue){
+						if (Object.keys(blockValue).length) hasBlockValues = true;
+					});
+
+					if (hasBlockValues) {
+						field.comments = blockValues;
+					}
+				}
+			}
+
+			return field;
+		}
+	}

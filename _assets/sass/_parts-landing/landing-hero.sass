@@ -19,7 +19,6 @@
 		background-position: 50% 50%
 		background-size: cover
 		+transform(scaleX(-1))
-
 		+max(1400)
 			background-image: url(../img/img-banner-medium.jpg)
 		+max(736)
@@ -75,8 +74,12 @@
 		+max(350)
 			font-size: 26px
 
-		&-highlight
+		b,
+		em,
+		strong
 			color: $primary
+			font-weight: 400
+			font-style: normal
 
 
 	&-arrow

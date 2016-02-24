@@ -1,31 +1,30 @@
--
-	var sidebarItems = [
-		{
-			name: 'Pages',
-			slug: 'pages'
-		},
-		{
-			name: 'Pests',
-			slug: 'pests'
-		},
-		{
-			name: 'FAQs',
-			slug: 'faqs'
-		},
-		{
-			name: 'FAQ Categories',
-			slug: 'faqcategories'
-		},
-		{
-			name: 'Other',
-			slug: 'other'
-		}
-	];
-
-
 .manage-sidebar-outerwrap
 	sidebar.manage-sidebar
 		ul.manage-sidebar-list
-			each item in sidebarItems
-				.manage-sidebar-list-item(data-name!=item.slug, class!=item.slug)
+			- var items;
+			
+			if isPages
+				-
+					if (pages.length) {
+						items = pages;
+					} else {
+						items = []
+					}
+			else if isPosts
+				-
+					var POSTS = [
+						{name:'Pests', slug:'pest'},
+						{name:'Services', slug:'service'},
+						{name:'FAQs', slug:'faq'},
+						{name:'FAQ Categories', slug:'faq_category'}
+					];
+					items = POSTS
+			
+
+			each item in items
+				.manage-sidebar-list-item(data-slug!=item.slug)
 					.manage-sidebar-list-item-text!=item.name
+	
+		if isPages
+			.manage-sidebar-button.add
+				.manage-sidebar-button-text Add Page

@@ -4,7 +4,7 @@
 	$catbg: #4a4642
 	overflow: hidden
 	width: 100%
-	background-color: $catbg
+	// background-color: $catbg
 	box-sizing: border-box
 
 	&.fixed
@@ -19,6 +19,9 @@
 			display: none
 
 	&-list
+		overflow-y: hidden
+		+overflow-touch
+		max-height: 75vh
 		&-item
 			position: relative
 			overflow: hidden
@@ -64,3 +67,40 @@
 
 			&:hover
 				background-color: lighten($catbg, 8)
+
+	&-button
+			position: relative
+			width: 90px
+			height: 30px
+			margin-top: 10px
+			background-color: white
+			border: 1px solid darken($divider,8)
+			border-radius: 3px
+			color: $primary
+			cursor: pointer
+			+user-select(none)
+			transition: background-color 0.2s
+			&:hover
+				background-color: darken($subwhite,2)
+
+			&:before
+				+icon('+')
+				position: absolute
+				left: 7px
+				+valign(50.5%)
+				font-size: 18px
+				font-family: avenir
+				font-weight: 600
+
+			&-text
+				position: absolute
+				left: 7px
+				right: 0
+				+valign(52%)
+				width: 100%
+				text-align: center
+				font-family: proxima
+				font-size: 12px
+				font-weight: 700
+				line-height: 1
+				text-transform: uppercase

@@ -1,0 +1,14 @@
+.faqs 
+	position: relative
+	width: 100%
+	max-width: 1170px
+	+center
+	padding: 20px
+	box-sizing: border-box
+	+clearfix
+	.hero + &,
+	&:first-child
+		padding: 50px 20px
+	+clearfix
+	@import '_parts-faqs/faqs-sidebar'
+	@import '_parts-faqs/faqs-content'
