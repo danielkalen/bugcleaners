@@ -23,7 +23,6 @@
 			h4.faqs-content-list-title!=faqList.title
 			
 			ul.faqs-content-list-innerwrap
-				- console.log(faqList)
 				each faq in faqList.items
 					if (faq.enabled)
 						li.faqs-content-list-item(itemscope, itemtype="http://schema.org/Question")
