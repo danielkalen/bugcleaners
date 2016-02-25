@@ -19,19 +19,6 @@ isMobile = $$('html').hasClass('mobile')
 
 
 
-# @import '_parts-global/form-engine.js'
-# @import '_parts-global/init_forms.coffee'
 # @import '_parts-global/header.coffee'
 # @import '_parts-global/animate-tap.coffee'
-# @import '_parts-sections/benefit_points.coffee'
-# @import '_parts-sections/contact_options.coffee'
-# @import '_parts-sections/cta_divider.coffee'
-# @import '_parts-sections/cta_form.coffee'
-# @import '_parts-sections/faqs.coffee'
-# @import '_parts-sections/faqs_small.coffee'
-# @import '_parts-sections/pests.coffee'
-# @import '_parts-sections/pests_treated.coffee'
-# @import '_parts-sections/reviews.coffee'
-# @import '_parts-sections/services.coffee'
-
 # @import '_parts-global/ensure-min_height.coffee'

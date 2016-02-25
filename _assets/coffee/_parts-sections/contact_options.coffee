@@ -1,5 +1,3 @@
-# @import '../_plugins/velocity.min.js'
-
 do ($=jQuery)->
 	if $('.contact_options').length
 		## ==========================================================================

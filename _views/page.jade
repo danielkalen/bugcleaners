@@ -16,6 +16,7 @@ html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr'
 		title=page.title+" | "+app.name
 		link(rel='stylesheet', href='/css/global.css', type='text/css')
 		link(rel='stylesheet', href='/css/page.css', type='text/css')
+		link(rel='stylesheet', href='/static/css/'+bodyClass, type='text/css')
 		include ./_parts-global/takana.jade
 
 
@@ -27,7 +28,7 @@ html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr'
 
 
 
-	body(class=body_class)
+	body
 		#page
 			include ./_parts-page/header.jade
 			
@@ -43,4 +44,5 @@ html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr'
 					
 			include ./_parts-page/footer.jade
 		script(type='text/javascript', src='/js/global.js')
+		script(type='text/javascript', src='/static/js/'+bodyClass)
 		include ./_parts-global/analytics.jade

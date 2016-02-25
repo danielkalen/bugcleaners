@@ -17,6 +17,9 @@ $deleteIcon: '7'
 	+clearfix
 	@if $style == new
 		margin-bottom: $margin
+	.disabled &,
+	&.disabled
+		cursor: not-allowed
 	&.error
 		-webkit-animation: shakey 0.2s
 		animation: shakey 0.2s
@@ -410,7 +413,7 @@ $deleteIcon: '7'
 		@if $textareaStyle == new
 			padding: $paddingLeft $paddingRight 0 $paddingLeft
 			.filled > &
-				padding: ($paddingLeft*1.6) $paddingRight ($paddingLeft*1.4) $paddingLeft
+				padding: ($paddingLeft*1.6)+($labelMargin - 12) $paddingRight ($paddingLeft*1.4) $paddingLeft
 		@else
 			padding: 12px $paddingRight 0 $paddingLeft
 
@@ -854,7 +857,8 @@ $deleteIcon: '7'
 	cursor: pointer
 	transition: all 0.2s
 	+user-select(none)
-
+	.disabled &
+		cursor: not-allowed
 	&:hover
 		background-color: darken($buttonColor, 7)
 

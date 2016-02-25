@@ -7,9 +7,10 @@ compress = require('compression')
 bodyParser = require('body-parser')
 markdown = require('jstransformer')(require('jstransformer-markdown'))
 router = require('./app.router.coffee')
-routerapi = require('./app.router-api.coffee')
+routerapi = require('./app.router.api.coffee')
+routerstatic = require('./app.router.static.coffee')
 app = express()
-db = require('monkii')(SETTINGS.app.db)
+db = require('monkii')(SETTINGS.app.db.url, {'username':SETTINGS.app.db.user, 'password':SETTINGS.app.db.pwd})
 Pages = db.get('pages')
 Posts = db.get('posts')
 Users = db.get('users')
@@ -59,6 +60,7 @@ if inProduction # Production conditional code.
 else
 	# require('express-debug')(app);
 
+app.use '/static', routerstatic
 app.use '/api', routerapi
 app.use '/', router
 

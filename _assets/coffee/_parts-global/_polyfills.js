@@ -25,26 +25,13 @@
    Array.find()
    ========================================================================== */
 if (!Array.prototype.find) {
-  Array.prototype.find = function(predicate) {
-    if (this === null) {
-      throw new TypeError('Array.prototype.find called on null or undefined');
-    }
-    if (typeof predicate !== 'function') {
-      throw new TypeError('predicate must be a function');
-    }
-    var list = Object(this),
-      length = list.length >>> 0;
-      thisArg = arguments[1];
-      value;
-
-    for (var i = 0; i < length; i++) {
-      value = list[i];
-      if (predicate.call(thisArg, value, i, list)) {
-        return value;
-      }
-    }
-    return undefined;
-  };
+	Array.prototype.find = function (callback, thisArg) {
+		var val;
+		this.forEach(function (elmVal, i, arr) {
+			if (callback.call(thisArg, elmVal, i, arr)) {if (!val) val=elmVal;}
+		});
+		return val;
+	};
 }
 
 
@@ -53,28 +40,28 @@ if (!Array.prototype.find) {
 /* ==========================================================================
    Array.findIndex()
    ========================================================================== */
-if (!Array.prototype.findIndex) {
-  Array.prototype.findIndex = function(predicate) {
-    if (this === null) {
-      throw new TypeError('Array.prototype.findIndex called on null or undefined');
-    }
-    if (typeof predicate !== 'function') {
-      throw new TypeError('predicate must be a function');
-    }
-    var list = Object(this),
-      length = list.length >>> 0;
-      thisArg = arguments[1];
-      value;
+// if (!Array.prototype.findIndex) {
+//   Array.prototype.findIndex = function(predicate) {
+//     if (this === null) {
+//       throw new TypeError('Array.prototype.findIndex called on null or undefined');
+//     }
+//     if (typeof predicate !== 'function') {
+//       throw new TypeError('predicate must be a function');
+//     }
+//     var list = Object(this),
+//       length = list.length >>> 0;
+//       thisArg = arguments[1];
+//       value;
 
-    for (var i = 0; i < length; i++) {
-      value = list[i];
-      if (predicate.call(thisArg, value, i, list)) {
-        return i;
-      }
-    }
-    return -1;
-  };
-}
+//     for (var i = 0; i < length; i++) {
+//       value = list[i];
+//       if (predicate.call(thisArg, value, i, list)) {
+//         return i;
+//       }
+//     }
+//     return -1;
+//   };
+// }
 
 
 
@@ -92,31 +79,7 @@ if (!Array.prototype.isArray) {
    Array.includes()
    ========================================================================== */
 if (!Array.prototype.includes) {
-	Array.prototype.includes = function(searchElement /*, fromIndex*/ ) {
-		'use strict';
-		var O = Object(this),
-			len = parseInt(O.length) || 0;
-		if (len === 0) return false;
-		
-		var n = parseInt(arguments[1]) || 0,
-			k;
-		if (n >= 0) {
-		  k = n;
-		} else {
-		  k = len + n;
-		  if (k < 0) {k = 0;}
-		}
-		var currentElement;
-		while (k < len) {
-		  currentElement = O[k];
-		  if (searchElement === currentElement ||
-		     (searchElement !== searchElement && currentElement !== currentElement)) {
-		    return true;
-		  }
-		  k++;
-		}
-		return false;
-	};
+	Array.prototype.includes = function(searchElement) {return this.indexOf(searchElement);};
 }
 
 
@@ -125,28 +88,18 @@ if (!Array.prototype.includes) {
    Array.forEach()
    ========================================================================== */
 if (!Array.prototype.forEach) {
-  Array.prototype.forEach = function(callback, thisArg) {
-    var T, k;
-
-    if (this == null) throw new TypeError(' this is null or not defined');
-
-    var O = Object(this),
-        len = O.length;
-
-    if (typeof callback !== "function") throw new TypeError(callback + ' is not a function');
-
-    if (arguments.length > 1) T = thisArg;
-
-    k = 0;
-    while (k < len) {
-      var kValue;
-
-      if (k in O) {
-        kValue = O[k];
-        callback.call(T, kValue, k, O);
-      } k++;
-    }
-  };
+	Array.prototype.forEach = function (fn, arg) {
+		var arr = this,
+			len = arr.length,
+			thisArg = arg ? arg : undefined,
+			i;
+		for (i = 0; i < len; i += 1) {
+			if (arr.hasOwnProperty(i)) {
+				fn.call(thisArg, arr[i], i, arr);
+			}
+		}
+		return undefined;
+	};
 }
 
 
@@ -155,60 +108,7 @@ if (!Array.prototype.forEach) {
    Array.from()
    ========================================================================== */
 if (!Array.prototype.from) {
-  Array.prototype.from = (function () {
-    var toStr = Object.prototype.toString;
-    var isCallable = function (fn) {
-      return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
-    };
-    var toInteger = function (value) {
-      var number = Number(value);
-      if (isNaN(number)) { return 0; }
-      if (number === 0 || !isFinite(number)) { return number; }
-      return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
-    };
-    var maxSafeInteger = Math.pow(2, 53) - 1;
-    var toLength = function (value) {
-      var len = toInteger(value);
-      return Math.min(Math.max(len, 0), maxSafeInteger);
-    };
-
-    return function from(arrayLike/*, mapFn, thisArg */) {
-      var C = this,
-          items = Object(arrayLike);
-
-      if (arrayLike == null) {
-        throw new TypeError("Array.from requires an array-like object - not null or undefined");
-      }
-
-      var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
-      var T;
-      if (typeof mapFn !== 'undefined') {
-        if (!isCallable(mapFn)) {
-          throw new TypeError('Array.from: when provided, the second argument must be a function');
-        }
-
-        if (arguments.length > 2) {
-          T = arguments[2];
-        }
-      }
-
-      var len = toLength(items.length),
-          A = isCallable(C) ? Object(new C(len)) : new Array(len),
-          k = 0,
-          kValue;
-      while (k < len) {
-        kValue = items[k];
-        if (mapFn) {
-          A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
-        } else {
-          A[k] = kValue;
-        }
-        k += 1;
-      }
-      A.length = len;
-      return A;
-    };
-  }());
+    Array.prototype.from = function (object){return [].slice.call(object);};
 }
 
 
@@ -222,8 +122,8 @@ if (!Array.prototype.from) {
    String.includes()
    ========================================================================== */
 if (!String.prototype.includes) {
-	String.prototype.includes = function() {'use strict';
-		return String.prototype.indexOf.apply(this, arguments) !== -1;
+	String.prototype.includes = function(str, start) {
+		return String.prototype.indexOf(str, start||0) !== -1;
 	};
 }
 
@@ -233,14 +133,8 @@ if (!String.prototype.includes) {
    String.endsWith()
    ========================================================================== */
 if (!String.prototype.endsWith) {
-	String.prototype.endsWith = function(searchString, position) {
-		var subjectString = this.toString();
-		if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
-			position = subjectString.length;
-		}
-		position -= searchString.length;
-		var lastIndex = subjectString.indexOf(searchString, position);
-		return lastIndex !== -1 && lastIndex === position;
+	String.prototype.endsWith = function(str) {
+		return this.indexOf(str, this.length - str.length) !== -1;
 	};
 }
 
@@ -249,9 +143,8 @@ if (!String.prototype.endsWith) {
    String.startsWith()
    ========================================================================== */
 if (!String.prototype.startsWith) {
-	String.prototype.startsWith = function(searchString, position) {
-		position = position || 0;
-		return this.indexOf(searchString, position) === position;
+	String.prototype.startsWith = function(str, pos) {
+		return this.indexOf(str, pos||0) === 0;
 	};
 }
 
@@ -261,42 +154,10 @@ if (!String.prototype.startsWith) {
    String.repeat()
    ========================================================================== */
 if (!String.prototype.repeat) {
-	String.prototype.repeat = function(count) {
-		'use strict';
-		if (this == null) {
-			throw new TypeError('can\'t convert ' + this + ' to object');
-		}
-		var str = '' + this;
-		count = +count;
-		if (count != count) {
-			count = 0;
-		}
-		if (count < 0) {
-			throw new RangeError('repeat count must be non-negative');
-		}
-		if (count == Infinity) {
-			throw new RangeError('repeat count must be less than infinity');
-		}
-		count = Math.floor(count);
-		if (str.length == 0 || count == 0) {
-			return '';
-		}
-		// Ensuring count is a 31-bit integer allows us to heavily optimize the
-		// main part. But anyway, most current (August 2014) browsers can't handle
-		// strings 1 << 28 chars or longer, so:
-		if (str.length * count >= 1 << 28) {
-			throw new RangeError('repeat count must not overflow maximum string size');
-		}
-		var rpt = '';
-		for (;;) {
-			if ((count & 1) == 1) {
-				rpt += str;
-			}
-			count >>>= 1;
-			if (count == 0) {
-				break;
-			}
-			str += str;
+	String.prototype.repeat = function(n) {
+		var rpt = '', i;
+		for (i = 0; i < n; i++) {
+			rpt += str;
 		}
 		return rpt;
 	}

@@ -1,0 +1,12 @@
+{
+	"apps":[{
+		"name": "bugcleaners",
+		"script": "app.coffee",
+		"merge_logs": true,
+		"error_file": "./logfile-error",
+		"out_file": "./logfile",
+		"watch": true,
+		"ignore_watch": ["node_modules/**", "_assets/**", "_views/**", "public/**", ".gitignore", "package.json", "Procfile", "bugcleaners.sublime-project", "logfile*", "Icon"],
+		"watch-options": {"followSymlinks" : true}
+	}]
+}

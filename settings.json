@@ -5,7 +5,7 @@
 		"url": "http://bugcleaners.com",
 		"logo": "http://bugcleaners.com/img/logo-footer.png",
 		"color": "#f78515",
-		"db": "localhost:27017/bugcleaners",
+		"db": {"url":"localhost:27017/bugcleaners", "user":"admin", "pwd":"Xbpro1!2!3!"},
 		"fb": "http://www.facebook.com/bugcleaners",
 		"phone": "(800) 216-2124",
 		"logo": {
