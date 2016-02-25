@@ -38,7 +38,7 @@
   "scripts": {
     "server": "npm run server:startDB & npm run server:start",
     "server:startDB": "npm run server:startDB:mongo && npm run server:startDB:redis",
-    "server:startDB:mongo": "sudo mongod --auth --fork --logpath ~/mongolog",
+    "server:startDB:mongo": "mongod --auth --fork --logpath /root/mongolog --dbpath /var/db",
     "server:startDB:mongo:local": "sudo mongod --fork --logpath ~/mongolog",
     "server:startDB:redis": "redis-server /usr/local/etc/redis.conf",
     "server:start": "forever start -d -a -l /var/www/bugcleaners.com/logfile -c 'coffee' app.coffee",
