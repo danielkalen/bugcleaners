@@ -58,6 +58,7 @@ router.all /\/([^\/]+)\/([^\/]+)/, (req, res)->
 
 	sendResponse = (data='')->
 		res.set('Content-Type', mimeType)
+		res.set('Cache-Control', 'public, max-age=2592000')
 		res.send data
 		res.end()
 
