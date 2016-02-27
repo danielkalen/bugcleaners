@@ -14,8 +14,7 @@ html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr'
 		meta(property="og:description", content=page.meta_desc)
 		//- End Meta data.
 		title=page.title+" | "+app.name
-		link(rel='stylesheet', href='/css/landing.css', type='text/css')
-		link(rel='stylesheet', href='/static/css/'+bodyClass, type='text/css')
+		link(rel='stylesheet', href='/assets/css/'+bodyClass, type='text/css')
 		include ./_parts-global/takana.jade
 
 
@@ -49,7 +48,5 @@ html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr'
 
 					
 			include ./_parts-landing/footer.jade
-		script(type='text/javascript', src='/js/global.js')
-		script(type='text/javascript', src='/js/landing.js')
-		script(type='text/javascript', src='/static/js/'+bodyClass)
+		script(type='text/javascript', src='/assets/js/'+bodyClass, async, defer)
 		include ./_parts-global/analytics.jade

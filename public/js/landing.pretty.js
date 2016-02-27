@@ -2120,75 +2120,81 @@
     	==========================================================================
      */
     Form.prototype.Next = function() {
-      if (this.options.customNext) {
-        this.options.customNext();
-      } else if (!this.disabled) {
-        if (this.Validate()) {
-          this.revealSection(this.step.next);
-          this.setCurrentStepTo('next');
+      if (!this.disabled) {
+        if (this.options.customNext) {
+          this.options.customNext();
         } else {
-          this.focusOnFirstErrorField();
+          if (this.Validate()) {
+            this.revealSection(this.step.next);
+            this.setCurrentStepTo('next');
+          } else {
+            this.focusOnFirstErrorField();
+          }
         }
+        return this.options.callbackOnNextStep(this);
       }
-      return this.options.callbackOnNextStep(this);
     };
     Form.prototype.Back = function() {
-      if (this.options.customPrev) {
-        this.options.customPrev();
-      } else if (!this.disabled) {
-        this.revealSection(this.step.prev);
-        this.setCurrentStepTo('prev');
+      if (!this.disabled) {
+        if (this.options.customPrev) {
+          this.options.customPrev();
+        } else {
+          this.revealSection(this.step.prev);
+          this.setCurrentStepTo('prev');
+        }
+        return this.options.callbackOnBackStep(this);
       }
-      return this.options.callbackOnBackStep(this);
     };
     Form.prototype.Submit = function() {
       var formData;
-      if (this.Validate()) {
-        if (this.options.customSubmit) {
-          return this.options.customSubmit();
-        } else if (!this.disabled) {
-          this.form.addClass('loading final');
-          if (this.action || this.options.forceAjaxSubmit) {
-            formData = this.fetchValues();
-            if (this.action) {
-              formData.action = this.action;
-            }
-            if (!formData.url) {
-              formData.url = window.location.href;
-            }
-            if (!formData.referrer) {
-              formData.referrer = document.referrer;
-            }
-            if (this.options.hasLoadingStep) {
-              if (this.resultsPlaceholder.length) {
-                this.resultsPlaceholder.html(messages.loading).addClass('show');
+      if (!this.disabled) {
+        if (this.Validate()) {
+          if (this.options.customSubmit) {
+            return this.options.customSubmit();
+          } else {
+            this.form.addClass('loading final');
+            if (this.action || this.options.forceAjaxSubmit) {
+              formData = this.fetchValues();
+              if (this.action) {
+                formData.action = this.action;
               }
-              this.revealSection(this.resultsPlaceholder);
-              this.setCurrentStepTo(this.resultsPlaceholder);
-            }
-            return $.post(this.options.submitUrl, formData, ((function(_this) {
-              return function(response) {
-                var type;
-                if (!response) {
-                  return _this.showGeneralErrorMessage();
-                } else {
-                  type = response.success === true ? 'success' : 'error';
-                  _this.options.callbackOnResults(response, _this);
-                  _this.form.trigger('submitted').removeClass('loading');
-                  if (_this.resultsPlaceholder.length && response.message) {
-                    return _this.resultsPlaceholder.html("<div class=\"results-message " + type + "\">" + response.message + "</div>").addClass('show');
-                  }
+              if (!formData.url) {
+                formData.url = window.location.href;
+              }
+              if (!formData.referrer) {
+                formData.referrer = document.referrer;
+              }
+              if (this.options.hasLoadingStep) {
+                if (this.resultsPlaceholder.length) {
+                  this.resultsPlaceholder.html(messages.loading).addClass('show');
                 }
-              };
-            })(this)), 'JSON').fail((function(_this) {
-              return function() {
-                return _this.showGeneralErrorMessage();
-              };
-            })(this));
+                this.revealSection(this.resultsPlaceholder);
+                this.setCurrentStepTo(this.resultsPlaceholder);
+              }
+              return $.post(this.options.submitUrl, formData, ((function(_this) {
+                return function(response) {
+                  var type;
+                  if (!response) {
+                    return _this.showGeneralErrorMessage();
+                  } else {
+                    type = response.success === true ? 'success' : 'error';
+                    _this.options.callbackOnResults(response, _this);
+                    _this.form.trigger('submitted').removeClass('loading');
+                    if (_this.resultsPlaceholder.length && response.message) {
+                      return _this.resultsPlaceholder.html("<div class=\"results-message " + type + "\">" + response.message + "</div>").addClass('show');
+                    }
+                  }
+                };
+              })(this)), 'JSON').fail((function(_this) {
+                return function() {
+                  return _this.showGeneralErrorMessage();
+                };
+              })(this));
+            }
           }
+        } else {
+          return this.focusOnFirstErrorField();
         }
-      } else {
-        return this.focusOnFirstErrorField();
       }
     };
 

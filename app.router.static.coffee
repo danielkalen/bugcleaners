@@ -13,6 +13,8 @@ router = express.Router()
 redis = require('redis').createClient()
 db = require('monkii')(SETTINGS.app.db.url, {'username':SETTINGS.app.db.user, 'password':SETTINGS.app.db.pwd})
 Pages = db.get('pages')
+inProduction = if __dirname.includes('Projects') then false else true
+headersSent = false
 regEx =
 	ext: /.+\.(sass|scss|js|coffee)$/i
 	import: /@import\s*(.+)/ig
@@ -21,11 +23,15 @@ regEx =
 	 API for Databse CRUD
 	========================================================================== ###
 router.all /\/([^\/]+)\/([^\/]+)/, (req, res)->
+	headersSent = false
 	contentType = req.params[0]
 	pageSlug = req.params[1]
 	mimeType = if contentType is 'css' or contentType is 'sass' then 'text/css' else 'application/javascript'
 	output = ''
+	globalDependencies = []
 	dependencies = {}
+
+	res.end() if contentType isnt 'css' and contentType isnt 'js'
 
 	processBlocks = (blocks)->
 		return new Promise (resolve)->
@@ -52,7 +58,7 @@ router.all /\/([^\/]+)\/([^\/]+)/, (req, res)->
 			for i, dep of dependencies
 				depOutput += dep
 
-			resolve(depOutput+output)
+			resolve(globalDependencies.join('\n\n')+depOutput+output)
 
 
 
@@ -61,6 +67,7 @@ router.all /\/([^\/]+)\/([^\/]+)/, (req, res)->
 		res.set('Cache-Control', 'public, max-age=2592000')
 		res.send data
 		res.end()
+		headersSent = true
 
 
 
@@ -68,19 +75,24 @@ router.all /\/([^\/]+)\/([^\/]+)/, (req, res)->
 		if err
 			console.log(err)
 			sendResponse()
-		else
-			# redis.get pageSlug+'_'+contentType, (err, data)->
-			# 	console.log(err) if err
-			# 	if data then return sendResponse(data)
-			# 	else
-			pageBlocks = page.variations?[page.currentVariation]?.blocks
-			
-			unless pageBlocks then return sendResponse()
-			
-			processBlocks(pageBlocks).then ()->
-				combineAllData().then (result)->
-					# redis.set pageSlug+'_'+contentType, result, (err)-> console.log(err) if err
-					sendResponse(result)
+		else if page
+			pageVar = page.variations?[page.currentVariation]
+			pageBlocks = pageVar?.blocks
+
+			setGlobalDeps(pageVar.type, contentType).then (result)->
+				globalDependencies = result
+
+				unless pageBlocks then return sendResponse()
+
+				processBlocks(pageBlocks).then ()->
+					combineAllData().then (result)->
+						sendResponse(result)
+
+
+	# ==== Timeouts =================================================================================
+	setTimeout ()->
+		if not headersSent and not res.headersSent then sendResponse()
+	, 10000
 
 
 
@@ -108,6 +120,57 @@ router.all /\/([^\/]+)\/([^\/]+)/, (req, res)->
 
 
 # ==== Helper Functions =================================================================================
+setGlobalDeps = (pageType, contentType)->
+	return new Promise (resolve)->
+		globalDeps = []
+
+		if contentType is 'css'
+		
+			if pageType is 'standard'
+				fetchFile('global.sass', contentType).then (result)->
+					globalDeps.push(result)
+					
+					fetchFile('page.sass', contentType).then (result)->
+						globalDeps.push(result)
+						resolve(globalDeps)
+			
+
+			else if pageType is 'landing'
+				fetchFile('landing.sass', contentType).then (result)->
+					globalDeps.push(result)
+					resolve(globalDeps)		
+		
+	
+
+
+
+
+
+		else if contentType is 'js'
+			fetchFile('_parts-global/analytics.js', contentType).then (analytics)->
+		
+				if pageType is 'standard'
+					fetchFile('global.coffee', contentType).then (result)->
+						globalDeps.push(result)
+						if inProduction then globalDeps.push(analytics)
+						resolve(globalDeps)
+			
+
+				else if pageType is 'landing'
+					fetchFile('global.coffee', contentType).then (result)->
+						globalDeps.push(result)
+						
+						fetchFile('landing.coffee', contentType).then (result)->
+							globalDeps.push(result)
+							if inProduction then globalDeps.push(analytics)
+							resolve(globalDeps)
+				
+				
+					
+
+
+
+
 captureDependencies = (blockSlug, contentType, dependencies)->
 	return new Promise (resolve)->
 		blockDeps = additionalDependencies[contentType][blockSlug]
@@ -170,9 +233,9 @@ compileStatic = (blockSlug, contentType, isCoffeeFile, fileContent)->
 			isCoffeeFile = true
 
 		if contentType is 'css'
-			masterDependencies = fs.readFileSync('_assets/sass/_parts-global/_vars.sass', 'utf8')+'\n\n'
-			masterDependencies += fs.readFileSync('_assets/sass/_parts-global/_elements.sass', 'utf8')
-			fileContent = masterDependencies+'\n\n'+fileContent
+			requiredDependencies = fs.readFileSync('_assets/sass/_parts-global/_vars.sass', 'utf8')+'\n\n'
+			requiredDependencies += fs.readFileSync('_assets/sass/_parts-global/_elements.sass', 'utf8')
+			fileContent = requiredDependencies+'\n\n'+fileContent
 		
 		compileData(fileContent, contentType, isCoffeeFile).then (result)->
 			redis.set blockSlug+'-'+contentType, result, (err)-> console.log(err) if err
@@ -186,18 +249,23 @@ compileData = (data, contentType, isCoffeeFile)->
 				'data': data
 				'indentedSyntax': true
 				'outputStyle': 'compressed'
-				'includePaths': ['_assets/sass/_parts-sections', '_assets/sass/_parts-global']
+				'includePaths': ['_assets/sass/_parts-sections', '_assets/sass/_parts-global', '_assets/sass']
+				'functions': require('./sass-fns.js')
 				(err, result)->
 					console.log(err) if err
 					resolve(result?.css.toString())
 		
+		
 		else if contentType is 'js'
-			imported = SimplyImport(data)
+			imported = SimplyImport(data, null, {'cwd':process.cwd()+'/_assets/coffee', 'coffee':isCoffeeFile})
 			if isCoffeeFile
 				compiled = coffee.render(imported, {bare:true}).body
 			else compiled = imported
-			minified = uglify.minify(compiled, {fromString:true}).code
 
+			if compiled.length is 653 then console.log(isCoffeeFile)
+			minified = uglify.minify(compiled, {fromString:true, compress:{'hoist_funs':false}}).code
+			
+			# resolve(compiled)
 			resolve(minified)
 
 

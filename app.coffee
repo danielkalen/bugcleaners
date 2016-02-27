@@ -8,6 +8,7 @@ bodyParser = require('body-parser')
 markdown = require('jstransformer')(require('jstransformer-markdown'))
 router = require('./app.router.coffee')
 routerapi = require('./app.router.api.coffee')
+routerpurge = require('./app.router.purge.coffee')
 routerstatic = require('./app.router.static.coffee')
 app = express()
 db = require('monkii')(SETTINGS.app.db.url, {'username':SETTINGS.app.db.user, 'password':SETTINGS.app.db.pwd})
@@ -60,9 +61,10 @@ if inProduction # Production conditional code.
 else
 	# require('express-debug')(app);
 
-app.use '/static', routerstatic
-app.use '/api', routerapi
+app.use '/assets', routerstatic
 app.use '/', router
+app.use '/api', routerapi
+app.use '/purge', routerpurge
 
 
 
