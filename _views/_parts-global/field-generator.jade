@@ -338,31 +338,32 @@ mixin fieldGenerator(options)
 									div(class="#{className}-fieldset-repeater_group-groups-item-actions-item-text") Delete
 					
 					div(class="#{className}-fieldset-repeater_group-groups repeater-items")
-						each group,groupIndex in options.values
-							div(class="#{className}-fieldset-repeater_group-groups-item repeater-item")
-								div(class="#{className}-fieldset-repeater_group-groups-item-title repeater-item-title")!=options.label_single+' '+(groupIndex+1)
-								div(class="#{className}-fieldset-repeater_group-groups-item-fields repeater-item-fields")
-									- var templateFields = JSON.parse(JSON.stringify(options.fields))
-									each field,fieldIndex in templateFields
-										-
-											if (!field.realname) {
-												field.realname = field.name;
-											}
-											field.name = options.name+'---'+field.name+'[]';
-											field.className = options.className;
-											field.defaultValue = group[field.realname];
-											if (field.type.indexOf('repeater') !== -1) {
-												field.values = group[field.realname];
-											}
-											field.repeaterIndex = groupIndex+1;
-											field.nested = options.nested+1
-										+fieldGenerator(field)
-								.clearfix
-								div(class="#{className}-fieldset-repeater_group-groups-item-actions")
-									div(class="#{className}-fieldset-repeater_group-groups-item-actions-item repeater-clone")
-										div(class="#{className}-fieldset-repeater_group-groups-item-actions-item-text") Clone
-									div(class="#{className}-fieldset-repeater_group-groups-item-actions-item repeater-delete")
-										div(class="#{className}-fieldset-repeater_group-groups-item-actions-item-text") Delete
+						if options.values
+							each group,groupIndex in options.values
+								div(class="#{className}-fieldset-repeater_group-groups-item repeater-item")
+									div(class="#{className}-fieldset-repeater_group-groups-item-title repeater-item-title")!=options.label_single+' '+(groupIndex+1)
+									div(class="#{className}-fieldset-repeater_group-groups-item-fields repeater-item-fields")
+										- var templateFields = JSON.parse(JSON.stringify(options.fields))
+										each field,fieldIndex in templateFields
+											-
+												if (!field.realname) {
+													field.realname = field.name;
+												}
+												field.name = options.name+'---'+field.name+'[]';
+												field.className = options.className;
+												field.defaultValue = group[field.realname];
+												if (field.type.indexOf('repeater') !== -1) {
+													field.values = group[field.realname];
+												}
+												field.repeaterIndex = groupIndex+1;
+												field.nested = options.nested+1
+											+fieldGenerator(field)
+									.clearfix
+									div(class="#{className}-fieldset-repeater_group-groups-item-actions")
+										div(class="#{className}-fieldset-repeater_group-groups-item-actions-item repeater-clone")
+											div(class="#{className}-fieldset-repeater_group-groups-item-actions-item-text") Clone
+										div(class="#{className}-fieldset-repeater_group-groups-item-actions-item repeater-delete")
+											div(class="#{className}-fieldset-repeater_group-groups-item-actions-item-text") Delete
 						
 					div(class="#{className}-fieldset-button repeater-button")
 						div(class="#{className}-fieldset-button-text")!=options.button_text
