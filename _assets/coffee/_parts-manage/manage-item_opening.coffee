@@ -22,10 +22,11 @@ $$('.manage-content').on 'click', '.toggle_open', ()->
 
 	if closed
 		$toggle.removeClass('closed').addClass('show').data 'closed', true
+		$content.slideDown 300
 	else
 		$toggle.addClass('closed').removeClass 'show'
+		$content.slideUp 300
 	
-	$content.slideToggle 300
 	$toggle.data 'closed', !closed
 	
 	setTimeout ()->

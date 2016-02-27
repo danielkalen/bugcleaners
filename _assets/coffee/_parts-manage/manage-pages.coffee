@@ -209,10 +209,12 @@ if isPageManagement
 
 	PageItem::addVariation = (varToClone)->
 		$newItem = if varToClone then $(varToClone.el[0].cloneNode(true)) else $(fieldTemplates.variation)
+		shouldBeClosed = if varToClone then false else true
+		closedClass = if shouldBeClosed then 'closed' else ''
 		
 		$newItem # Reset All Fields
-			.addClass('closed')
-			.data('closed', true)
+			.addClass(closedClass)
+			.data('closed', shouldBeClosed)
 			.data('new', true)
 			.data('variation', @variations.length)
 
@@ -225,6 +227,8 @@ if isPageManagement
 
 		@fieldVar.prop 'max', @variations.length+1
 		@form.AddStep($newItem)
+
+		# @el.children('.step').not('.closed').children('.toggle_open').trigger('click')
 
 
 

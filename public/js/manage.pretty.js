@@ -3151,75 +3151,81 @@ if (!Promise) {
     	==========================================================================
      */
     Form.prototype.Next = function() {
-      if (this.options.customNext) {
-        this.options.customNext();
-      } else if (!this.disabled) {
-        if (this.Validate()) {
-          this.revealSection(this.step.next);
-          this.setCurrentStepTo('next');
+      if (!this.disabled) {
+        if (this.options.customNext) {
+          this.options.customNext();
         } else {
-          this.focusOnFirstErrorField();
+          if (this.Validate()) {
+            this.revealSection(this.step.next);
+            this.setCurrentStepTo('next');
+          } else {
+            this.focusOnFirstErrorField();
+          }
         }
+        return this.options.callbackOnNextStep(this);
       }
-      return this.options.callbackOnNextStep(this);
     };
     Form.prototype.Back = function() {
-      if (this.options.customPrev) {
-        this.options.customPrev();
-      } else if (!this.disabled) {
-        this.revealSection(this.step.prev);
-        this.setCurrentStepTo('prev');
+      if (!this.disabled) {
+        if (this.options.customPrev) {
+          this.options.customPrev();
+        } else {
+          this.revealSection(this.step.prev);
+          this.setCurrentStepTo('prev');
+        }
+        return this.options.callbackOnBackStep(this);
       }
-      return this.options.callbackOnBackStep(this);
     };
     Form.prototype.Submit = function() {
       var formData;
-      if (this.Validate()) {
-        if (this.options.customSubmit) {
-          return this.options.customSubmit();
-        } else if (!this.disabled) {
-          this.form.addClass('loading final');
-          if (this.action || this.options.forceAjaxSubmit) {
-            formData = this.fetchValues();
-            if (this.action) {
-              formData.action = this.action;
-            }
-            if (!formData.url) {
-              formData.url = window.location.href;
-            }
-            if (!formData.referrer) {
-              formData.referrer = document.referrer;
-            }
-            if (this.options.hasLoadingStep) {
-              if (this.resultsPlaceholder.length) {
-                this.resultsPlaceholder.html(messages.loading).addClass('show');
+      if (!this.disabled) {
+        if (this.Validate()) {
+          if (this.options.customSubmit) {
+            return this.options.customSubmit();
+          } else {
+            this.form.addClass('loading final');
+            if (this.action || this.options.forceAjaxSubmit) {
+              formData = this.fetchValues();
+              if (this.action) {
+                formData.action = this.action;
               }
-              this.revealSection(this.resultsPlaceholder);
-              this.setCurrentStepTo(this.resultsPlaceholder);
-            }
-            return $.post(this.options.submitUrl, formData, ((function(_this) {
-              return function(response) {
-                var type;
-                if (!response) {
-                  return _this.showGeneralErrorMessage();
-                } else {
-                  type = response.success === true ? 'success' : 'error';
-                  _this.options.callbackOnResults(response, _this);
-                  _this.form.trigger('submitted').removeClass('loading');
-                  if (_this.resultsPlaceholder.length && response.message) {
-                    return _this.resultsPlaceholder.html("<div class=\"results-message " + type + "\">" + response.message + "</div>").addClass('show');
-                  }
+              if (!formData.url) {
+                formData.url = window.location.href;
+              }
+              if (!formData.referrer) {
+                formData.referrer = document.referrer;
+              }
+              if (this.options.hasLoadingStep) {
+                if (this.resultsPlaceholder.length) {
+                  this.resultsPlaceholder.html(messages.loading).addClass('show');
                 }
-              };
-            })(this)), 'JSON').fail((function(_this) {
-              return function() {
-                return _this.showGeneralErrorMessage();
-              };
-            })(this));
+                this.revealSection(this.resultsPlaceholder);
+                this.setCurrentStepTo(this.resultsPlaceholder);
+              }
+              return $.post(this.options.submitUrl, formData, ((function(_this) {
+                return function(response) {
+                  var type;
+                  if (!response) {
+                    return _this.showGeneralErrorMessage();
+                  } else {
+                    type = response.success === true ? 'success' : 'error';
+                    _this.options.callbackOnResults(response, _this);
+                    _this.form.trigger('submitted').removeClass('loading');
+                    if (_this.resultsPlaceholder.length && response.message) {
+                      return _this.resultsPlaceholder.html("<div class=\"results-message " + type + "\">" + response.message + "</div>").addClass('show');
+                    }
+                  }
+                };
+              })(this)), 'JSON').fail((function(_this) {
+                return function() {
+                  return _this.showGeneralErrorMessage();
+                };
+              })(this));
+            }
           }
+        } else {
+          return this.focusOnFirstErrorField();
         }
-      } else {
-        return this.focusOnFirstErrorField();
       }
     };
 
@@ -3916,7 +3922,8 @@ isLeadManagement = $$('body').hasClass('leads');
       return this.page.fetchValues()[this.index];
     };
     Variation.prototype.clone = function() {
-      return this.page.addVariation(this);
+      this.page.addVariation(this);
+      return this.el.children('.toggle_open').first().trigger('click');
     };
     Variation.prototype.disable = function() {
       var data;
@@ -4212,9 +4219,11 @@ isLeadManagement = $$('body').hasClass('leads');
       return this.fieldVar.prop('max', this.variations.length);
     };
     PageItem.prototype.addVariation = function(varToClone) {
-      var $newItem;
+      var $newItem, closedClass, shouldBeClosed;
       $newItem = varToClone ? $(varToClone.el[0].cloneNode(true)) : $(fieldTemplates.variation);
-      $newItem.addClass('closed').data('closed', true).data('new', true).data('variation', this.variations.length);
+      shouldBeClosed = varToClone ? false : true;
+      closedClass = shouldBeClosed ? 'closed' : '';
+      $newItem.addClass(closedClass).data('closed', shouldBeClosed).data('new', true).data('variation', this.variations.length);
       if (varToClone) {
         $newItem.children('h6').children().eq(0).html('Variation {{index}}');
         $newItem.children('h6').children().eq(1).html(' {{notes}}');
@@ -5042,10 +5051,11 @@ isLeadManagement = $$('body').hasClass('leads');
     formInstance.setCurrentStepTo($item);
     if (closed) {
       $toggle.removeClass('closed').addClass('show').data('closed', true);
+      $content.slideDown(300);
     } else {
       $toggle.addClass('closed').removeClass('show');
+      $content.slideUp(300);
     }
-    $content.slideToggle(300);
     $toggle.data('closed', !closed);
     return setTimeout(function() {
       return setMinMax(true);

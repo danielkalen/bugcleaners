@@ -26,7 +26,9 @@ if isPageManagement
 
 
 	Variation::fetchValues = ()-> @page.fetchValues()[@index]
-	Variation::clone = ()-> @page.addVariation(@)
+	Variation::clone = ()-> 
+		@page.addVariation(@)
+		@el.children('.toggle_open').first().trigger('click')
 	
 	Variation::disable = ()->
 		@enabled = !@enabled
