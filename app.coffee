@@ -16,7 +16,7 @@ Pages = db.get('pages')
 Posts = db.get('posts')
 Users = db.get('users')
 inProduction = if __dirname.includes('Projects') then false else true
-port = if inProduction then 8080 else 7889
+port = if inProduction then 7889 else 7889
 
 ### ==========================================================================
 	 Management page auth
