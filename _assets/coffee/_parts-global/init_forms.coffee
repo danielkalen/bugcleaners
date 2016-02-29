@@ -2,7 +2,7 @@
 $$('form').each ()-> 
 	$form = $(this)
 
-	if $form.hasClass('form_boxed')
+	if $form.hasClass('form_boxed') and $form.hasClass('standard')
 		new Form $form, {'dontDisableFields':true}
 	else
 		new Form $form

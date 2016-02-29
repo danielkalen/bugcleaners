@@ -34,7 +34,7 @@ mixin form(values)
 			input(type="hidden" name="source_page" value=currentPageSlug)
 			input(type="hidden" name="form_type" value=formType)
 			
-			if values.include_phone
+			if values.include_phone && formStyle === 'standard'
 				.form_boxed-alt Or you can call us directly at 
 					a.form_boxed-alt-link(href="tel:800-216-2124") (800) 216-2124
 					| .
