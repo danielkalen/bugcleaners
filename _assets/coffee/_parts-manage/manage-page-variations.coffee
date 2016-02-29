@@ -10,6 +10,9 @@ if isPageManagement
 		@fieldNotes = $el.find('.varNotes').find('input')
 		@statusField = $el.find('.manage-content-list-item-content-status')
 
+		@elTitle.html('Variation {{index}}')
+		@elNotes.html(' {{notes}}')
+
 		$el.data('item', @)
 		SimplyBind('index').of(@)
 			.to('textContent.index').of(@elTitle)
@@ -31,14 +34,17 @@ if isPageManagement
 		@el.children('.toggle_open').first().trigger('click')
 	
 	Variation::disable = ()->
-		@enabled = !@enabled
-		data = {}
-		data["variations.#{@index}.enabled"] = @enabled
-		
-		DB.variation.update
-			'id': @page.id
-			'data': data
-			'cb': (res)=> @el.toggleClass 'disabled' if res.success
+		if @page.el.find('.manage-content-list-item').not('disabled').length # Make sure there are other non-disabled varirations
+			@enabled = !@enabled
+			data = {}
+			data["variations.#{@index}.enabled"] = @enabled
+			
+			DB.variation.update
+				'id': @page.id
+				'data': data
+				'cb': (res)=> @el.toggleClass 'disabled' if res.success
+		else
+			alert('You must have at least one variation enabled')
 	
 
 	

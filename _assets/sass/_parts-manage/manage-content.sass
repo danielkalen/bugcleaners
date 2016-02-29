@@ -45,7 +45,7 @@
 				left: 11px
 				margin-right: 10px
 				color: $divider-dark
-				opacity: 0
+				opacity: 0.5
 				transition: color 0.25s, opacity 0.25s
 				.disabled &
 					opacity: 1
@@ -207,30 +207,39 @@
 		&-data
 			margin-bottom: 20px
 			+clearfix
-
-			&-field
-				position: relative
-				width: 100%
-				// margin-bottom: 20px
-				+clearfix
-				&.half
-					width: 48.5%
-					float: right
-					&.first
-						float: left
+			
+			&-fieldset
+				+fieldset($style:old, $borderColor:$divider, $labelSize:14px, $iconSize:14px, $margin:2%, $widthRules:true, $renderAll:false, $renderLabel:true, $renderInput:true, $renderSelect:true)
+				// +fieldset($style:new, $inputHeight: 52px, $labelSize:10px, $borderColor:$divider, $iconSize:14px, $margin:2%, $widthRules:true, $renderAll:false, $renderLabel:true, $renderInput:true, $renderSelect:true)
+				+max(520)
+					width: 100%
 
 				&-label
+					margin-bottom: 5px
 					display: block
-					margin-bottom: 3px
-					font-weight: 600
-					font-size: 16px
-				&-input
-					display: block
-					width: 100%
-					height: 41px
-					padding: 0 11px
-					background-color: white
-					border: 1px solid $divider
+			// &-field
+			// 	position: relative
+			// 	width: 100%
+			// 	// margin-bottom: 20px
+			// 	+clearfix
+			// 	&.half
+			// 		width: 48.5%
+			// 		float: right
+			// 		&.first
+			// 			float: left
+
+			// 	&-label
+			// 		display: block
+			// 		margin-bottom: 3px
+			// 		font-weight: 600
+			// 		font-size: 16px
+			// 	&-input
+			// 		display: block
+			// 		width: 100%
+			// 		height: 41px
+			// 		padding: 0 11px
+			// 		background-color: white
+			// 		border: 1px solid $divider
 
 
 

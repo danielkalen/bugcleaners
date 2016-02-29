@@ -436,15 +436,15 @@ mixin fieldGenerator(options)
 				div(class="#{className}-fieldset-group group-container")
 					-
 						var templateFields = JSON.parse(JSON.stringify(options.fields));
-						values = options.defaultValue ? objectToArray(options.defaultValue) : [];
+						values = options.defaultValue ? options.defaultValue : {};
 					each field,fieldIndex in templateFields
 						-
 							if (!field.realname) {
 								field.realname = field.name;
 							}
 							field.className = options.className;
-							if (values.length) {
-								field.defaultValue = values[fieldIndex];
+							if (values[field.realname]) {
+								field.defaultValue = values[field.realname];
 								if (field.type.indexOf('repeater') !== -1) {
 									field.values = field.defaultValue;
 								}

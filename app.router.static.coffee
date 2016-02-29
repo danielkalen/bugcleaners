@@ -79,7 +79,7 @@ router.all /\/([^\/]+)\/([^\/]+)/, (req, res)->
 			pageVar = page.variations?[page.currentVariation]
 			pageBlocks = pageVar?.blocks
 
-			setGlobalDeps(pageVar.type, contentType).then (result)->
+			setGlobalDeps(page.type, contentType).then (result)->
 				globalDependencies = result
 
 				unless pageBlocks then return sendResponse()

@@ -6,15 +6,15 @@ if isPageManagement
 		'items': []
 
 		addExisting: ($el)->
-			newItem = new PageItem($el.attr('id'), $el.data('slug'), $el.find('.manage-content-list-title-text').html(), !$el.hasClass('disabled'), $el.data('rotation'), $el)
+			newItem = new PageItem($el.attr('id'), $el.data('slug'), $el.find('.manage-content-list-title-text').html(), $el.data('type'), !$el.hasClass('disabled'), $el.data('rotation'), $el)
 			@items.push(newItem)		
 			return newItem
 		
 
 
 		add: (sidebarItem, clone)->
-			$newItem = if clone then $(clone[0].cloneNode(true)) else $(@template[0].cloneNode(true))
-			newItem = new PageItem('', sidebarItem.slug, sidebarItem.label, true, false, $newItem, sidebarItem)
+			$newItem = if clone then util.cloneSafe($clone, true) else util.cloneSafe(@template, true)
+			newItem = new PageItem('', sidebarItem.slug, sidebarItem.label, clone.data('item')?.type, true, false, $newItem, sidebarItem)
 			@items.push(newItem)
 			
 			newItem.el
@@ -45,11 +45,12 @@ if isPageManagement
 
 
 
-	PageItem = (id, slug, name, enabled, rotation, el, sidebar)->
+	PageItem = (id, slug, name, type, enabled, rotation, el, sidebar)->
 		initForm(el)
 		@id = id
 		@slug = slug
 		@name = name
+		@type = type or 'standard'
 		@enabled = !!enabled
 		@rotation = rotation
 		@form = el.data('Form')
@@ -59,18 +60,28 @@ if isPageManagement
 		@sidebar = sidebar || SIDEBAR.items.filter((item)=> item.slug is @slug)[0]
 		@toggle = el.find('.rotation')
 		@button = el.find('.manage-content-list-add')
-		@fieldName = el.find('.page_data[name="name"]')
-		@fieldSlug = el.find('.page_data[name="slug"]')
+		@fieldName = el.children('.manage-content-list-data').find('.input[name="name"]')
+		@fieldSlug = el.children('.manage-content-list-data').find('.input[name="slug"]')
+		@fieldType = el.children('.manage-content-list-data').find('.input[name="type"]')
 		@fieldVar = el.find('.currentVariation')
 		@currentVariation = @fieldVar.val() || 0
 		@variations = []
 
 		@collectVariations()
 
+		@form.addField @fieldName.parent()
+		@form.addField @fieldSlug.parent()
+		@form.addField @fieldType.parent()
+
 		@el.data('item', @)
 		@sidebar.assocItem = @
 
 		SimplyBind.setOption('invokeOnBind', false)
+		SimplyBind('type').of(@).to('value').of(@fieldType).bothWays()
+		SimplyBind('value').of(@fieldType)
+			.to (newValue)=> DB.page.update {'id':@id, 'name':'type', 'value':newValue}
+		
+
 		SimplyBind('name').of(@).to('value').of(@fieldName).bothWays()
 		SimplyBind('value').of(@fieldName)
 			.to('textContent').of(@elTitle)
@@ -157,6 +168,7 @@ if isPageManagement
 		data =
 			'name': @name
 			'slug': @slug
+			'type': @type
 			'enabled': @enabled
 			'rotation': !!@rotation
 			'currentVariation': @currentVariation - 1
@@ -195,7 +207,7 @@ if isPageManagement
 							@el
 								.removeClass('show')
 								.prev()
-									.addClass('show')
+									.each(()-> $(@).data('item').show())
 									.end()
 								.remove()
 
@@ -208,7 +220,7 @@ if isPageManagement
 		@fieldVar.prop 'max', @variations.length
 
 	PageItem::addVariation = (varToClone)->
-		$newItem = if varToClone then $(varToClone.el[0].cloneNode(true)) else $(fieldTemplates.variation)
+		$newItem = if varToClone then $(util.cloneSafe(varToClone.el, true)) else $(fieldTemplates.variation)
 		shouldBeClosed = if varToClone then false else true
 		closedClass = if shouldBeClosed then 'closed' else ''
 		
@@ -217,10 +229,6 @@ if isPageManagement
 			.data('closed', shouldBeClosed)
 			.data('new', true)
 			.data('variation', @variations.length)
-
-		if varToClone
-			$newItem.children('h6').children().eq(0).html('Variation {{index}}')
-			$newItem.children('h6').children().eq(1).html(' {{notes}}')
 
 		@button.before $newItem		
 		@variations.push(new Variation($newItem, @, true))		

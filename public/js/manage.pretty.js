@@ -11,27 +11,28 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 // Browser selector <html> tag
 function css_browser_selector(u){var ua=u.toLowerCase(),is=function(t){return ua.indexOf(t)>-1},g='gecko',w='webkit',s='safari',o='opera',m='mobile',h=document.documentElement,b=[(!(/opera|webtv/i.test(ua))&&/msie\s(\d)/.test(ua))?('ie ie'+RegExp.$1):is('firefox/2')?g+' ff2':is('firefox/3.5')?g+' ff3 ff3_5':is('firefox/3.6')?g+' ff3 ff3_6':is('firefox/3')?g+' ff3':is('gecko/')?g:is('opera')?o+(/version\/(\d+)/.test(ua)?' '+o+RegExp.$1:(/opera(\s|\/)(\d+)/.test(ua)?' '+o+RegExp.$2:'')):is('konqueror')?'konqueror':is('blackberry')?m+' blackberry':is('android')?m+' android':is('chrome')?w+' chrome':is('iron')?w+' iron':is('applewebkit/')?w+' '+s+(/version\/(\d+)/.test(ua)?' '+s+RegExp.$1:''):is('mozilla/')?g:'',is('j2me')?m+' j2me':is('iphone')?m+' iphone':is('ipod')?m+' ipod':is('ipad')?m+' ipad':is('mac')?'mac':is('darwin')?'mac':is('webtv')?'webtv':is('win')?'win'+(is('windows nt 6.0')?' vista':''):is('freebsd')?'freebsd':(is('x11')||is('linux'))?'linux':'','js']; c = b.join(' '); h.className += ' '+c; return c;}; css_browser_selector(navigator.userAgent);
 ;
-(function(){(function(){var g,V,ia,aa,n,ba,M,Q,ca,ja,ka,la,W,h,R,I,m,J,X,Y,da,S,Z,K;W=function(a){a=typeof a;return"string"!==a&&"number"!==a&&"boolean"!==a?!1:!0};ca=function(a){var c;1<a.length?"radio"===a[0].type||"checkbox"===a[0].type?(c=a,a=[],Object.keys(c).forEach(function(d){if(!isNaN(parseFloat(d)))return a.push(c[d])})):(Z("onlyOneDOMElement"),a=a[0]):a=a[0];return a};Q=function(a){X.jQuery&&a.constructor===jQuery&&(a=ca(a),a.length&&(a=a[0]));return a};ja=function(){return"sb_"+Math.floor(1E12*
-(1+Math.random())).toString(16)};ia=function(a,c,d){var e;e=n.objects.indexOf(a);return-1===e?(e={},e[c]=d,n.objects.push(a),n.props.push(e)):n.props[e][c]=d};ka=function(a,c){var d;d=n.objects.indexOf(a);return-1!==d&&(d=n.props[d],null!=d[c])?g.boundedObjects[d[c]]:!1};J=function(a,c){return{regEx:new RegExp(I.Start+a+I.End,"g"),lastValue:c}};aa=function(a,c,d){var e;e=m.objects.indexOf(a);if(-1===e)return e={},e[c]=J(c,d),m.objects.push(a),m.placeholders.push(e);a=m.placeholders[e];return null!=
-a[c]?a[c].lastValue=d:a[c]=J(c,d)};la=function(a){a=m.objects.indexOf(a);return m.placeholders[a]};S=function(a){if(!h.silent&&null!=M[a])throw Error(M[a]);};Z=function(a){if(!h.silent&&K[a])return console.log("SimplyBind - Warning: "+K[a])};ba=function(){var a;a=document.createEvent("Event");a.initEvent("change",!0,!1);a.fromSimplyBind=!0;return a};M={invalidArg:"SimplyBind can only accept a string/number representing the name of an object\u2019s property or an existing SimplyBind object.",emptyStringArg:"SimplyBind cannot accept an empty string for a property name."};
-K={attributes:"DOM Attributes cannot be observed for changes and therefore will not update its dependents upon change",transformFunction:"You can only pass a function to the .withTransform() method",onlyOneDOMElement:"You can only pass one DOM element into SimplyBind unless it's a collection of radio/checkbox inputs",noNestedDOM:"You cannot pass nested properties for DOM attributes or input element values. Will only use the uppermost property."};X={jQuery:"undefined"!==typeof jQuery&&null!==jQuery,
-IE9:!window.atob};h={silent:!1,liveProperties:!0,dispatchEvents:!1,updateEvenIfSame:!1,invokeOnBind:!0,overrideInheritedProps:!1,placeholderStart:"{{",placeholderEnd:"}}"};R=Object.keys(h);I={Start:"\\{\\{",End:"\\}\\}"};n={objects:[],props:[]};m={objects:[],placeholders:[]};Y=[];da=[];g=function(a){""===a&&S("emptyStringArg");if(!a&&0!==a||!W(a))if(null==a.constructor||a.constructor!==g.SimplyBoundedConstructor){S("invalidArg");return}return"object"===typeof a?(a.invoke("resetConditionals"),a):new V(a)};
-V=function(a){var c,d,e,ea,n,w,p,l,q,D,x,m,B,T,r,I,t,y,M,U,f,z,E,u,k,A,F,J,K,Q,C,N,R,G,fa,ga,ha,L,O,P,ma,v;this.ID=this.type=null;c=this;E=v=D=U=null;p=[];l=[];q=[];f=z=null;L=[];u=C=a;O={};k=null;F=[];A=null;N=T=y=t=B=!1;Object.defineProperty(this,"value",{configurable:!0,enumerable:!0,get:function(){return D}});Object.defineProperty(this,"origObject",{configurable:!0,enumerable:!0,get:function(){return z||f}});Object.defineProperty(this,"dependents",{configurable:!0,enumerable:!0,get:function(){var b;
-b=l.slice().map(function(b){var a;return null!=(a=g.boundedObjects[b])?a.origObject:void 0});p.forEach(function(a){return b.push(a)});return b}});R=function(b){return function(){b.ID=ja();return g.boundedObjects[b.ID]=b}}(this);ha=function(b){return function(){var a;if(!b.type&&(b.type="Object",a=null!=f.nodeName&&f.nodeType))return"value"===u?b.type="Value":"textContent"===u?b.type="Text":b.type="Attr"}}(this);fa=function(b){null==b&&(b=x());return aa(b,E,v)};ga=function(b){if(N)return[].slice.call(b.childNodes).forEach(function(b){if(3!==
-b.nodeType)return ga(b);if(-1!==b.textContent.indexOf(h.placeholderStart+E+h.placeholderEnd)&&(aa(b,E,v),-1===Y.indexOf(b)))return Y.push(b),da.push(b.textContent)})};m=function(b,a){var H;H=Y.indexOf(b);return-1!==H?ea(b,da[H]):!1};x=function(){var b;if(L.length){c.ID||ha();if("Value"===c.type||"Attr"===c.type)return f;b=f;L.slice().reverse().forEach(function(a){return b=b[a]});return b}return f};w=function(b){return function(){var a,H;if("Value"===b.type||"Text"===b.type)if(a=function(a){if(!a.fromSimplyBind)return b.set(a.target.value)},
-H=z?z[0].nodeName.toUpperCase():f.nodeName.toUpperCase(),"Text"===b.type||"INPUT"===H||"TEXTAREA"===H||"SELECT"===H){if("radio"===f.type||"checkbox"===f.type)return z.forEach(function(b){return b.addEventListener("change",a,!1)});f.addEventListener("input",a,!1);X.IE9&&f.addEventListener("keyup",a,!1);return f.addEventListener("change",a,!1)}}}(this);n=function(b){return N?[].slice.call(b.childNodes).forEach(function(b){var a;if(3!==b.nodeType)return n(b);a=m(b);if(!1!==a)return b.textContent=a}):
-b.textContent=v};ma=function(b){return function(a){v=a;D=N?ea():a;if("Value"===b.type){if(z)return z.forEach(function(b){return b.value===a?(b.checked=!0,b.dispatchEvent(ba())):b.checked=!1});f.value=D;if(h.dispatchEvents)return f.dispatchEvent(ba())}else{if("Attr"===b.type)return f.setAttribute(u,D);if("Text"===b.type)return n(f,a)}}}(this);P=function(b){return function(b,a){var c,d,e,f;if(l.length)for(e=0,f=l.length;e<f;e++)d=l[e],c=g.boundedObjects[d],a&&-1!==q.indexOf(d)||(d=null!=O[d]?O[d](v,
-c.value):v,c.set(d,b,!0));if(p.length){d=[];e=0;for(f=p.length;e<f;e++)c=p[e],d.push(c(v));return d}}}(this);ea=function(b,a){var d,c,e,f;null==b&&(b=x());null==a&&(a=U);fa(b);d=a;f=la(b);for(c in f)e=f[c],d=d.replace(e.regEx,e.lastValue);return d};M=function(b){return function(){var a;if("Object"===b.type&&h.liveProperties&&(a=h.overrideInheritedProps?!0:x().hasOwnProperty(u)))return Object.defineProperty(x(),u,{get:function(){return D},set:function(a){return b.update(a)}})}}(this);d=function(b){return function(a,
-c){-1===l.indexOf(a)&&l.push(a);if(c){if(-1===q.indexOf(a))return q.push(a)}else if(-1!==g.boundedObjects[a].getPrivate("dependents").indexOf(b.ID))return g.boundedObjects[a].invoke("addToDependents",[b.ID,!0]),d(a,!0)}}(this);e=function(b){return function(b,a){return O[b]=a}}(this);J=function(b){return function(a,d){var c;c=l.indexOf(a);-1!==c&&l.splice(c,1);if(d&&(q.forEach(function(a){return g.boundedObjects[a].invoke("removeDependent",[b.ID])}),c=q.indexOf(a),-1!==c))return q.splice(c,1)}}(this);
-K=function(b){return function(b){b=p.indexOf(b);return p.splice(b,1)}}(this);Q=function(b){return function(){T=t=y=!1;k=A=null;F=[];G();return b}}(this);G=function(b){return function(){delete b.of;delete b.to;delete b.and;delete b.set;delete b.update;delete b.get;delete b.update;delete b.withTransform;delete b.bothWays;delete b.bindTogether;B&&!y||A||(b.of=r.of);!B||t||y||(b.to=r.to);B&&t&&!y&&!T&&(b.and=r.and);B&&(b.set=r.set,b.update=r.set,b.get=r.get,b.val=r.get);B&&t&&!T&&null!=k&&!A&&(b.withTransform=
-r.withTransform);B&&t&&!y&&null!=k&&!A&&(b.bothWays=r.bothWays,b.bindTogether=r.bothWays);if(B&&t&&!y&&(null!=k||A))return b.unBind=r.unBind}}(this);I=function(b){return function(a,c){null==c&&(c=[]);switch(a){case "addToDependents":return d.apply(b,c);case "addToTransforms":return e.apply(b,c);case "removeDependent":return J.apply(b,c);case "resetConditionals":return Q.call(b);case "removeFunction":return K.call(b,c)}}}(this);a=function(b){return function(b){switch(b){case "dependents":return l;
-case "dependentFns":return p}}}(this);Object.defineProperty(this,"invoke",{configurable:!1,enumerable:!1,value:I});Object.defineProperty(this,"getPrivate",{configurable:!1,enumerable:!1,value:a});r={of:function(b){var a,c;a=null!=b?"object"===typeof b:!1;c=null!=b?W(b):!1;a||c||S("invalidArg");if(y)c=F.indexOf(k),k=k.of(b),F[c]=k,a&&(y=!1,t=!0,d(k.ID),P(this.ID,!0));else if(a){c=!1;b.constructor===g.SimplyBoundedConstructor&&(b=b.origObject);B=!0;X.jQuery&&b.constructor===jQuery&&(c=!0,b=ca(b));f=
-b;a=x()[u];if("NodeList"===b.constructor.name||"HTMLCollection"===b.constructor.name||c&&b.length)f=null,z=[].slice.call(b),z.forEach(function(b){if(b.checked)return f=b}),f||(f=z[0]),b=f,a=f.value;if(c=null!=f.nodeName&&f.nodeType)"textContent"===u?(ga(f),a=f.textContent):"value"!==u&&(a=b.getAttribute(u)),L.length&&(Z("noNestedDOM"),u=C=b=L[L.length-1]);b=ka(x(),C);if(null!=b&&"function"===typeof b.invoke&&b.invoke("resetConditionals"))return b;void 0===a&&"object"===typeof x()&&(a=x()[u]=null);
-U=a;N?(D=U,v=h.placeholderStart+E+h.placeholderEnd,fa()):v=D=U;R();ia(x(),C,this.ID);ha();M();w()}else c&&L.push(b);G();return this},to:function(b){if(null==b)return this;b.constructor===g.SimplyBoundedConstructor?(t=!0,k=b,F.push(k),d(k.ID),P(this.ID,!0)):W(b)?(y=!0,k=new V(b),F.push(k)):"function"===typeof b?(t=!0,-1===p.indexOf(b)&&p.push(b),A=b,h.invokeOnBind&&P(this.ID,!0)):S("invalidArg");G();t&&this.update(null,this.ID);return this},and:function(b){return r.to.bind(this)(b)},set:function(b,
-a,c){null==c&&(c=!1);a===this.ID||b===v&&!h.updateEvenIfSame||(null==a&&(a=this.ID),"undefined"!==typeof b&&ma(b,a),P(a,c));return this},get:function(){return v},withTransform:function(a){var c,d,f;if("function"===typeof a){T=!0;c=0;for(d=F.length;c<d;c++)f=F[c],e(f.ID,a),-1!==q.indexOf(f.ID)&&f.invoke("addToTransforms",[this.ID,a]);P(this.ID,!0)}else Z("transformFunction");G();return this},bothWays:function(){null!=O[k.ID]?g(k).to(this).withTransform(O[k.ID]):g(k).to(this);d(k.ID,!0);G();return this},
-unBind:function(a){A?(K(A),t=!1,A=null):(J(k.ID,a),t=!1,k=null);G();return this}};"number"===typeof C&&(C=C.toString());-1!==C.indexOf(".")&&(N=!0,a=C.split("."),u=a[0],E=a[1],2<a.length&&a.slice(2).forEach(function(a){return E+="."+a}));G();return this};g.setOption=function(a,c){if(-1!==R.indexOf(a))return-1!==a.indexOf("placeholder")&&(a.indexOf("Start"),I[a.slice(11)]=c.replace(/(.)/g,"\\$1")),h[a]=c};g.setOptions=function(a){var c;c=Object.keys(a);if(c.length)return c.forEach(function(c){return g.setOption(c,
-a[c])})};g.options=function(){return h};g.unBindAll=function(a,c,d){var e,h,m,w,p,l,q;d||g.unBindAllFunctions(a);if(a&&"object"===typeof a&&(a=Q(a),d=null!=a.nodeName&&a.nodeType,e=n.objects.indexOf(a),-1!==e)){p=n.props[e];q=[];for(l in p)w=p[l],m=d&&"value"!==l?a.getAttribute(l):a[l],h=g.boundedObjects[w],e=h.getPrivate("dependents"),e.slice().forEach(function(a){return h.invoke("removeDependent",[a,c])}),c?(delete g.boundedObjects[w],"Value"!==h.type?q.push(Object.defineProperty(a,l,{value:m})):
-q.push(void 0)):q.push(void 0);return q}};g.unBindAllFunctions=function(a,c){var d,e,h,m,w;if(a&&"object"===typeof a&&(e=n.objects.indexOf(a),-1!==e)){d=function(a){var c;if(a)return c=g.boundedObjects[a],a=c.getPrivate("dependentFns"),a.slice().forEach(function(a){return c.invoke("removeFunction",a)})};h=n.props[e];if(c)return d(h[c]);w=[];for(m in h)e=h[m],w.push(d(e));return w}};g.SimplyBoundedConstructor=V;g.boundedObjects={};return window.SimplyBind=g})()}).call(this);
+(function(){(function(){var f,H,ja,Z,q,aa,P,Q,ba,ka,la,ma,na,V,h,R,I,m,J,ca,S,W,T;ba=function(a){var c;1<a.length?"radio"===a[0].type||"checkbox"===a[0].type?(c=a,a=[],Object.keys(c).forEach(function(d){if(!isNaN(parseFloat(d)))return a.push(c[d])})):(W("onlyOneDOMElement"),a=a[0]):a=a[0];return a};Q=function(a){ca.jQuery&&a.constructor===jQuery&&(a=ba(a),a.length&&(a=a[0]));return a};aa=function(){var a;a=document.createEvent("Event");a.initEvent("change",!0,!1);a.fromSimplyBind=!0;return a};ka=
+function(){return"sb_"+Math.floor(1E12*(1+Math.random())).toString(16)};V=function(a){a=typeof a;return"string"!==a&&"number"!==a?!1:!0};ja=function(a,c,d){var g;g=q.objects.indexOf(a);return-1===g?(g={},g[c]=d,q.objects.push(a),q.props.push(g)):q.props[g][c]=d};la=function(a,c){var d;d=q.objects.indexOf(a);return-1!==d&&(d=q.props[d],null!=d[c])?f.boundedObjects[d[c]]:!1};J=function(a,c){return{regEx:new RegExp(I.Start+a+I.End,"g"),lastValue:c||""}};Z=function(a,c,d,g){var f;f=m.objects.indexOf(a);
+if(-1===f)return f={},f[c]=J(c,d),m.objects.push(a),m.placeholders.push(f),m.originalValues.push(g);a=m.placeholders[f];return null!=a[c]?a[c].lastValue=d:a[c]=J(c,d)};na=function(a){a=m.objects.indexOf(a);return m.placeholders[a]};ma=function(a){a=m.objects.indexOf(a);return m.originalValues[a]};S=function(a,c){var d;if(!h.silent)throw d=P[a],c&&(d+=" ["+c+"]"),Error(d);};W=function(a,c){var d;if(!h.silent)return d=T[a],c&&(d+=" ["+c+"]"),console.log("SimplyBind: "+d)};P={invalidParamName:"SimplyBind() and .to() can only accept either a string/number representing the name of an object\u2019s property or an already-bound object.",
+notAnObject:"SimplyBind: .of() can only accept a non-primitive object as its argument.",emptyStringArg:"SimplyBind() and .to() cannot accept an empty string for a property name."};T={attributes:"DOM Attributes cannot be observed for changes and therefore will not update its dependents upon change",transformFunction:"You can only pass a function to the .withTransform() method",onlyOneDOMElement:"You can only pass one DOM element into SimplyBind unless it's a collection of radio/checkbox inputs",noNestedDOM:"You cannot pass nested properties for DOM attributes or input element values. Will only use the uppermost property."};
+ca={jQuery:"undefined"!==typeof jQuery&&null!==jQuery,IE9:!window.atob};h={silent:!1,liveProperties:!0,dispatchEvents:!1,updateEvenIfSame:!1,invokeOnBind:!0,overrideInheritedProps:!1,ignoreCase:!1,placeholderStart:"{{",placeholderEnd:"}}"};R=Object.keys(h);I={Start:"\\{\\{",End:"\\}\\}"};q={objects:[],props:[]};m={objects:[],placeholders:[],originalValues:[]};f=function(a){if(""===a)return S("emptyStringArg");if(!a&&0!==a||!V(a))if(null==a.constructor||a.constructor!==H)return S("invalidParamName");
+return"object"===typeof a?(a.invoke("resetConditionals"),a):new H(a)};H=function(a){var c,d,g,da,q,x,r,n,t,X,D,B,I,C,U,J,v,P,w,y,Q,M,e,z,E,l,k,A,F,ea,fa,R,p,K,T,G,ga,ha,ia,L,N,O,oa,u;this.ID=this.type=null;c=this;E=X=u=D=M=null;r=[];n=[];t=[];e=z=null;L=[];l=p=a;N={};k=null;F=[];A=null;K=J=U=y=w=C=!1;Object.defineProperty(this,"value",{configurable:!0,enumerable:!0,get:function(){return D}});Object.defineProperty(this,"origObject",{configurable:!0,enumerable:!0,get:function(){return z||e}});Object.defineProperty(this,
+"dependents",{configurable:!0,enumerable:!0,get:function(){var b;b=n.slice().map(function(b){return f.boundedObjects[b].origObject});r.forEach(function(a){return b.push(a)});return b}});T=function(b){return function(){b.ID=ka();return f.boundedObjects[b.ID]=b}}(this);ia=function(b){return function(){var a;if(!b.type&&(b.type="Object",a=null!=e.nodeName&&e.nodeType))return"value"===l?b.type="Value":"textContent"===l?b.type="Text":"prop"===X?b.type="DomProp":b.type="Attr"}}(this);ga=function(b){null==
+b&&(b=B());return Z(b,E,u,M)};ha=function(b){if(K)return[].slice.call(b.childNodes).forEach(function(b){if(3!==b.nodeType)return ha(b);if(-1!==b.textContent.indexOf(h.placeholderStart+E+h.placeholderEnd))return Z(b,E,u,b.textContent)})};I=function(b,a){return-1!==m.objects.indexOf(b)?da(b):!1};B=function(){var b;if(!L.length)return e;c.ID||ia();if("Value"===c.type||"Attr"===c.type)return e;b=e;L.slice().reverse().forEach(function(a){return b=b[a]});return b};x=function(b){return function(){var a,
+Y;if("Value"===b.type||"Text"===b.type)if(a=function(a){if(!a.fromSimplyBind)return b.set(a.target.value)},Y=z?z[0].nodeName.toUpperCase():e.nodeName.toUpperCase(),"INPUT"===Y||"TEXTAREA"===Y||"SELECT"===Y){if("radio"===e.type||"checkbox"===e.type)return z.forEach(function(b){return b.addEventListener("change",a,!1)});e.addEventListener("input",a,!1);return e.addEventListener("change",a,!1)}}}(this);q=function(b){return K?[].slice.call(b.childNodes).forEach(function(b){var a;if(3!==b.nodeType)return q(b);
+a=I(b);if(!1!==a)return b.textContent=a}):b.textContent=u};oa=function(b){return function(a){u=a;D=K?da():a;if("Value"===b.type){if(z)return z.forEach(function(b){if(b.value===a){if(b.checked=!0,h.dispatchEvents)return b.dispatchEvent(aa())}else return b.checked=!1});e.value=D;if(h.dispatchEvents)return e.dispatchEvent(aa())}else if("DomProp"===b.type){if(!J)return e[l]=D}else{if("Attr"===b.type)return e.setAttribute(l,D);if("Text"===b.type)return q(e,a)}}}(this);O=function(b){return function(b,a){var d,
+c,e,g;if(n.length)for(e=0,g=n.length;e<g;e++)d=n[e],c=f.boundedObjects[d],a&&-1!==t.indexOf(d)||(d=null!=N[d]?N[d](u,c.value):u,c.set(d,b,!0));if(r.length){d=[];e=0;for(g=r.length;e<g;e++)c=r[e],d.push(c(u));return d}}}(this);da=function(b){var a,d,c;null==b&&(b=B());ga(b);a=ma(b);c=na(b);for(d in c)b=c[d],a=a.replace(b.regEx,b.lastValue);return a};Q=function(b){return function(){var a,d;if(("Object"===b.type||"DomProp"===b.type)&&h.liveProperties&&(a=B().hasOwnProperty(l),d=h.overrideInheritedProps||
+a)&&(Object.defineProperty(B(),l,{get:function(){return D},set:function(a){return b.update(a)}}),h.overrideInheritedProps&&!a))return J=!0}}(this);d=function(b){return function(a,c){-1===n.indexOf(a)&&n.push(a);if(c){if(-1===t.indexOf(a))return t.push(a)}else if(-1!==f.boundedObjects[a].getPrivate("dependents").indexOf(b.ID))return f.boundedObjects[a].invoke("addToDependents",[b.ID,!0]),d(a,!0)}}(this);g=function(b){return function(b,a){return N[b]=a}}(this);ea=function(b){return function(a,d){var c;
+c=n.indexOf(a);-1!==c&&n.splice(c,1);if(d&&(t.forEach(function(a){return f.boundedObjects[a].invoke("removeDependent",[b.ID])}),c=t.indexOf(a),-1!==c))return t.splice(c,1)}}(this);fa=function(b){return r.splice(r.indexOf(b),1)};R=function(b){return function(){U=w=y=!1;k=A=null;F=[];G();return b}}(this);G=function(b){return function(){delete b.of;delete b.to;delete b.and;delete b.set;delete b.update;delete b.get;delete b.update;delete b.withTransform;delete b.bothWays;delete b.bindTogether;C&&!y||
+A||(b.of=v.of);!C||w||y||(b.to=v.to);C&&w&&!y&&!U&&(b.and=v.and);C&&(b.set=v.set,b.update=v.set,b.get=v.get,b.val=v.get);C&&w&&!U&&null!=k&&!A&&(b.withTransform=v.withTransform);C&&w&&!y&&null!=k&&!A&&(b.bothWays=v.bothWays,b.bindTogether=v.bothWays);if(C&&w&&!y&&(null!=k||A))return b.unBind=v.unBind}}(this);P=function(b){return function(a,c){null==c&&(c=[]);switch(a){case "addToDependents":return d.apply(b,c);case "addToTransforms":return g.apply(b,c);case "removeDependent":return ea.apply(b,c);
+case "resetConditionals":return R.call(b);case "removeFunction":return fa.call(b,c)}}}(this);a=function(b){return function(b){switch(b){case "dependents":return n;case "dependentFns":return r}}}(this);Object.defineProperty(this,"invoke",{configurable:!1,enumerable:!1,value:P});Object.defineProperty(this,"getPrivate",{configurable:!1,enumerable:!1,value:a});v={of:function(b){var a,c,f;a=null!=b?"object"===typeof b:!1;c=null!=b?V(b):!1;if(!a&&!c)return S("notAnObject","SimplyBind('"+p+"').of("+(null===
+b?"null":void 0===b?"undefined":"...")+")");if(y)c=F.indexOf(k),k=k.of(b),F[c]=k,a&&(y=!1,w=!0,d(k.ID),O(this.ID,!0));else if(a){f=!1;b.constructor===H&&(b=b.origObject);C=!0;ca.jQuery&&b.constructor===jQuery&&(f=!0,b=ba(b));e=b;a=B()[l];c=b.constructor.name;if("NodeList"===c||"HTMLCollection"===c||f&&"Array"===c)e=null,z=[].slice.call(b),z.forEach(function(b){if(b.checked)return e=b}),e||(e=z[0]),b=e,a=e.value;if(c=null!=e.nodeName&&e.nodeType)"textContent"===l?(ha(e),a=e.textContent):"value"!==
+l&&(a=null===X?b.getAttribute(l):b[l]),L.length&&(W("noNestedDOM"),l=p=b=L[L.length-1]);b=la(B(),p);if("function"===typeof b.invoke&&b.invoke("resetConditionals"))return b;"undefined"===typeof a&&(a=B()[l]=null);D=M=a;K?(u=h.placeholderStart+E+h.placeholderEnd,-1===M.indexOf(u)?(K=!1,u=M):ga()):u=M;T();ja(B(),p,this.ID);ia();Q();x()}else L.push(b);G();return this},to:function(b){if(null==b)return this;if(b.constructor===H)w=!0,k=b,F.push(k),d(k.ID),O(this.ID,!0);else if(V(b))y=!0,k=new H(b),F.push(k);
+else if("function"===typeof b)w=!0,-1===r.indexOf(b)&&r.push(b),A=b,h.invokeOnBind&&O(this.ID,!0);else return S("invalidParamName","SimplyBind('"+p+"').of(...).to("+typeof b+")");G();w&&this.update(null,this.ID);return this},and:function(b){return v.to.bind(this)(b)},set:function(b,a,c){null==c&&(c=!1);a===this.ID||b===u&&!h.updateEvenIfSame||(null==a&&(a=this.ID),"undefined"!==typeof b&&oa(b,a),O(a,c));return this},get:function(){return u},withTransform:function(a){var c,d,e;if("function"===typeof a){U=
+!0;c=0;for(d=F.length;c<d;c++)e=F[c],g(e.ID,a),-1!==t.indexOf(e.ID)&&e.invoke("addToTransforms",[this.ID,a]);O(this.ID,!0)}else W("transformFunction","SimplyBind('"+p+"').of(...).to(...).withTransform("+typeof a+")");G();return this},bothWays:function(){null!=N[k.ID]?f(k).to(this).withTransform(N[k.ID]):f(k).to(this);d(k.ID,!0);G();return this},unBind:function(a){A?(fa(A),w=!1,A=null):(ea(k.ID,a),w=!1,k=null);G();return this}};"number"===typeof p&&(l=p=p.toString());h.ignoreCase&&(l=p=p.toLowerCase());
+-1!==p.indexOf(":")&&(a=p.split(":"),X=a[0],p=a[1],l=a[1]);-1!==p.indexOf(".")&&(K=!0,a=p.split("."),l=a[0],E=a[1],2<a.length&&a.slice(2).forEach(function(a){return E+="."+a}));G();return this};Object.defineProperty(f,"options",{configurable:!1,enumerable:!1,get:function(){return h}});f.setOption=function(a,c){if(-1!==R.indexOf(a))return-1!==a.indexOf("placeholder")&&(a.indexOf("Start"),I[a.slice(11)]=c.replace(/(.)/g,"\\$1")),h[a]=c};f.setOptions=function(a){var c;c=Object.keys(a);if(c.length)return c.forEach(function(c){return f.setOption(c,
+a[c])})};f.unBindAll=function(a,c,d){var g,h,m,x,r,n,t;d||f.unBindAllFunctions(a);if(a&&"object"===typeof a&&(a=Q(a),d=null!=a.nodeName&&a.nodeType,g=q.objects.indexOf(a),-1!==g)){r=q.props[g];t=[];for(n in r)x=r[n],m=d&&"value"!==n?a.getAttribute(n):a[n],h=f.boundedObjects[x],g=h.getPrivate("dependents"),g.slice().forEach(function(a){return h.invoke("removeDependent",[a,c])}),c?(delete f.boundedObjects[x],"Value"!==h.type?t.push(Object.defineProperty(a,n,{value:m})):t.push(void 0)):t.push(void 0);
+return t}};f.unBindAllFunctions=function(a,c){var d,g,h,m,x;if(a&&"object"===typeof a&&(g=q.objects.indexOf(a),-1!==g)){d=function(a){var c;if(a)return c=f.boundedObjects[a],a=c.getPrivate("dependentFns"),a.slice().forEach(function(a){return c.invoke("removeFunction",a)})};h=q.props[g];if(c)return d(h[c]);x=[];for(m in h)g=h[m],x.push(d(g));return x}};f.SimplyBoundedConstructor=H;f.boundedObjects={};return window.SimplyBind=f})()}).call(this);
 ;
 function Util(){
 	
@@ -1033,7 +1034,7 @@ if (!Promise) {
 // Generated by CoffeeScript 1.10.0
 (function() {
   (function($) {
-    var $window, Field, defaultFns, defaultOptions, fixWidth, messages, regEx, textChangeEvent;
+    var $window, Field, defaultFns, defaultOptions, fixWidth, messages, parseWidth, regEx, textChangeEvent;
     $window = $(window);
     textChangeEvent = 'input';
     messages = {
@@ -1121,7 +1122,7 @@ if (!Promise) {
       this.forcePattern = this.field.data('force_pattern');
       this.forceLive = this.field.data('force_live');
       this.comments = this.field.data('comments');
-      this.desc = this.field.data('description');
+      this.desc = this.field.data('desc');
       this.errorMsg = this.field.data('error');
       this["default"] = this.field.data('default_value');
       this.required = this.field.data('required') === '1' || this.field.data('required') === 1;
@@ -1155,7 +1156,9 @@ if (!Promise) {
           this.forceSpecial = true;
           break;
         default:
-          this.forcePattern = new RegExp(this.forcePattern);
+          if (this.forcePattern) {
+            this.forcePattern = new RegExp(this.forcePattern);
+          }
       }
       ref = Form.prototype.fieldProtos[this.type];
       for (name in ref) {
@@ -1312,9 +1315,17 @@ if (!Promise) {
               case 'form':
                 return this.form.form;
               case 'step':
-                return this.step;
+                if (this.step.length) {
+                  return this.step;
+                } else {
+                  return this.field.parents('.step').first();
+                }
               case 'repeater':
-                return this.field.parents('.repeater-items').first();
+                return this.field.parents('.fieldset').last();
+              case 'repeater-1':
+                return this.field.parents('.fieldset').eq(1);
+              case 'repeater-2':
+                return this.field.parents('.fieldset').eq(2);
               case 'sibling':
                 return this.field.parent();
               default:
@@ -1323,10 +1334,13 @@ if (!Promise) {
           }).call(this);
           this.masterField = $context.find('[data-realname*="' + this.dependsOn + '"]').first();
           this.masterInstance = this.masterField.data('Field');
+          if (this.masterInstance == null) {
+            return console.log("Conditional field '" + this.name + "' has no matching master field.", this);
+          }
           this.disable();
           this.masterField.on('value_changed', (function(_this) {
             return function(i, el) {
-              var conditions, hasValid, isValid;
+              var conditions, hasValid, isValid, siblingFields;
               if (_this.condition) {
                 conditions = _this.condition.split(/,\s?/);
                 hasValid = false;
@@ -1339,8 +1353,15 @@ if (!Promise) {
               } else {
                 isValid = _this.masterInstance.test();
               }
-              if (_this.comparison !== '=') {
-                isValid = !isValid;
+              if (_this.comparison === 'regex') {
+                if (!_this.comparisonRegex) {
+                  _this.comparisonRegex = new RegExp(_this.comparison);
+                }
+                isValid = _this.comparisonRegex.test(_this.masterInstance.value);
+              } else {
+                if (_this.comparison !== '=') {
+                  isValid = !isValid;
+                }
               }
               if (isValid) {
                 _this.field.addClass('reveal_dependant').trigger('reveal_dependant');
@@ -1352,6 +1373,21 @@ if (!Promise) {
                 _this.makeNotRequired();
                 _this.disable();
                 _this.revealed = false;
+              }
+              if (_this.field.data('width') !== '1-1') {
+                siblingFields = [];
+                _this.field.parent().children('.fieldset').each(function() {
+                  var instance;
+                  instance = $(this).data('Field');
+                  if (instance) {
+                    if (!(instance.dependsOn && !instance.revealed)) {
+                      return siblingFields.push(instance);
+                    }
+                  }
+                });
+                if (siblingFields.length) {
+                  fixWidth(siblingFields);
+                }
               }
               return setTimeout(function() {
                 return _this.step.trigger('height_changed');
@@ -1869,7 +1905,7 @@ if (!Promise) {
       },
       'select': {
         prepare: function() {
-          var setPseudoInputValue;
+          var $pseudoInput, setPseudoInputValue;
           if (!!this.form.options.preserveValuesAfterRefresh) {
             this.value = this.input[0].value;
           } else {
@@ -1900,19 +1936,19 @@ if (!Promise) {
           } else {
             this.makeValid();
           }
+          $pseudoInput = this.input.next();
           setPseudoInputValue = (function(_this) {
             return function() {
-              var $pseudoInput, inputValue, ref;
-              $pseudoInput = _this.input.next();
-              inputValue = (ref = _this.input.children('option:selected')[0]) != null ? ref.innerHTML : void 0;
-              return $pseudoInput.html(inputValue);
+              var inputValue, ref, ref1;
+              inputValue = ((ref = _this.input.children('option[selected]')[0]) != null ? ref.innerHTML : void 0) || ((ref1 = _this.input.children('option:selected')[0]) != null ? ref1.innerHTML : void 0);
+              return $pseudoInput.html(inputValue || _this.value);
             };
           })(this);
           setPseudoInputValue();
           return this.input.on('change keyup blur', (function(_this) {
             return function() {
-              setPseudoInputValue();
-              return _this.input.children(':selected').attr('selected', '').siblings().removeAttr('selected');
+              _this.input.children(':selected').attr('selected', '').siblings().removeAttr('selected');
+              return setPseudoInputValue();
             };
           })(this));
         },
@@ -2866,15 +2902,15 @@ if (!Promise) {
       }
     };
     Form.prototype.fieldProtos.repeater_group = Form.prototype.fieldProtos.repeater;
+    parseWidth = function(string) {
+      var delim, split;
+      delim = string.includes('/') ? '/' : '-';
+      split = string.split(delim);
+      return parseFloat(split[0]) / parseFloat(split[1]);
+    };
     fixWidth = function(fields) {
-      var isLast, parseWidth, rowPercentage;
+      var isLast, rowPercentage;
       rowPercentage = 0;
-      parseWidth = function(string) {
-        var delim, split;
-        delim = string.includes('/') ? '/' : '-';
-        split = string.split(delim);
-        return parseFloat(split[0]) / parseFloat(split[1]);
-      };
       isLast = function(fieldsetWidth) {
         rowPercentage += parseWidth(fieldsetWidth);
         if (rowPercentage >= 1) {
@@ -3238,9 +3274,13 @@ if (!Promise) {
       fieldInstance = new Field($field, this);
       if (stepIndex == null) {
         $parentStep = $field.parents('.step').first();
-        stepIndex = $parentStep.index() - this.stepIndexOffset;
+        if ($parentStep.length) {
+          stepIndex = $parentStep.index() - this.stepIndexOffset;
+        }
       }
-      this.fieldsInSteps[stepIndex].push(fieldInstance);
+      if (!(stepIndex == null)) {
+        this.fieldsInSteps[stepIndex].push(fieldInstance);
+      }
       this.fields.push(fieldInstance);
       if (fieldInstance.required) {
         this.fieldsRequired.push(fieldInstance);
@@ -3905,6 +3945,8 @@ isLeadManagement = $$('body').hasClass('leads');
       this.elNotes = $el.children('h6').children().eq(1);
       this.fieldNotes = $el.find('.varNotes').find('input');
       this.statusField = $el.find('.manage-content-list-item-content-status');
+      this.elTitle.html('Variation {{index}}');
+      this.elNotes.html(' {{notes}}');
       $el.data('item', this);
       SimplyBind('index').of(this).to('textContent.index').of(this.elTitle).withTransform(function(newValue) {
         return newValue + 1;
@@ -3927,20 +3969,24 @@ isLeadManagement = $$('body').hasClass('leads');
     };
     Variation.prototype.disable = function() {
       var data;
-      this.enabled = !this.enabled;
-      data = {};
-      data["variations." + this.index + ".enabled"] = this.enabled;
-      return DB.variation.update({
-        'id': this.page.id,
-        'data': data,
-        'cb': (function(_this) {
-          return function(res) {
-            if (res.success) {
-              return _this.el.toggleClass('disabled');
-            }
-          };
-        })(this)
-      });
+      if (this.page.el.find('.manage-content-list-item').not('disabled').length) {
+        this.enabled = !this.enabled;
+        data = {};
+        data["variations." + this.index + ".enabled"] = this.enabled;
+        return DB.variation.update({
+          'id': this.page.id,
+          'data': data,
+          'cb': (function(_this) {
+            return function(res) {
+              if (res.success) {
+                return _this.el.toggleClass('disabled');
+              }
+            };
+          })(this)
+        });
+      } else {
+        return alert('You must have at least one variation enabled');
+      }
     };
     Variation.prototype["delete"] = function() {
       if (this.page.variations.length > 1) {
@@ -4015,14 +4061,14 @@ isLeadManagement = $$('body').hasClass('leads');
       'items': [],
       addExisting: function($el) {
         var newItem;
-        newItem = new PageItem($el.attr('id'), $el.data('slug'), $el.find('.manage-content-list-title-text').html(), !$el.hasClass('disabled'), $el.data('rotation'), $el);
+        newItem = new PageItem($el.attr('id'), $el.data('slug'), $el.find('.manage-content-list-title-text').html(), $el.data('type'), !$el.hasClass('disabled'), $el.data('rotation'), $el);
         this.items.push(newItem);
         return newItem;
       },
       add: function(sidebarItem, clone) {
-        var $newItem, newItem;
-        $newItem = clone ? $(clone[0].cloneNode(true)) : $(this.template[0].cloneNode(true));
-        newItem = new PageItem('', sidebarItem.slug, sidebarItem.label, true, false, $newItem, sidebarItem);
+        var $newItem, newItem, ref;
+        $newItem = clone ? util.cloneSafe($clone, true) : util.cloneSafe(this.template, true);
+        newItem = new PageItem('', sidebarItem.slug, sidebarItem.label, (ref = clone.data('item')) != null ? ref.type : void 0, true, false, $newItem, sidebarItem);
         this.items.push(newItem);
         newItem.el.data('show', true).data('new', true).data('slug', newItem.slug).attr('id', '').addClass(newItem.slug).find('.manage-content-list-item').data('closed', true).end().appendTo(PAGES.list);
         newItem.show();
@@ -4042,12 +4088,13 @@ isLeadManagement = $$('body').hasClass('leads');
         }
       }
     };
-    PageItem = function(id, slug, name, enabled, rotation, el, sidebar) {
+    PageItem = function(id, slug, name, type, enabled, rotation, el, sidebar) {
       var slugTransform;
       initForm(el);
       this.id = id;
       this.slug = slug;
       this.name = name;
+      this.type = type || 'standard';
       this.enabled = !!enabled;
       this.rotation = rotation;
       this.form = el.data('Form');
@@ -4061,15 +4108,29 @@ isLeadManagement = $$('body').hasClass('leads');
       })(this))[0];
       this.toggle = el.find('.rotation');
       this.button = el.find('.manage-content-list-add');
-      this.fieldName = el.find('.page_data[name="name"]');
-      this.fieldSlug = el.find('.page_data[name="slug"]');
+      this.fieldName = el.children('.manage-content-list-data').find('.input[name="name"]');
+      this.fieldSlug = el.children('.manage-content-list-data').find('.input[name="slug"]');
+      this.fieldType = el.children('.manage-content-list-data').find('.input[name="type"]');
       this.fieldVar = el.find('.currentVariation');
       this.currentVariation = this.fieldVar.val() || 0;
       this.variations = [];
       this.collectVariations();
+      this.form.addField(this.fieldName.parent());
+      this.form.addField(this.fieldSlug.parent());
+      this.form.addField(this.fieldType.parent());
       this.el.data('item', this);
       this.sidebar.assocItem = this;
       SimplyBind.setOption('invokeOnBind', false);
+      SimplyBind('type').of(this).to('value').of(this.fieldType).bothWays();
+      SimplyBind('value').of(this.fieldType).to((function(_this) {
+        return function(newValue) {
+          return DB.page.update({
+            'id': _this.id,
+            'name': 'type',
+            'value': newValue
+          });
+        };
+      })(this));
       SimplyBind('name').of(this).to('value').of(this.fieldName).bothWays();
       SimplyBind('value').of(this.fieldName).to('textContent').of(this.elTitle).and('label').of(this.sidebar).and((function(_this) {
         return function(newValue) {
@@ -4156,6 +4217,7 @@ isLeadManagement = $$('body').hasClass('leads');
       data = {
         'name': this.name,
         'slug': this.slug,
+        'type': this.type,
         'enabled': this.enabled,
         'rotation': !!this.rotation,
         'currentVariation': this.currentVariation - 1,
@@ -4200,7 +4262,9 @@ isLeadManagement = $$('body').hasClass('leads');
             'cb': (function(_this) {
               return function(res) {
                 if (res.success) {
-                  return _this.el.removeClass('show').prev().addClass('show').end().remove();
+                  return _this.el.removeClass('show').prev().each(function() {
+                    return $(this).data('item').show();
+                  }).end().remove();
                 }
               };
             })(this)
@@ -4220,14 +4284,10 @@ isLeadManagement = $$('body').hasClass('leads');
     };
     PageItem.prototype.addVariation = function(varToClone) {
       var $newItem, closedClass, shouldBeClosed;
-      $newItem = varToClone ? $(varToClone.el[0].cloneNode(true)) : $(fieldTemplates.variation);
+      $newItem = varToClone ? $(util.cloneSafe(varToClone.el, true)) : $(fieldTemplates.variation);
       shouldBeClosed = varToClone ? false : true;
       closedClass = shouldBeClosed ? 'closed' : '';
       $newItem.addClass(closedClass).data('closed', shouldBeClosed).data('new', true).data('variation', this.variations.length);
-      if (varToClone) {
-        $newItem.children('h6').children().eq(0).html('Variation {{index}}');
-        $newItem.children('h6').children().eq(1).html(' {{notes}}');
-      }
       this.button.before($newItem);
       this.variations.push(new Variation($newItem, this, true));
       this.fieldVar.prop('max', this.variations.length + 1);

@@ -10,15 +10,20 @@
 mixin renderPage(page)
 	-
 		if (page) {
-			var pageName = page.name,
-				pageSlug = page.slug,
+			var pageData = {
+					'name': page.name,
+					'slug': page.slug,
+					'type': page.type
+				},
 				classDisabled = page.enabled ? '' : 'disabled',
 				classEnabled = page.rotation ? 'on' : '',
 				attributes = {
 					'id': page._id,
 					'class': classDisabled+' {{slug}}',
 					'data-slug': page.slug,
-					'data-rotation': classEnabled
+					'data-type': page.type,
+					'data-rotation': classEnabled,
+					'autocomplete': 'off'
 				},
 				toggleAttributes = {
 					'class': '{{state}}'
@@ -28,17 +33,20 @@ mixin renderPage(page)
 					'value': parseFloat(page.currentVariation)+1
 				};
 		} else {
-			var pageName = 'New Page',
-				pageSlug = 'new-page',
+			var pageData = {
+					'name': 'New Page',
+					'slug': 'new-page',
+					'type': 'standard'
+				},
 				classEnabled = '',
-				attributes = {'data-rotation':'', 'class':'{{slug}}'},
+				attributes = {'data-rotation':'', 'class':'{{slug}}', 'autocomplete': 'off'},
 				toggleAttributes = {'class': '{{state}}'},
 				numberFieldAttributes = {max:1, value:1};
 		}
 
 	form.manage-content-list&attributes(attributes)
 		h4.manage-content-list-title
-			.manage-content-list-title-text=pageName
+			.manage-content-list-title-text=pageData.name
 			.manage-content-list-title-page_action.disable_page
 				.manage-content-list-title-page_action-text Disable
 			.manage-content-list-title-page_action.clone_page
@@ -55,12 +63,21 @@ mixin renderPage(page)
 				input.manage-content-list-variation_options-conditional-input.currentVariation.page_data(type="number" min="1")&attributes(numberFieldAttributes)
 		
 		div.manage-content-list-data
-			.manage-content-list-data-field.half.first
-				label.manage-content-list-data-field-label Page Name
-				input.manage-content-list-data-field-input.input.page_data(type="text" name="name" value=pageName)
-			.manage-content-list-data-field.half
-				label.manage-content-list-data-field-label Page Slug (url.com/slug)
-				input.manage-content-list-data-field-input.input.page_data(type="text" name="slug" value=pageSlug)
+			-
+				var pageDataFields = getFieldSchemas().page.pageData;
+
+			each field in pageDataFields
+				-
+					field.defaultValue = pageData[field.name];
+					field.className = 'manage-content-list-data'
+
+				+fieldGenerator(field)
+			//- .manage-content-list-data-field.half.first
+			//- 	label.manage-content-list-data-field-label Page Name
+			//- 	input.manage-content-list-data-field-input.input.page_data(type="text" name="name" value=pageData.name)
+			//- .manage-content-list-data-field.half
+			//- 	label.manage-content-list-data-field-label Page Slug (url.com/slug)
+			//- 	input.manage-content-list-data-field-input.input.page_data(type="text" name="slug" value=pageData.slug)
 
 		if page
 			each variation,index in page.variations

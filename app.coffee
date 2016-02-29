@@ -117,6 +117,9 @@ app.use (req, res, next)->
 
 
 		pageVariation = page.variations[page.currentVariation]
+		if (!pageVariation and page.currentVariation > 0) or not pageVariation.enabled
+			pageVariation = page.variations[0]
+
 		if pageVariation and pageVariation.enabled
 			if pageIncludes(pageVariation, 'faqs') then includeFaqs = true
 			if pageIncludes(pageVariation, 'pests') then includePests = true
@@ -146,15 +149,28 @@ app.use (req, res, next)->
 				getFaqCats().then (faq_categories)->
 					getPests().then (pests)->
 						getServices().then (services)->
-							pageType = if pageVariation.type is 'standard' then 'page' else pageVariation.type
+							pageType = if page.type is 'standard' then 'page' else page.type
 							renderPage(pageType, faqs, faq_categories, pests, services)
 
+
 			if page.rotation
-				nextVariation = page.currentVariation + 1
-				if nextVariation > page.variations.length - 1
-					nextVariation = 0
+				infiniteLoop = false
+				getNextVariration = (current)->
+					next = current + 1
+					if next > page.variations.length - 1
+						next = 0
+						infiniteLoop = true
+					
+					if not page.variations[next].enabled and not infiniteLoop
+						next = getNextVariration(next)
+
+					return next
+				
+				nextVariation = getNextVariration(page.currentVariation)
+
 				Pages.update { slug: page.slug }, '$set': 'currentVariation': nextVariation
 		
+
 		else res.status(404).render '404'
 		# next()
 
