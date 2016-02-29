@@ -2,7 +2,7 @@ SETTINGS = require('./settings.json')
 express = require('express')
 app = express()
 router = express.Router()
-db = require('monkii')(SETTINGS.app.db.url, {'username':SETTINGS.app.db.user, 'password':SETTINGS.app.db.pwd})
+db = require('monkii')("mongodb://#{SETTINGS.app.db.user}:#{SETTINGS.app.db.pwd}@localhost:27017/bugcleaners")
 
 ### ==========================================================================
 	 API for Databse CRUD
