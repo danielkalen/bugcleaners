@@ -13,7 +13,8 @@ if isPageManagement
 
 
 		add: (sidebarItem, clone)->
-			$newItem = if clone then util.cloneSafe($clone, true) else util.cloneSafe(@template, true)
+			$newItem = if clone then util.cloneSafe(clone, true) else util.cloneSafe(@template, true)
+			$newItem[0].className = 'manage-content-list {{slug}}' if clone
 			newItem = new PageItem('', sidebarItem.slug, sidebarItem.label, clone.data('item')?.type, true, false, $newItem, sidebarItem)
 			@items.push(newItem)
 			
@@ -77,6 +78,8 @@ if isPageManagement
 		@sidebar.assocItem = @
 
 		SimplyBind.setOption('invokeOnBind', false)
+		
+
 		SimplyBind('type').of(@).to('value').of(@fieldType).bothWays()
 		SimplyBind('value').of(@fieldType)
 			.to (newValue)=> DB.page.update {'id':@id, 'name':'type', 'value':newValue}
@@ -103,8 +106,9 @@ if isPageManagement
 			.to('currentVariation').of(@)
 			.and (newValue)=> DB.page.update {'id':@id, 'name':'currentVariation', 'value':newValue-1}
 
-
+		@toggle[0].className = 'manage-content-list-variation_options-toggle rotation {{state}}'
 		SimplyBind('rotation').of(@).to('class.state').of(@toggle)
+
 
 		SimplyBind.setOption('invokeOnBind', true)
 

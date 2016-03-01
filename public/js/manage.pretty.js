@@ -4264,7 +4264,10 @@ isLeadManagement = $$('body').hasClass('leads');
       },
       add: function(sidebarItem, clone) {
         var $newItem, newItem, ref;
-        $newItem = clone ? util.cloneSafe($clone, true) : util.cloneSafe(this.template, true);
+        $newItem = clone ? util.cloneSafe(clone, true) : util.cloneSafe(this.template, true);
+        if (clone) {
+          $newItem[0].className = 'manage-content-list {{slug}}';
+        }
         newItem = new PageItem('', sidebarItem.slug, sidebarItem.label, (ref = clone.data('item')) != null ? ref.type : void 0, true, false, $newItem, sidebarItem);
         this.items.push(newItem);
         newItem.el.data('show', true).data('new', true).data('slug', newItem.slug).attr('id', '').addClass(newItem.slug).find('.manage-content-list-item').data('closed', true).end().appendTo(PAGES.list);
@@ -4361,6 +4364,7 @@ isLeadManagement = $$('body').hasClass('leads');
           });
         };
       })(this));
+      this.toggle[0].className = 'manage-content-list-variation_options-toggle rotation {{state}}';
       SimplyBind('rotation').of(this).to('class.state').of(this.toggle);
       SimplyBind.setOption('invokeOnBind', true);
       return this;

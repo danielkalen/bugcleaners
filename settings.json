@@ -732,7 +732,8 @@
 					"name": "name",
 					"label": "Page Name",
 					"required": true,
-					"width": "1-3"
+					"width": "1-3",
+					"maximum": 16
 				},
 				"slug": {
 					"type": "text",
