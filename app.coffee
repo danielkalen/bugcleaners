@@ -1,4 +1,5 @@
 SETTINGS = require('./settings.json')
+logger = require('./app.logger')
 express = require('express')
 session = require('express-session')
 passport = require('passport')
@@ -6,10 +7,10 @@ passportStrategy = require('passport-local').Strategy
 compress = require('compression')
 bodyParser = require('body-parser')
 markdown = require('jstransformer')(require('jstransformer-markdown'))
-router = require('./app.router.coffee')
-routerapi = require('./app.router.api.coffee')
-routerpurge = require('./app.router.purge.coffee')
-routerstatic = require('./app.router.static.coffee')
+router = require('./app.router')
+routerapi = require('./app.router.api')
+routerpurge = require('./app.router.purge')
+routerstatic = require('./app.router.static')
 app = express()
 db = require('monkii')("mongodb://#{SETTINGS.app.db.user}:#{SETTINGS.app.db.pwd}@localhost:27017/bugcleaners")
 Pages = db.get('pages')
@@ -33,6 +34,7 @@ passport.use new passportStrategy (email, password, done)->
 			done(null, false)
 		
 		done(null, user)
+		logger.write 'access', "Login Success by #{email}"
 
 
 passport.serializeUser (user, done)-> done(null, user._id)
@@ -89,9 +91,12 @@ app.use '/purge', routerpurge
 app.use (req, res, next)->
 	slug = req.url.slice(1)
 	slug = 'home' if slug is ''
+	ipAddress = req.headers['cf-connecting-ip'] or req.headers['x-forwarded-for'] or req.connection.remoteAddress
 
 	Pages.findOne {'slug':slug}, (err, page)->
-		if not page then return res.status(404).render '404', {app:SETTINGS.app, markdown:markdown}
+		if not page
+			logger.write('access', "[404] /#{slug} accessed by #{ipAddress}")
+			return res.status(404).render '404', {app:SETTINGS.app, markdown:markdown}
 		# return next()
 		renderPage = (pageType, faqs, faq_categories, pests, services)->
 			currentPage = req.hostname + req.originalUrl
@@ -108,6 +113,7 @@ app.use (req, res, next)->
 				'faq_categories': faq_categories
 				'pests': pests
 				'services': services
+			logger.write('access', "/#{slug} accessed by #{ipAddress}")
 
 		pageIncludes = (page, slug)->
 			includesSlug = false

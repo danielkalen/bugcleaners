@@ -1,4 +1,5 @@
 SETTINGS = require('./settings.json')
+logger = require('./app.logger.coffee')
 express = require('express')
 sendEmail = require('./app.email.coffee')
 uaParser = require('ua-parser-js')
@@ -23,6 +24,8 @@ inProduction = if __dirname.includes('Projects') then false else true
 router.get '/pests/:pest', (req,res)->
 	currentPage = req.hostname + req.originalUrl
 	slug = req.params.pest
+	ipAddress = req.headers['cf-connecting-ip'] or req.headers['x-forwarded-for'] or req.connection.remoteAddress
+	
 	Posts.findOne {type:'pest', slug:slug}, (err, pest)->
 		if err then console.log(err)
 		if !pest then res.status(404).render '404'
@@ -34,6 +37,8 @@ router.get '/pests/:pest', (req,res)->
 			'bodyClass': slug
 			'app': SETTINGS.app
 			'markdown': markdown
+
+		logger.write('access', "/pests/#{slug} accessed by #{ipAddress}")
 
 
 
@@ -52,6 +57,8 @@ router.get '/pests/:pest', (req,res)->
 router.get '/services/:service', (req,res)->
 	currentPage = req.hostname + req.originalUrl
 	slug = req.params.service
+	ipAddress = req.headers['cf-connecting-ip'] or req.headers['x-forwarded-for'] or req.connection.remoteAddress
+	
 	Posts.findOne {type:'service', slug:slug}, (err, service)->
 		if err then console.log(err)
 		if !service then res.status(404).render '404', {app:SETTINGS.app, markdown:markdown}
@@ -63,6 +70,8 @@ router.get '/services/:service', (req,res)->
 			'bodyClass': slug
 			'app': SETTINGS.app
 			'markdown': markdown
+
+		logger.write('access', "/services/#{slug} accessed by #{ipAddress}")
 
 
 
@@ -92,6 +101,7 @@ router.route '/manage/login'
 
 	.post passport.authenticate('local', failureRedirect: '/manage/login'), (req, res)->
 		res.redirect '/manage'
+
 
 
 

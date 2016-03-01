@@ -13,3 +13,7 @@ data
 *.sassc
 
 logfile
+
+logs/error.log
+
+*.log

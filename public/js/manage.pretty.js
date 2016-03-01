@@ -2204,7 +2204,7 @@ if (!Promise) {
                 fileReader = new FileReader();
                 fileReader.onload = function() {
                   _this.base64 = fileReader.result;
-                  if (_this.preview.length) {
+                  if (_this.preview.length && _this.base64) {
                     return _this.preview.addClass('show').html("<img src=\"" + _this.base64 + "\">");
                   }
                 };

@@ -1,4 +1,5 @@
 SETTINGS = require('./settings.json')
+logger = require('./app.logger.coffee')
 express = require('express')
 app = express()
 router = express.Router()
@@ -11,6 +12,7 @@ router.post '/:action/:postType', (req, res)->
 	params = req.body
 	action = req.params.action
 	postType = req.params.postType
+	ipAddress = req.headers['cf-connecting-ip'] or req.headers['x-forwarded-for'] or req.connection.remoteAddress
 	ajaxResponse = 
 		success: false
 		message: 'Not Authorized.'
@@ -18,6 +20,7 @@ router.post '/:action/:postType', (req, res)->
 
 	if !authenticated
 		res.json ajaxResponse
+		logger.write('api', "Unauthenticated attempt to submit an api request from #{ipAddress}: #{JSON.stringify(req.params)}")
 		return res.end()
 
 	if !action
@@ -53,6 +56,7 @@ router.post '/:action/:postType', (req, res)->
 
 
 
+	logger.write 'api', "#{action.toUpperCase()} request: Called by #{ipAddress}, #{JSON.stringify(params)}"
 
 	if action == 'get'
 		query = params or {}
@@ -65,6 +69,7 @@ router.post '/:action/:postType', (req, res)->
 				console.log(err, result)
 			
 			else res.json result
+
 
 
 
