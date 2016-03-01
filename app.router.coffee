@@ -86,6 +86,7 @@ router.route '/manage/login'
 	.get (req, res)->
 		res.render 'manage',
 			'currentPage': 'http://samedayhomeoffer.com/manage/login'
+			'production': inProduction
 			'bodyClass': 'login'
 			'app': SETTINGS.app
 
