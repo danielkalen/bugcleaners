@@ -1,0 +1,118 @@
+.subnotice
+	display: none
+
+.subnotices
+	position: fixed
+	z-index: 10000
+	bottom: 0
+	left: 0
+	width: 100%
+	&.from_top
+		top: 64px
+		bottom: auto
+		z-index: 3 // Less than header's 5 z-index
+
+.subnotice
+	position: relative
+	overflow: hidden
+	display: block
+	height: 0
+	margin: 0
+	padding: 0px 45px
+	box-shadow: none
+	border-left: 0
+	color: white
+	box-sizing: border-box
+	transition: height 0.25s, padding 0.25s
+	.from_top &
+		padding: 0px 10px
+
+	&.show
+		// height: 34px
+		height: auto
+		padding: 17px 45px 11px
+		.from_top &
+			padding: 0px 10px
+			height: 26px
+
+
+	&_success
+		background-color: $success
+	&_error
+		background-color: $error-dark
+	&_info
+		background-color: $grey
+		color: #313131
+	&_warning
+		background-color: $warning
+
+	&-text
+		font-family: avenir
+		font-size: 15.2px
+		font-weight: 600
+		line-height: 1
+		.from_top &
+			position: absolute
+			+valign(52%)
+			left: 0
+			right: 0
+			width: 100%
+			text-align: center
+			font-size: 11.5px
+		
+		span
+			font-weight: 700
+		// .webkit &
+		// 	top: 2px
+
+	&-close
+		position: absolute
+		right: 10px
+		+valign
+		.from_top &
+			display: none
+
+		&:after
+			+icon('i')
+			position: relative
+			font-size: 21px
+			display: block
+			cursor: pointer
+			top: 1px
+			+transform(rotate(45deg))
+
+	&:before // Notice Icon
+		+icon('')
+		position: absolute
+		+valign(52%)
+		left: 14px
+		// +size(20)
+		// background-color: white
+		font-size: 20px
+		color: white
+		border-radius: 50%
+		text-align: center
+		box-sizing: border-box
+		.from_top &
+			display: none
+
+	&_success:before
+		content: 'r'
+		// color: $pros
+	&_error:before
+		content: 'C'
+		// color: $cons
+	&_info:before
+		content: '#'
+		color: #313131
+		// color: $grey
+	&_warning:before
+		content: '6'
+		// color: $grey
+
+	// a // links
+	// 	color: #000
+
+	// 	&:hover
+	// 		text-decoration: underline
+

@@ -34,6 +34,13 @@ $black: #181818
 $pros: #72c322
 $cons: #cc4820
 
+$error: #cc4820
+$error-dark: #95190c
+$success: #72c322
+$success-dark: #4cb944
+$info: #c6c5c5
+$warning: #e3b505
+
 $iconfamily: bccons
 
 
@@ -278,14 +285,21 @@ $stumbleupon: #f74425
 		transition: $transformTransition
 
 
-=tooltip($side: 'top')
+=tooltip($side: 'top', $margin: 33px)
 	position: absolute
 	z-index: 10
-	+halign
 	@if $side == 'top'
-		top: 33px
+		+halign
+		top: $margin
 	@if $side == 'bottom'
-		bottom: 33px
+		+halign
+		bottom: $margin
+	@if $side == 'right'
+		+valign
+		right: $margin
+	@if $side == 'left'
+		+valign
+		left: $margin
 	display: block
 	padding: 6px 8px 5px
 	border-radius: 2px

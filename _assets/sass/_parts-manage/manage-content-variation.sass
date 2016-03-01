@@ -24,10 +24,17 @@
 		.disabled > &
 			color: $error-color
 		&:hover
-			color: darken($divider-dark, 10)
+			color: darken($divider-dark, 20)
 		&:after
 			+icon('!')
 			font-size: 18px
+		&-text
+			+tooltip('bottom', 28px)
+
+		&:hover &-text
+			visibility: visible
+			opacity: 1
+
 
 	&-toggle
 		+toggle(20, 18, 12)

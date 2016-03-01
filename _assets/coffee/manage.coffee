@@ -8,7 +8,9 @@
 # @import '_parts-global/form-engine.js'
 # @import '_parts-global/ensure-min_height.coffee'
 # @import '_parts-global/header.coffee'
-# @import _plugins/sortable.js
+# @import '_plugins/sortable.js'
+# @import '_plugins/notices.coffee'
+# @import '_plugins/subnotices.coffee'
 
 $window = $$(window)
 isMobileWidth = window.innerWidth <= 736

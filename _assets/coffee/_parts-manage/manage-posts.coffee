@@ -173,14 +173,14 @@ if isPostManagement
 	
 	Post::delete = ()-> 
 		if @postType.posts.length > 1
-			if confirm('Are you sure you want to delete this?')
+			notify('yesno', "Deleting #{@name}", "Are you sure you want to delete this #{@single} from the database? This cannot be undone.").then ()=>
 				@postType.removePost(@)
 				if @id
 					DB.post.remove
 						'id': @id
-						'cb': (res)=> console.log("#{@name} successfuly removed") if res.success
+						'cb': (res)=> subnotify('success', "#{@name} was successfuly removed.") if res.success
 
-		else alert "You must have at least one #{@single}."
+		else notify 'ok', 'How will you explain this to your users?', "You must have at least one #{@single} in the database."
 
 
 

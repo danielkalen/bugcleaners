@@ -32,9 +32,10 @@ if isPageManagement
 	Variation::clone = ()-> 
 		@page.addVariation(@)
 		@el.children('.toggle_open').first().trigger('click')
+		subnotify('info', "Variation was successfuly cloned. Don't forget to save it in order to apply the changes to the database", 5000)
 	
 	Variation::disable = ()->
-		if @page.el.find('.manage-content-list-item').not('disabled').length # Make sure there are other non-disabled varirations
+		if @page.el.find('.manage-content-list-item').not('disabled').length > 1 # Make sure there are other non-disabled varirations
 			@enabled = !@enabled
 			data = {}
 			data["variations.#{@index}.enabled"] = @enabled
@@ -44,20 +45,20 @@ if isPageManagement
 				'data': data
 				'cb': (res)=> @el.toggleClass 'disabled' if res.success
 		else
-			alert('You must have at least one variation enabled')
+			notify 'ok', "Can't disable variation", 'You must have at least one variation enabled per page'
 	
 
 	
 	Variation::delete = ()-> 
 		if @page.variations.length > 1
-			if confirm('Are you sure you want to delete this?')
+			notify('yesno', "Delete Variation #{@index+1}",'Are you sure you want to delete this variation? This cannot be undone.').then ()=>
 				@page.removeVariation(@)
 				DB.variation.remove
 					'id': @page.id
 					'index': @index
-					'cb': (res)=> console.log("Variation ##{@index+1} successfuly removed")
+					'cb': (res)=> subnotify('success', "Variation ##{@index+1} successfuly removed", 3000)
 
-		else alert 'You must have at least one variation per page.'
+		else notify 'ok', "Can't delete this variation", 'Each page must have at least one variation that\'s enabled'
 
 
 
@@ -99,6 +100,12 @@ if isPageManagement
 				'cb': (res)=> 
 					state = if res.success then 'save_success' else 'save_error'
 					@statusField.html res.message
+
+					if res.success
+						subnotify('success', "Variation #{@index+1} for #{@page.name} was successfuly updated!")
+					else
+						serverMessage = if res?.message then "Here's what the server said: \"#{res.message}\"" else ''
+						subnotify('error', "There was an error when trying to save this variation. #{serverMessage}")
 					
 					@el.removeClass('sending').addClass state
 				

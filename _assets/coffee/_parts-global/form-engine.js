@@ -480,10 +480,10 @@
                 _this.value = '';
                 _this.input[0].value = '';
                 _this.input.trigger('change');
+                return setTimeout(function() {
+                  return _this.input[0].selectedIndex = 0;
+                }, 0);
               }
-              return setTimeout(function() {
-                return _this.input[0].selectedIndex = 0;
-              }, 0);
             };
             append = function(shouldShow) {
               if (currentlyShown) {
