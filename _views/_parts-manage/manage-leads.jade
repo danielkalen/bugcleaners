@@ -141,7 +141,15 @@ form.leads(data-action="none")
 			tbody
 				if leads
 					each lead in leads
-						- lead._id = lead._id.toString();
+						-
+							lead._id = lead._id.toString();
+
+							var fullname = lead.full_name || lead.fullname
+							if (fullname && typeof lead.first_name === 'undefined') {
+								fullname = fullname.split(' ');
+								lead.first_name = fullname[0].toLowerCase().replace(/^(.)/, function(e,m){ return m.toUpperCase()})
+								lead.last_name = fullname.slice(1).join(' ').toLowerCase().replace(/^(.)/, function(e,m){ return m.toUpperCase()})
+							}
 						tr(data-id=lead._id)
 							td.tbody-item.checkbox
 								input.leads-table-checkbox(type="checkbox" data-id=lead._id)
@@ -182,7 +190,7 @@ form.leads(data-action="none")
 
 						
 							td.tbody-item.lead_details
-								- var fieldsToOmit = ['_id', 'first_name', 'last_name', 'email', 'phone', 'currentVariation', 'source_page', 'form_type', 'action', 'url', 'referrer', 'status', 'date', 'ip', 'user_agent', 'full_name', 'notes'];
+								- var fieldsToOmit = ['_id', 'first_name', 'last_name', 'email', 'phone', 'currentVariation', 'source_page', 'form_type', 'action', 'url', 'referrer', 'status', 'status_old', 'date', 'ip', 'user_agent', 'full_name', 'notes'];
 								each fieldValue, fieldName in lead
 									- if (!fieldsToOmit.includes(fieldName))
 										- var fieldNameCaps = fieldName.replace(/[_-]/g, ' ').replace(/\b(.)/g, function(entire, match){return match.toUpperCase()});

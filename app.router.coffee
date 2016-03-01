@@ -209,7 +209,7 @@ filterImageFields = (obj)->
 
 
 ### ==========================================================================
-	 Ajax req handling
+	 Ajax request handling
 	========================================================================== ###
 
 router.post '/ajax', (req, res)->
@@ -236,12 +236,18 @@ router.post '/ajax', (req, res)->
 		
 		res.json ajaxResponse
 		
+		fullname = params.fullname or params.full_name
+		if fullname
+			fullname = fullname.split(/\s/)
+			params.first_name = fullname[0].toLowerCase().replace(/^(.)/, (e,m)-> m.toUpperCase())
+			params.last_name = fullname.slice(1).join(' ').toLowerCase().replace(/^(.)/, (e,m)-> m.toUpperCase())
+
 		for param of params
 			if paramsToOmit.includes(param)
 				paramsToSubmit[param] = params[param]
 
 		for param of paramsToSubmit
-			messageToSubmit += '<p><b>' + param.replace('_', ' ') + ': </b>' + paramsToSubmit[param] + '</p>'
+			messageToSubmit += '<p><b>' + param.replace('_', ' ').replace(/\b(.)/g, (e,m)-> m.toUpperCase()) + ': </b>' + paramsToSubmit[param] + '</p>'
 	
 		params.status = params.status or 'pending'
 		params.date = new Date

@@ -1,0 +1,36 @@
+&-results
+	position: relative
+	width: 100%
+	height: 500px
+	display: none
+
+	&.show
+		display: block
+
+	.results-message
+		position: absolute
+		+valign
+		left: 0
+		right: 0
+		width: 90%
+		+center
+		padding-top: 110px
+		font-weight: 500
+		font-size: 24px
+		text-align: center
+		box-sizing: border-box
+
+		&:before
+			+icon('O')
+			// +icon('')
+			position: absolute
+			top: 0
+			left: 0
+			right: 0
+			+center
+			display: block
+			font-size: 85px
+			color: $pros
+		&.error:before
+			content: 'F'
+			color: $cons

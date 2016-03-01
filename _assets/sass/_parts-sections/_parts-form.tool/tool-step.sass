@@ -1,0 +1,44 @@
+&-step
+	position: absolute
+	+valign
+	left: 0
+	right: 0
+	float: none
+	// max-width: 83%
+	max-width: perc(510, 622)
+	+center
+	text-align: left
+	+transform(translateY(-50%) translateX(120%))
+	transition: all 0.25s
+	+max(520)
+		max-width: none
+	&.show
+		+transform(translateY(-50%))
+		&.step_filled.has_button
+			+transform(translateY(-74%))
+	&.hide
+		+transform(translateY(-50%) translateX(-120%))
+		&.step_filled.has_button
+			+transform(translateY(-74%) translateX(-120%))
+
+	&-heading
+		text-align: center
+		+center(0, 25px)
+
+		&-title
+			font-size: 26px
+			line-height: 1.2
+			font-weight: 600
+			color: $primary
+			+max(736)
+				font-size: 22px
+		
+		&-subtitle
+			margin-top: 3px
+			font-size: 16px
+			line-height: 1.2
+			font-weight: 600
+			color: white
+			opacity: 0.7
+			+max(736)
+				font-size: 14px

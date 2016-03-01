@@ -1,188 +1,59 @@
-// .form_stepped
-// 	position: relative
-// 	max-width: 580px
-// 	padding: 40px
-// 	margin-top: 23px
-// 	background-color: white
-// 	border: 1px solid $divider
-// 	border-radius: 5px
-// 	box-sizing: border-box
-// 	+max(920)
-// 		float: none
-// 		width: 100%
-// 		max-width: 580px
-// 		+center(32px)
-// 	+max(520)
-// 		padding: 30px 30px
-// 	+max(420)
-// 		padding: 25px 25px
-
-// 	&-step
-// 		display: none
-// 		+clearfix
-// 		&.show
-// 			display: block
-// 		position: relative
-// 		margin-top: 45px
-// 		&:first-child
-// 			margin-top: 0
-
-// 		&-title
-// 			margin-bottom: 20px
-// 			font-size: 18px
-// 			color: $text
-// 			font-weight: 600
-// 			+max(520)
-// 				margin-bottom: 13px
-// 				.contact &
-// 					margin-bottom: 55px
-
-// 		&-antispam
-// 			position: absolute
-// 			right: 0
-// 			top: -6px
-// 			color: $black
-// 			opacity: .4
-// 			+max(520)
-// 				left: 30px
-// 				top: 30px
-
-// 			&-text
-// 				font-size: 13px
-// 				width: 142px
-// 				+max(520)
-// 					position: relative
-// 					top: 2px
-// 					left: 1px
-// 					line-height: 1.2
-
-// 			&:before
-// 				position: absolute
-// 				top: 2px
-// 				left: -31px
-// 				+icon('d')
-// 				font-size: 27px
-// 				opacity: .5
-// 				+max(520)
-// 					font-size: 27px
-
+.form_tool
+	position: relative
+	overflow: hidden
+	width: 100%
+	max-width: 1170px
+	min-height: 420px
+	padding: 0 20px 
+	box-sizing: border-box
+	+center
+	border-radius: 5px
+	+clearfix
+	.align_center &
+		min-height: 610px
 	
-// 		&-button
-// 			+form-button($buttonHeight:60px, $buttonColor:$primary, $margin-top:30px, $arrow:true)
-// 			+inc-tap-area(20px)
-// 			&:before
-// 				content: ''
-// 				position: absolute
-// 				top: -24px
-// 				height: 1px
-// 				width: 100%
-// 				background-color: $divider
-
-	
-// 	&-results
-// 		position: relative
-// 		width: 100%
-// 		height: 500px
-// 		display: none
-
-// 		&.show
-// 			display: block
-
-// 		.results-message
-// 			position: absolute
-// 			+valign
-// 			left: 0
-// 			right: 0
-// 			width: 90%
-// 			+center
-// 			padding-top: 110px
-// 			font-weight: 500
-// 			font-size: 24px
-// 			text-align: center
-// 			box-sizing: border-box
-
-// 			&:before
-// 				+icon('O')
-// 				// +icon('')
-// 				position: absolute
-// 				top: 0
-// 				left: 0
-// 				right: 0
-// 				+center
-// 				display: block
-// 				font-size: 85px
-// 				color: $pros
-// 			&.error:before
-// 				content: 'F'
-// 				color: $cons
-
-
-
-// 	&-fieldset
-// 		+fieldset($style:new, $inputHeight:60px, $textareaHeight:116px, $bgColor:white, $borderColor:$grey-mid-light, $fontSize:15.1px, $margin:3.6%, $widthRules:true)
-
-// 		&.half
-// 			+max(520)
-// 				float: none
-// 				width: 100%
-// 				margin-right: 0
-// 			&.first 
-// 				margin-right: perc(17, 500)
-
-	
-
-
-
-// 	&-alt
-// 		position: absolute
-// 		bottom: -40px
-// 		left: 0
-// 		width: 100%
-// 		font-weight: 600
-// 		color: $grey
-// 		text-align: center
-// 		+max(375)
-// 			font-size: 15px
-// 		+max(350)
-// 			font-size: 13.5px
-
-// 		&-link
-// 			position: relative
-// 			color: $grey
-// 			transition: color 0.2s
-// 			+tap-highlight
-// 			+inc-tap-area(15px, 'false', 'before')
-// 			&:after
-// 				content: ''
-// 				position: absolute
-// 				right: 0
-// 				display: block
-// 				height: 3px
-// 				width: 100%
-// 				background-color: $grey-light
-// 				opacity: 0.5
-// 				transition: background-color 0.2s, opacity 0.2s
+	&-outerwrap
+		position: relative
+		min-height: 420px
+		padding: 0
+		border-top: 1px solid $divider
+		box-sizing: border-box
+		+max(920)
+			border-top: 1px solid $divider
+		
+		&:before
+			content: ''
+			position: absolute
+			z-index: 1
+			top: 0
+			left: 0
+			width: 100%
+			height: 100%
+			background-image: url(/img/img-banner.jpg)
+			background-position: 50% 50%
+			background-size: cover
+			+transform(scaleX(-1))
+			+max(1400)
+				background-image: url(/img/img-banner-medium.jpg)
+			+max(736)
+				background-image: url(/img/img-banner-small.jpg)
 			
-// 			&:hover
-// 				color: $primary
-// 			&:hover:after
-// 				background-color: $primary
-// 				opacity: 0.85
+		&:after // Overlay
+			content: ''
+			position: absolute
+			z-index: 1
+			top: 0
+			left: 0
+			width: 100%
+			height: 100%
+			background-color: $black
+			opacity: .9
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		
+	@import '_parts-form.tool/tool-heading'
+	@import '_parts-form.tool/tool-form'
+	@import '_parts-form.tool/tool-step'
+	@import '_parts-form.tool/tool-results'
+	@import '_parts-form.tool/tool-fieldset'
+	@import '_parts-form.tool/tool-button'

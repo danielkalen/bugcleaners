@@ -18,15 +18,15 @@ router.post '/:action/:postType', (req, res)->
 
 	if !authenticated
 		res.json ajaxResponse
-		res.end()
+		return res.end()
 
 	if !action
 		res.send 'No Action Specified!'
-		res.end()
+		return res.end()
 
 	if !postType
 		res.send 'No Post Type Specified!'
-		res.end()
+		return res.end()
 
 
 

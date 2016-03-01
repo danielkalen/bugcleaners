@@ -4,7 +4,9 @@
 		"cta_with_faqs": ["_parts-global/form.sass", "_parts-sections/form.boxed.sass", "_parts-sections/form.tool.sass", "_parts-sections/faqs_small.sass", "_parts-sections/benefit_points.sass"]
 	},
 	"js": {
-		"contact_options": ["_parts-global/form-engine.js", "_parts-global/init_forms.coffee", "_plugins/velocity.min.js"],
-		"cta_with_faqs": ["_parts-global/form-engine.js", "_parts-global/init_forms.coffee", "_parts-sections/faqs_small.coffee"]
+		"contact_options": ["_parts-global/form-engine.js", "_plugins/velocity.min.js"],
+		"cta_with_faqs": ["_parts-global/form-engine.js", "_parts-sections/faqs_small.coffee"],
+		"form.boxed": ["_parts-global/form-engine.js"],
+		"form.tool": ["_parts-global/form-engine.js"]
 	}
 }

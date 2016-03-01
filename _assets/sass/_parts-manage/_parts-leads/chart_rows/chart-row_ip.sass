@@ -5,27 +5,30 @@
 &-ip_details
 	position: relative
 	display: inline-block
+	z-index: 20
 	// display: block
 	// +center
 	top: 6px
 	+size(16)
-	background-color: lighten($grey-lighter, 13)
-	background-color: $black
+	background-color: fade-out($black, 0.85)
 	// border: 1px solid $divider
 	box-sizing: border-box
 	border-radius: 50%
 	cursor: pointer
+	transition: background-color 0.2s
+	&:hover
+		background-color: $black
 	
 	// Icon
 	&:before
 		// +icon('')
 		content: 'IP'
 		position: absolute
-		+valign(54%)
+		+valign(55%)
 		line-height: 1
 		display: block
 		width: 100%
-		font-size: 11.1px
+		font-size: 10px
 		font-weight: 700
 		font-family: avenir
 		text-align: center

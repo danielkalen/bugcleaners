@@ -1,0 +1,27 @@
+&-antispam
+	position: absolute
+	right: 0
+	top: -6px
+	color: $black
+	opacity: .4
+	+max(520)
+		display: none
+
+	&-text
+		font-size: 13px
+		width: 142px
+		+max(520)
+			position: relative
+			top: 2px
+			left: 1px
+			line-height: 1.2
+
+	&:before
+		position: absolute
+		top: 2px
+		left: -31px
+		+icon('d')
+		font-size: 27px
+		opacity: .5
+		+max(520)
+			font-size: 27px

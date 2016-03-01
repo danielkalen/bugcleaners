@@ -67,7 +67,7 @@
 
 
 		&-fieldset
-			+fieldset($style:new, $inputHeight:52px, $textareaHeight: 150px, $margin:2.5%, $bgColor:$white, $textColor:$black, $borderColor:$divider, $labelColor:lighten($black, 45), $fontSize:14px, $labelSize:10px, $iconSize:12px, $widthRules:true)
+			+fieldset($style:new, $inputHeight:52px, $textareaHeight: 150px, $margin:2.5%, $bgColor:$white, $textColor:$black, $borderColor:$divider, $labelColor:lighten($black, 45), $fontSize:14px, $labelSize:10px, $iconSize:12px, $widthRules:true, $smoothErrorAnimation:true)
 			+max(520)
 				width: 100% !important
 
@@ -93,6 +93,7 @@
 					font-weight: 600
 					font-size: 15px
 					line-height: 1
+					color: $black
 
 
 			&-radio
@@ -226,6 +227,7 @@
 							opacity: 1
 
 						&-title
+							color: $black
 							font-size: 18px
 							font-weight: 600
 							padding-bottom: 5px

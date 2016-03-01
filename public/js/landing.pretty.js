@@ -81,57 +81,98 @@
       this.form = formInstance;
       this.step = $field.parents('.step').first();
       this.field = $field;
+      this.data = this.field.data();
       this.input = this.field.find('.input');
-      this.type = this.field.data('type');
-      this.name = this.field.data('realname');
-      this.nameReal = this.field.data('name');
-      this.pattern = this.field.data('pattern');
-      this.pattern = this.pattern ? new RegExp(this.pattern) : void 0;
-      this.forcePattern = this.field.data('force_pattern');
-      this.forceLive = this.field.data('force_live');
-      this.comments = this.field.data('comments');
-      this.desc = this.field.data('desc');
-      this.errorMsg = this.field.data('error');
-      this["default"] = this.field.data('default_value');
-      this.required = this.field.data('required') === '1' || this.field.data('required') === 1;
-      this.minimum = this.field.data('minimum');
-      this.maximum = this.field.data('maximum');
-      this.collapsed = !!this.field.data('collapsed');
-      this.disabled = this.field.data('disabled_forever') === '1' || false;
-      this.disabledForever = this.disabled;
-      this.height = this.field.data('height');
-      this.dependsOn = this.field.data('depends_on');
-      this.conditionScope = this.field.data('condition_scope');
-      this.comparison = this.field.data('comparison') || '=';
-      this.condition = this.field.data('condition');
-      this.revealed = false;
+      this.type = this.data.type;
+      this.name = this.data.realname || this.data.name;
+      this.nameReal = this.data.name;
+      if (this.data.pattern) {
+        this.pattern = new RegExp(this.data.pattern);
+      }
+      if (this.data.force_pattern) {
+        this.forcePattern = this.data.force_pattern;
+      }
+      if (this.data.force_live) {
+        this.forceLive = this.data.force_live;
+      }
+      if (this.data.comments) {
+        this.comments = this.data.comments;
+      }
+      if (this.data.desc) {
+        this.desc = this.data.desc;
+      }
+      if (this.data.error) {
+        this.errorMsg = this.data.error;
+      }
+      this["default"] = this.data.default_value;
+      this.required = this.data.required === '1' || this.data.required === 1;
+      if (this.data.minimum != null) {
+        this.minimum = this.data.minimum;
+      }
+      if (this.data.maximum != null) {
+        this.maximum = this.data.maximum;
+      }
+      this.collapsed = !!this.data.collapsed;
+      this.disabled = this.data.disabled_forever === '1' || false;
+      if (this.data.disabled_forever) {
+        this.disabledForever = this.disabled;
+      }
+      if (this.data.height) {
+        this.height = this.data.height;
+      }
+      if (this.data.depends_on) {
+        this.dependsOn = this.data.depends_on;
+      }
+      if (this.data.condition_scope) {
+        this.conditionScope = this.data.condition_scope;
+      }
+      if (this.data.depends_on) {
+        this.comparison = this.data.comparison || '=';
+      }
+      if (this.data.depends_on) {
+        this.condition = this.data.condition;
+      }
+      if (this.data.conditional_values) {
+        this.conditionalValues = this.data.conditional_values;
+      }
+      if (this.data.depends_on) {
+        this.revealed = false;
+      }
       this.value = this["default"] || null;
       this.valid = false;
       if (this.disabled) {
         this.disable();
       }
-      switch (this.forcePattern) {
-        case 'slug':
-          this.forceSpecial = true;
-          break;
-        case 'name':
-          this.forceSpecial = true;
-          break;
-        case 'lower':
-          this.forceSpecial = true;
-          break;
-        case 'upper':
-          this.forceSpecial = true;
-          break;
-        default:
-          if (this.forcePattern) {
-            this.forcePattern = new RegExp(this.forcePattern);
-          }
+      if (this.forcePattern) {
+        switch (this.forcePattern) {
+          case 'slug':
+            this.forceSpecial = true;
+            break;
+          case 'name':
+            this.forceSpecial = true;
+            break;
+          case 'lower':
+            this.forceSpecial = true;
+            break;
+          case 'upper':
+            this.forceSpecial = true;
+            break;
+          default:
+            if (this.forcePattern) {
+              this.forcePattern = new RegExp(this.forcePattern);
+            }
+        }
       }
       ref = Form.prototype.fieldProtos[this.type];
       for (name in ref) {
         method = ref[name];
-        this[name] = method;
+        if (name === 'prepareConditional') {
+          if (this.dependsOn) {
+            this[name] = method;
+          }
+        } else {
+          this[name] = method;
+        }
       }
       if (customFns[this.type] != null) {
         ref1 = customFns[this.type];
@@ -142,7 +183,13 @@
       }
       this.prepare();
       if (this.dependsOn) {
+        if (this.required) {
+          this.requiredOriginally = true;
+        }
         setTimeout(this.prepareConditional.bind(this), 0);
+      }
+      if (this.conditionalValues) {
+        setTimeout(this.prepareConditionalValues.bind(this), 0);
       }
       return this;
     };
@@ -234,6 +281,8 @@
                   return function(i, el) {
                     if (values.includes($(el).find('.input').value)) {
                       return _this.checkOn($(el));
+                    } else {
+                      return _this.checkOff($(el));
                     }
                   };
                 })(this));
@@ -275,95 +324,209 @@
           }
         }
       },
-      'prepareConditional': {
-        input: function() {
-          var $context;
-          $context = (function() {
-            switch (this.conditionScope) {
-              case 'form':
-                return this.form.form;
-              case 'step':
-                if (this.step.length) {
-                  return this.step;
-                } else {
-                  return this.field.parents('.step').first();
-                }
-              case 'repeater':
-                return this.field.parents('.fieldset').last();
-              case 'repeater-1':
-                return this.field.parents('.fieldset').eq(1);
-              case 'repeater-2':
-                return this.field.parents('.fieldset').eq(2);
-              case 'sibling':
-                return this.field.parent();
-              default:
-                return this.form.form;
-            }
-          }).call(this);
-          this.masterField = $context.find('[data-realname*="' + this.dependsOn + '"]').first();
-          this.masterInstance = this.masterField.data('Field');
-          if (this.masterInstance == null) {
-            return console.log("Conditional field '" + this.name + "' has no matching master field.", this);
+      'prepareConditional': function() {
+        var $context;
+        $context = (function() {
+          switch (this.conditionScope) {
+            case 'form':
+              return this.form.form;
+            case 'step':
+              if (this.step.length) {
+                return this.step;
+              } else {
+                return this.field.parents('.step').first();
+              }
+            case 'repeater':
+              return this.field.parents('.fieldset').last();
+            case 'repeater-1':
+              return this.field.parents('.fieldset').eq(1);
+            case 'repeater-2':
+              return this.field.parents('.fieldset').eq(2);
+            case 'sibling':
+              return this.field.parent();
+            default:
+              return this.form.form;
           }
-          this.disable();
-          this.masterField.on('value_changed', (function(_this) {
-            return function(i, el) {
-              var conditions, hasValid, isValid, siblingFields;
-              if (_this.condition) {
-                conditions = _this.condition.split(/,\s?/);
+        }).call(this);
+        this.masterField = $context.find('[data-realname*="' + this.dependsOn + '"]').first();
+        this.masterInstance = this.masterField.data('Field');
+        if (this.masterInstance == null) {
+          return console.log("Conditional field '" + this.name + "' has no matching master field.", this);
+        }
+        this.disable();
+        this.masterField.on('value_changed', (function(_this) {
+          return function(i, el) {
+            var conditions, hasValid, isValid, siblingFields;
+            if (_this.condition) {
+              conditions = _this.condition.split(/,\s?/);
+              hasValid = false;
+              conditions.forEach(function(condition) {
+                if (!hasValid) {
+                  return hasValid = _this.masterInstance.value === condition;
+                }
+              });
+              isValid = hasValid;
+            } else {
+              isValid = _this.masterInstance.test();
+            }
+            if (_this.comparison === 'regex') {
+              if (!_this.comparisonRegex) {
+                _this.comparisonRegex = new RegExp(_this.comparison);
+              }
+              isValid = _this.comparisonRegex.test(_this.masterInstance.value);
+            } else {
+              if (_this.comparison !== '=') {
+                isValid = !isValid;
+              }
+            }
+            if (isValid) {
+              _this.field.addClass('reveal_dependant').trigger('reveal_dependant');
+              _this.makeRequired();
+              _this.enable();
+              _this.revealed = true;
+            } else {
+              _this.field.removeClass('reveal_dependant').trigger('hide_dependant');
+              _this.makeNotRequired();
+              _this.disable();
+              _this.revealed = false;
+            }
+            if (_this.data.width !== '1-1') {
+              siblingFields = [];
+              _this.field.parent().children('.fieldset').each(function() {
+                var instance;
+                instance = $(this).data('Field');
+                if (instance) {
+                  if (!(instance.dependsOn && !instance.revealed)) {
+                    return siblingFields.push(instance);
+                  }
+                }
+              });
+              if (siblingFields.length) {
+                fixWidth(siblingFields);
+              }
+            }
+            return setTimeout(function() {
+              return _this.step.trigger('height_changed');
+            }, 300);
+          };
+        })(this));
+        return this.masterField.trigger('value_changed');
+      },
+      'prepareConditionalValues': function() {
+        var valuesElCache;
+        if (this.type !== 'select') {
+          return;
+        }
+        valuesElCache = {};
+        return this.conditionalValues.forEach((function(_this) {
+          return function(option) {
+            var $context, append, currentlyShown, element, masterField, masterInstance, remove, sort;
+            currentlyShown = true;
+            element = _this.input.children("option[value='" + option.value + "']")[0];
+            if (element) {
+              valuesElCache[option.value] = element;
+            } else {
+              return;
+            }
+            $context = (function() {
+              switch (option.conditionScope) {
+                case 'form':
+                  return this.form.form;
+                case 'step':
+                  if (this.step.length) {
+                    return this.step;
+                  } else {
+                    return this.field.parents('.step').first();
+                  }
+                case 'repeater':
+                  return this.field.parents('.fieldset').last();
+                case 'repeater-1':
+                  return this.field.parents('.fieldset').eq(1);
+                case 'repeater-2':
+                  return this.field.parents('.fieldset').eq(2);
+                case 'sibling':
+                  return this.field.parent();
+                default:
+                  return this.form.form;
+              }
+            }).call(_this);
+            masterField = $context.find('[data-realname*="' + option.depends_on + '"]').first();
+            masterInstance = masterField.data('Field');
+            if (masterInstance == null) {
+              return console.log("Conditional value '" + _this.name + " (" + option.value + ")' has no matching master field.", _this);
+            }
+            sort = function() {
+              return _this.input.html(_this.input.children(option).sort(function(a, b) {
+                if (a.value === '') {
+                  return -1;
+                }
+                if (a.text === b.text) {
+                  return 0;
+                } else if (a.text < b.text) {
+                  return -1;
+                } else {
+                  return 1;
+                }
+              }));
+            };
+            remove = function() {
+              var optionIndex;
+              optionIndex = $(element).index();
+              if ((optionIndex != null) && optionIndex !== -1) {
+                _this.input[0].options[optionIndex] = null;
+              }
+              currentlyShown = false;
+              sort();
+              if (_this.value === option.value) {
+                _this.value = '';
+                _this.input[0].value = '';
+                _this.input.trigger('change');
+              }
+              return setTimeout(function() {
+                return _this.input[0].selectedIndex = 0;
+              }, 0);
+            };
+            append = function(shouldShow) {
+              if (currentlyShown) {
+                return;
+              }
+              append.currentlyShown = true;
+              _this.input[0].options[_this.input[0].options.length] = valuesElCache[option.value];
+              return sort();
+            };
+            masterField.on('value_changed', function(i, el) {
+              var comparisonRegex, conditions, hasValid, isValid;
+              if (option.condition) {
+                conditions = option.condition.split(/,\s?/);
                 hasValid = false;
                 conditions.forEach(function(condition) {
                   if (!hasValid) {
-                    return hasValid = _this.masterInstance.value === condition;
+                    return hasValid = masterInstance.value === condition;
                   }
                 });
                 isValid = hasValid;
               } else {
-                isValid = _this.masterInstance.test();
+                isValid = masterInstance.test();
               }
-              if (_this.comparison === 'regex') {
-                if (!_this.comparisonRegex) {
-                  _this.comparisonRegex = new RegExp(_this.comparison);
+              if (option.comparison === 'regex') {
+                if (!comparisonRegex) {
+                  comparisonRegex = new RegExp(option.comparison);
                 }
-                isValid = _this.comparisonRegex.test(_this.masterInstance.value);
+                isValid = comparisonRegex.test(masterInstance.value);
               } else {
-                if (_this.comparison !== '=') {
+                if (option.comparison !== '=') {
                   isValid = !isValid;
                 }
               }
               if (isValid) {
-                _this.field.addClass('reveal_dependant').trigger('reveal_dependant');
-                _this.makeRequired();
-                _this.enable();
-                _this.revealed = true;
+                return append();
               } else {
-                _this.field.removeClass('reveal_dependant').trigger('hide_dependant');
-                _this.makeNotRequired();
-                _this.disable();
-                _this.revealed = false;
+                return remove();
               }
-              if (_this.field.data('width') !== '1-1') {
-                siblingFields = [];
-                _this.field.parent().children('.fieldset').each(function() {
-                  var instance;
-                  instance = $(this).data('Field');
-                  if (instance) {
-                    if (!(instance.dependsOn && !instance.revealed)) {
-                      return siblingFields.push(instance);
-                    }
-                  }
-                });
-                if (siblingFields.length) {
-                  fixWidth(siblingFields);
-                }
-              }
-              return setTimeout(function() {
-                return _this.step.trigger('height_changed');
-              }, 300);
-            };
-          })(this));
-          return this.masterField.trigger('value_changed');
-        }
+            });
+            return masterField.trigger('value_changed');
+          };
+        })(this));
       },
       'attachValidation': {
         input: function() {
@@ -442,6 +605,20 @@
                 };
               })(this));
             }
+          }
+          if (this.maximum) {
+            this.input.on('keypress', (function(_this) {
+              return function(event) {
+                var ref;
+                if (((ref = _this.input[0].value) != null ? ref.length : void 0) > _this.maximum) {
+                  event.preventDefault();
+                  _this.field.addClass('has_warning').attr('data-warning', "Maximum characters allowed is " + _this.maximum);
+                  return setTimeout(function() {
+                    return this.field.removeClass('has_warning');
+                  }, 2000);
+                }
+              };
+            })(this));
           }
           return this.field.on('value_changed', (function(_this) {
             return function() {
@@ -566,7 +743,9 @@
         return this.field.removeClass('filled animate');
       },
       makeRequired: function() {
-        this.required = true;
+        if (this.requiredOriginally) {
+          this.required = true;
+        }
         this.field.addClass('required');
         if (this.form.fieldsRequired.indexOf(this) !== -1) {
           return this.form.fieldsRequired.push(this);
@@ -704,7 +883,7 @@
     Form.prototype.fieldProtos = {
       'text': {
         prepare: defaultFns.prepare.input,
-        prepareConditional: defaultFns.prepareConditional.input,
+        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.input,
         attachState: defaultFns.attachState.input,
         detach: defaultFns.detach.input,
@@ -725,7 +904,7 @@
       },
       'full_name': {
         prepare: defaultFns.prepare.input,
-        prepareConditional: defaultFns.prepareConditional.input,
+        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.input,
         attachState: defaultFns.attachState.input,
         detach: defaultFns.detach.input,
@@ -756,7 +935,7 @@
       },
       'password': {
         prepare: defaultFns.prepare.input,
-        prepareConditional: defaultFns.prepareConditional.input,
+        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.input,
         attachState: defaultFns.attachState.input,
         detach: defaultFns.detach.input,
@@ -790,7 +969,7 @@
       },
       'email': {
         prepare: defaultFns.prepare.input,
-        prepareConditional: defaultFns.prepareConditional.input,
+        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.input,
         attachState: defaultFns.attachState.input,
         detach: defaultFns.detach.input,
@@ -821,7 +1000,7 @@
       },
       'tel': {
         prepare: defaultFns.prepare.input,
-        prepareConditional: defaultFns.prepareConditional.input,
+        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.input,
         attachState: defaultFns.attachState.input,
         detach: defaultFns.detach.input,
@@ -852,7 +1031,7 @@
       },
       'textarea': {
         prepare: defaultFns.prepare.input,
-        prepareConditional: defaultFns.prepareConditional.input,
+        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.input,
         attachState: defaultFns.attachState.input,
         detach: defaultFns.detach.input,
@@ -920,7 +1099,8 @@
             };
           })(this));
         },
-        prepareConditional: defaultFns.prepareConditional.input,
+        prepareConditional: defaultFns.prepareConditional,
+        prepareConditionalValues: defaultFns.prepareConditionalValues,
         attachValidation: defaultFns.attachValidation.input,
         attachState: defaultFns.attachState.input,
         detach: defaultFns.detach.input,
@@ -971,7 +1151,7 @@
             return this.makeValid();
           }
         },
-        prepareConditional: defaultFns.prepareConditional.input,
+        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.input,
         attachState: function() {
           return this.field.add(this.input).on('value_changed change', (function(_this) {
@@ -1106,7 +1286,7 @@
       },
       'radio': {
         prepare: defaultFns.prepare.button,
-        prepareConditional: defaultFns.prepareConditional.input,
+        prepareConditional: defaultFns.prepareConditional,
         attachValidation: function() {
           return this.field.on('value_changed', (function(_this) {
             return function() {
@@ -1167,7 +1347,7 @@
       },
       'radio_hybrid': {
         prepare: defaultFns.prepare.button,
-        prepareConditional: defaultFns.prepareConditional.input,
+        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.button,
         attachState: defaultFns.attachState.button,
         detach: defaultFns.detach.button,
@@ -1190,7 +1370,7 @@
       },
       'checkbox': {
         prepare: defaultFns.prepare.button,
-        prepareConditional: defaultFns.prepareConditional.input,
+        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.button,
         attachState: defaultFns.attachState.button,
         detach: defaultFns.detach.button,
@@ -1213,7 +1393,7 @@
       },
       'checkbox_single': {
         prepare: defaultFns.prepare.button,
-        prepareConditional: defaultFns.prepareConditional.input,
+        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.button,
         attachState: defaultFns.attachState.button,
         detach: defaultFns.detach.button,
@@ -1247,8 +1427,9 @@
               newField = new Field($(el), _this.form);
               _this.fields.push(newField);
               if (newField.required) {
-                return _this.fieldsRequired.push(newField);
+                _this.fieldsRequired.push(newField);
               }
+              return newField.insideGroup = true;
             };
           })(this));
           if (this.collapsed && this.toggle.length) {
@@ -1270,7 +1451,7 @@
           }
           return fixWidth(this.fields);
         },
-        prepareConditional: defaultFns.prepareConditional.input,
+        prepareConditional: defaultFns.prepareConditional,
         attachValidation: function() {
           var $required, j, len, ref, results;
           ref = this.fieldsRequired;
@@ -1406,8 +1587,12 @@
             console.log(badFields);
           }
           if (problem) {
+            if (showErrors) {
+              this.showError();
+            }
             return false;
           } else {
+            this.hideError();
             return true;
           }
         }
@@ -1464,7 +1649,8 @@
               return $(repeaterItem).children('.repeater-item-fields').children('.fieldset').add($additionalFieldsets).each(function(i, el) {
                 var newField;
                 newField = firstTime ? new Field($(el), _this.form) : $(el).data('Field');
-                return _this.fields.push;
+                _this.fields.push(newField);
+                return newField.insideRepeater = true;
               });
             };
           })(this));
@@ -1472,7 +1658,7 @@
             return field.required;
           });
         },
-        prepareConditional: defaultFns.prepareConditional.input,
+        prepareConditional: defaultFns.prepareConditional,
         attachValidation: function() {
           var $required, j, len, ref, results;
           ref = this.fieldsRequired;
@@ -1692,8 +1878,12 @@
             console.log(badFields);
           }
           if (problem) {
+            if (showErrors) {
+              this.showError();
+            }
             return false;
           } else {
+            this.hideError();
             return true;
           }
         },
@@ -2077,6 +2267,9 @@
       this.form.on('submit_current_step', util.debounce(((function(_this) {
         return function() {
           var $button;
+          if (_this.step.current.hasClass('results')) {
+            return;
+          }
           $button = _this.step.current.find('.next');
           $button = $button.length ? $button : _this.step.current.find('.submit');
           if ($button.length) {
@@ -2466,6 +2659,9 @@
 $$('form').each(function() {
   var $form;
   $form = $(this);
+  if ($form.data('Field')) {
+    return;
+  }
   if ($form.hasClass('form_boxed') && $form.hasClass('standard')) {
     new Form($form, {
       'dontDisableFields': true

@@ -29,7 +29,7 @@ mixin renderSection(passedBlock)
 		when 'faqs_small'
 			+faqs_small(passedBlock)
 		when 'form'
-			+form(passedBlock)
+			+form(passedBlock.form || passedBlock)
 		when 'pests'
 			+pests
 		when 'pests_treated'

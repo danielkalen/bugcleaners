@@ -1,0 +1,167 @@
+&-fieldset
+	+fieldset($style: new, $inputHeight: 55px, $bgColor: white, $textareaHeight: 180px, $fontSize: 15.2px, $borderColor: rgba(255,255,255,0), $widthRules:true, $renderAll:false, $renderLabel:true, $renderInput:true, $renderSelect:true, $renderTextarea:true, $renderRadio:true, $alignRadioLabels:true)
+	margin-left: auto
+	margin-right: auto
+	margin-bottom: 0
+	float: none
+	+max(736)
+		.input
+			height: 50px
+
+	&.error.fieldtype_full_name:after,
+	&.error.fieldtype_text:after,
+	&.error.fieldtype_email:after,
+	&.error.fieldtype_tel:after,
+	&.error.fieldtype_textarea:after,
+		content: ''
+		position: absolute
+		bottom: -16px
+		right: 0
+		max-height: 17px
+		padding: 5px 7px 1px
+		background-color: $error-color
+		border-radius: 0 0 3px 3px
+		font-size: 11px
+		font-weight: 600
+		line-height: 1
+		color: white
+	
+	&.error.full_name:after
+		content: 'Enter the first and last name'
+	&.error.phone:after
+		content: 'Enter a valid phone number'
+	&.error.email:after
+		content: 'Enter a valid email address'
+
+	&.fieldtype_full_name,
+	&.fieldtype_email,
+	&.fieldtype_text,
+	&.fieldtype_tel,
+		max-width: 370px
+		+center
+		& + .next,
+		& + .submit
+			max-width: 370px
+			left: 0
+			right: 0
+			margin-left: auto
+			margin-right: auto
+
+	&.fieldtype_radio_hybrid &-label,
+	&.fieldtype_radio &-label,
+		display: none
+
+	&-radio
+		border: 0
+		margin-right: perc(14, 510) !important
+		// min-width: 70px
+		color: $grey-dark
+		&:last-child
+			margin-right: 0 !important
+		&.checked
+			color: $primary
+			
+			// Active Border
+			&:after
+				content: ''
+				position: absolute
+				top: 0
+				left: 0
+				border-radius: 3px
+				width: 100%
+				height: 101%
+				border: 2px solid $primary
+				box-sizing: border-box
+		&-label
+			position: absolute
+			left: 0
+			right: 0
+			+valign(54%)
+			width: 100%
+			padding: 0
+			font-size: 16px
+			line-height: 0
+			+max(736)
+				font-size: 15px
+			.problem_time &
+				font-size: 14px
+				+max(736)
+					font-size: 13.2px
+
+
+	&-radio_hybrid
+		border: 0
+		// width: perc(160, 510) !important
+		// margin-right: perc(14, 510) !important
+		color: $grey-dark
+		&:nth-child(4),
+		&:nth-child(7),
+		&:nth-child(10)
+			margin-right: 0 !important
+		&:nth-child(n+5)
+			margin-top: perc(14, 510) !important
+		&.checked
+			color: $primary
+			
+			// Active Border
+			&:after
+				content: ''
+				position: absolute
+				top: 0
+				left: 0
+				border-radius: 3px
+				width: 100%
+				height: 101%
+				border: 2px solid $primary
+				box-sizing: border-box
+		
+		&-label
+			position: absolute
+			z-index: 2
+			left: 0
+			right: 0
+			top: 54% !important
+			width: 100%
+			padding: 0
+			font-size: 15.2px !important
+			line-height: 0
+			text-transform: none
+			pointer-events: none
+			+max(520)
+				line-height: 1.1
+				max-width: 90%
+				+center
+
+		&:before
+			+icon('')
+			position: absolute
+			z-index: 1
+			+valign
+			left: 0
+			right: 0
+			width: 100%
+			font-weight: 400
+			font-size: 40px
+			text-align: center
+			opacity: 0.20
+
+		&.option-roaches:before
+			+icon('m')
+		&.option-bed_bugs:before
+			+icon('e')
+			font-size: 36px
+		&.option-rodents:before
+			+icon('n')
+			font-size: 48px
+		&.option-termites:before
+			+icon('p')
+			font-size: 36px
+		&.option-ants:before
+			+icon('a')
+			font-size: 36px
+		&.option-mosquitoes:before
+			+icon('g')
+		&.option-others:before,
+		&.option-other:before
+			+icon('h')
+			font-size: 38px

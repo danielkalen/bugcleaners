@@ -27,11 +27,13 @@ mixin fieldGenerator(options)
 			'maximum':false,
 			'nested':0,
 			'required':false,
+			'floatRight':false,
 			'depends_on':false,
 			'condition':false,
 			'sibling_dependent':false,
 			'conditionScope':'form',
 			'comparison':false,
+			'conditionalValues':false,
 			'extraClasses':'',
 			'checkmark':false,
 			'useKeyInsteadOfValue':false,
@@ -115,6 +117,7 @@ mixin fieldGenerator(options)
 		if (options.defaultValue && options.defaultValue.constructor === String)
 			attrs['data-default_value'] = options.defaultValue;
 		if (options.sibling_dependent)		options.conditionScope = 'sibling'
+		if (options.conditionalValues)		attrs['data-conditional_values'] = options.conditionalValues;
 		if (options.conditionScope)			attrs['data-condition_scope'] = options.conditionScope;
 		if (options.forcePattern)			attrs['data-force_pattern'] = options.forcePattern;
 		if (options.depends_on)				attrs['data-depends_on'] = options.depends_on;
@@ -146,6 +149,7 @@ mixin fieldGenerator(options)
 		// ==== Fieldset Classes =================================================================================
 		fieldsetClasses = "";
 		if (options.depends_on)			fieldsetClasses += " dependant_fieldset";
+		if (options.floatRight)			fieldsetClasses += " float_right";
 		if (options.realname)			fieldsetClasses += " "+options.realname;
 		if (options.required)			fieldsetClasses += " required";
 		if (options.is_last)			fieldsetClasses += " is_last";
@@ -155,7 +159,6 @@ mixin fieldGenerator(options)
 		if (options.name)				fieldsetClasses += " "+options.name;
 		if (options.type)				fieldsetClasses += " fieldtype_"+options.type;
 		if (options.type === 'checkbox' || options.type === 'radio' || options.type === 'radio_hybrid') fieldsetClasses += " options_"+objectToArray(options.values).length;
-		if (options.type === 'repeater' || options.type === 'repeater_group') fieldsetClasses += " dont-error";
 
 		if (options.extraClasses) fieldsetClasses += options.extraClasses;
 
@@ -268,8 +271,9 @@ mixin fieldGenerator(options)
 						}
 						itemValue = itemValue ? itemValue:itemLabel;
 						itemValue = options.useKeyInsteadOfValue ? itemValue:itemLabel;
+						itemValueSlug = itemValue.toLowerCase().split(' ').join('_');
 						checkedAttr = (options.defaultValue.constructor === Array && options.defaultValue.includes(itemValue)) ? {'checked':'checked'} : {};
-					div(class="#{className}-fieldset-#{options.type} input-button")
+					div(class="#{className}-fieldset-#{options.type} input-button option-#{itemValueSlug}")
 						div(class="#{className}-fieldset-#{options.type}-box")
 						label(class="#{className}-fieldset-#{options.type}-label" for="#{options.id}_#{index}")!=itemLabel
 						input(class="input checkbox #{inputClasses}"  type="checkbox" name="#{options.name}[]" id="#{options.id}_#{index}" value="#{itemValue}")&attributes(checkedAttr)
@@ -288,9 +292,10 @@ mixin fieldGenerator(options)
 						}
 						itemValue = itemValue ? itemValue:itemLabel;
 						itemValue = options.useKeyInsteadOfValue ? itemValue:itemLabel;
+						itemValueSlug = itemValue.toLowerCase().split(' ').join('_');
 						checkedAttr = itemValue === booleanToString(options.defaultValue) ? {'checked':'checked'} : {};
 
-					div(class="#{className}-fieldset-radio input-button")
+					div(class="#{className}-fieldset-radio input-button option-#{itemValueSlug}")
 						label(class="#{className}-fieldset-radio-label" for="#{options.id}_#{index}")!=itemLabel
 						input(class="input radio #{inputClasses}"  type="radio" name="#{options.name}" id="#{options.id}_#{index}" value="#{itemValue}")&attributes(checkedAttr)
 

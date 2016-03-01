@@ -1,0 +1,27 @@
+&-step
+	position: relative
+	margin-top: 45px
+	+clearfix
+	&:first-child
+		margin-top: 0
+	form.final &
+		display: none
+		&.show
+			display: block
+
+	.stepped &
+		margin-top: 0
+		display: none
+		&.show
+			display: block
+	
+
+	&-title
+		margin-bottom: 20px
+		font-size: 18px
+		color: $text
+		font-weight: 600
+		+max(520)
+			margin-bottom: 13px
+			.contact &
+				margin-bottom: 55px

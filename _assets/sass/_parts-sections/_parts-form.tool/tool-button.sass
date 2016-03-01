@@ -1,0 +1,29 @@
+&-button
+	+form-button($buttonHeight:53px, $buttonColor:$primary, $margin-top:30px, $arrow:false)
+	position: absolute
+	+transform(translateY(43px))
+	opacity: 0
+	float: none
+	top: 100%
+	.step_filled &
+		+transform(translateY(0))
+		opacity: 1
+
+	&-text
+		font-weight: 700
+		letter-spacing: 0.4px
+		text-transform: uppercase
+
+	&-subtext
+		position: absolute
+		bottom: -20px
+		width: 100%
+		line-height: 0
+		text-align: center
+		font-size: 13.2px
+		font-weight: 500
+		color: $primary
+		span
+			font-weight: 700
+		.mobile &
+			display: none

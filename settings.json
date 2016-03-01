@@ -129,6 +129,18 @@
 				"name": "FAQs List",
 				"fields": {}
 			},
+			"form": {
+				"slug": "form",
+				"name": "Form (standalone)",
+				"fields": {
+					"form": {
+						"type": "template",
+						"width": "1-1",
+						"required": true,
+						"value": "form"
+					}
+				}
+			},
 			"reviews": {
 				"slug": "reviews",
 				"name": "Reviews",
@@ -245,7 +257,30 @@
 							"boxed-standard": "Boxed (All in one step)",
 							"boxed-stepped": "Boxed (Multiple Steps)",
 							"tool-like": "Tool-like (Multiple Steps, 1 question at a time)"
-						}
+						},
+						"conditionalValues": [
+							{
+								"value": "boxed-standard",
+								"depends_on": "type",
+								"conditionScope": "form",
+								"condition": "landing-tool",
+								"comparison": "!="
+							},
+							{
+								"value": "boxed-stepped",
+								"depends_on": "type",
+								"conditionScope": "form",
+								"condition": "landing-tool",
+								"comparison": "!="
+							},
+							{
+								"value": "tool-like",
+								"depends_on": "type",
+								"conditionScope": "form",
+								"condition": "landing",
+								"comparison": "!="
+							}
+						]
 					},
 					{
 						"type": "radio",
@@ -301,7 +336,10 @@
 					},
 					{
 						"type": "template",
-						"value": "form_steps"
+						"value": "form_steps",
+						"depends_on": "form_style",
+						"conditionScope": "sibling",
+						"condition": "boxed-standard, boxed-stepped, tool-like"
 					}
 				]
 			},
@@ -322,12 +360,12 @@
 					},
 					{
 						"type": "text",
-						"name": "title",
+						"name": "subtitle",
 						"label": "Step Subtitle",
 						"width": "1-2",
 						"depends_on": "form_style",
 						"condition": "tool-like",
-						"conditionScope": "repeater"
+						"conditionScope": "repeater-1"
 					},
 					{
 						"type": "text",
@@ -336,7 +374,7 @@
 						"width": "1-2",
 						"depends_on": "form_style",
 						"condition": "tool-like",
-						"conditionScope": "repeater"
+						"conditionScope": "repeater-1"
 					},
 					{
 						"type": "text",
@@ -345,7 +383,7 @@
 						"width": "1-2",
 						"depends_on": "form_style",
 						"condition": "tool-like",
-						"conditionScope": "repeater"
+						"conditionScope": "repeater-1"
 					},
 					{
 						"type": "text",
@@ -355,7 +393,7 @@
 						"width": "1-2",
 						"depends_on": "form_style",
 						"condition": "boxed-standard, boxed-stepped",
-						"conditionScope": "repeater"
+						"conditionScope": "repeater-1"
 					},
 					{
 						"type": "radio",
@@ -370,7 +408,7 @@
 						},
 						"depends_on": "form_style",
 						"condition": "boxed-standard, boxed-stepped",
-						"conditionScope": "repeater"
+						"conditionScope": "repeater-1"
 					},
 					{
 						"type": "group",
@@ -379,7 +417,7 @@
 						"collapsed": true,
 						"depends_on": "form_style",
 						"condition": "tool-like",
-						"conditionScope": "repeater",
+						"conditionScope": "repeater-1",
 						"fields": [
 							{
 								"type": "select",
@@ -397,8 +435,7 @@
 									"select": "Select Field",
 									"radio": "Choice Field",
 									"radio_hybrid": "Choice Field (Multi)",
-									"checkbox": "Checkboxes Field",
-									"checkbox_single": "Checkbox (single) Field"
+									"checkbox": "Checkboxes Field"
 								}
 							},
 							{
@@ -409,6 +446,16 @@
 								"required": true,
 								"forcePattern": "name",
 								"width": "1-2"
+							},
+							{
+								"type": "text",
+								"name": "label",
+								"label": "Label",
+								"required": true,
+								"width": "1-2",
+								"depends_on": "type",
+								"conditionScope": "sibling",
+								"condition": "text, tel, email, fullname, textarea"
 							},
 							{
 								"type": "select",
@@ -445,23 +492,6 @@
 										"required": true
 									}
 								]
-							},
-							{
-								"type": "radio",
-								"name": "has_icon",
-								"label": "Should possible values have icons?",
-								"desc": "This will only be applied if the question asks about which pests the customer has.",
-								"required": true,
-								"width": "1-2",
-								"useKeyInsteadOfValue": true,
-								"defaultValue": "false",
-								"values": {
-									"true": "True",
-									"false": "False"
-								},
-								"depends_on": "type",
-								"condition": "radio, radio_hybrid",
-								"conditionScope": "sibling"
 							}
 						]
 					},
@@ -475,7 +505,7 @@
 						"collapsed": true,
 						"depends_on": "form_style",
 						"condition": "boxed-standard, boxed-stepped",
-						"conditionScope": "repeater",
+						"conditionScope": "repeater-1",
 						"fields": [
 							{
 								"type": "select",
@@ -722,7 +752,7 @@
 					"useKeyInsteadOfValue": true,
 					"values": {
 						"standard": "Standard",
-						"landing": "Landing",
+						"landing": "Landing (Boxed Form)",
 						"landing-tool": "Landing (Tool Form)"
 					}
 				}
@@ -746,21 +776,30 @@
 					"name": "meta_desc",
 					"label": "Meta Description (for SEO)",
 					"width": "1-1",
-					"required": true
+					"required": true,
+					"maximum": 150
 				},
 				"hero_title": {
 					"type": "text",
 					"name": "hero_title",
 					"label": "Hero Title",
 					"width": "1-1",
-					"required": true
+					"required": true,
+					"depends_on": "type",
+					"conditionScope": "form",
+					"condition": "landing-tool",
+					"comparison": "!="
 				},
 				"hero_desc": {
 					"type": "textarea",
 					"name": "hero_desc",
 					"label": "Hero Description",
 					"width": "1-1",
-					"height": 80
+					"height": 80,
+					"depends_on": "type",
+					"conditionScope": "form",
+					"condition": "landing-tool",
+					"comparison": "!="
 				},
 				"hero_style": {
 					"type": "select",
@@ -784,7 +823,11 @@
 					"label": "Hero Button Text",
 					"width": "1-2",
 					"required": true,
-					"defaultValue": "Get Free Quote"
+					"defaultValue": "Get Free Quote",
+					"depends_on": "type",
+					"conditionScope": "form",
+					"condition": "landing-tool",
+					"comparison": "!="
 				},
 				"hero_button_url": {
 					"type": "text",
@@ -816,7 +859,8 @@
 					"required": true,
 					"depends_on": "type",
 					"conditionScope": "form",
-					"condition": "landing"
+					"condition": "standard",
+					"comparison": "!="
 				},
 				"benefit_points": {
 					"type": "template",

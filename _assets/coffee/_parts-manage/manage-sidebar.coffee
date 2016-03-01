@@ -105,13 +105,14 @@ $('.manage-sidebar-list-item').each ()-> SIDEBAR.addExisting $(@)
 
 if $('sidebar').length
 	sidebarMinMax = undefined
+	alreadySetMinMax = false
 
 	setMinMax = (afterInitLoad)->
+		alreadySetMinMax = true if not alreadySetMinMax
 		padding = if afterInitLoad then -60 else -30
 		sidebarMinMax =
 			min: $$('.header')[0].offsetHeight + 40
 			max: $$('body')[0].offsetHeight - ($$('.footer')[0].offsetHeight) - ($$('sidebar')[0].offsetHeight) + padding
-		return
 
 	setSidebarPosition = ()->
 		if !isMobileWidth
@@ -129,7 +130,7 @@ if $('sidebar').length
 				if passedMax
 					overflowAmount = (window.pageYOffset - (sidebarMinMax.max + 10)) * -1
 					$$('sidebar').css 'top', overflowAmount
-		return
+
 
 	$window.on 'scroll', setSidebarPosition
 	setMinMax()

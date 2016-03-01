@@ -5,32 +5,40 @@ mixin form(values)
 			'subtitle':'Instantly receive a bottom line quote.',
 			'button_text':'Get Free Quote',
 			'include_phone':true,
+			'form_style':'form-boxed',
 			'form_steps': []
 		}; values = extend(defaultValues,values);
 
-		var formStyle = values.form_style.match(/-(.+)$/)[1],
-			formType = values.form_style.match(/^(.+)-/)[1];
-	
+		var formType = values.form_style.split('-')[0],
+			formStyle = values.form_style.split('-')[1],
+			curVariation = parseInt(currentVariation)+1
+
 	if formType === 'boxed'
-		form.form.form_boxed(class=formStyle data-action="cta_form" data-variation=currentVariation novalidate)
+		form.form.form_boxed(class=formStyle data-action="cta_form" data-variation=curVariation novalidate)
 			each step,index in values.form_steps
 				-
 					var action = index === values.form_steps.length -1 ? 'submit' : 'next',
 						buttonClasses = step.arrow ? action+' has_arrow' : action;
-				.form_boxed-step.step(class=number)
+				.form_boxed-step.step
 					.form_boxed-step-title=step.title
+					
+					if step.title.toLowerCase().indexOf('contact') !== -1
+						.form_boxed-antispam
+							.form_boxed-antispam-text Your information is safe. We will never spam you!
+					
+					
 					each field in step.fields
 						-
 							field.className = 'form_boxed';
 							field.required = typeof field.required !== 'undefined' ? field.required : true;
 						+fieldGenerator(field)
 					
-					- if (formStyle === 'stepped' || action === 'submit')
-						.form_boxed-step-button(class=buttonClasses)
-							.form_boxed-step-button-text!=step.button
+					if formStyle === 'stepped' || action === 'submit'
+						.form_boxed-button(class=buttonClasses)
+							.form_boxed-button-text!=step.button
 			
 			.form_boxed-results.the_results.results
-			input(type="hidden" name="currentVariation" value=currentVariation)
+			input(type="hidden" name="currentVariation" value=curVariation)
 			input(type="hidden" name="source_page" value=currentPageSlug)
 			input(type="hidden" name="form_type" value=formType)
 			
@@ -39,25 +47,44 @@ mixin form(values)
 					a.form_boxed-alt-link(href="tel:800-216-2124") (800) 216-2124
 					| .
 
+
+
+
+
+
+
+
 	else
-		form.form.form_neo(class=formStyle data-action="cta_form" data-variation=currentVariation novalidate)
-			each step,index in values.form_steps
-				-
-					var action = index === values.form_steps.length -1 ? 'submit' : 'next',
-						buttonClasses = step.arrow ? action+' has_arrow' : action;
-				.form_neo-step.step(class=number)
-					.form_neo-step-title=step.title
-					each field in step.fields
+		.form_tool-outerwrap(class="align_#{values.alignment}")
+			.form_tool
+				.form_tool-heading
+					h3.form_tool-heading-title=values.title
+					p.form_tool-heading-subtitle=values.subtitle
+
+				form.form.form_tool-form(data-action="cta_form" data-variation=curVariation novalidate)
+					each step,index in values.form_steps
 						-
-							field.className = 'form_boxed';
-							field.required = typeof field.required !== 'undefined' ? field.required : true;
-						+fieldGenerator(field)
+							var action = index === values.form_steps.length -1 ? 'submit' : 'next',
+								hasButton = step.field.type !== 'radio',
+								stepClasses = hasButton ? 'has_button':'',
+								buttonClasses = step.arrow ? action+' has_arrow' : action;
+						.form_tool-step.step(class=stepClasses)
+							.form_tool-step-heading
+								.form_tool-step-heading-title=step.title
+								if step.subtitle
+									.form_tool-step-heading-subtitle=step.subtitle
+								
+							- step.field.className = 'form_tool';
+							- step.field.checkmark = true;
+							- step.field.required = typeof step.field.required !== 'undefined' ? step.field.required : true;
+							+fieldGenerator(step.field)
+							
+							if hasButton
+								.form_tool-button(class=buttonClasses)
+									.form_tool-button-text Next
+									.form_tool-button-subtext or press ENTER
 					
-					.form_neo-step-button(class=buttonClasses)
-						.form_neo-step-button-text!=step.button
-						//- .form_neo-step-button-text.mobile!=step.button_mobile
-			
-			.form_boxed-results.the_results.results
-			input(type="hidden" name="currentVariation" value=currentVariation)
-			input(type="hidden" name="source_page" value=currentPageSlug)
-			input(type="hidden" name="form_type" value=formType)
+					.form_tool-results.the_results.results
+					input(type="hidden" name="currentVariation" value=curVariation)
+					input(type="hidden" name="source_page" value=currentPageSlug)
+					input(type="hidden" name="form_type" value=values.form_style)

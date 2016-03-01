@@ -43,6 +43,8 @@ router.all /\/([^\/]+)\/([^\/]+)/, (req, res)->
 
 			blocks.forEach (block)->
 				slug = block.slug
+				if slug.startsWith 'form'
+					slug = 'form.' + block.form.form_style.split('-')[0] or 'boxed'
 
 				if slug is 'wrapper_block'
 					processBlocks(block.blocks).then ()-> done(++computedBlocks)
