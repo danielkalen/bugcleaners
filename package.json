@@ -44,6 +44,7 @@
     "server:start": "forever start -d -a -l /var/www/bugcleaners.com/logfile -c 'coffee' app.coffee",
     "server:start:local": "nodemon -e coffee --ignore _assets/ --ignore node_modules/ --ignore _views/ app.coffee",
     "server:stop": "forever stop app.coffee",
+    "server:restart": "npm run server:stop && npm run server:start",
     "compile": "npm run compile:js && npm run compile:sass",
     "compile:js": "foreach -g '_assets/coffee/*.coffee' -x 'simplyimport -i #{path} | coffee -b -s -c > public/js/#{name}.pretty.js && uglifyjs public/js/#{name}.pretty.js -m -c keep_fargs,unused=false -o public/js/#{name}.js'",
     "compile:sass": "foreach -g '_assets/sass/*.sass' -x 'node-sass --functions ./sass-fns.js -x --output-style compressed #{path} --output public/css/'",
