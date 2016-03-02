@@ -4254,7 +4254,8 @@ isLeadManagement = $$('body').hasClass('leads');
       var sidebarItem;
       sidebarItem = $(this).data('item');
       sidebarItem.show();
-      return sidebarItem.assocItem.show();
+      sidebarItem.assocItem.show();
+      return setMinMax();
     });
     sectionOffsets = [];
     sectionIDs = [];
@@ -4262,7 +4263,7 @@ isLeadManagement = $$('body').hasClass('leads');
       var index, length;
       length = $('.manage-content-list').length;
       index = 0;
-      $$('.manage-faqs-list').each(function() {
+      $$('.manage-content-list').each(function() {
         var $this, id, listOffset;
         $this = jQuery(this);
         id = $this.attr('id');

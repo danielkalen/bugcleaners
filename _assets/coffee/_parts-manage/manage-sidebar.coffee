@@ -145,6 +145,7 @@ if $('sidebar').length
 
 		sidebarItem.show()
 		sidebarItem.assocItem.show()
+		setMinMax()
 
 
 
@@ -154,7 +155,7 @@ if $('sidebar').length
 	updateSectionOffsets = ()->
 		length = $('.manage-content-list').length
 		index = 0
-		$$('.manage-faqs-list').each ()->
+		$$('.manage-content-list').each ()->
 			$this = jQuery(this)
 			id = $this.attr('id')
 			listOffset = $this[0].offsetTop - 40

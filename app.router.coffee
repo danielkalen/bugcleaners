@@ -25,7 +25,7 @@ router.get '/pests/:pest', (req,res)->
 	currentPage = req.hostname + req.originalUrl
 	slug = req.params.pest
 	ipAddress = req.headers['cf-connecting-ip'] or req.headers['x-forwarded-for'] or req.connection.remoteAddress
-	
+
 	Posts.findOne {type:'pest', slug:slug}, (err, pest)->
 		if err then console.log(err)
 		if !pest then res.status(404).render '404'
@@ -58,7 +58,7 @@ router.get '/services/:service', (req,res)->
 	currentPage = req.hostname + req.originalUrl
 	slug = req.params.service
 	ipAddress = req.headers['cf-connecting-ip'] or req.headers['x-forwarded-for'] or req.connection.remoteAddress
-	
+
 	Posts.findOne {type:'service', slug:slug}, (err, service)->
 		if err then console.log(err)
 		if !service then res.status(404).render '404', {app:SETTINGS.app, markdown:markdown}
@@ -114,8 +114,8 @@ router.get '/manage/logout', (req, res)->
 
 router.get '/manage/pages', require('connect-ensure-login').ensureLoggedIn('/manage/login'), (req, res)->
 	currentPage = req.hostname + req.originalUrl
-	Pages.find {}, (error, pages)->
-		Posts.find {}, (error, posts)->
+	Pages.find {}, {sort: {name:1}}, (error, pages)->
+		Posts.find {}, {sort: {slug:1}}, (error, posts)->
 			res.render 'manage',
 				# 'pages': filterImageFields(pages)
 				'pages': pages
@@ -132,7 +132,7 @@ router.get '/manage/pages', require('connect-ensure-login').ensureLoggedIn('/man
 
 router.get '/manage/posts', require('connect-ensure-login').ensureLoggedIn('/manage/login'), (req, res)->
 	currentPage = req.hostname + req.originalUrl
-	Posts.find {}, (error, posts)->
+	Posts.find {}, {sort: {slug:1}}, (error, posts)->
 		res.render 'manage',
 			# 'posts': filterImageFields(posts)
 			'posts': posts
