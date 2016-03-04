@@ -328,6 +328,24 @@
 						"conditionScope": "sibling"
 					},
 					{
+						"type": "text",
+						"name": "title_max_width",
+						"label": "Form Title Max Width (optional)",
+						"width": "1-2",
+						"depends_on": "form_style",
+						"condition": "tool-like",
+						"conditionScope": "sibling"
+					},
+					{
+						"type": "text",
+						"name": "subtitle_max_width",
+						"label": "Form Subtitle Max Width (optional)",
+						"width": "1-2",
+						"depends_on": "form_style",
+						"condition": "tool-like",
+						"conditionScope": "sibling"
+					},
+					{
 						"type": "template",
 						"value": "form_steps",
 						"depends_on": "form_style",

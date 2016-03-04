@@ -1309,7 +1309,8 @@ if (!Promise) {
         })(this));
         SimplyBind('options').of(this).to('prop:innerHTML').of(this.input).transform((function(_this) {
           return function(options) {
-            var optList;
+            var currentValue, optList;
+            currentValue = _this.value;
             optList = "<option value=''>" + label + "</option>";
             options.sort(function(a, b) {
               if (a === '') {
@@ -1327,9 +1328,9 @@ if (!Promise) {
               return optList += "<option value='" + option + "'>" + optionsLabels[option] + "</option>";
             });
             setTimeout(function() {
-              _this.input[0].value = _this.value;
+              _this.input[0].value = currentValue;
               return _this.input.trigger('change');
-            }, 10);
+            }, 50);
             return optList;
           };
         })(this));
@@ -1368,7 +1369,7 @@ if (!Promise) {
             if (masterInstance == null) {
               return console.log("Conditional value '" + _this.name + " (" + option.value + ")' has no matching master field.", _this);
             }
-            return masterInstance.subscribe(element, option.condition, option.comparison);
+            return masterInstance.subscribe(element, option.condition, option.comparison, masterChangeCallback);
           };
         })(this));
       },
@@ -1432,6 +1433,18 @@ if (!Promise) {
           return this.form.fieldsRequired.splice(this.form.fieldsRequired.indexOf(this), 1);
         }
       },
+      reveal: function() {
+        this.field.addClass('reveal_dependant').trigger('reveal_dependant');
+        this.makeRequired();
+        this.enable();
+        return this.revealed = true;
+      },
+      unreveal: function() {
+        this.field.removeClass('reveal_dependant').trigger('hide_dependant');
+        this.makeNotRequired();
+        this.disable();
+        return this.revealed = false;
+      },
       subscribe: function(dep, condition, comparison, callback) {
         if (condition == null) {
           condition = '*';
@@ -1482,6 +1495,7 @@ if (!Promise) {
                   results1 = [];
                   for (conditionCase in cases) {
                     deps = cases[conditionCase];
+                    caseMatched = false;
                     if (conditionCase.constructor === RegExp || conditionCase[0] === '/') {
                       if (conditionCase[0] === '/') {
                         conditionCase = new RegExp(conditionCase);
@@ -1490,7 +1504,6 @@ if (!Promise) {
                         passed = false;
                         this.value.forEach((function(_this) {
                           return function(val) {
-                            var caseMatched;
                             if (!passed) {
                               return caseMatched = conditionCase.test(val);
                             }
@@ -1507,13 +1520,8 @@ if (!Promise) {
                       conditionCases = conditionCase.split(/,\s?/);
                       conditionCases.forEach((function(_this) {
                         return function(conditionCase) {
-                          if (caseMatched) {
-                            return;
-                          }
-                          if (Array.isArray(_this.value)) {
-                            return caseMatched = _this.value.includes(conditionCase);
-                          } else {
-                            return caseMatched = _this.value === conditionCase;
+                          if (!caseMatched) {
+                            return caseMatched = Array.isArray(_this.value) ? _this.value.includes(conditionCase) : _this.value === conditionCase;
                           }
                         };
                       })(this));
@@ -1523,18 +1531,12 @@ if (!Promise) {
                     }
                     results1.push(deps.forEach((function(_this) {
                       return function(dep) {
-                        var base, index, siblingFields;
+                        var index, siblingFields;
                         if (dep.constructor === Field) {
                           if (caseMatched) {
-                            dep.field.addClass('reveal_dependant').trigger('reveal_dependant');
-                            dep.makeRequired();
-                            dep.enable();
-                            dep.revealed = true;
+                            dep.reveal();
                           } else {
-                            dep.field.removeClass('reveal_dependant').trigger('hide_dependant');
-                            dep.makeNotRequired();
-                            dep.disable();
-                            dep.revealed = false;
+                            dep.unreveal();
                           }
                           if (dep.data.width !== '1-1') {
                             siblingFields = [];
@@ -1556,7 +1558,7 @@ if (!Promise) {
                         }
                         if (_this.conditionalDeps.cbs.deps.includes(dep)) {
                           index = _this.conditionalDeps.cbs.deps.indexOf(dep);
-                          return typeof (base = _this.conditionalDeps.cbs.callbacks)[index] === "function" ? base[index](caseMatched, dep) : void 0;
+                          return _this.conditionalDeps.cbs.callbacks[index](caseMatched, dep);
                         }
                       };
                     })(this)));
@@ -1729,6 +1731,7 @@ if (!Promise) {
       },
       'attachState': {
         input: function() {
+          var allowedKeys;
           this.input.on('focus', (function(_this) {
             return function() {
               _this.field.addClass('focus');
@@ -1777,28 +1780,39 @@ if (!Promise) {
             }
           }
           if (this.maximum) {
-            this.input.on('keypress', (function(_this) {
+            allowedKeys = [8, 37, 38, 39, 40];
+            this.input.on('keydown', (function(_this) {
               return function(event) {
-                var ref;
-                if (((ref = _this.input[0].value) != null ? ref.length : void 0) > _this.maximum) {
-                  event.preventDefault();
-                  _this.field.addClass('has_warning').attr('data-warning', "Maximum characters allowed is " + _this.maximum);
-                  return setTimeout(function() {
-                    return this.field.removeClass('has_warning');
-                  }, 2000);
+                var ref, selectEnd, selectStart;
+                if (((ref = _this.input[0].value) != null ? ref.length : void 0) >= _this.maximum) {
+                  selectStart = _this.input[0].selectionStart || 0;
+                  selectEnd = _this.input[0].selectionEnd || 0;
+                  if (!(event.ctrlKey || event.metaKey || allowedKeys.includes(event.which) || (selectStart - selectEnd > 0))) {
+                    event.preventDefault();
+                    _this.field.addClass('has_warning').attr('data-warning', "Maximum # of characters allowed is " + _this.maximum);
+                    return setTimeout(function() {
+                      return _this.field.removeClass('has_warning');
+                    }, 2000);
+                  }
                 }
               };
             })(this));
           }
           return this.field.on('value_changed', (function(_this) {
             return function() {
-              _this.value = _this.input[0].value;
-              if (_this.value) {
-                _this.makeFilled();
+              var ref;
+              if (_this.maximum && ((ref = _this.input[0].value) != null ? ref.length : void 0) > _this.maximum) {
+                _this.input[0].value = _this.input[0].value.slice(0, _this.maximum);
+                return _this.input.trigger('change');
               } else {
-                _this.makeNotFilled();
+                _this.value = _this.input[0].value;
+                if (_this.value) {
+                  _this.makeFilled();
+                } else {
+                  _this.makeNotFilled();
+                }
+                return _this.updateDeps();
               }
-              return _this.updateDeps();
             };
           })(this));
         },
@@ -2150,12 +2164,13 @@ if (!Promise) {
           } else {
             this.makeValid();
           }
+          this.label = this.field.children('label').html();
           $pseudoInput = this.input.next();
           setPseudoInputValue = (function(_this) {
             return function() {
               var inputValue, ref, ref1;
               inputValue = ((ref = _this.input.children('option[selected]')[0]) != null ? ref.innerHTML : void 0) || ((ref1 = _this.input.children('option:selected')[0]) != null ? ref1.innerHTML : void 0);
-              return $pseudoInput.html(inputValue || _this.value);
+              return $pseudoInput.html(inputValue || _this.value || _this.label);
             };
           })(this);
           setPseudoInputValue();
@@ -3128,7 +3143,11 @@ if (!Promise) {
         this.setCurrentStepTo('visible');
       }
       this.disableFields(this.form);
-      this.enableFields(this.step.current);
+      if (this.options.dontDisableFields) {
+        this.enableFields(this.form);
+      } else {
+        this.enableFields(this.step.current);
+      }
       this.attachFormEvents();
       this.attachButtonEvents();
       this.attachExtraEvents();
@@ -4341,7 +4360,7 @@ isLeadManagement = $$('body').hasClass('leads');
               state = res.success ? 'save_success' : 'save_error';
               _this.statusField.html(res.message);
               if (res.success) {
-                subnotify('success', "Variation " + (_this.index + 1) + " for " + _this.page.name + " was successfuly updated!");
+                subnotify('success', "Variation " + (_this.index + 1) + " of " + _this.page.name + " was successfuly updated!");
               } else {
                 serverMessage = (res != null ? res.message : void 0) ? "Here's what the server said: \"" + res.message + "\"" : '';
                 subnotify('error', "There was an error when trying to save this variation. " + serverMessage);
@@ -5228,7 +5247,18 @@ isLeadManagement = $$('body').hasClass('leads');
       DB.page.update({
         'id': page.id,
         'name': 'rotation',
-        'value': !!newState
+        'value': !!newState,
+        'cb': function(res) {
+          var serverMessage;
+          if (!res.success) {
+            if (res.message && res.message.toLowerCase().includes('not authorized')) {
+              return subnotify('error', 'It seems like you were logged out. Log back in order to apply these changes.');
+            } else {
+              serverMessage = (res != null ? res.message : void 0) ? "Here's what the server said: \"" + res.message + "\"" : '';
+              return subnotify('error', "There was an error when trying to save this variation. " + serverMessage);
+            }
+          }
+        }
       });
       return page.rotation = newState;
     });

@@ -52,7 +52,14 @@ if isPageManagement
 		DB.page.update
 			'id': page.id
 			'name': 'rotation'
-			'value': !!newState
+			'value': !!newState,
+			'cb': (res)->
+				if not res.success
+					if res.message and res.message.toLowerCase().includes('not authorized')
+						subnotify 'error', 'It seems like you were logged out. Log back in order to apply these changes.'
+					else
+						serverMessage = if res?.message then "Here's what the server said: \"#{res.message}\"" else ''
+						subnotify('error', "There was an error when trying to save this variation. #{serverMessage}")
 
 		page.rotation = newState
 

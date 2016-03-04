@@ -79,7 +79,10 @@ router.all /\/([^\/]+)\/([^\/]+)/, (req, res)->
 			console.log(err)
 			sendResponse()
 		else if page
-			pageVar = page.variations?[page.currentVariation]
+			targetVariation = if page.rotation then page.currentVariation - 1 else page.currentVariation
+			targetVariation = page.variations.length - 1 if targetVariation is -1
+			
+			pageVar = page.variations?[targetVariation]
 			pageBlocks = pageVar?.blocks
 
 			setGlobalDeps(page.type, contentType).then (result)->
@@ -138,8 +141,8 @@ setGlobalDeps = (pageType, contentType)->
 						resolve(globalDeps)
 			
 
-			else if pageType is 'landing'
-				fetchFile('landing.sass', contentType).then (result)->
+			else if pageType.includes 'landing'
+				fetchFile("#{pageType}.sass", contentType).then (result)->
 					globalDeps.push(result)
 					resolve(globalDeps)		
 		
@@ -159,11 +162,11 @@ setGlobalDeps = (pageType, contentType)->
 						resolve(globalDeps)
 			
 
-				else if pageType is 'landing'
+				else if pageType.includes 'landing'
 					fetchFile('global.coffee', contentType).then (result)->
 						globalDeps.push(result)
 						
-						fetchFile('landing.coffee', contentType).then (result)->
+						fetchFile("#{pageType}.coffee", contentType).then (result)->
 							globalDeps.push(result)
 							if inProduction then globalDeps.push(analytics)
 							resolve(globalDeps)
@@ -230,6 +233,8 @@ fetchStatic = (blockSlug, contentType)->
 
 compileStatic = (blockSlug, contentType, isCoffeeFile, fileContent)->
 	return new Promise (resolve)->
+		addlFolderCwd = if blockSlug.includes('sections/') then '/_parts-sections' else ''
+		
 		unless fileContent
 			dirType = if contentType is 'css' then 'sass' else 'coffee'
 			fileContent = fs.readFileSync "_assets/#{dirType}/#{blockSlug}", 'utf8'
@@ -240,12 +245,12 @@ compileStatic = (blockSlug, contentType, isCoffeeFile, fileContent)->
 			requiredDependencies += fs.readFileSync('_assets/sass/_parts-global/_elements.sass', 'utf8')
 			fileContent = requiredDependencies+'\n\n'+fileContent
 		
-		compileData(fileContent, contentType, isCoffeeFile).then (result)->
+		compileData(fileContent, contentType, isCoffeeFile, addlFolderCwd).then (result)->
 			redis.set blockSlug+'-'+contentType, result, (err)-> console.log(err) if err
 			resolve(result)
 
 
-compileData = (data, contentType, isCoffeeFile)->
+compileData = (data, contentType, isCoffeeFile, addlFolderCwd='')->
 	return new Promise (resolve)->
 		if contentType is 'css'
 			nodeSass.render 
@@ -260,7 +265,7 @@ compileData = (data, contentType, isCoffeeFile)->
 		
 		
 		else if contentType is 'js'
-			imported = SimplyImport(data, null, {'cwd':process.cwd()+'/_assets/coffee', 'coffee':isCoffeeFile})
+			imported = SimplyImport(data, null, {'cwd':process.cwd()+'/_assets/coffee'+addlFolderCwd, 'coffee':isCoffeeFile})
 			if isCoffeeFile
 				compiled = coffee.render(imported, {bare:true}).body
 			else compiled = imported
@@ -335,7 +340,7 @@ do ()->
 				isCoffeeFile = /\.coffee$/i.test fileBase
 				
 				if importedFiles[filePath]?
-					importedFiles[filePath].forEach processFile
+					importedFiles[filePath].forEach (imported)-> processFile(imported, contentType, preProcessorType)
 				else
 					if filePath.includes('global/') or filePath.includes('plugins/')
 						fs.readFile filePath, 'utf8', (err, fileContent)->
@@ -354,9 +359,11 @@ do ()->
 
 	fwSASS.on 'add', processSASS
 	fwSASS.on 'change', processSASS
+	fwSASS.on 'change', (path)-> console.log("File Changed: #{path}")
 	
 	fwCOFFEE.on 'add', processCOFFEE
 	fwCOFFEE.on 'change', processCOFFEE
+	fwCOFFEE.on 'change', (path)-> console.log("File Changed: #{path}")
 
 
 

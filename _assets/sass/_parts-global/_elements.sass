@@ -56,6 +56,19 @@ $deleteIcon: '7'
 			line-height: 1
 			color: fade-out($textColor, 0.5)
 
+	&.has_warning
+		&:after
+			content: attr(data-warning)
+			position: absolute
+			bottom: -16px
+			right: 0
+			max-width: 100%
+			font-size: 10px
+			font-weight: 500
+			line-height: 1
+			// color: fade-out($textColor, 0.5)
+			color: $contrast-color
+
 
 
 	@if $widthRules

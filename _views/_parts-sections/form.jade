@@ -58,8 +58,14 @@ mixin form(values)
 		.form_tool-outerwrap(class="align_#{values.alignment}")
 			.form_tool
 				.form_tool-heading
-					h3.form_tool-heading-title=values.title
-					p.form_tool-heading-subtitle=values.subtitle
+					- var formTitleStyle = values.title_max_width ? 'max-width: '+values.title_max_width+'px':'';
+					- var formSubtitleStyle = values.subtitle_max_width ? 'max-width: '+values.subtitle_max_width+'px':'';
+					if values.alignment === 'center'
+						h3.form_tool-heading-title(style=formTitleStyle)=values.title
+						p.form_tool-heading-subtitle(style=formSubtitleStyle)=values.subtitle
+					else
+						h3.form_tool-heading-title=values.title
+						p.form_tool-heading-subtitle=values.subtitle
 
 				form.form.form_tool-form(data-action="cta_form" data-variation=curVariation novalidate)
 					each step,index in values.form_steps
@@ -67,9 +73,12 @@ mixin form(values)
 							var action = index === values.form_steps.length -1 ? 'submit' : 'next',
 								hasButton = step.field.type !== 'radio',
 								stepClasses = hasButton ? 'has_button':'',
-								buttonClasses = step.arrow ? action+' has_arrow' : action;
-						.form_tool-step.step(class=stepClasses)
-							.form_tool-step-heading
+								buttonClasses = step.arrow ? action+' has_arrow' : action,
+								stepStyle = step.step_max_width ? 'max-width: '+step.step_max_width+'px':'',
+								titleStyle = step.title_max_width ? 'max-width: '+step.title_max_width+'px':'';
+						
+						.form_tool-step.step(class=stepClasses style=stepStyle)
+							.form_tool-step-heading(style=titleStyle)
 								.form_tool-step-heading-title=step.title
 								if step.subtitle
 									.form_tool-step-heading-subtitle=step.subtitle

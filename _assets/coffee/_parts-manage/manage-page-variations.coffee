@@ -102,7 +102,7 @@ if isPageManagement
 					@statusField.html res.message
 
 					if res.success
-						subnotify('success', "Variation #{@index+1} for #{@page.name} was successfuly updated!")
+						subnotify('success', "Variation #{@index+1} of #{@page.name} was successfuly updated!")
 					else
 						serverMessage = if res?.message then "Here's what the server said: \"#{res.message}\"" else ''
 						subnotify('error', "There was an error when trying to save this variation. #{serverMessage}")

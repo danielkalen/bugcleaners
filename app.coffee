@@ -168,7 +168,7 @@ app.use (req, res, next)->
 						next = 0
 						infiniteLoop = true
 					
-					if not page.variations[next].enabled and not infiniteLoop
+					if not page.variations[next]?.enabled and not infiniteLoop
 						next = getNextVariration(next)
 
 					return next

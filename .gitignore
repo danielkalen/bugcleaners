@@ -17,3 +17,5 @@ logfile
 logs/error.log
 
 *.log
+
+settings-db.json
