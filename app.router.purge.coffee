@@ -1,8 +1,9 @@
 SETTINGS = require('./settings.json')
+SETTINGSDB = require('./settings-db.json')
 express = require('express')
 app = express()
 router = express.Router()
-redis = require('redis').createClient()
+redis = require('redis').createClient({'auth_pass':SETTINGSDB.redis.pwd})
 inProduction = if __dirname.includes('Projects') then false else true
 
 ### ==========================================================================

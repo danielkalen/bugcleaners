@@ -14,7 +14,7 @@ if isPageManagement
 
 		add: (sidebarItem, clone)->
 			$newItem = if clone then util.cloneSafe(clone, true) else util.cloneSafe(@template, true)
-			$newItem[0].className = 'manage-content-list {{slug}}' if clone
+			$newItem[0].className = 'manage-content-list {{slug}} {{visibility}}' if clone
 			newItem = new PageItem('', sidebarItem.slug, sidebarItem.label, clone.data('item')?.type, true, false, $newItem, sidebarItem)
 			@items.push(newItem)
 			
@@ -54,6 +54,7 @@ if isPageManagement
 		@type = type or 'standard'
 		@enabled = !!enabled
 		@rotation = rotation
+		@visible = false
 		@form = el.data('Form')
 		@el = el
 		@elTitle = el.find('.manage-content-list-title-text').first()
@@ -80,6 +81,9 @@ if isPageManagement
 		SimplyBind.setOption('invokeOnBind', false)
 		
 
+		SimplyBind('visible').of(@).to('class.visibility').of(@el)
+			.transform (visible)-> if visible then 'show' else ''
+
 		SimplyBind('type').of(@).to('value').of(@fieldType).bothWays()
 		SimplyBind('value').of(@fieldType)
 			.to (newValue)=> DB.page.update {'id':@id, 'name':'type', 'value':newValue}
@@ -96,9 +100,9 @@ if isPageManagement
 		SimplyBind('slug').of(@)
 			.to('slug').of(@sidebar).bothWays()
 			.and('value').of(@fieldSlug).bothWays()
-			.withTransform slugTransform
+			.transformAll slugTransform
 		
-		SimplyBind('value').of(@fieldSlug).to('class.slug').of(@el).withTransform slugTransform
+		SimplyBind('value').of(@fieldSlug).to('class.slug').of(@el).transform slugTransform
 		SimplyBind('value').of(@fieldSlug).to (newValue)=> DB.page.update {'id':@id, 'name':'slug', 'value':slugTransform(newValue)}
 		
 		
@@ -117,10 +121,13 @@ if isPageManagement
 
 
 	PageItem::show = ()->
-		@el.addClass('show').siblings().removeClass('show')
+		@visible = true
+		@el.siblings().each ()->
+			$(@).data().item.hide()
+			return
 
 	PageItem::hide = ()->
-		@el.removeClass('show')
+		@visible = false
 	
 	PageItem::disable = ()->
 		@enabled = !@enabled
@@ -265,3 +272,4 @@ if isPageManagement
 
 
 	$('.manage-content').find('.manage-content-list').each ()-> PAGES.addExisting $(@)
+	$('.manage-content-list').first().data('item').show()

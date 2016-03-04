@@ -50,6 +50,7 @@ mixin fieldGenerator(options)
 		// ==== Aliases =================================================================================
 		if (typeof options.default !== 'undefined') options.defaultValue = options.default;
 		if (typeof options.dependsOn !== 'undefined') options.depends_on = options.dependsOn;
+		if (typeof options.useKeysInsteadOfValues !== 'undefined') options.useKeyInsteadOfValue = options.useKeysInsteadOfValues;
 
 
 
@@ -272,7 +273,12 @@ mixin fieldGenerator(options)
 						itemValue = itemValue ? itemValue:itemLabel;
 						itemValue = options.useKeyInsteadOfValue ? itemValue:itemLabel;
 						itemValueSlug = itemValue.toLowerCase().split(' ').join('_');
-						checkedAttr = (options.defaultValue.constructor === Array && options.defaultValue.includes(itemValue)) ? {'checked':'checked'} : {};
+
+						if (options.defaultValue.constructor === Array) {
+							checkedAttr = options.defaultValue.includes(itemValue) ? {'checked':'checked'} : {};
+						} else {
+							checkedAttr = itemValue === options.defaultValue ? {'checked':'checked'} : {};
+						}
 					div(class="#{className}-fieldset-#{options.type} input-button option-#{itemValueSlug}")
 						div(class="#{className}-fieldset-#{options.type}-box")
 						label(class="#{className}-fieldset-#{options.type}-label" for="#{options.id}_#{index}")!=itemLabel

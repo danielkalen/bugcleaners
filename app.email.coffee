@@ -1,12 +1,13 @@
 SETTINGS = require('./settings.json')
+SETTINGSDB = require('./settings-db.json')
 inProduction = if __dirname.includes('Projects') then false else true
 email = require('emailjs/email.js')
 emailServer = email.server.connect(
-	user: SETTINGS.email.address
-	password: SETTINGS.email.password
-	host: SETTINGS.email.host
-	port: SETTINGS.email.port
-	ssl: SETTINGS.email.ssl)
+	user: SETTINGSDB.email.address
+	password: SETTINGSDB.email.password
+	host: SETTINGSDB.email.host
+	port: SETTINGSDB.email.port
+	ssl: SETTINGSDB.email.ssl)
 
 
 
@@ -15,7 +16,7 @@ sendEmail = (toName, toEmail, subject, message, attachment)->
 	attachments = attachment or {}
 	message = formatMessage(subject, message)
 	emailMessage = 
-		from: SETTINGS.app.name+' <'+SETTINGS.email.address+'>'
+		from: SETTINGS.app.name+' <'+SETTINGSDB.email.address+'>'
 		to: toName+' <'+toEmail+'>'
 		subject: subject
 		attachment: [ {

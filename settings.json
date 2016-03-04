@@ -16,13 +16,6 @@
 	"admin": {
 		"name": "BugCleaners",
 		"email": "info@bugcleaners.com"
-	}, 
-	"email": {
-		"host": "smtp.gmail.com",
-		"address": "info@bugcleaners.com",
-		"password": "ari23kalendarov",
-		"port": 465,
-		"ssl": true
 	},
 	"fieldSchemas": {
 		"blocks": {

@@ -11,28 +11,31 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 // Browser selector <html> tag
 function css_browser_selector(u){var ua=u.toLowerCase(),is=function(t){return ua.indexOf(t)>-1},g='gecko',w='webkit',s='safari',o='opera',m='mobile',h=document.documentElement,b=[(!(/opera|webtv/i.test(ua))&&/msie\s(\d)/.test(ua))?('ie ie'+RegExp.$1):is('firefox/2')?g+' ff2':is('firefox/3.5')?g+' ff3 ff3_5':is('firefox/3.6')?g+' ff3 ff3_6':is('firefox/3')?g+' ff3':is('gecko/')?g:is('opera')?o+(/version\/(\d+)/.test(ua)?' '+o+RegExp.$1:(/opera(\s|\/)(\d+)/.test(ua)?' '+o+RegExp.$2:'')):is('konqueror')?'konqueror':is('blackberry')?m+' blackberry':is('android')?m+' android':is('chrome')?w+' chrome':is('iron')?w+' iron':is('applewebkit/')?w+' '+s+(/version\/(\d+)/.test(ua)?' '+s+RegExp.$1:''):is('mozilla/')?g:'',is('j2me')?m+' j2me':is('iphone')?m+' iphone':is('ipod')?m+' ipod':is('ipad')?m+' ipad':is('mac')?'mac':is('darwin')?'mac':is('webtv')?'webtv':is('win')?'win'+(is('windows nt 6.0')?' vista':''):is('freebsd')?'freebsd':(is('x11')||is('linux'))?'linux':'','js']; c = b.join(' '); h.className += ' '+c; return c;}; css_browser_selector(navigator.userAgent);
 ;
-(function(){(function(){var f,H,ja,Z,q,aa,P,Q,ba,ka,la,ma,na,V,h,R,I,m,J,ca,S,W,T;ba=function(a){var c;1<a.length?"radio"===a[0].type||"checkbox"===a[0].type?(c=a,a=[],Object.keys(c).forEach(function(d){if(!isNaN(parseFloat(d)))return a.push(c[d])})):(W("onlyOneDOMElement"),a=a[0]):a=a[0];return a};Q=function(a){ca.jQuery&&a.constructor===jQuery&&(a=ba(a),a.length&&(a=a[0]));return a};aa=function(){var a;a=document.createEvent("Event");a.initEvent("change",!0,!1);a.fromSimplyBind=!0;return a};ka=
-function(){return"sb_"+Math.floor(1E12*(1+Math.random())).toString(16)};V=function(a){a=typeof a;return"string"!==a&&"number"!==a?!1:!0};ja=function(a,c,d){var g;g=q.objects.indexOf(a);return-1===g?(g={},g[c]=d,q.objects.push(a),q.props.push(g)):q.props[g][c]=d};la=function(a,c){var d;d=q.objects.indexOf(a);return-1!==d&&(d=q.props[d],null!=d[c])?f.boundedObjects[d[c]]:!1};J=function(a,c){return{regEx:new RegExp(I.Start+a+I.End,"g"),lastValue:c||""}};Z=function(a,c,d,g){var f;f=m.objects.indexOf(a);
-if(-1===f)return f={},f[c]=J(c,d),m.objects.push(a),m.placeholders.push(f),m.originalValues.push(g);a=m.placeholders[f];return null!=a[c]?a[c].lastValue=d:a[c]=J(c,d)};na=function(a){a=m.objects.indexOf(a);return m.placeholders[a]};ma=function(a){a=m.objects.indexOf(a);return m.originalValues[a]};S=function(a,c){var d;if(!h.silent)throw d=P[a],c&&(d+=" ["+c+"]"),Error(d);};W=function(a,c){var d;if(!h.silent)return d=T[a],c&&(d+=" ["+c+"]"),console.log("SimplyBind: "+d)};P={invalidParamName:"SimplyBind() and .to() can only accept either a string/number representing the name of an object\u2019s property or an already-bound object.",
-notAnObject:"SimplyBind: .of() can only accept a non-primitive object as its argument.",emptyStringArg:"SimplyBind() and .to() cannot accept an empty string for a property name."};T={attributes:"DOM Attributes cannot be observed for changes and therefore will not update its dependents upon change",transformFunction:"You can only pass a function to the .withTransform() method",onlyOneDOMElement:"You can only pass one DOM element into SimplyBind unless it's a collection of radio/checkbox inputs",noNestedDOM:"You cannot pass nested properties for DOM attributes or input element values. Will only use the uppermost property."};
-ca={jQuery:"undefined"!==typeof jQuery&&null!==jQuery,IE9:!window.atob};h={silent:!1,liveProperties:!0,dispatchEvents:!1,updateEvenIfSame:!1,invokeOnBind:!0,overrideInheritedProps:!1,ignoreCase:!1,placeholderStart:"{{",placeholderEnd:"}}"};R=Object.keys(h);I={Start:"\\{\\{",End:"\\}\\}"};q={objects:[],props:[]};m={objects:[],placeholders:[],originalValues:[]};f=function(a){if(""===a)return S("emptyStringArg");if(!a&&0!==a||!V(a))if(null==a.constructor||a.constructor!==H)return S("invalidParamName");
-return"object"===typeof a?(a.invoke("resetConditionals"),a):new H(a)};H=function(a){var c,d,g,da,q,x,r,n,t,X,D,B,I,C,U,J,v,P,w,y,Q,M,e,z,E,l,k,A,F,ea,fa,R,p,K,T,G,ga,ha,ia,L,N,O,oa,u;this.ID=this.type=null;c=this;E=X=u=D=M=null;r=[];n=[];t=[];e=z=null;L=[];l=p=a;N={};k=null;F=[];A=null;K=J=U=y=w=C=!1;Object.defineProperty(this,"value",{configurable:!0,enumerable:!0,get:function(){return D}});Object.defineProperty(this,"origObject",{configurable:!0,enumerable:!0,get:function(){return z||e}});Object.defineProperty(this,
-"dependents",{configurable:!0,enumerable:!0,get:function(){var b;b=n.slice().map(function(b){return f.boundedObjects[b].origObject});r.forEach(function(a){return b.push(a)});return b}});T=function(b){return function(){b.ID=ka();return f.boundedObjects[b.ID]=b}}(this);ia=function(b){return function(){var a;if(!b.type&&(b.type="Object",a=null!=e.nodeName&&e.nodeType))return"value"===l?b.type="Value":"textContent"===l?b.type="Text":"prop"===X?b.type="DomProp":b.type="Attr"}}(this);ga=function(b){null==
-b&&(b=B());return Z(b,E,u,M)};ha=function(b){if(K)return[].slice.call(b.childNodes).forEach(function(b){if(3!==b.nodeType)return ha(b);if(-1!==b.textContent.indexOf(h.placeholderStart+E+h.placeholderEnd))return Z(b,E,u,b.textContent)})};I=function(b,a){return-1!==m.objects.indexOf(b)?da(b):!1};B=function(){var b;if(!L.length)return e;c.ID||ia();if("Value"===c.type||"Attr"===c.type)return e;b=e;L.slice().reverse().forEach(function(a){return b=b[a]});return b};x=function(b){return function(){var a,
-Y;if("Value"===b.type||"Text"===b.type)if(a=function(a){if(!a.fromSimplyBind)return b.set(a.target.value)},Y=z?z[0].nodeName.toUpperCase():e.nodeName.toUpperCase(),"INPUT"===Y||"TEXTAREA"===Y||"SELECT"===Y){if("radio"===e.type||"checkbox"===e.type)return z.forEach(function(b){return b.addEventListener("change",a,!1)});e.addEventListener("input",a,!1);return e.addEventListener("change",a,!1)}}}(this);q=function(b){return K?[].slice.call(b.childNodes).forEach(function(b){var a;if(3!==b.nodeType)return q(b);
-a=I(b);if(!1!==a)return b.textContent=a}):b.textContent=u};oa=function(b){return function(a){u=a;D=K?da():a;if("Value"===b.type){if(z)return z.forEach(function(b){if(b.value===a){if(b.checked=!0,h.dispatchEvents)return b.dispatchEvent(aa())}else return b.checked=!1});e.value=D;if(h.dispatchEvents)return e.dispatchEvent(aa())}else if("DomProp"===b.type){if(!J)return e[l]=D}else{if("Attr"===b.type)return e.setAttribute(l,D);if("Text"===b.type)return q(e,a)}}}(this);O=function(b){return function(b,a){var d,
-c,e,g;if(n.length)for(e=0,g=n.length;e<g;e++)d=n[e],c=f.boundedObjects[d],a&&-1!==t.indexOf(d)||(d=null!=N[d]?N[d](u,c.value):u,c.set(d,b,!0));if(r.length){d=[];e=0;for(g=r.length;e<g;e++)c=r[e],d.push(c(u));return d}}}(this);da=function(b){var a,d,c;null==b&&(b=B());ga(b);a=ma(b);c=na(b);for(d in c)b=c[d],a=a.replace(b.regEx,b.lastValue);return a};Q=function(b){return function(){var a,d;if(("Object"===b.type||"DomProp"===b.type)&&h.liveProperties&&(a=B().hasOwnProperty(l),d=h.overrideInheritedProps||
-a)&&(Object.defineProperty(B(),l,{get:function(){return D},set:function(a){return b.update(a)}}),h.overrideInheritedProps&&!a))return J=!0}}(this);d=function(b){return function(a,c){-1===n.indexOf(a)&&n.push(a);if(c){if(-1===t.indexOf(a))return t.push(a)}else if(-1!==f.boundedObjects[a].getPrivate("dependents").indexOf(b.ID))return f.boundedObjects[a].invoke("addToDependents",[b.ID,!0]),d(a,!0)}}(this);g=function(b){return function(b,a){return N[b]=a}}(this);ea=function(b){return function(a,d){var c;
-c=n.indexOf(a);-1!==c&&n.splice(c,1);if(d&&(t.forEach(function(a){return f.boundedObjects[a].invoke("removeDependent",[b.ID])}),c=t.indexOf(a),-1!==c))return t.splice(c,1)}}(this);fa=function(b){return r.splice(r.indexOf(b),1)};R=function(b){return function(){U=w=y=!1;k=A=null;F=[];G();return b}}(this);G=function(b){return function(){delete b.of;delete b.to;delete b.and;delete b.set;delete b.update;delete b.get;delete b.update;delete b.withTransform;delete b.bothWays;delete b.bindTogether;C&&!y||
-A||(b.of=v.of);!C||w||y||(b.to=v.to);C&&w&&!y&&!U&&(b.and=v.and);C&&(b.set=v.set,b.update=v.set,b.get=v.get,b.val=v.get);C&&w&&!U&&null!=k&&!A&&(b.withTransform=v.withTransform);C&&w&&!y&&null!=k&&!A&&(b.bothWays=v.bothWays,b.bindTogether=v.bothWays);if(C&&w&&!y&&(null!=k||A))return b.unBind=v.unBind}}(this);P=function(b){return function(a,c){null==c&&(c=[]);switch(a){case "addToDependents":return d.apply(b,c);case "addToTransforms":return g.apply(b,c);case "removeDependent":return ea.apply(b,c);
-case "resetConditionals":return R.call(b);case "removeFunction":return fa.call(b,c)}}}(this);a=function(b){return function(b){switch(b){case "dependents":return n;case "dependentFns":return r}}}(this);Object.defineProperty(this,"invoke",{configurable:!1,enumerable:!1,value:P});Object.defineProperty(this,"getPrivate",{configurable:!1,enumerable:!1,value:a});v={of:function(b){var a,c,f;a=null!=b?"object"===typeof b:!1;c=null!=b?V(b):!1;if(!a&&!c)return S("notAnObject","SimplyBind('"+p+"').of("+(null===
-b?"null":void 0===b?"undefined":"...")+")");if(y)c=F.indexOf(k),k=k.of(b),F[c]=k,a&&(y=!1,w=!0,d(k.ID),O(this.ID,!0));else if(a){f=!1;b.constructor===H&&(b=b.origObject);C=!0;ca.jQuery&&b.constructor===jQuery&&(f=!0,b=ba(b));e=b;a=B()[l];c=b.constructor.name;if("NodeList"===c||"HTMLCollection"===c||f&&"Array"===c)e=null,z=[].slice.call(b),z.forEach(function(b){if(b.checked)return e=b}),e||(e=z[0]),b=e,a=e.value;if(c=null!=e.nodeName&&e.nodeType)"textContent"===l?(ha(e),a=e.textContent):"value"!==
-l&&(a=null===X?b.getAttribute(l):b[l]),L.length&&(W("noNestedDOM"),l=p=b=L[L.length-1]);b=la(B(),p);if("function"===typeof b.invoke&&b.invoke("resetConditionals"))return b;"undefined"===typeof a&&(a=B()[l]=null);D=M=a;K?(u=h.placeholderStart+E+h.placeholderEnd,-1===M.indexOf(u)?(K=!1,u=M):ga()):u=M;T();ja(B(),p,this.ID);ia();Q();x()}else L.push(b);G();return this},to:function(b){if(null==b)return this;if(b.constructor===H)w=!0,k=b,F.push(k),d(k.ID),O(this.ID,!0);else if(V(b))y=!0,k=new H(b),F.push(k);
-else if("function"===typeof b)w=!0,-1===r.indexOf(b)&&r.push(b),A=b,h.invokeOnBind&&O(this.ID,!0);else return S("invalidParamName","SimplyBind('"+p+"').of(...).to("+typeof b+")");G();w&&this.update(null,this.ID);return this},and:function(b){return v.to.bind(this)(b)},set:function(b,a,c){null==c&&(c=!1);a===this.ID||b===u&&!h.updateEvenIfSame||(null==a&&(a=this.ID),"undefined"!==typeof b&&oa(b,a),O(a,c));return this},get:function(){return u},withTransform:function(a){var c,d,e;if("function"===typeof a){U=
-!0;c=0;for(d=F.length;c<d;c++)e=F[c],g(e.ID,a),-1!==t.indexOf(e.ID)&&e.invoke("addToTransforms",[this.ID,a]);O(this.ID,!0)}else W("transformFunction","SimplyBind('"+p+"').of(...).to(...).withTransform("+typeof a+")");G();return this},bothWays:function(){null!=N[k.ID]?f(k).to(this).withTransform(N[k.ID]):f(k).to(this);d(k.ID,!0);G();return this},unBind:function(a){A?(fa(A),w=!1,A=null):(ea(k.ID,a),w=!1,k=null);G();return this}};"number"===typeof p&&(l=p=p.toString());h.ignoreCase&&(l=p=p.toLowerCase());
--1!==p.indexOf(":")&&(a=p.split(":"),X=a[0],p=a[1],l=a[1]);-1!==p.indexOf(".")&&(K=!0,a=p.split("."),l=a[0],E=a[1],2<a.length&&a.slice(2).forEach(function(a){return E+="."+a}));G();return this};Object.defineProperty(f,"options",{configurable:!1,enumerable:!1,get:function(){return h}});f.setOption=function(a,c){if(-1!==R.indexOf(a))return-1!==a.indexOf("placeholder")&&(a.indexOf("Start"),I[a.slice(11)]=c.replace(/(.)/g,"\\$1")),h[a]=c};f.setOptions=function(a){var c;c=Object.keys(a);if(c.length)return c.forEach(function(c){return f.setOption(c,
-a[c])})};f.unBindAll=function(a,c,d){var g,h,m,x,r,n,t;d||f.unBindAllFunctions(a);if(a&&"object"===typeof a&&(a=Q(a),d=null!=a.nodeName&&a.nodeType,g=q.objects.indexOf(a),-1!==g)){r=q.props[g];t=[];for(n in r)x=r[n],m=d&&"value"!==n?a.getAttribute(n):a[n],h=f.boundedObjects[x],g=h.getPrivate("dependents"),g.slice().forEach(function(a){return h.invoke("removeDependent",[a,c])}),c?(delete f.boundedObjects[x],"Value"!==h.type?t.push(Object.defineProperty(a,n,{value:m})):t.push(void 0)):t.push(void 0);
-return t}};f.unBindAllFunctions=function(a,c){var d,g,h,m,x;if(a&&"object"===typeof a&&(g=q.objects.indexOf(a),-1!==g)){d=function(a){var c;if(a)return c=f.boundedObjects[a],a=c.getPrivate("dependentFns"),a.slice().forEach(function(a){return c.invoke("removeFunction",a)})};h=q.props[g];if(c)return d(h[c]);x=[];for(m in h)g=h[m],x.push(d(g));return x}};f.SimplyBoundedConstructor=H;f.boundedObjects={};return window.SimplyBind=f})()}).call(this);
+(function(){(function(){var g,J,ma,ba,r,ca,S,T,da,na,oa,O,pa,qa,Y,h,U,B,n,K,ea,V,L,W;da=function(a){var c;1<a.length?"radio"===a[0].type||"checkbox"===a[0].type?(c=a,a=[],Object.keys(c).forEach(function(d){if(!isNaN(parseFloat(d)))return a.push(c[d])})):(L("onlyOneDOMElement"),a=a[0]):a=a[0];return a};T=function(a){ea.jQuery&&a.constructor===jQuery&&(a=da(a),a.length&&(a=a[0]));return a};ca=function(){var a;a=document.createEvent("Event");a.initEvent("change",!0,!1);a.fromSimplyBind=!0;return a};
+na=function(){return"sb_"+Math.floor(1E12*(1+Math.random())).toString(16)};Y=function(a){a=typeof a;return"string"!==a&&"number"!==a?!1:!0};ma=function(a,c,d){var e;e=r.objects.indexOf(a);return-1===e?(e={},e[c]=d,r.objects.push(a),r.props.push(e)):r.props[e][c]=d};oa=function(a,c){var d;d=r.objects.indexOf(a);return-1!==d&&(d=r.props[d],null!=d[c])?g.boundedObjects[d[c]]:!1};K=function(a,c){return{regEx:new RegExp(B.Start+a+B.End,"g"),lastValue:c||""}};ba=function(a,c,d,e){var g;g=n.objects.indexOf(a);
+if(-1===g)return g={},g[c]=K(c,d),n.objects.push(a),n.placeholders.push(g),n.originalValues.push(e);a=n.placeholders[g];return null!=a[c]?a[c].lastValue=d:a[c]=K(c,d)};qa=function(a){a=n.objects.indexOf(a);return n.placeholders[a]};pa=function(a){a=n.objects.indexOf(a);return n.originalValues[a]};V=function(a,c){var d,e;if(!h.silent)throw e=O(),d=S[a],c&&(d+=" ["+c+"]"),e&&(d+="\n\nCall Source:\n"+e),Error(d);};L=function(a,c){var d,e;if(!h.silent)return d=O(),e=W[a],c&&(e+=" ["+c+"]"),d&&(e+="\n\nCall Source:\n"+
+d),console.log("SimplyBind: "+e)};O=function(){var a;return null!=(a=Error().stack)?a.split("\n").slice(3,10).map(function(a){return a.replace(/@(.*)\/(.+)$/,function(a,c,g){return"@ "+g})}).join("\n"):void 0};S={invalidParamName:"SimplyBind() and .to() can only accept a string/number representing the name of an object\u2019s property or an already-bound object.",notAnObject:"SimplyBind: .of() can only accept a non-primitive object as its argument.",emptyStringArg:"SimplyBind() and .to() can't accept an empty string for a property name."};
+W={attributes:"DOM attributes can't be observed for changes and therefore will not update its dependents upon change",transformFunction:"You can only pass a function to the .tranform and .tranformAll method",onlyOneDOMElement:"You can only pass 1 DOM element to SimplyBind unless it's a collection of radio/checkbox inputs",noNestedDOM:"You can't pass nested props for DOM attributes or Input element values. Will only use the uppermost property.",emptyElList:"You can't bind an empty element list to anything..."};
+ea={jQuery:"undefined"!==typeof jQuery&&null!==jQuery,IE9:!window.atob};h={silent:!1,liveProperties:!0,dispatchEvents:!1,updateEvenIfSame:!1,invokeOnBind:!0,overrideInheritedProps:!1,mutateArrayMethods:!0,ignoreCase:!1,placeholderStart:"{{",placeholderEnd:"}}"};U=Object.keys(h);B={Start:"\\{\\{",End:"\\}\\}"};r={objects:[],props:[]};n={objects:[],placeholders:[],originalValues:[]};g=function(a){if(""===a)return V("emptyStringArg");if(!a&&0!==a||!Y(a))if(null==a.constructor||a.constructor!==J)return V("invalidParamName");
+return"object"===typeof a?(a.invoke("resetConditionals"),a):new J(a)};J=function(a){var c,d,e,fa,r,v,P,p,q,C,B,w,D,O,x,Z,X,K,y,S,u,z,T,Q,f,A,G,m,k,E,H,ga,ha,U,l,M,ia,W,F,ja,ka,la,N,R,I,ra,t;this.ID=this.type=null;c=this;G=B=t=w=Q=null;p=[];q=[];C=[];f=A=null;N=[];m=l=a;R={};k=null;H=[];E=null;M=v=K=X=Z=z=u=x=!1;Object.defineProperty(this,"value",{configurable:!0,enumerable:!0,get:function(){return w}});Object.defineProperty(this,"origObject",{configurable:!0,enumerable:!0,get:function(){return A||
+f}});Object.defineProperty(this,"dependents",{configurable:!0,enumerable:!0,get:function(){var b;b=q.slice().map(function(b){return g.boundedObjects[b].origObject});p.forEach(function(a){return b.push(a)});return b}});W=function(b){return function(){b.ID=na();return g.boundedObjects[b.ID]=b}}(this);la=function(b){return function(){var a;if(!b.type&&(b.type="Object",a=null!=f.nodeName&&f.nodeType))return"value"===m?b.type="Value":"textContent"===m?b.type="Text":"prop"===B?b.type="DomProp":b.type="Attr"}}(this);
+ja=function(b){null==b&&(b=D());return ba(b,G,t,Q)};ka=function(b){if(M)return[].slice.call(b.childNodes).forEach(function(b){if(3!==b.nodeType)return ka(b);if(-1!==b.textContent.indexOf(h.placeholderStart+G+h.placeholderEnd))return ba(b,G,t,b.textContent)})};O=function(b,a){return-1!==n.objects.indexOf(b)?fa(b):!1};D=function(){var b;if(!N.length)return f;c.ID||la();if("Value"===c.type||"Attr"===c.type)return f;b=f;N.slice().reverse().forEach(function(a){return b=b[a]});return b};P=function(b){return function(){var a,
+aa;if("Value"===b.type||"Text"===b.type)if(a=function(a){if(!a.fromSimplyBind)return b.set(a.target.value)},aa=A?A[0].nodeName.toUpperCase():f.nodeName.toUpperCase(),"INPUT"===aa||"TEXTAREA"===aa||"SELECT"===aa){if("radio"===f.type||"checkbox"===f.type)return A.forEach(function(b){return b.addEventListener("change",a,!1)});f.addEventListener("input",a,!1);return f.addEventListener("change",a,!1)}}}(this);r=function(b){return M?[].slice.call(b.childNodes).forEach(function(b){var a;if(3!==b.nodeType)return r(b);
+a=O(b);if(!1!==a)return b.textContent=a}):b.textContent=t};ra=function(b){return function(a){t=a;w=M?fa():a;v&&ia();if("Value"===b.type){if(A)return A.forEach(function(b){if(b.value===a){if(b.checked=!0,h.dispatchEvents)return b.dispatchEvent(ca())}else return b.checked=!1});f.value=w;if(h.dispatchEvents)return f.dispatchEvent(ca())}else if("DomProp"===b.type){if(!K)return f[m]=w}else{if("Attr"===b.type)return f.setAttribute(m,w);if("Text"===b.type)return r(f,a)}}}(this);I=function(b){return function(b,
+a){var d,c,e,f;if(q.length)for(e=0,f=q.length;e<f;e++)d=q[e],c=g.boundedObjects[d],a&&-1!==C.indexOf(d)||(d=null!=R[d]?R[d](t,c.value):t,c.set(d,b,!0));if(p.length){d=[];e=0;for(f=p.length;e<f;e++)c=p[e],d.push(c(t));return d}}}(this);fa=function(b){var a,d,c;null==b&&(b=D());ja(b);a=pa(b);c=qa(b);for(d in c)b=c[d],a=a.replace(b.regEx,b.lastValue);return a};T=function(b){return function(){var a,d;if(("Object"===b.type||"DomProp"===b.type)&&h.liveProperties){a=D().hasOwnProperty(m);if(d=h.overrideInheritedProps||
+a)Object.defineProperty(D(),m,{get:function(){return w},set:function(a){return b.update(a)}}),h.overrideInheritedProps&&!a&&(K=!0);return ia()}}}(this);ia=function(){if(h.mutateArrayMethods&&Array.isArray(w))return v=!0,["push","pop","shift","unshift","splice"].forEach(function(b){return Object.defineProperty(w,b,{configurable:!0,enumerable:!1,value:function(){var a;a=Array.prototype[b].apply(w,arguments);I(c);return a}})})};d=function(b){return function(a,c){-1===q.indexOf(a)&&q.push(a);if(c){if(-1===
+C.indexOf(a))return C.push(a)}else if(-1!==g.boundedObjects[a].getPrivate("dependents").indexOf(b.ID))return g.boundedObjects[a].invoke("addToDependents",[b.ID,!0]),d(a,!0)}}(this);e=function(b){return function(b,a){return R[b]=a}}(this);ga=function(b){return function(a,d){var c;c=q.indexOf(a);-1!==c&&q.splice(c,1);if(d&&(C.forEach(function(a){return g.boundedObjects[a].invoke("removeDependent",[b.ID])}),c=C.indexOf(a),-1!==c))return C.splice(c,1)}}(this);ha=function(b){return p.splice(p.indexOf(b),
+1)};U=function(b){return function(){X=Z=u=z=!1;k=E=null;H=[];F();return b}}(this);F=function(b){return function(){delete b.of;delete b.to;delete b.and;delete b.set;delete b.update;delete b.get;delete b.update;delete b.transform;delete b.transformAll;delete b.bothWays;delete b.bindTogether;x&&!z||E||(b.of=y.of);!x||u||z||(b.to=y.to);x&&u&&!z&&!X&&(b.and=y.and);x&&(b.set=b.update=y.set,b.get=b.val=y.get);x&&u&&null!=k&&(X||(b.transformAll=y.transformAll),Z||(b.transform=y.transform));x&&u&&!z&&null!=
+k&&!E&&(b.bothWays=b.bindTogether=y.bothWays);if(x&&u&&!z&&(null!=k||E))return b.unBind=y.unBind}}(this);S=function(b){return function(a,c){null==c&&(c=[]);switch(a){case "addToDependents":return d.apply(b,c);case "addToTransforms":return e.apply(b,c);case "removeDependent":return ga.apply(b,c);case "resetConditionals":return U.call(b);case "removeFunction":return ha.call(b,c)}}}(this);a=function(b){return function(b){switch(b){case "dependents":return q;case "dependentFns":return p}}}(this);Object.defineProperty(this,
+"invoke",{configurable:!1,enumerable:!1,value:S});Object.defineProperty(this,"getPrivate",{configurable:!1,enumerable:!1,value:a});y={of:function(b){var a,c,e;a=null!=b?"object"===typeof b:!1;c=null!=b?Y(b):!1;if(!a&&!c)return V("notAnObject","SimplyBind('"+l+"').of("+(null===b?"null":void 0===b?"undefined":"...")+")");if(z)c=H.indexOf(k),k=k.of(b),H[c]=k,a&&(z=!1,u=!0,d(k.ID),I(this.ID,!0));else if(a){e=!1;b.constructor===J&&(b=b.origObject);x=!0;if(ea.jQuery&&b.constructor===jQuery&&(e=!0,b=da(b),
+!b))return x=!1,L("emptyElList","SimplyBind('"+l+"').of( $(...) )");f=b;a=D()[m];c=b.constructor.name;if("NodeList"===c||"HTMLCollection"===c||e&&"Array"===c){if(0===b.length)return f=null,x=!1,L("emptyElList","SimplyBind('"+l+"').of(...)");f=null;A=[].slice.call(b);A.forEach(function(b){if(b.checked)return f=b});f||(f=A[0]);b=f;a=f.value}if(c=null!=f.nodeName&&f.nodeType)"textContent"===m?(ka(f),a=f.textContent):"value"!==m&&(a=null===B?b.getAttribute(m):b[m]),N.length&&(L("noNestedDOM"),m=l=b=N[N.length-
+1]);b=oa(D(),l);if("function"===typeof b.invoke&&b.invoke("resetConditionals"))return b;"undefined"===typeof a&&(a=D()[m]=null);w=Q=a;M?(t=h.placeholderStart+G+h.placeholderEnd,-1===Q.indexOf(t)?(M=!1,t=Q):ja()):t=Q;W();ma(D(),l,this.ID);la();T();P()}else N.push(b);F();return this},to:function(b){if(null==b)return this;if(b.constructor===J)u=!0,k=b,H.push(k),d(k.ID),I(this.ID,!0);else if(Y(b))z=!0,k=new J(b),H.push(k);else if("function"===typeof b)u=!0,-1===p.indexOf(b)&&p.push(b),E=b,h.invokeOnBind&&
+I(this.ID,!0);else return V("invalidParamName","SimplyBind('"+l+"').of(...).to("+typeof b+")");F();u&&this.update(null,this.ID);return this},and:function(b){return y.to.bind(this)(b)},set:function(b,a,c){null==c&&(c=!1);a===this.ID||b===t&&!h.updateEvenIfSame||(null==a&&(a=this.ID),"undefined"!==typeof b&&ra(b,a),I(a,c));return this},get:function(){return t},transform:function(b){"function"===typeof b?(Z=!0,e(k.ID,b),-1!==C.indexOf(k.ID)&&k.invoke("addToTransforms",[this.ID,b]),I(this.ID,!0)):L("transformFunction",
+"SimplyBind('"+l+"').of(...).to(...).transform("+typeof b+")");F();return this},transformAll:function(b){var a,c,d;if("function"===typeof b){X=!0;a=0;for(c=H.length;a<c;a++)d=H[a],e(d.ID,b),-1!==C.indexOf(d.ID)&&d.invoke("addToTransforms",[this.ID,b]);I(this.ID,!0)}else L("transformFunction","SimplyBind('"+l+"').of(...).to(...).and(...).transformAll("+typeof b+")");F();return this},bothWays:function(){null!=R[k.ID]?g(k).to(this).transform(R[k.ID]):g(k).to(this);d(k.ID,!0);F();return this},unBind:function(a){E?
+(ha(E),u=!1,E=null):(ga(k.ID,a),u=!1,k=null);F();return this}};"number"===typeof l&&(m=l=l.toString());h.ignoreCase&&(m=l=l.toLowerCase());-1!==l.indexOf(":")&&(a=l.split(":"),B=a[0],l=a[1],m=a[1]);-1!==l.indexOf(".")&&(M=!0,a=l.split("."),m=a[0],G=a[1],2<a.length&&a.slice(2).forEach(function(a){return G+="."+a}));F();return this};Object.defineProperty(g,"options",{configurable:!1,enumerable:!1,get:function(){return h}});g.setOption=function(a,c){if(-1!==U.indexOf(a))return-1!==a.indexOf("placeholder")&&
+(a.indexOf("Start"),B[a.slice(11)]=c.replace(/(.)/g,"\\$1")),h[a]=c};g.setOptions=function(a){var c;c=Object.keys(a);if(c.length)return c.forEach(function(c){return g.setOption(c,a[c])})};g.unBindAll=function(a,c,d){var e,h,n,v,P,p,q;d||g.unBindAllFunctions(a);if(a&&"object"===typeof a&&(a=T(a),d=null!=a.nodeName&&a.nodeType,e=r.objects.indexOf(a),-1!==e)){P=r.props[e];q=[];for(p in P)v=P[p],n=d&&"value"!==p?a.getAttribute(p):a[p],h=g.boundedObjects[v],e=h.getPrivate("dependents"),e.slice().forEach(function(a){return h.invoke("removeDependent",
+[a,c])}),c?(delete g.boundedObjects[v],"Value"!==h.type?q.push(Object.defineProperty(a,p,{value:n})):q.push(void 0)):q.push(void 0);return q}};g.unBindAllFunctions=function(a,c){var d,e,h,n,v;if(a&&"object"===typeof a&&(e=r.objects.indexOf(a),-1!==e)){d=function(a){var c;if(a)return c=g.boundedObjects[a],a=c.getPrivate("dependentFns"),a.slice().forEach(function(a){return c.invoke("removeFunction",a)})};h=r.props[e];if(c)return d(h[c]);v=[];for(n in h)e=h[n],v.push(d(e));return v}};g.SimplyBoundedConstructor=
+J;g.boundedObjects={};return window.SimplyBind=g})()}).call(this);
 ;
 function Util(){
 	
@@ -1053,6 +1056,7 @@ if (!Promise) {
       'dontDisableFields': false,
       'uniqueSteps': false,
       'customTransition': false,
+      'heightToggleAnimation': true,
       'customNext': false,
       'customBack': false,
       'customSubmit': false,
@@ -1168,10 +1172,15 @@ if (!Promise) {
         this.conditionalValues = this.data.conditional_values;
       }
       if (this.data.depends_on) {
-        this.revealed = false;
+        this.revealed = null;
       }
       this.value = this["default"] || null;
       this.valid = false;
+      this.conditionalDeps = {};
+      this.conditionalDeps.cbs = {
+        'deps': [],
+        'callbacks': []
+      };
       if (this.disabled) {
         this.disable();
       }
@@ -1232,131 +1241,9 @@ if (!Promise) {
       'lower': /^[a-z]+$/,
       'upper': /^[A-Z]+$/
     };
-    defaultFns = {
-      'prepare': {
-        input: function() {
-          this.input.on("change " + textChangeEvent + " blur", (function(_this) {
-            return function() {
-              return _this.field.trigger('value_changed');
-            };
-          })(this));
-          if (!!this.form.options.preserveValuesAfterRefresh) {
-            this.value = this.input[0].value.replace(util.regEx.whiteSpace, '');
-          } else {
-            if (!this["default"]) {
-              this.value = '';
-            }
-          }
-          this.input.val(this.value);
-          if (this.value) {
-            this.makeFilled();
-          }
-          this.attachState();
-          if (this.height != null) {
-            this.input.css('height', this.height);
-          }
-          if (this.desc) {
-            this.field.addClass('has_desc');
-          }
-          if (this.required) {
-            this.attachValidation();
-            if (this.test()) {
-              return this.makeValid();
-            } else {
-              return this.makeInvalid();
-            }
-          } else {
-            return this.makeValid();
-          }
-        },
-        button: function() {
-          var $checkedInputs, fieldInstance, values;
-          fieldInstance = this;
-          this.input = this.field.find('.input-button');
-          this.input.on("click", (function(_this) {
-            return function(event) {
-              return _this.field.trigger('value_changed', $(event.target));
-            };
-          })(this));
-          if (!!this.form.options.preserveValuesAfterRefresh) {
-            $checkedInputs = this.field.find('[checked]');
-            if ($checkedInputs.length === 0) {
-              $checkedInputs = this.field.find(':checked');
-            }
-            if (this.type === 'radio') {
-              $checkedInputs.each((function(_this) {
-                return function(i, el) {
-                  _this.value = el.value;
-                  return _this.checkOn($(el).parents('.input-button'));
-                };
-              })(this));
-            } else if (this.type === 'checkbox_single') {
-              this.value = $checkedInputs ? true : false;
-              if (this.value) {
-                this.checkOn(this.input);
-              }
-            } else {
-              values = [];
-              $checkedInputs.each((function(_this) {
-                return function(i, el) {
-                  values.push(_this.value);
-                  return _this.checkOn($(el).parents('.input-button'));
-                };
-              })(this));
-              this.value = values;
-            }
-          } else {
-            if (this["default"]) {
-              values = this.value.split(/,\s?/);
-              if (values.length) {
-                this.input.each((function(_this) {
-                  return function(i, el) {
-                    if (values.includes($(el).find('.input').value)) {
-                      return _this.checkOn($(el));
-                    } else {
-                      return _this.checkOff($(el));
-                    }
-                  };
-                })(this));
-              }
-            } else {
-              this.value = this.type === 'radio' ? null : this.type === 'checkbox_single' ? false : [];
-              this.input.each((function(_this) {
-                return function(i, el) {
-                  return _this.checkOff($(el));
-                };
-              })(this));
-            }
-          }
-          if (this.type === 'radio' || this.type === 'checkbox_single') {
-            if (this.value) {
-              this.makeFilled();
-            }
-          } else {
-            if (this.value.length) {
-              this.makeFilled();
-            }
-          }
-          if (this.height != null) {
-            this.input.css('height', this.height);
-          }
-          if (this.desc) {
-            this.field.addClass('has_desc');
-          }
-          this.attachState();
-          if (this.required) {
-            this.attachValidation();
-            if (this.test()) {
-              return this.makeValid();
-            } else {
-              return this.makeInvalid();
-            }
-          } else {
-            return this.makeValid();
-          }
-        }
-      },
-      'prepareConditional': function() {
+    Field.prototype = {
+      'constructor': Field,
+      prepareConditional: function() {
         var $context;
         $context = (function() {
           switch (this.conditionScope) {
@@ -1385,79 +1272,73 @@ if (!Promise) {
         if (this.masterInstance == null) {
           return console.log("Conditional field '" + this.name + "' has no matching master field.", this);
         }
-        this.disable();
-        this.masterField.on('value_changed', (function(_this) {
-          return function(i, el) {
-            var conditions, hasValid, isValid, siblingFields;
-            if (_this.condition) {
-              conditions = _this.condition.split(/,\s?/);
-              hasValid = false;
-              conditions.forEach(function(condition) {
-                if (!hasValid) {
-                  return hasValid = _this.masterInstance.value === condition;
-                }
-              });
-              isValid = hasValid;
-            } else {
-              isValid = _this.masterInstance.test();
-            }
-            if (_this.comparison === 'regex') {
-              if (!_this.comparisonRegex) {
-                _this.comparisonRegex = new RegExp(_this.comparison);
-              }
-              isValid = _this.comparisonRegex.test(_this.masterInstance.value);
-            } else {
-              if (_this.comparison !== '=') {
-                isValid = !isValid;
-              }
-            }
-            if (isValid) {
-              _this.field.addClass('reveal_dependant').trigger('reveal_dependant');
-              _this.makeRequired();
-              _this.enable();
-              _this.revealed = true;
-            } else {
-              _this.field.removeClass('reveal_dependant').trigger('hide_dependant');
-              _this.makeNotRequired();
-              _this.disable();
-              _this.revealed = false;
-            }
-            if (_this.data.width !== '1-1') {
-              siblingFields = [];
-              _this.field.parent().children('.fieldset').each(function() {
-                var instance;
-                instance = $(this).data('Field');
-                if (instance) {
-                  if (!(instance.dependsOn && !instance.revealed)) {
-                    return siblingFields.push(instance);
-                  }
-                }
-              });
-              if (siblingFields.length) {
-                fixWidth(siblingFields);
-              }
-            }
-            return setTimeout(function() {
-              return _this.step.trigger('height_changed');
-            }, 300);
-          };
-        })(this));
-        return this.masterField.trigger('value_changed');
+        return this.masterInstance.subscribe(this, this.condition, this.comparison);
       },
-      'prepareConditionalValues': function() {
-        var valuesElCache;
-        if (this.type !== 'select') {
+      prepareConditionalValues: function() {
+        var callbacksOnMasterChange, label, masterChangeCallback, masterFields, optionsLabels;
+        if (this.type !== 'select' && (typeof SimplyBind === "undefined" || SimplyBind === null)) {
           return;
         }
-        valuesElCache = {};
+        masterFields = [];
+        callbacksOnMasterChange = [];
+        this.options = [];
+        optionsLabels = {};
+        label = this.input.children()[0].label;
+        masterChangeCallback = (function(_this) {
+          return function(passedTest, option) {
+            var index, optionValue;
+            optionValue = option.value;
+            if (passedTest) {
+              if (!_this.options.includes(optionValue)) {
+                return _this.options.push(optionValue);
+              }
+            } else {
+              index = _this.options.indexOf(optionValue);
+              return _this.options.splice(index, 1);
+            }
+          };
+        })(this);
+        this.input.children().each((function(_this) {
+          return function(i, opt) {
+            if (i === 0) {
+              return;
+            }
+            _this.options.push(opt.value);
+            return optionsLabels[opt.value] = opt.label;
+          };
+        })(this));
+        SimplyBind('options').of(this).to('prop:innerHTML').of(this.input).transform((function(_this) {
+          return function(options) {
+            var optList;
+            optList = "<option value=''>" + label + "</option>";
+            options.sort(function(a, b) {
+              if (a === '') {
+                return -1;
+              }
+              if (optionsLabels[a] === optionsLabels[b]) {
+                return 0;
+              } else if (optionsLabels[a] < optionsLabels[b]) {
+                return -1;
+              } else {
+                return 1;
+              }
+            });
+            options.forEach(function(option) {
+              return optList += "<option value='" + option + "'>" + optionsLabels[option] + "</option>";
+            });
+            setTimeout(function() {
+              _this.input[0].value = _this.value;
+              return _this.input.trigger('change');
+            }, 10);
+            return optList;
+          };
+        })(this));
         return this.conditionalValues.forEach((function(_this) {
           return function(option) {
-            var $context, append, currentlyShown, element, masterField, masterInstance, remove, sort;
+            var $context, currentlyShown, element, masterField, masterInstance;
             currentlyShown = true;
             element = _this.input.children("option[value='" + option.value + "']")[0];
-            if (element) {
-              valuesElCache[option.value] = element;
-            } else {
+            if (!element) {
               return;
             }
             $context = (function() {
@@ -1487,248 +1368,9 @@ if (!Promise) {
             if (masterInstance == null) {
               return console.log("Conditional value '" + _this.name + " (" + option.value + ")' has no matching master field.", _this);
             }
-            sort = function() {
-              return _this.input.html(_this.input.children(option).sort(function(a, b) {
-                if (a.value === '') {
-                  return -1;
-                }
-                if (a.text === b.text) {
-                  return 0;
-                } else if (a.text < b.text) {
-                  return -1;
-                } else {
-                  return 1;
-                }
-              }));
-            };
-            remove = function() {
-              var optionIndex;
-              optionIndex = $(element).index();
-              if ((optionIndex != null) && optionIndex !== -1) {
-                _this.input[0].options[optionIndex] = null;
-              }
-              currentlyShown = false;
-              sort();
-              if (_this.value === option.value) {
-                _this.value = '';
-                _this.input[0].value = '';
-                _this.input.trigger('change');
-                return setTimeout(function() {
-                  return _this.input[0].selectedIndex = 0;
-                }, 0);
-              }
-            };
-            append = function(shouldShow) {
-              if (currentlyShown) {
-                return;
-              }
-              append.currentlyShown = true;
-              _this.input[0].options[_this.input[0].options.length] = valuesElCache[option.value];
-              return sort();
-            };
-            masterField.on('value_changed', function(i, el) {
-              var comparisonRegex, conditions, hasValid, isValid;
-              if (option.condition) {
-                conditions = option.condition.split(/,\s?/);
-                hasValid = false;
-                conditions.forEach(function(condition) {
-                  if (!hasValid) {
-                    return hasValid = masterInstance.value === condition;
-                  }
-                });
-                isValid = hasValid;
-              } else {
-                isValid = masterInstance.test();
-              }
-              if (option.comparison === 'regex') {
-                if (!comparisonRegex) {
-                  comparisonRegex = new RegExp(option.comparison);
-                }
-                isValid = comparisonRegex.test(masterInstance.value);
-              } else {
-                if (option.comparison !== '=') {
-                  isValid = !isValid;
-                }
-              }
-              if (isValid) {
-                return append();
-              } else {
-                return remove();
-              }
-            });
-            return masterField.trigger('value_changed');
+            return masterInstance.subscribe(element, option.condition, option.comparison);
           };
         })(this));
-      },
-      'attachValidation': {
-        input: function() {
-          return this.field.on('value_changed', (function(_this) {
-            return function() {
-              if (_this.test()) {
-                _this.makeValid();
-              } else {
-                _this.makeInvalid();
-              }
-              return _this.form.form.trigger('field_filled');
-            };
-          })(this));
-        },
-        button: function() {
-          return this.field.on('value_changed', (function(_this) {
-            return function(event, $button) {
-              if ($button.constructor !== jQuery) {
-                $button = $($button);
-              }
-              if (!$button.hasClass('checked')) {
-                _this.makeValid();
-              } else if (!$button.siblings().hasClass('checked')) {
-                _this.makeInvalid();
-              } else {
-                _this.makeValid();
-              }
-              return _this.form.form.trigger('field_filled');
-            };
-          })(this));
-        }
-      },
-      'attachState': {
-        input: function() {
-          if (!(!this.form.options.submitOnEnter || this.type === 'textarea')) {
-            this.input.on('focus', (function(_this) {
-              return function() {
-                _this.field.addClass('focus');
-                return $window.on('keypress.field_focused', function(event) {
-                  if (event.which === 13) {
-                    return _this.form.form.trigger('submit_current_step');
-                  }
-                });
-              };
-            })(this));
-            this.input.on('blur', (function(_this) {
-              return function() {
-                _this.field.removeClass('focus');
-                return $window.off('keypress.field_focused');
-              };
-            })(this));
-          }
-          if (this.forcePattern) {
-            if (this.forceSpecial) {
-              this.input.on('change', (function(_this) {
-                return function(event) {
-                  var value;
-                  value = _this.input[0].value;
-                  if (!regEx[_this.forcePattern].test(value)) {
-                    switch (_this.forcePattern) {
-                      case 'slug':
-                        value = value.replace(/\s/g, '-').toLowerCase();
-                        break;
-                      case 'name':
-                        value = value.replace(/\s/g, '_').toLowerCase();
-                        break;
-                      case 'lower':
-                        value = value.toLowerCase();
-                        break;
-                      case 'upper':
-                        value = value.toUpperCase();
-                    }
-                  }
-                  _this.input[0].value = value;
-                  return _this.value = value;
-                };
-              })(this));
-            }
-          }
-          if (this.maximum) {
-            this.input.on('keypress', (function(_this) {
-              return function(event) {
-                var ref;
-                if (((ref = _this.input[0].value) != null ? ref.length : void 0) > _this.maximum) {
-                  event.preventDefault();
-                  _this.field.addClass('has_warning').attr('data-warning', "Maximum characters allowed is " + _this.maximum);
-                  return setTimeout(function() {
-                    return this.field.removeClass('has_warning');
-                  }, 2000);
-                }
-              };
-            })(this));
-          }
-          return this.field.on('value_changed', (function(_this) {
-            return function() {
-              _this.value = _this.input[0].value;
-              if (_this.value) {
-                return _this.makeFilled();
-              } else {
-                return _this.makeNotFilled();
-              }
-            };
-          })(this));
-        },
-        button: function() {
-          this.field.on('value_changed', (function(_this) {
-            return function(event, $button) {
-              var buttonValue;
-              if ($button) {
-                if ($button.constructor !== jQuery) {
-                  $button = $($button);
-                }
-                buttonValue = $button.find('input').val();
-                if (!$button.hasClass('checked')) {
-                  _this.checkOn($button);
-                  if (_this.type === 'checkbox_single') {
-                    _this.value = true;
-                  } else {
-                    _this.value.push(buttonValue);
-                  }
-                } else {
-                  _this.checkOff($button);
-                  if (_this.type === 'checkbox_single') {
-                    _this.value = false;
-                  } else {
-                    _this.value.splice(_this.value.indexOf(buttonValue), 1);
-                  }
-                }
-                if (_this.value.length) {
-                  return _this.makeFilled();
-                } else {
-                  return _this.makeNotFilled();
-                }
-              }
-            };
-          })(this));
-          return this.field.find('label').on('click', function(event) {
-            event.preventDefault();
-            return $(this).parents('.input-button').trigger('click');
-          });
-        }
-      },
-      'detach': {
-        input: function() {
-          this.field.off();
-          return this.input.off();
-        },
-        button: function() {
-          this.field.off();
-          this.input.off();
-          return this.input.find('label').off();
-        }
-      },
-      'disable': {
-        input: function() {
-          this.input.prop('disabled', true);
-          return this.disabled = true;
-        },
-        button: function() {
-          return this.disabled = true;
-        }
-      },
-      'enable': {
-        input: function() {
-          this.input.prop('disabled', false);
-          return this.disabled = false;
-        },
-        button: function() {
-          return this.disabled = false;
-        }
       },
       showError: function() {
         return this.field.addClass('error');
@@ -1790,6 +1432,444 @@ if (!Promise) {
           return this.form.fieldsRequired.splice(this.form.fieldsRequired.indexOf(this), 1);
         }
       },
+      subscribe: function(dep, condition, comparison, callback) {
+        if (condition == null) {
+          condition = '*';
+        }
+        if (comparison == null) {
+          comparison = '=';
+        }
+        if (!dep) {
+          return;
+        }
+        if (this.conditionalDeps[comparison] == null) {
+          this.conditionalDeps[comparison] = {};
+          this.conditionalDeps[comparison][condition] = [dep];
+        } else {
+          if (this.conditionalDeps[comparison][condition] == null) {
+            this.conditionalDeps[comparison][condition] = [dep];
+          } else {
+            if (!this.conditionalDeps[comparison][condition].includes(dep)) {
+              this.conditionalDeps[comparison][condition].push(dep);
+            }
+          }
+        }
+        if (callback) {
+          if (!this.conditionalDeps.cbs.deps.includes(dep)) {
+            this.conditionalDeps.cbs.deps.push(dep);
+            this.conditionalDeps.cbs.callbacks.push(callback);
+          }
+        }
+        return this.updateDeps();
+      },
+      updateDeps: function() {
+        var thisPassedTest;
+        if (!(util.objectLength(this.conditionalDeps) >= 1)) {
+          return;
+        }
+        clearTimeout(this.depsUpdateTimeout);
+        thisPassedTest = this.test();
+        return this.depsUpdateTimeout = setTimeout((function(_this) {
+          return function() {
+            var caseMatched, cases, comparison, conditionCase, conditionCases, deps, passed, ref, results;
+            ref = _this.conditionalDeps;
+            results = [];
+            for (comparison in ref) {
+              cases = ref[comparison];
+              if (comparison !== 'cbs') {
+                results.push((function() {
+                  var results1;
+                  results1 = [];
+                  for (conditionCase in cases) {
+                    deps = cases[conditionCase];
+                    if (conditionCase.constructor === RegExp || conditionCase[0] === '/') {
+                      if (conditionCase[0] === '/') {
+                        conditionCase = new RegExp(conditionCase);
+                      }
+                      if (Array.isArray(this.value)) {
+                        passed = false;
+                        this.value.forEach((function(_this) {
+                          return function(val) {
+                            var caseMatched;
+                            if (!passed) {
+                              return caseMatched = conditionCase.test(val);
+                            }
+                          };
+                        })(this));
+                        caseMatched = passed;
+                      } else {
+                        caseMatched = conditionCase.test(this.value);
+                      }
+                    }
+                    if (conditionCase === '*') {
+                      caseMatched = thisPassedTest;
+                    } else {
+                      conditionCases = conditionCase.split(/,\s?/);
+                      conditionCases.forEach((function(_this) {
+                        return function(conditionCase) {
+                          if (caseMatched) {
+                            return;
+                          }
+                          if (Array.isArray(_this.value)) {
+                            return caseMatched = _this.value.includes(conditionCase);
+                          } else {
+                            return caseMatched = _this.value === conditionCase;
+                          }
+                        };
+                      })(this));
+                    }
+                    if (comparison === '!=') {
+                      caseMatched = !caseMatched;
+                    }
+                    results1.push(deps.forEach((function(_this) {
+                      return function(dep) {
+                        var base, index, siblingFields;
+                        if (dep.constructor === Field) {
+                          if (caseMatched) {
+                            dep.field.addClass('reveal_dependant').trigger('reveal_dependant');
+                            dep.makeRequired();
+                            dep.enable();
+                            dep.revealed = true;
+                          } else {
+                            dep.field.removeClass('reveal_dependant').trigger('hide_dependant');
+                            dep.makeNotRequired();
+                            dep.disable();
+                            dep.revealed = false;
+                          }
+                          if (dep.data.width !== '1-1') {
+                            siblingFields = [];
+                            dep.field.parent().children('.fieldset').each(function() {
+                              var instance;
+                              instance = $(this).data('Field');
+                              if (instance) {
+                                if (!(instance.dependsOn && !instance.revealed)) {
+                                  return siblingFields.push(instance);
+                                }
+                              }
+                            });
+                            setTimeout(function() {
+                              if (siblingFields.length) {
+                                return fixWidth(siblingFields);
+                              }
+                            }, 50);
+                          }
+                        }
+                        if (_this.conditionalDeps.cbs.deps.includes(dep)) {
+                          index = _this.conditionalDeps.cbs.deps.indexOf(dep);
+                          return typeof (base = _this.conditionalDeps.cbs.callbacks)[index] === "function" ? base[index](caseMatched, dep) : void 0;
+                        }
+                      };
+                    })(this)));
+                  }
+                  return results1;
+                }).call(_this));
+              } else {
+                results.push(void 0);
+              }
+            }
+            return results;
+          };
+        })(this), 75);
+      }
+    };
+    defaultFns = {
+      'prepare': {
+        input: function() {
+          this.input.on("change " + textChangeEvent + " blur", (function(_this) {
+            return function() {
+              return _this.field.trigger('value_changed');
+            };
+          })(this));
+          if (!!this.form.options.preserveValuesAfterRefresh) {
+            this.value = this.input[0].value.replace(util.regEx.whiteSpace, '');
+          } else {
+            if (!this["default"]) {
+              this.value = '';
+            }
+          }
+          this.input.val(this.value);
+          if (this.value) {
+            this.makeFilled();
+          }
+          this.attachState();
+          if (this.height != null) {
+            this.input.css('height', this.height);
+          }
+          if (this.desc) {
+            this.field.addClass('has_desc');
+          }
+          if (this.required) {
+            this.attachValidation();
+            if (this.test()) {
+              return this.makeValid();
+            } else {
+              return this.makeInvalid();
+            }
+          } else {
+            return this.makeValid();
+          }
+        },
+        button: function() {
+          var $checkedInputs, fieldInstance, values;
+          fieldInstance = this;
+          this.input = this.field.find('.input-button');
+          this.input.on("click", (function(_this) {
+            return function(event) {
+              return _this.field.trigger('value_changed', $(event.currentTarget));
+            };
+          })(this));
+          if (!!this.form.options.preserveValuesAfterRefresh) {
+            $checkedInputs = this.field.find('[checked]');
+            if ($checkedInputs.length === 0) {
+              $checkedInputs = this.field.find(':checked');
+            }
+            if (this.type === 'radio') {
+              $checkedInputs.each((function(_this) {
+                return function(i, el) {
+                  _this.value = el.value;
+                  return _this.checkOn($(el).parents('.input-button'));
+                };
+              })(this));
+            } else if (this.type === 'checkbox_single') {
+              this.value = $checkedInputs ? true : false;
+              if (this.value) {
+                this.checkOn(this.input);
+              }
+            } else {
+              values = [];
+              $checkedInputs.each((function(_this) {
+                return function(i, el) {
+                  values.push(el.value);
+                  return _this.checkOn($(el).parents('.input-button'));
+                };
+              })(this));
+              this.value = values;
+            }
+          } else {
+            if (this["default"]) {
+              values = this.value.split(/,\s?/);
+              if (values.length) {
+                this.input.each((function(_this) {
+                  return function(i, el) {
+                    if (values.includes($(el).find('.input').value)) {
+                      return _this.checkOn($(el));
+                    } else {
+                      return _this.checkOff($(el));
+                    }
+                  };
+                })(this));
+              }
+            } else {
+              this.value = this.type === 'radio' ? null : this.type === 'checkbox_single' ? false : [];
+              this.input.each((function(_this) {
+                return function(i, el) {
+                  return _this.checkOff($(el));
+                };
+              })(this));
+            }
+          }
+          if (this.type === 'radio' || this.type === 'checkbox_single') {
+            if (this.value) {
+              this.makeFilled();
+            }
+          } else {
+            if (this.value.length) {
+              this.makeFilled();
+            }
+          }
+          if (this.height != null) {
+            this.input.css('height', this.height);
+          }
+          if (this.desc) {
+            this.field.addClass('has_desc');
+          }
+          this.attachState();
+          if (this.required) {
+            this.attachValidation();
+            if (this.test()) {
+              return this.makeValid();
+            } else {
+              return this.makeInvalid();
+            }
+          } else {
+            return this.makeValid();
+          }
+        }
+      },
+      'attachValidation': {
+        input: function() {
+          return this.field.on('value_changed', (function(_this) {
+            return function() {
+              if (_this.test()) {
+                _this.makeValid();
+              } else {
+                _this.makeInvalid();
+              }
+              return _this.form.form.trigger('field_filled');
+            };
+          })(this));
+        },
+        button: function() {
+          return this.field.on('value_changed', (function(_this) {
+            return function(event, $button) {
+              if ($button.constructor !== jQuery) {
+                $button = $($button);
+              }
+              if (!$button.hasClass('checked')) {
+                _this.makeValid();
+              } else if (!$button.siblings().hasClass('checked')) {
+                _this.makeInvalid();
+              } else {
+                _this.makeValid();
+              }
+              return _this.form.form.trigger('field_filled');
+            };
+          })(this));
+        }
+      },
+      'attachState': {
+        input: function() {
+          this.input.on('focus', (function(_this) {
+            return function() {
+              _this.field.addClass('focus');
+              if (!(!_this.form.options.submitOnEnter || _this.type === 'textarea')) {
+                return $window.on('keypress.field_focused', function(event) {
+                  if (event.which === 13) {
+                    return _this.form.form.trigger('submit_current_step');
+                  }
+                });
+              }
+            };
+          })(this));
+          this.input.on('blur', (function(_this) {
+            return function() {
+              _this.field.removeClass('focus');
+              if (!(!_this.form.options.submitOnEnter || _this.type === 'textarea')) {
+                return $window.off('keypress.field_focused');
+              }
+            };
+          })(this));
+          if (this.forcePattern) {
+            if (this.forceSpecial) {
+              this.input.on('change', (function(_this) {
+                return function(event) {
+                  var value;
+                  value = _this.input[0].value;
+                  if (!regEx[_this.forcePattern].test(value)) {
+                    switch (_this.forcePattern) {
+                      case 'slug':
+                        value = value.replace(/\s/g, '-').toLowerCase();
+                        break;
+                      case 'name':
+                        value = value.replace(/\s/g, '_').toLowerCase();
+                        break;
+                      case 'lower':
+                        value = value.toLowerCase();
+                        break;
+                      case 'upper':
+                        value = value.toUpperCase();
+                    }
+                  }
+                  _this.input[0].value = value;
+                  return _this.value = value;
+                };
+              })(this));
+            }
+          }
+          if (this.maximum) {
+            this.input.on('keypress', (function(_this) {
+              return function(event) {
+                var ref;
+                if (((ref = _this.input[0].value) != null ? ref.length : void 0) > _this.maximum) {
+                  event.preventDefault();
+                  _this.field.addClass('has_warning').attr('data-warning', "Maximum characters allowed is " + _this.maximum);
+                  return setTimeout(function() {
+                    return this.field.removeClass('has_warning');
+                  }, 2000);
+                }
+              };
+            })(this));
+          }
+          return this.field.on('value_changed', (function(_this) {
+            return function() {
+              _this.value = _this.input[0].value;
+              if (_this.value) {
+                _this.makeFilled();
+              } else {
+                _this.makeNotFilled();
+              }
+              return _this.updateDeps();
+            };
+          })(this));
+        },
+        button: function() {
+          this.field.on('value_changed', (function(_this) {
+            return function(event, $button) {
+              var buttonValue;
+              if ($button) {
+                if ($button.constructor !== jQuery) {
+                  $button = $($button);
+                }
+                buttonValue = $button.find('input').val();
+                if (!$button.hasClass('checked')) {
+                  _this.checkOn($button);
+                  if (_this.type === 'checkbox_single') {
+                    _this.value = true;
+                  } else {
+                    _this.value.push(buttonValue);
+                  }
+                } else {
+                  _this.checkOff($button);
+                  if (_this.type === 'checkbox_single') {
+                    _this.value = false;
+                  } else {
+                    _this.value.splice(_this.value.indexOf(buttonValue), 1);
+                  }
+                }
+                if (_this.value.length) {
+                  _this.makeFilled();
+                } else {
+                  _this.makeNotFilled();
+                }
+                return _this.updateDeps();
+              }
+            };
+          })(this));
+          return this.field.find('label').on('click', function(event) {
+            event.preventDefault();
+            return $(this).parents('.input-button').trigger('click');
+          });
+        }
+      },
+      'detach': {
+        input: function() {
+          this.field.off();
+          return this.input.off();
+        },
+        button: function() {
+          this.field.off();
+          this.input.off();
+          return this.input.find('label').off();
+        }
+      },
+      'disable': {
+        input: function() {
+          this.input.prop('disabled', true);
+          return this.disabled = true;
+        },
+        button: function() {
+          return this.disabled = true;
+        }
+      },
+      'enable': {
+        input: function() {
+          this.input.prop('disabled', false);
+          return this.disabled = false;
+        },
+        button: function() {
+          return this.disabled = false;
+        }
+      },
       'fetchValue': {
         input: function() {
           if (!this.value || typeof this.value === 'boolean') {
@@ -1804,7 +1884,16 @@ if (!Promise) {
           }
         },
         button: function() {
-          return this.value;
+          if (!this.value || typeof this.value === 'boolean' || (typeof this.value === 'object' && this.value.constructor === Array)) {
+            return this.value;
+          }
+          if (this.value.toLowerCase() === 'true') {
+            return true;
+          } else if (this.value.toUpperCase() === 'false') {
+            return false;
+          } else {
+            return this.value;
+          }
         }
       },
       'setValue': {
@@ -1915,20 +2004,11 @@ if (!Promise) {
     Form.prototype.fieldProtos = {
       'text': {
         prepare: defaultFns.prepare.input,
-        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.input,
         attachState: defaultFns.attachState.input,
         detach: defaultFns.detach.input,
         disable: defaultFns.disable.input,
         enable: defaultFns.enable.input,
-        showError: defaultFns.showError,
-        hideError: defaultFns.hideError,
-        makeValid: defaultFns.makeValid,
-        makeInvalid: defaultFns.makeInvalid,
-        makeFilled: defaultFns.makeFilled,
-        makeNotFilled: defaultFns.makeNotFilled,
-        makeRequired: defaultFns.makeRequired,
-        makeNotRequired: defaultFns.makeNotRequired,
         fetchValue: defaultFns.fetchValue.input,
         setValue: defaultFns.setValue.input,
         empty: defaultFns.empty.input,
@@ -1936,20 +2016,11 @@ if (!Promise) {
       },
       'full_name': {
         prepare: defaultFns.prepare.input,
-        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.input,
         attachState: defaultFns.attachState.input,
         detach: defaultFns.detach.input,
         disable: defaultFns.disable.input,
         enable: defaultFns.enable.input,
-        showError: defaultFns.showError,
-        hideError: defaultFns.hideError,
-        makeValid: defaultFns.makeValid,
-        makeInvalid: defaultFns.makeInvalid,
-        makeFilled: defaultFns.makeFilled,
-        makeNotFilled: defaultFns.makeNotFilled,
-        makeRequired: defaultFns.makeRequired,
-        makeNotRequired: defaultFns.makeNotRequired,
         fetchValue: defaultFns.fetchValue.button,
         setValue: defaultFns.setValue.button,
         empty: defaultFns.empty.input,
@@ -1967,20 +2038,11 @@ if (!Promise) {
       },
       'password': {
         prepare: defaultFns.prepare.input,
-        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.input,
         attachState: defaultFns.attachState.input,
         detach: defaultFns.detach.input,
         disable: defaultFns.disable.input,
         enable: defaultFns.enable.input,
-        showError: defaultFns.showError,
-        hideError: defaultFns.hideError,
-        makeValid: defaultFns.makeValid,
-        makeInvalid: defaultFns.makeInvalid,
-        makeFilled: defaultFns.makeFilled,
-        makeNotFilled: defaultFns.makeNotFilled,
-        makeRequired: defaultFns.makeRequired,
-        makeNotRequired: defaultFns.makeNotRequired,
         fetchValue: defaultFns.fetchValue.button,
         setValue: defaultFns.setValue.button,
         empty: defaultFns.empty.input,
@@ -2001,20 +2063,11 @@ if (!Promise) {
       },
       'email': {
         prepare: defaultFns.prepare.input,
-        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.input,
         attachState: defaultFns.attachState.input,
         detach: defaultFns.detach.input,
         disable: defaultFns.disable.input,
         enable: defaultFns.enable.input,
-        showError: defaultFns.showError,
-        hideError: defaultFns.hideError,
-        makeValid: defaultFns.makeValid,
-        makeInvalid: defaultFns.makeInvalid,
-        makeFilled: defaultFns.makeFilled,
-        makeNotFilled: defaultFns.makeNotFilled,
-        makeRequired: defaultFns.makeRequired,
-        makeNotRequired: defaultFns.makeNotRequired,
         fetchValue: defaultFns.fetchValue.button,
         setValue: defaultFns.setValue.button,
         empty: defaultFns.empty.input,
@@ -2032,20 +2085,11 @@ if (!Promise) {
       },
       'tel': {
         prepare: defaultFns.prepare.input,
-        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.input,
         attachState: defaultFns.attachState.input,
         detach: defaultFns.detach.input,
         disable: defaultFns.disable.input,
         enable: defaultFns.enable.input,
-        showError: defaultFns.showError,
-        hideError: defaultFns.hideError,
-        makeValid: defaultFns.makeValid,
-        makeInvalid: defaultFns.makeInvalid,
-        makeFilled: defaultFns.makeFilled,
-        makeNotFilled: defaultFns.makeNotFilled,
-        makeRequired: defaultFns.makeRequired,
-        makeNotRequired: defaultFns.makeNotRequired,
         fetchValue: defaultFns.fetchValue.button,
         setValue: defaultFns.setValue.button,
         empty: defaultFns.empty.input,
@@ -2063,20 +2107,11 @@ if (!Promise) {
       },
       'textarea': {
         prepare: defaultFns.prepare.input,
-        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.input,
         attachState: defaultFns.attachState.input,
         detach: defaultFns.detach.input,
         disable: defaultFns.disable.input,
         enable: defaultFns.enable.input,
-        showError: defaultFns.showError,
-        hideError: defaultFns.hideError,
-        makeValid: defaultFns.makeValid,
-        makeInvalid: defaultFns.makeInvalid,
-        makeFilled: defaultFns.makeFilled,
-        makeNotFilled: defaultFns.makeNotFilled,
-        makeRequired: defaultFns.makeRequired,
-        makeNotRequired: defaultFns.makeNotRequired,
         fetchValue: defaultFns.fetchValue.input,
         setValue: defaultFns.setValue.input,
         empty: defaultFns.empty.input,
@@ -2131,21 +2166,11 @@ if (!Promise) {
             };
           })(this));
         },
-        prepareConditional: defaultFns.prepareConditional,
-        prepareConditionalValues: defaultFns.prepareConditionalValues,
         attachValidation: defaultFns.attachValidation.input,
         attachState: defaultFns.attachState.input,
         detach: defaultFns.detach.input,
         disable: defaultFns.disable.input,
         enable: defaultFns.enable.input,
-        showError: defaultFns.showError,
-        hideError: defaultFns.hideError,
-        makeValid: defaultFns.makeValid,
-        makeInvalid: defaultFns.makeInvalid,
-        makeFilled: defaultFns.makeFilled,
-        makeNotFilled: defaultFns.makeNotFilled,
-        makeRequired: defaultFns.makeRequired,
-        makeNotRequired: defaultFns.makeNotRequired,
         fetchValue: defaultFns.fetchValue.input,
         setValue: defaultFns.setValue.input,
         empty: defaultFns.empty.input,
@@ -2183,7 +2208,6 @@ if (!Promise) {
             return this.makeValid();
           }
         },
-        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.input,
         attachState: function() {
           return this.field.add(this.input).on('value_changed change', (function(_this) {
@@ -2195,6 +2219,7 @@ if (!Promise) {
               } else {
                 _this.makeNotFilled();
               }
+              _this.updateDeps();
               uploadedFile = _this.input[0].files[0];
               if (!uploadedFile) {
                 return;
@@ -2224,14 +2249,6 @@ if (!Promise) {
         detach: defaultFns.detach.input,
         disable: defaultFns.disable.input,
         enable: defaultFns.enable.input,
-        showError: defaultFns.showError,
-        hideError: defaultFns.hideError,
-        makeValid: defaultFns.makeValid,
-        makeInvalid: defaultFns.makeInvalid,
-        makeFilled: defaultFns.makeFilled,
-        makeNotFilled: defaultFns.makeNotFilled,
-        makeRequired: defaultFns.makeRequired,
-        makeNotRequired: defaultFns.makeNotRequired,
         fetchValue: function(regular) {
           if (!regular) {
             return this.base64;
@@ -2318,7 +2335,6 @@ if (!Promise) {
       },
       'radio': {
         prepare: defaultFns.prepare.button,
-        prepareConditional: defaultFns.prepareConditional,
         attachValidation: function() {
           return this.field.on('value_changed', (function(_this) {
             return function() {
@@ -2339,7 +2355,8 @@ if (!Promise) {
                 _this.value = newValue;
               }
               _this.checkOn($button);
-              return _this.makeFilled();
+              _this.makeFilled();
+              return _this.updateDeps();
             };
           })(this));
           return this.field.find('label').on('click', function(event) {
@@ -2350,16 +2367,6 @@ if (!Promise) {
         detach: defaultFns.detach.button,
         disable: defaultFns.disable.button,
         enable: defaultFns.enable.button,
-        showError: defaultFns.showError,
-        hideError: defaultFns.hideError,
-        makeValid: defaultFns.makeValid,
-        makeInvalid: defaultFns.makeInvalid,
-        makeFilled: defaultFns.makeFilled,
-        makeNotFilled: defaultFns.makeNotFilled,
-        makeRequired: defaultFns.makeRequired,
-        makeNotRequired: defaultFns.makeNotRequired,
-        checkOn: defaultFns.checkOn,
-        checkOff: defaultFns.checkOff,
         fetchValue: defaultFns.fetchValue.button,
         setValue: function(value) {
           var $matchedButton, $matchedInput;
@@ -2379,22 +2386,11 @@ if (!Promise) {
       },
       'radio_hybrid': {
         prepare: defaultFns.prepare.button,
-        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.button,
         attachState: defaultFns.attachState.button,
         detach: defaultFns.detach.button,
         disable: defaultFns.disable.button,
         enable: defaultFns.enable.button,
-        showError: defaultFns.showError,
-        hideError: defaultFns.hideError,
-        makeValid: defaultFns.makeValid,
-        makeInvalid: defaultFns.makeInvalid,
-        makeFilled: defaultFns.makeFilled,
-        makeNotFilled: defaultFns.makeNotFilled,
-        makeRequired: defaultFns.makeRequired,
-        makeNotRequired: defaultFns.makeNotRequired,
-        checkOn: defaultFns.checkOn,
-        checkOff: defaultFns.checkOff,
         fetchValue: defaultFns.fetchValue.button,
         setValue: defaultFns.setValue.button,
         empty: defaultFns.empty.button,
@@ -2402,22 +2398,11 @@ if (!Promise) {
       },
       'checkbox': {
         prepare: defaultFns.prepare.button,
-        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.button,
         attachState: defaultFns.attachState.button,
         detach: defaultFns.detach.button,
         disable: defaultFns.disable.button,
         enable: defaultFns.enable.button,
-        showError: defaultFns.showError,
-        hideError: defaultFns.hideError,
-        makeValid: defaultFns.makeValid,
-        makeInvalid: defaultFns.makeInvalid,
-        makeFilled: defaultFns.makeFilled,
-        makeNotFilled: defaultFns.makeNotFilled,
-        makeRequired: defaultFns.makeRequired,
-        makeNotRequired: defaultFns.makeNotRequired,
-        checkOn: defaultFns.checkOn,
-        checkOff: defaultFns.checkOff,
         fetchValue: defaultFns.fetchValue.button,
         setValue: defaultFns.setValue.button,
         empty: defaultFns.empty.button,
@@ -2425,22 +2410,11 @@ if (!Promise) {
       },
       'checkbox_single': {
         prepare: defaultFns.prepare.button,
-        prepareConditional: defaultFns.prepareConditional,
         attachValidation: defaultFns.attachValidation.button,
         attachState: defaultFns.attachState.button,
         detach: defaultFns.detach.button,
         disable: defaultFns.disable.button,
         enable: defaultFns.enable.button,
-        showError: defaultFns.showError,
-        hideError: defaultFns.hideError,
-        makeValid: defaultFns.makeValid,
-        makeInvalid: defaultFns.makeInvalid,
-        makeFilled: defaultFns.makeFilled,
-        makeNotFilled: defaultFns.makeNotFilled,
-        makeRequired: defaultFns.makeRequired,
-        makeNotRequired: defaultFns.makeNotRequired,
-        checkOn: defaultFns.checkOn,
-        checkOff: defaultFns.checkOff,
         fetchValue: defaultFns.fetchValue.input,
         setValue: defaultFns.setValue.button,
         empty: defaultFns.empty.input,
@@ -2483,7 +2457,6 @@ if (!Promise) {
           }
           return fixWidth(this.fields);
         },
-        prepareConditional: defaultFns.prepareConditional,
         attachValidation: function() {
           var $required, j, len, ref, results;
           ref = this.fieldsRequired;
@@ -2508,10 +2481,18 @@ if (!Promise) {
               return function() {
                 if (_this.collapsed) {
                   _this.field.removeClass('collapsed');
-                  _this.container.slideDown(300);
+                  if (_this.form.options.heightToggleAnimation) {
+                    _this.container.slideDown(300);
+                  } else {
+                    _this.container.css('display', 'block');
+                  }
                 } else {
                   _this.field.addClass('collapsed');
-                  _this.container.slideUp(300);
+                  if (_this.form.options.heightToggleAnimation) {
+                    _this.container.slideUp(300);
+                  } else {
+                    _this.container.css('display', 'none');
+                  }
                 }
                 return _this.collapsed = !_this.collapsed;
               };
@@ -2536,14 +2517,6 @@ if (!Promise) {
             return field.enable();
           });
         },
-        showError: defaultFns.showError,
-        hideError: defaultFns.hideError,
-        makeValid: defaultFns.makeValid,
-        makeInvalid: defaultFns.makeInvalid,
-        makeFilled: defaultFns.makeFilled,
-        makeNotFilled: defaultFns.makeNotFilled,
-        makeRequired: defaultFns.makeRequired,
-        makeNotRequired: defaultFns.makeNotRequired,
         fetchValue: function(asArray) {
           var field, fieldKeyValPair, j, len, ref, values;
           values = asArray ? [] : {};
@@ -2690,7 +2663,6 @@ if (!Promise) {
             return field.required;
           });
         },
-        prepareConditional: defaultFns.prepareConditional,
         attachValidation: function() {
           var $required, j, len, ref, results;
           ref = this.fieldsRequired;
@@ -2765,10 +2737,18 @@ if (!Promise) {
               return function() {
                 if (_this.collapsed) {
                   _this.field.removeClass('collapsed');
-                  _this.container.slideDown(300);
+                  if (_this.form.options.heightToggleAnimation) {
+                    _this.container.slideDown(300);
+                  } else {
+                    _this.container.css('display', 'block');
+                  }
                 } else {
                   _this.field.addClass('collapsed');
-                  _this.container.slideUp(300);
+                  if (_this.form.options.heightToggleAnimation) {
+                    _this.container.slideUp(300);
+                  } else {
+                    _this.container.css('display', 'none');
+                  }
                 }
                 return _this.collapsed = !_this.collapsed;
               };
@@ -2797,12 +2777,6 @@ if (!Promise) {
             return field.enable();
           });
         },
-        showError: defaultFns.showError,
-        hideError: defaultFns.hideError,
-        makeValid: defaultFns.makeValid,
-        makeInvalid: defaultFns.makeInvalid,
-        makeRequired: defaultFns.makeRequired,
-        makeNotRequired: defaultFns.makeNotRequired,
         fetchValue: function() {
           var $additionalFieldsets, $repeaterItem, j, len, ref, repeaterItem, repeaterItemIndex, values;
           values = [];
@@ -3953,7 +3927,7 @@ isPostManagement = $$('body').hasClass('posts');
 isLeadManagement = $$('body').hasClass('leads');
 
 (function($) {
-  var DB, PAGES, POSTTYPES, PageItem, Post, PostType, SIDEBAR, SidebarItem, Variation, alreadySetMinMax, appendDynamicBlocks, applicableLeads, fieldTemplates, generateNewSlug, initForm, initSortables, makeGroupSortable, sectionIDs, sectionOffsets, setMinMax, setSidebarPosition, sidebarMinMax, updateSectionOffsets;
+  var DB, PAGES, POSTTYPES, PageItem, Post, PostType, SIDEBAR, SidebarItem, Variation, alreadySetMinMax, appendDynamicBlocks, applicableLeads, fieldTemplates, generateNewSlug, initForm, initSortables, makeGroupSortable, setMinMax, setSidebarPosition, sidebarMinMax;
   fieldTemplates = {};
   $('#fieldTemplates').children().each(function() {
     var $template, name, template;
@@ -3976,7 +3950,6 @@ isLeadManagement = $$('body').hasClass('leads');
       });
     });
   };
-  $('.manage-content-list').first().addClass('show').siblings().removeClass('show');
   DB = {
     'page': {
       insert: function(params) {
@@ -4219,6 +4192,7 @@ isLeadManagement = $$('body').hasClass('leads');
         max: $$('body')[0].offsetHeight - ($$('.footer')[0].offsetHeight) - ($$('sidebar')[0].offsetHeight) + padding
       };
     };
+    setMinMax();
     setSidebarPosition = function() {
       var maxWidth, overflowAmount, pageScroll, passedMax, passedMin;
       if (!isMobileWidth) {
@@ -4243,7 +4217,9 @@ isLeadManagement = $$('body').hasClass('leads');
       }
     };
     $window.on('scroll', setSidebarPosition);
-    setMinMax();
+    $window.on('resize', util.debounce(function() {
+      return setMinMax();
+    }, 250));
 
     /* ==========================================================================
     			 Anchor link highlight on scroll
@@ -4257,33 +4233,6 @@ isLeadManagement = $$('body').hasClass('leads');
       sidebarItem.assocItem.show();
       return setMinMax();
     });
-    sectionOffsets = [];
-    sectionIDs = [];
-    updateSectionOffsets = function() {
-      var index, length;
-      length = $('.manage-content-list').length;
-      index = 0;
-      $$('.manage-content-list').each(function() {
-        var $this, id, listOffset;
-        $this = jQuery(this);
-        id = $this.attr('id');
-        listOffset = $this[0].offsetTop - 40;
-        index++;
-        if (sectionOffsets.length < length) {
-          sectionOffsets.push(listOffset);
-          return sectionIDs.push(id);
-        } else {
-          sectionOffsets[index] = listOffset;
-          return sectionIDs[index] = id;
-        }
-      });
-      return sectionOffsets[0] = 0;
-    };
-    updateSectionOffsets();
-    $window.on('resize', util.debounce(function() {
-      updateSectionOffsets();
-      return setMinMax();
-    }, 250));
   }
   if (isPageManagement) {
     Variation = function($el, page, isNew) {
@@ -4299,10 +4248,10 @@ isLeadManagement = $$('body').hasClass('leads');
       this.elTitle.html('Variation {{index}}');
       this.elNotes.html(' {{notes}}');
       $el.data('item', this);
-      SimplyBind('index').of(this).to('textContent.index').of(this.elTitle).withTransform(function(newValue) {
+      SimplyBind('index').of(this).to('textContent.index').of(this.elTitle).transform(function(newValue) {
         return newValue + 1;
       }).update();
-      SimplyBind('value').of(this.fieldNotes).to('textContent.notes').of(this.elNotes).bothWays().withTransform(function(newValue) {
+      SimplyBind('value').of(this.fieldNotes).to('textContent.notes').of(this.elNotes).bothWays().transform(function(newValue) {
         if (newValue.toString()) {
           return "(" + newValue + ")";
         } else {
@@ -4427,7 +4376,7 @@ isLeadManagement = $$('body').hasClass('leads');
         var $newItem, newItem, ref;
         $newItem = clone ? util.cloneSafe(clone, true) : util.cloneSafe(this.template, true);
         if (clone) {
-          $newItem[0].className = 'manage-content-list {{slug}}';
+          $newItem[0].className = 'manage-content-list {{slug}} {{visibility}}';
         }
         newItem = new PageItem('', sidebarItem.slug, sidebarItem.label, (ref = clone.data('item')) != null ? ref.type : void 0, true, false, $newItem, sidebarItem);
         this.items.push(newItem);
@@ -4458,6 +4407,7 @@ isLeadManagement = $$('body').hasClass('leads');
       this.type = type || 'standard';
       this.enabled = !!enabled;
       this.rotation = rotation;
+      this.visible = false;
       this.form = el.data('Form');
       this.el = el;
       this.elTitle = el.find('.manage-content-list-title-text').first();
@@ -4482,6 +4432,13 @@ isLeadManagement = $$('body').hasClass('leads');
       this.el.data('item', this);
       this.sidebar.assocItem = this;
       SimplyBind.setOption('invokeOnBind', false);
+      SimplyBind('visible').of(this).to('class.visibility').of(this.el).transform(function(visible) {
+        if (visible) {
+          return 'show';
+        } else {
+          return '';
+        }
+      });
       SimplyBind('type').of(this).to('value').of(this.fieldType).bothWays();
       SimplyBind('value').of(this.fieldType).to((function(_this) {
         return function(newValue) {
@@ -4505,8 +4462,8 @@ isLeadManagement = $$('body').hasClass('leads');
       slugTransform = function(val) {
         return val.toLowerCase().replace(/\s/g, '-');
       };
-      SimplyBind('slug').of(this).to('slug').of(this.sidebar).bothWays().and('value').of(this.fieldSlug).bothWays().withTransform(slugTransform);
-      SimplyBind('value').of(this.fieldSlug).to('class.slug').of(this.el).withTransform(slugTransform);
+      SimplyBind('slug').of(this).to('slug').of(this.sidebar).bothWays().and('value').of(this.fieldSlug).bothWays().transformAll(slugTransform);
+      SimplyBind('value').of(this.fieldSlug).to('class.slug').of(this.el).transform(slugTransform);
       SimplyBind('value').of(this.fieldSlug).to((function(_this) {
         return function(newValue) {
           return DB.page.update({
@@ -4531,10 +4488,13 @@ isLeadManagement = $$('body').hasClass('leads');
       return this;
     };
     PageItem.prototype.show = function() {
-      return this.el.addClass('show').siblings().removeClass('show');
+      this.visible = true;
+      return this.el.siblings().each(function() {
+        $(this).data().item.hide();
+      });
     };
     PageItem.prototype.hide = function() {
-      return this.el.removeClass('show');
+      return this.visible = false;
     };
     PageItem.prototype.disable = function() {
       this.enabled = !this.enabled;
@@ -4673,6 +4633,7 @@ isLeadManagement = $$('body').hasClass('leads');
     $('.manage-content').find('.manage-content-list').each(function() {
       return PAGES.addExisting($(this));
     });
+    $('.manage-content-list').first().data('item').show();
   }
   if (isPostManagement) {
     POSTTYPES = {
@@ -4690,6 +4651,7 @@ isLeadManagement = $$('body').hasClass('leads');
       this.type = type;
       this.name = name;
       this.form = el.data('Form');
+      this.visible = false;
       this.el = el;
       this.elTitle = el.find('.manage-content-list-title-text').first();
       this.button = el.find('.manage-content-list-add');
@@ -4699,16 +4661,26 @@ isLeadManagement = $$('body').hasClass('leads');
         };
       })(this))[0];
       this.posts = [];
+      SimplyBind('visible').of(this).to('class.visibility').of(this.el).transform(function(visible) {
+        if (visible) {
+          return 'show';
+        } else {
+          return '';
+        }
+      });
       this.el.data('item', this);
       this.sidebar.assocItem = this;
       this.collectPosts();
       return this;
     };
     PostType.prototype.show = function() {
-      return this.el.addClass('show').siblings().removeClass('show');
+      this.visible = true;
+      return this.el.siblings().each(function() {
+        $(this).data().item.hide();
+      });
     };
     PostType.prototype.hide = function() {
-      return this.el.removeClass('show');
+      return this.visible = false;
     };
     PostType.prototype.fetchValues = function() {
       var postsData, removeEmptyFileFields;
@@ -4918,6 +4890,7 @@ isLeadManagement = $$('body').hasClass('leads');
     $('.manage-content').find('.manage-content-list').each(function() {
       return POSTTYPES.add($(this));
     });
+    $('.manage-content-list').first().data('item').show();
   }
 
   /**

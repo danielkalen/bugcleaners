@@ -16,12 +16,12 @@ if isPageManagement
 		$el.data('item', @)
 		SimplyBind('index').of(@)
 			.to('textContent.index').of(@elTitle)
-			.withTransform (newValue)-> newValue+1
+			.transform (newValue)-> newValue+1
 			.update()
 
 		SimplyBind('value').of(@fieldNotes)
 			.to('textContent.notes').of(@elNotes).bothWays()
-			.withTransform (newValue)-> if newValue.toString() then "(#{newValue})" else newValue.toString()
+			.transform (newValue)-> if newValue.toString() then "(#{newValue})" else newValue.toString()
 			.update()
 
 

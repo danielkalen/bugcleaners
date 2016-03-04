@@ -16,11 +16,15 @@ if isPostManagement
 		@type = type
 		@name = name
 		@form = el.data('Form')
+		@visible = false
 		@el = el
 		@elTitle = el.find('.manage-content-list-title-text').first()
 		@button = el.find('.manage-content-list-add')
 		@sidebar = sidebar || SIDEBAR.items.filter((item)=> item.slug is @type)[0]
 		@posts = []
+
+		SimplyBind('visible').of(@).to('class.visibility').of(@el)
+			.transform (visible)-> if visible then 'show' else ''
 
 		@el.data('item', @)
 		@sidebar.assocItem = @
@@ -31,10 +35,13 @@ if isPostManagement
 
 
 	PostType::show = ()->
-		@el.addClass('show').siblings().removeClass('show')
+		@visible = true
+		@el.siblings().each ()->
+			$(@).data().item.hide()
+			return
 
 	PostType::hide = ()->
-		@el.removeClass('show')	
+		@visible = false
 
 	PostType::fetchValues = ()->
 		postsData = @el.data('Form').fetchValues()
@@ -239,3 +246,4 @@ if isPostManagement
 
 
 	$('.manage-content').find('.manage-content-list').each ()-> POSTTYPES.add $(@)
+	$('.manage-content-list').first().data('item').show()

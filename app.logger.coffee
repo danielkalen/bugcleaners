@@ -1,4 +1,5 @@
 SETTINGS = require('./settings.json')
+SETTINGSDB = require('./settings-db.json')
 fs = require('fs')
 
 logger = new ()->

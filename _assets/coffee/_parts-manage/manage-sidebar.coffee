@@ -114,6 +114,8 @@ if $('sidebar').length
 			min: $$('.header')[0].offsetHeight + 40
 			max: $$('body')[0].offsetHeight - ($$('.footer')[0].offsetHeight) - ($$('sidebar')[0].offsetHeight) + padding
 
+	setMinMax()
+	
 	setSidebarPosition = ()->
 		if !isMobileWidth
 			pageScroll = window.pageYOffset
@@ -133,7 +135,9 @@ if $('sidebar').length
 
 
 	$window.on 'scroll', setSidebarPosition
-	setMinMax()
+	$window.on 'resize', util.debounce ()->
+		setMinMax()
+	, 250
 
 	### ==========================================================================
 		 Anchor link highlight on scroll
@@ -149,31 +153,4 @@ if $('sidebar').length
 
 
 
-	sectionOffsets = []
-	sectionIDs = []
-
-	updateSectionOffsets = ()->
-		length = $('.manage-content-list').length
-		index = 0
-		$$('.manage-content-list').each ()->
-			$this = jQuery(this)
-			id = $this.attr('id')
-			listOffset = $this[0].offsetTop - 40
-			# sectionOffsets[ listOffset ] = id;
-			index++
-			if sectionOffsets.length < length
-				sectionOffsets.push listOffset
-				sectionIDs.push id
-			else
-				sectionOffsets[index] = listOffset
-				sectionIDs[index] = id
-
-		sectionOffsets[0] = 0
-
-	updateSectionOffsets()
-
 	
-	$window.on 'resize', util.debounce ()->
-		updateSectionOffsets()
-		setMinMax()
-	, 250

@@ -19,7 +19,7 @@ mixin renderPage(page)
 				classEnabled = page.rotation ? 'on' : '',
 				attributes = {
 					'id': page._id,
-					'class': classDisabled+' {{slug}}',
+					'class': classDisabled+' {{slug}} {{visibility}}',
 					'data-slug': page.slug,
 					'data-type': page.type,
 					'data-rotation': classEnabled,
@@ -39,7 +39,7 @@ mixin renderPage(page)
 					'type': 'standard'
 				},
 				classEnabled = '',
-				attributes = {'data-rotation':'', 'class':'{{slug}}', 'autocomplete': 'off'},
+				attributes = {'data-rotation':'', 'class':'{{slug}} {{visibility}}', 'autocomplete': 'off'},
 				toggleAttributes = {'class': '{{state}}'},
 				numberFieldAttributes = {max:1, value:1};
 		}

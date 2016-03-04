@@ -9,9 +9,3 @@ initForm = ($forms)->
 			dontDisableFields:true
 			submitOnEnter:false
 
-
-$('.manage-content-list').first()
-	.addClass('show')
-	.siblings()
-		.removeClass('show')
-
