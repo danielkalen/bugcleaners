@@ -31,7 +31,7 @@ do ()-> # Mobile nav display logic
 
 		if open
 			unlockPage()
-			$mobileNav[0].style = ''
+			$mobileNav[0].style.height = ''
 			$mobileNavTrigger.add($mobileNav).removeClass('active rotate')
 			setTimeout ()->
 				$mobileNavItems.removeClass('reveal')

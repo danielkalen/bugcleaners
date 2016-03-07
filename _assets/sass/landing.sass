@@ -31,6 +31,12 @@ body
 		position: relative
 		width: 45%
 		float: left
+		+max(920)
+			top: -150px
+			width: 100%
+			max-width: 580px
+			float: none
+			+center
 	
 	.faqs_small
 		margin-top: 60px
@@ -40,6 +46,15 @@ body
 		z-index: 2
 		top: -410px
 		right: 20px
+		+max(1170)
+			max-width: perc(580, 1170)
+		+max(920)
+			position: relative
+			max-width: 580px
+			top: -250px
+			left: 0
+			right: 0
+			+center
 
 
 .services

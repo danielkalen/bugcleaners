@@ -278,7 +278,8 @@ $stumbleupon: #f74425
 
 
 =transitionTransform($time:0.25s, $additional:false)
-	$transformTransition: transform $time, -ms-transform $time, -moz-transform $time, -webkit-transform $time
+	// $transformTransition: transform $time, -ms-transform $time, -moz-transform $time, -webkit-transform $time
+	$transformTransition: transform $time, -webkit-transform $time
 	@if $additional
 		transition: $transformTransition, $additional
 	@else

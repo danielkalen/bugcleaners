@@ -3744,7 +3744,7 @@ var $window, isLeadManagement, isMobile, isMobileWidth, isPageManagement, isPost
     open = $mobileNavTrigger.data('open');
     if (open) {
       unlockPage();
-      $mobileNav[0].style = '';
+      $mobileNav[0].style.height = '';
       $mobileNavTrigger.add($mobileNav).removeClass('active rotate');
       setTimeout(function() {
         return $mobileNavItems.removeClass('reveal');

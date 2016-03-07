@@ -36,10 +36,10 @@ html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr'
 				.page
 					section.section.cta_with_faqs
 						.cta_with_faqs-innerwrap
+							+form(page.form)
 							.cta_with_faqs-support
 								+benefit_points(page.benefit_points)
 								+faqs_small(page.faqs_small)
-							+form(page.form)
 					
 					if page.blocks
 						each block in page.blocks
