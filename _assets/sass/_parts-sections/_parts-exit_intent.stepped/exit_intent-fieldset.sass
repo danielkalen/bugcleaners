@@ -1,0 +1,55 @@
+&-fieldset
+	+fieldset($style:new, $inputHeight:55px, $bgColor:white, $textareaHeight:180px, $fontSize:16px, $oldLabelSize:16px, $borderColor: $divider, $margin:3.2%, $renderAll:false, $renderLabel:true, $renderInput:true, $renderSelect:true, $renderRadio:true, $widthRules:true, $alignRadioLabels:true)
+
+	&.fieldtype_radio,
+	&.fieldtype_radio_hybrid,
+		margin-bottom: 5.2%
+	&-radio,
+	&-radio_hybrid,
+		&.checked
+			color: $contrast
+			&:after
+				border: 2px solid $contrast
+
+		&-label
+			position: absolute
+			+valign(54%)
+			width: 100%
+			font-size: 15.2px
+
+	
+
+	&-radio_hybrid
+		&:before
+			+icon('')
+			position: absolute
+			z-index: 1
+			+valign
+			left: 0
+			right: 0
+			width: 100%
+			font-weight: 400
+			font-size: 40px
+			text-align: center
+			opacity: 0.20
+
+		&.option-roaches:before
+			content: 'm'
+		&.option-bed_bugs:before
+			content: 'e'
+			font-size: 36px
+		&.option-rodents:before
+			content: 'n'
+			font-size: 48px
+		&.option-termites:before
+			content: 'p'
+			font-size: 36px
+		&.option-ants:before
+			content: 'a'
+			font-size: 36px
+		&.option-mosquitoes:before
+			content: 'g'
+		&.option-others:before,
+		&.option-other:before
+			content: 'h'
+			font-size: 38px	

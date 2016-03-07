@@ -394,6 +394,65 @@ mixin renderPostFaqCategory(faq_category)
 
 
 
+mixin renderPostExitIntent(exit_intent)
+	-
+		if (exit_intent) {
+			var	classDisabled = exit_intent.enabled ? '' : 'disabled',
+				attributes = {
+					'id': exit_intent._id,
+					'class': classDisabled,
+					'data-name': exit_intent.name,
+					'data-single': 'Exit Intent'
+				};
+		} else {
+			var attributes = {'data-name': 'New Exit Intent', 'data-single': 'Exit Intent', 'data-new':'true'};
+		}
+		resetRowPercentage();
+
+	.manage-content-list-item.step.closed&attributes(attributes)
+		.manage-content-list-item-disable.post_action.disable
+			.manage-content-list-item-disable-text Disable
+		.manage-content-list-item-toggle.post_action.toggle_open
+		h6.manage-content-list-item-title.post_action.toggle_open 
+	
+		.manage-content-list-item-content.step-innerwrap.toggled_content
+			each field,name in getFieldSchemas().post.exit_intent
+				-
+					if (exit_intent && typeof exit_intent[name] !== 'undefined') {
+						field.defaultValue = exit_intent[name];
+						if (field.type.includes('repeater') || field.type.includes('group') || field.type === 'template') {
+							field.values = exit_intent[name];
+						}
+					}
+				+fieldGeneratorWrapper(field)
+
+
+			.clearfix
+			.manage-content-list-item-content-button.save
+				.manage-content-list-item-content-button-text Save
+			.manage-content-list-item-content-button.clone
+				.manage-content-list-item-content-button-text Clone
+			.manage-content-list-item-content-button.delete
+				.manage-content-list-item-content-button-text Delete
+			.manage-content-list-item-content-status
+			.clearfix
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -463,7 +522,7 @@ mixin fieldGeneratorWrapper(field)
 			if (Array.isArray(values)) {
 				var temp = {};
 				values.forEach(function(obj){
-					temp[obj.slug] = obj;
+					temp[obj.slug || obj.name] = obj;
 				});
 				values = temp;
 			}

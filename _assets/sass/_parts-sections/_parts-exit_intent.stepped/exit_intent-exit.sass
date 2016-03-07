@@ -1,0 +1,42 @@
+&-exit
+	position: absolute
+	top: 20px
+	right: 20px
+	opacity: 0.8
+	font-weight: 500
+	line-height: 1
+	cursor: pointer
+	+user-select(none)
+
+	&:after
+		+icon('i')
+		display: block
+		font-size: 28px
+		+transform(rotate(45deg))
+
+
+
+	.intro_step &
+		top: auto
+		bottom: 20px
+		left: 0
+		right: 0
+		text-align: center
+		&:hover
+			text-decoration: underline
+		
+		&:after
+			display: none
+	
+
+
+	&.final-step-exit
+		display: none
+		left: auto
+		top: 20px
+		right: 20px
+		bottom: auto
+		.final &
+			display: block !important
+		&:after
+			display: block

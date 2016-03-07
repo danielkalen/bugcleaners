@@ -9,10 +9,8 @@
 			height: 50px
 
 	&.error.fieldtype_full_name:after,
-	&.error.fieldtype_text:after,
 	&.error.fieldtype_email:after,
 	&.error.fieldtype_tel:after,
-	&.error.fieldtype_textarea:after,
 		content: ''
 		position: absolute
 		bottom: -16px
@@ -146,22 +144,22 @@
 			opacity: 0.20
 
 		&.option-roaches:before
-			+icon('m')
+			content: 'm'
 		&.option-bed_bugs:before
-			+icon('e')
+			content: 'e'
 			font-size: 36px
 		&.option-rodents:before
-			+icon('n')
+			content: 'n'
 			font-size: 48px
 		&.option-termites:before
-			+icon('p')
+			content: 'p'
 			font-size: 36px
 		&.option-ants:before
-			+icon('a')
+			content: 'a'
 			font-size: 36px
 		&.option-mosquitoes:before
-			+icon('g')
+			content: 'g'
 		&.option-others:before,
 		&.option-other:before
-			+icon('h')
+			content: 'h'
 			font-size: 38px

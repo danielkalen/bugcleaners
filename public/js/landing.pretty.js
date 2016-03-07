@@ -187,7 +187,11 @@
           this[name] = customMethod;
         }
       }
-      this.prepare();
+      if (this.prepare != null) {
+        this.prepare();
+      } else {
+        throw new Error("Invalid field type! Type: " + this.type + ", Name: " + this.name);
+      }
       if (this.dependsOn) {
         if (this.required) {
           this.requiredOriginally = true;
@@ -696,6 +700,7 @@
       },
       'attachState': {
         input: function() {
+          var allowedKeys;
           this.input.on('focus', (function(_this) {
             return function() {
               _this.field.addClass('focus');
@@ -744,28 +749,39 @@
             }
           }
           if (this.maximum) {
-            this.input.on('keypress', (function(_this) {
+            allowedKeys = [8, 37, 38, 39, 40];
+            this.input.on('keydown', (function(_this) {
               return function(event) {
-                var ref;
-                if (((ref = _this.input[0].value) != null ? ref.length : void 0) > _this.maximum) {
-                  event.preventDefault();
-                  _this.field.addClass('has_warning').attr('data-warning', "Maximum characters allowed is " + _this.maximum);
-                  return setTimeout(function() {
-                    return this.field.removeClass('has_warning');
-                  }, 2000);
+                var ref, selectEnd, selectStart;
+                if (((ref = _this.input[0].value) != null ? ref.length : void 0) >= _this.maximum) {
+                  selectStart = _this.input[0].selectionStart || 0;
+                  selectEnd = _this.input[0].selectionEnd || 0;
+                  if (!(event.ctrlKey || event.metaKey || allowedKeys.includes(event.which) || (selectStart - selectEnd > 0))) {
+                    event.preventDefault();
+                    _this.field.addClass('has_warning').attr('data-warning', "Maximum # of characters allowed is " + _this.maximum);
+                    return setTimeout(function() {
+                      return _this.field.removeClass('has_warning');
+                    }, 2000);
+                  }
                 }
               };
             })(this));
           }
           return this.field.on('value_changed', (function(_this) {
             return function() {
-              _this.value = _this.input[0].value;
-              if (_this.value) {
-                _this.makeFilled();
+              var ref;
+              if (_this.maximum && ((ref = _this.input[0].value) != null ? ref.length : void 0) > _this.maximum) {
+                _this.input[0].value = _this.input[0].value.slice(0, _this.maximum);
+                return _this.input.trigger('change');
               } else {
-                _this.makeNotFilled();
+                _this.value = _this.input[0].value;
+                if (_this.value) {
+                  _this.makeFilled();
+                } else {
+                  _this.makeNotFilled();
+                }
+                return _this.updateDeps();
               }
-              return _this.updateDeps();
             };
           })(this));
         },
@@ -2096,7 +2112,11 @@
         this.setCurrentStepTo('visible');
       }
       this.disableFields(this.form);
-      this.enableFields(this.step.current);
+      if (this.options.dontDisableFields) {
+        this.enableFields(this.form);
+      } else {
+        this.enableFields(this.step.current);
+      }
       this.attachFormEvents();
       this.attachButtonEvents();
       this.attachExtraEvents();
@@ -2452,15 +2472,15 @@
     Form.prototype.disable = function() {
       this.disabled = true;
       this.form.addClass('disabled');
-      return this.disableFields(this.form);
+      return this.disableFields(this.form, true);
     };
     Form.prototype.enable = function() {
       this.disabled = false;
       this.form.removeClass('disabled');
       return this.enableFields(this.form);
     };
-    Form.prototype.disableFields = function($step) {
-      if (this.options.dontDisableFields) {
+    Form.prototype.disableFields = function($step, force) {
+      if (this.options.dontDisableFields && !force) {
         return;
       }
       if ($step === this.form || !this.multiStep) {

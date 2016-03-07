@@ -1,0 +1,35 @@
+&-exit
+	position: absolute
+	top: auto
+	bottom: 20px
+	left: 30px
+	right: auto
+	opacity: 0.8
+	font-weight: 500
+	line-height: 1
+	cursor: pointer
+	+user-select(none)
+	&:after
+		+icon('i')
+		font-size: 28px
+		+transform(rotate(45deg))
+		display: none
+
+	.final &
+		display: none
+	
+	&.final-step-exit
+		display: none
+		left: auto
+		top: 20px
+		right: 20px
+		bottom: auto
+		.final &
+			display: block !important
+		&:after
+			display: block
+		&:hover
+			text-decoration: none
+
+	&:hover
+		text-decoration: underline

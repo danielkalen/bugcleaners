@@ -186,7 +186,11 @@
           this[name] = customMethod;
         }
       }
-      this.prepare();
+      if (this.prepare != null) {
+        this.prepare();
+      } else {
+        throw new Error("Invalid field type! Type: " + this.type + ", Name: " + this.name);
+      }
       if (this.dependsOn) {
         if (this.required) {
           this.requiredOriginally = true;
@@ -2467,15 +2471,15 @@
     Form.prototype.disable = function() {
       this.disabled = true;
       this.form.addClass('disabled');
-      return this.disableFields(this.form);
+      return this.disableFields(this.form, true);
     };
     Form.prototype.enable = function() {
       this.disabled = false;
       this.form.removeClass('disabled');
       return this.enableFields(this.form);
     };
-    Form.prototype.disableFields = function($step) {
-      if (this.options.dontDisableFields) {
+    Form.prototype.disableFields = function($step, force) {
+      if (this.options.dontDisableFields && !force) {
         return;
       }
       if ($step === this.form || !this.multiStep) {

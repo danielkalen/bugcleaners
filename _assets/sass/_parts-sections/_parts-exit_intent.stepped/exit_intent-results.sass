@@ -1,0 +1,45 @@
+&-results
+	position: relative
+	+valign
+	left: 0
+	right: 0
+	width: 100%
+	max-width: 807px
+	height: 500px
+	display: none
+	+center
+	a
+		color: white
+		text-decoration: underline
+
+	&.show
+		display: block
+
+	.results-message
+		position: absolute
+		+valign
+		left: 0
+		right: 0
+		width: 70%
+		+center
+		padding-top: 120px
+		font-weight: 500
+		font-size: 24px
+		text-align: center
+		box-sizing: border-box
+		&.error
+			padding-top: 100px
+
+		&:before
+			+icon('O')
+			position: absolute
+			top: 0
+			left: 0
+			right: 0
+			+center
+			display: block
+			font-size: 85px
+			color: $pros
+		&.error:before
+			content: 'C'
+			color: $cons

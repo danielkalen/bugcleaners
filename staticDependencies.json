@@ -1,12 +1,16 @@
 {
 	"css": {
 		"contact_options": ["_parts-global/form.sass"],
-		"cta_with_faqs": ["_parts-global/form.sass", "_parts-sections/form.boxed.sass", "_parts-sections/faqs_small.sass", "_parts-sections/benefit_points.sass"]
+		"cta_with_faqs": ["_parts-global/form.sass", "_parts-sections/form.boxed.sass", "_parts-sections/faqs_small.sass", "_parts-sections/benefit_points.sass"],
+		"exit_intent.stepped": ["_parts-global/popup.sass"],
+		"exit_intent.tool": ["_parts-global/popup.sass"]
 	},
 	"js": {
 		"contact_options": ["_parts-global/form-engine.js", "_plugins/velocity.min.js"],
 		"cta_with_faqs": ["_parts-global/form-engine.js", "_parts-sections/faqs_small.coffee"],
 		"form.boxed": ["_parts-global/form-engine.js"],
-		"form.tool": ["_parts-global/form-engine.js"]
+		"form.tool": ["_parts-global/form-engine.js"],
+		"exit_intent.stepped": ["_parts-global/form-engine.js", "_parts-global/popup.coffee", "_parts-global/exit_intent.coffee"],
+		"exit_intent.tool": ["_parts-global/form-engine.js", "_parts-global/popup.coffee", "_parts-global/exit_intent.coffee"]
 	}
 }

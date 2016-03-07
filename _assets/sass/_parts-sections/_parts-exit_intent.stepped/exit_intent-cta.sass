@@ -1,0 +1,108 @@
+&-cta
+	width: auto
+	+center(60px)
+	box-sizing: border-box
+	+clearfix
+
+	&-innerwrap
+		width: 100%
+		max-width: 610px
+		+center
+		+clearfix
+
+
+	&-button-outerwrap
+		position: relative
+		float: left
+		width: 100%
+		+center
+		+clearfix
+
+
+	&-button
+		position: relative
+		background-color: $contrast
+		cursor: pointer
+		+user-select(none)
+		height: 75px
+		margin-top: 32px
+		width: 100%
+		+center
+		border-radius: 3px
+		&.decision_button
+			width: auto
+			height: 110px
+			border-radius: 8px
+			padding: 0 23px 0 26px
+			display: inline-block
+			&:before
+				content: ''
+				position: absolute
+				z-index: -2
+				top: 0
+				left: 0
+				width: 100%
+				height: 100%
+				box-shadow: 0px 0px 45px 2px fade-out(white, 0.2)
+				border-radius: 8px
+				animation: fadeslow 1.95s linear 0s infinite
+
+
+		&-large
+			position: relative
+			float: left
+			line-height: 1
+			font-weight: 700
+			text-transform: uppercase
+			font-size: 60px
+			+valign(56%)
+			.no &
+				border-color: darken($divider, 12)
+
+
+		&-small
+			position: relative
+			+valign(53%)
+			float: left
+			margin-left: 20px
+			font-size: 22px
+			font-weight: 600
+
+
+		&-text
+			position: absolute
+			+valign
+			top: 54%
+			left: 0
+			right: 25px
+			font-size: 28px
+			font-weight: 700
+			line-height: 1
+
+			&:after
+				+icon('b')
+				position: absolute
+				top: 3px
+				padding-left: 10px
+				font-size: 24px
+				font-weight: 400
+				// letter-spacing: -10px
+
+		&-input
+			position: absolute
+			width: 100%
+			height: 100%
+			+valign
+			top: 50%
+			left: 0
+			right: 40px
+			padding-right: 28px
+			background-color: transparent
+			font-size: 27px
+			font-weight: 700
+			line-height: 80px
+			box-sizing: border-box
+			+max(736)
+				font-size: 20px
+
+

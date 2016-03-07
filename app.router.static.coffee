@@ -85,6 +85,10 @@ router.all /\/([^\/]+)\/([^\/]+)/, (req, res)->
 			pageVar = page.variations?[targetVariation]
 			pageBlocks = pageVar?.blocks
 
+			if pageVar.exit_intent
+				exitIntentType = if pageVar.exit_intent.toLowerCase().includes('tool') then 'tool' else 'stepped'
+				pageBlocks.push({slug: "exit_intent.#{exitIntentType}"})
+
 			setGlobalDeps(page.type, contentType).then (result)->
 				globalDependencies = result
 

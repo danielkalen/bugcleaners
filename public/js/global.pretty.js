@@ -1174,9 +1174,7 @@ $$(document).on('touchstart', function(event) {
     heroHeight = $hero.length ? $hero[0].offsetHeight : 0;
     ctaDividerHeight = $ctaDivider.length ? $ctaDivider[0].offsetHeight : 0;
     combinedHeight = headerHeight + footerHeight + heroHeight + ctaDividerHeight;
-    if (pageHeight < windowHeight) {
-      return $$('.page_innerwrap, .page').css('min-height', windowHeight - combinedHeight);
-    }
+    return $$('.page_innerwrap, .page').css('min-height', windowHeight - combinedHeight);
   };
   $$(document).ready(ensureFullHeight);
   return $$(window).on('resize', util.debounce(ensureFullHeight, 200));

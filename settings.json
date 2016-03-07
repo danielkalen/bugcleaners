@@ -422,198 +422,206 @@
 						"conditionScope": "repeater-1"
 					},
 					{
-						"type": "group",
-						"name": "field",
-						"label": "Field",
-						"collapsed": true,
+						"type": "template",
+						"value": "fields-tool",
 						"depends_on": "form_style",
 						"condition": "tool-like",
-						"conditionScope": "repeater-1",
+						"conditionScope": "repeater-1"
+					},
+					{
+						"type": "template",
+						"value": "fields",
+						"depends_on": "form_style",
+						"condition": "boxed-standard, boxed-stepped",
+						"conditionScope": "repeater-1"
+					}
+				]
+			},
+			"fields": {
+				"type": "repeater_group",
+				"name": "fields",
+				"label": "Fields",
+				"button_text": "Add Field",
+				"width": "1-1",
+				"required": true,
+				"collapsed": true,
+				"fields": [
+					{
+						"type": "select",
+						"name": "type",
+						"label": "Type",
+						"required": true,
+						"useKeyInsteadOfValue":true,
+						"width": "1-3",
+						"values": {
+							"text": "Text Field",
+							"tel": "Phone Field",
+							"email": "Email Field",
+							"fullname": "Full Name Field",
+							"textarea": "Textarea Field",
+							"select": "Select Field",
+							"radio": "Choice Field",
+							"radio_hybrid": "Choice Field (Multi)",
+							"checkbox": "Checkboxes Field",
+							"checkbox_single": "Checkbox (single) Field"
+						}
+					},
+					{
+						"type": "text",
+						"name": "name",
+						"label": "Name (Internal Purposes)",
+						"required": true,
+						"forcePattern": "name",
+						"width": "1-3"
+					},
+					{
+						"type": "text",
+						"name": "label",
+						"label": "Label",
+						"required": true,
+						"width": "1-3"
+					},
+					{
+						"type": "select",
+						"name": "rows",
+						"label": "Number of Rows",
+						"required": true,
+						"useKeyInsteadOfValue":true,
+						"depends_on": "type",
+						"conditionScope": "sibling",
+						"condition": "radio, radio_hybrid",
+						"defaultValue": "1",
+						"values": {
+							"1": "1 Row",
+							"2": "2 Rows",
+							"3": "3 Rows"
+						}
+					},
+					{
+						"type": "repeater",
+						"name": "values",
+						"label": "Possible Values",
+						"button_text": "Add Another Value",
+						"width": "1-1",
+						"required": true,
+						"depends_on": "type",
+						"conditionScope": "sibling",
+						"condition": "select, radio, radio_hybrid, checkbox, checkbox_single",
 						"fields": [
 							{
-								"type": "select",
-								"name": "type",
-								"label": "Type",
-								"required": true,
-								"useKeyInsteadOfValue": true,
-								"width": "1-2",
-								"values": {
-									"text": "Text Field",
-									"tel": "Phone Field",
-									"email": "Email Field",
-									"fullname": "Full Name Field",
-									"textarea": "Textarea Field",
-									"select": "Select Field",
-									"radio": "Choice Field",
-									"radio_hybrid": "Choice Field (Multi)",
-									"checkbox": "Checkboxes Field"
-								}
-							},
-							{
 								"type": "text",
-								"name": "name",
-								"label": "Name (Internal Purposes)",
-								"desc": "This will be the name that'll be used in the database.",
-								"required": true,
-								"forcePattern": "name",
-								"width": "1-2"
-							},
-							{
-								"type": "text",
-								"name": "label",
-								"label": "Label",
-								"required": true,
-								"width": "1-2",
-								"depends_on": "type",
-								"conditionScope": "sibling",
-								"condition": "text, tel, email, fullname, textarea"
-							},
-							{
-								"type": "select",
-								"name": "rows",
-								"label": "Number of Rows",
-								"desc": "Specify how many rows the choices should split into.",
-								"required": true,
-								"useKeyInsteadOfValue": true,
-								"depends_on": "type",
-								"conditionScope": "sibling",
-								"condition": "radio, radio_hybrid",
-								"defaultValue": "1",
-								"values": {
-									"1": "1 Row",
-									"2": "2 Rows",
-									"3": "3 Rows"
-								}
-							},
-							{
-								"type": "repeater",
-								"name": "values",
-								"label": "Possible Values",
-								"button_text": "Add Another Value",
-								"width": "1-1",
-								"required": true,
-								"depends_on": "type",
-								"conditionScope": "sibling",
-								"condition": "select, radio, radio_hybrid, checkbox, checkbox_single",
-								"fields": [
-									{
-										"type": "text",
-										"name": "value",
-										"label": "Option",
-										"required": true
-									}
-								]
+								"name": "value",
+								"label": "Option",
+								"required": true
 							}
 						]
 					},
 					{
-						"type": "repeater_group",
-						"name": "fields",
-						"label": "Fields",
-						"button_text": "Add Field",
+						"type": "select",
+						"name": "width",
+						"label": "Width",
+						"required": true,
+						"useKeyInsteadOfValue":true,
+						"width": "1-3",
+						"values": {
+							"1-1": "1/1 (Full Width)",
+							"1-2": "1/2 (Half Width)",
+							"1-4": "1/4 (Quarter Width)",
+							"3-4": "3/4 (Three-fourths Width)"
+						}
+					},
+					{
+						"type": "radio",
+						"name": "required",
+						"label": "Field is required?",
+						"required": true,
+						"useKeyInsteadOfValue":true,
+						"defaultValue": "false",
+						"width": "1-3",
+						"values": {
+							"true": "True",
+							"false": "False"
+						}
+					}
+				]
+			},
+			"fields-tool": {
+				"type": "group",
+				"name": "field",
+				"label": "Field",
+				"collapsed": true,
+				"fields": [
+					{
+						"type": "select",
+						"name": "type",
+						"label": "Type",
+						"required": true,
+						"useKeyInsteadOfValue": true,
+						"width": "1-2",
+						"values": {
+							"text": "Text Field",
+							"tel": "Phone Field",
+							"email": "Email Field",
+							"fullname": "Full Name Field",
+							"textarea": "Textarea Field",
+							"select": "Select Field",
+							"radio": "Choice Field",
+							"radio_hybrid": "Choice Field (Multi)",
+							"checkbox": "Checkboxes Field"
+						}
+					},
+					{
+						"type": "text",
+						"name": "name",
+						"label": "Name (Internal Purposes)",
+						"desc": "This will be the name that'll be used in the database.",
+						"required": true,
+						"forcePattern": "name",
+						"width": "1-2"
+					},
+					{
+						"type": "text",
+						"name": "label",
+						"label": "Label",
+						"required": true,
+						"width": "1-2",
+						"depends_on": "type",
+						"conditionScope": "sibling",
+						"condition": "text, tel, email, fullname, textarea"
+					},
+					{
+						"type": "select",
+						"name": "rows",
+						"label": "Number of Rows",
+						"desc": "Specify how many rows the choices should split into.",
+						"required": true,
+						"useKeyInsteadOfValue": true,
+						"depends_on": "type",
+						"conditionScope": "sibling",
+						"condition": "radio, radio_hybrid",
+						"defaultValue": "1",
+						"values": {
+							"1": "1 Row",
+							"2": "2 Rows",
+							"3": "3 Rows"
+						}
+					},
+					{
+						"type": "repeater",
+						"name": "values",
+						"label": "Possible Values",
+						"button_text": "Add Another Value",
 						"width": "1-1",
 						"required": true,
-						"collapsed": true,
-						"depends_on": "form_style",
-						"condition": "boxed-standard, boxed-stepped",
-						"conditionScope": "repeater-1",
+						"depends_on": "type",
+						"conditionScope": "sibling",
+						"condition": "select, radio, radio_hybrid, checkbox, checkbox_single",
 						"fields": [
 							{
-								"type": "select",
-								"name": "type",
-								"label": "Type",
-								"required": true,
-								"useKeyInsteadOfValue":true,
-								"width": "1-3",
-								"values": {
-									"text": "Text Field",
-									"tel": "Phone Field",
-									"email": "Email Field",
-									"fullname": "Full Name Field",
-									"textarea": "Textarea Field",
-									"select": "Select Field",
-									"radio": "Choice Field",
-									"radio_hybrid": "Choice Field (Multi)",
-									"checkbox": "Checkboxes Field",
-									"checkbox_single": "Checkbox (single) Field"
-								}
-							},
-							{
 								"type": "text",
-								"name": "name",
-								"label": "Name (Internal Purposes)",
-								"required": true,
-								"forcePattern": "name",
-								"width": "1-3"
-							},
-							{
-								"type": "text",
-								"name": "label",
-								"label": "Label",
-								"required": true,
-								"width": "1-3"
-							},
-							{
-								"type": "select",
-								"name": "rows",
-								"label": "Number of Rows",
-								"required": true,
-								"useKeyInsteadOfValue":true,
-								"depends_on": "type",
-								"conditionScope": "sibling",
-								"condition": "radio, radio_hybrid",
-								"defaultValue": "1",
-								"values": {
-									"1": "1 Row",
-									"2": "2 Rows",
-									"3": "3 Rows"
-								}
-							},
-							{
-								"type": "repeater",
-								"name": "values",
-								"label": "Possible Values",
-								"button_text": "Add Another Value",
-								"width": "1-1",
-								"required": true,
-								"depends_on": "type",
-								"conditionScope": "sibling",
-								"condition": "select, radio, radio_hybrid, checkbox, checkbox_single",
-								"fields": [
-									{
-										"type": "text",
-										"name": "value",
-										"label": "Option",
-										"required": true
-									}
-								]
-							},
-							{
-								"type": "select",
-								"name": "width",
-								"label": "Width",
-								"required": true,
-								"useKeyInsteadOfValue":true,
-								"width": "1-3",
-								"values": {
-									"1-1": "1/1 (Full Width)",
-									"1-2": "1/2 (Half Width)",
-									"1-4": "1/4 (Quarter Width)",
-									"3-4": "3/4 (Three-fourths Width)"
-								}
-							},
-							{
-								"type": "radio",
-								"name": "required",
-								"label": "Field is required?",
-								"required": true,
-								"useKeyInsteadOfValue":true,
-								"defaultValue": "false",
-								"width": "1-3",
-								"values": {
-									"true": "True",
-									"false": "False"
-								}
+								"name": "value",
+								"label": "Option",
+								"required": true
 							}
 						]
 					}
@@ -734,6 +742,37 @@
 					"90": "90%",
 					"100": "100%"
 				}
+			},
+			"lines": {
+				"type": "repeater_group",
+				"name": "lines",
+				"label": "Title Lines",
+				"label_single": "Line",
+				"button_text": "Add Line",
+				"required": true,
+				"fields": [
+					{
+						"type": "text",
+						"name": "line",
+						"label": "Line",
+						"required": true,
+						"width": "1-2"
+					},
+					{
+						"type": "radio",
+						"name": "size",
+						"label": "Size",
+						"required": true,
+						"width": "1-2",
+						"useKeyInsteadOfValue": true,
+						"defaultValue": "small",
+						"values": {
+							"small": "Small",
+							"medium": "Medium",
+							"large": "Large"
+						}
+					}
+				]
 			}
 		},
 		"page": {
@@ -863,6 +902,14 @@
 					"depends_on": "type",
 					"conditionScope": "form",
 					"condition": "landing"
+				},
+				"exit_intent": {
+					"type": "select",
+					"name": "exit_intent",
+					"label": "Include Exit Intent",
+					"width": "1-2",
+					"dynamicValues": "posts.exit_intent",
+					"dynamicType": "db"
 				},
 				"form": {
 					"type": "template",
@@ -1116,6 +1163,183 @@
 					"forcePattern": "slug",
 					"width": "1-2",
 					"required": true
+				}
+			},
+			"exit_intent": {
+				"name": {
+					"type": "text",
+					"name": "name",
+					"label": "Name",
+					"width": "1-2",
+					"required": true
+				},
+				"exit_intent_type": {
+					"type": "select",
+					"name": "exit_intent_type",
+					"label": "Exit Intent Type",
+					"width": "1-2",
+					"required": true,
+					"useKeyInsteadOfValue": true,
+					"defaultValue": "tool",
+					"values": {
+						"stepped": "Centered",
+						"tool": "Left-aligned (tool-like)"
+					}
+				},
+				"intro_step": {
+					"type": "group",
+					"name": "intro_step",
+					"label": "Intro Step",
+					"required": true,
+					"collapsed": true,
+					"depends_on": "exit_intent_type",
+					"conditionScope": "step",
+					"condition": "stepped",
+					"fields": [
+						{
+							"type": "template",
+							"value": "lines"
+						},
+						{
+							"type": "text",
+							"name": "yes_button",
+							"label": "Yes Button Text",
+							"width": "1-2",
+							"required": true,
+							"defaultValue": "Show Me My Savings!"
+						},
+						{
+							"type": "text",
+							"name": "no_button",
+							"label": "No Button Text",
+							"width": "1-2",
+							"required": true,
+							"defaultValue": "Thanks, but I'll continue to overpay."
+						}
+					]
+				},
+				"title": {
+					"type": "text",
+					"name": "title",
+					"label": "Title",
+					"required": true,
+					"defaultValue": "Get Instant Quotes With The QuoteFinder™",
+					"depends_on": "exit_intent_type",
+					"condition": "tool",
+					"conditionScope": "sibling"
+				},
+				"subtitle": {
+					"type": "text",
+					"name": "subtitle",
+					"label": "Subtitle",
+					"required": true,
+					"defaultValue": "Instantly compare bottom line quotes from award-winning providers.",
+					"depends_on": "exit_intent_type",
+					"condition": "tool",
+					"conditionScope": "sibling"
+				},
+				"no_button": {
+					"type": "text",
+					"name": "no_button",
+					"label": "No Link Text",
+					"required": true,
+					"defaultValue": "Thanks, but I'd rather opt-out",
+					"depends_on": "exit_intent_type",
+					"condition": "tool",
+					"conditionScope": "sibling"
+				},
+				"form_steps": {
+					"type": "repeater_group",
+					"name": "form_steps",
+					"label": "Form Steps",
+					"label_single": "Step",
+					"button_text": "Add Step",
+					"collapsed": true,
+					"minimum": 1,
+					"fields": [
+						{
+							"type": "text",
+							"name": "title",
+							"label": "Step Title",
+							"width": "1-2",
+							"depends_on": "exit_intent_type",
+							"condition": "tool",
+							"conditionScope": "step"
+						},
+						{
+							"type": "text",
+							"name": "subtitle",
+							"label": "Step Subtitle",
+							"width": "1-2",
+							"depends_on": "exit_intent_type",
+							"condition": "tool",
+							"conditionScope": "step"
+						},
+						{
+							"type": "text",
+							"name": "step_max_width",
+							"label": "Step Max Width",
+							"width": "1-2",
+							"depends_on": "exit_intent_type",
+							"condition": "tool",
+							"conditionScope": "step"
+						},
+						{
+							"type": "text",
+							"name": "title_max_width",
+							"label": "Title Max Width",
+							"width": "1-2",
+							"depends_on": "exit_intent_type",
+							"condition": "tool",
+							"conditionScope": "step"
+						},
+						{
+							"type": "template",
+							"value": "lines",
+							"depends_on": "exit_intent_type",
+							"condition": "stepped",
+							"conditionScope": "step"
+						},
+						{
+							"type": "text",
+							"name": "button",
+							"label": "Button Text",
+							"required": true,
+							"width": "1-2",
+							"depends_on": "exit_intent_type",
+							"condition": "stepped",
+							"conditionScope": "step"
+						},
+						{
+							"type": "radio",
+							"name": "arrow",
+							"label": "Button Has Arrow?",
+							"required": true,
+							"useKeyInsteadOfValue":true,
+							"width": "1-2",
+							"values": {
+								"true": "True",
+								"false": "False"
+							},
+							"depends_on": "exit_intent_type",
+							"condition": "stepped",
+							"conditionScope": "step"
+						},
+						{
+							"type": "template",
+							"value": "fields-tool",
+							"depends_on": "exit_intent_type",
+							"condition": "tool",
+							"conditionScope": "step"
+						},
+						{
+							"type": "template",
+							"value": "fields",
+							"depends_on": "exit_intent_type",
+							"condition": "stepped",
+							"conditionScope": "step"
+						}
+					]
 				}
 			}
 		}

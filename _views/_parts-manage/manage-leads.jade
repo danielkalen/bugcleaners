@@ -4,6 +4,7 @@
 		'date': 'Date',
 		'status': 'Status',
 		'source_page': 'Source Page',
+		'form_type': 'Form Type',
 		'lead_contact': 'Lead Contact',
 		'lead_details': 'Lead Details',
 		'notes': 'Notes',
@@ -172,6 +173,18 @@ form.leads(data-action="none")
 
 							td.tbody-item.source_page
 								.tbody-item-source!='<b>/'+lead.source_page+'</b><br />(variation #'+lead.currentVariation+')'
+							
+
+							td.tbody-item.form_type
+								-
+									switch (lead.form_type) {
+										case 'boxed': lead.form_type = 'Boxed';								break; 
+										case 'tool-like': lead.form_type = 'Tool Form';						break; 
+										case 'exit_intent-left': lead.form_type = 'Exit Intent (Tool)';		break; 
+										case 'exit_intent-stepped': lead.form_type = 'Exit Intent (Reg)';	break; 
+										default: break;
+									}
+								.tbody-item-source!=lead.form_type
 							
 
 							td.tbody-item.lead_contact

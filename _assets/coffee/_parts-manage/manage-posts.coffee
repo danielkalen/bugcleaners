@@ -153,6 +153,7 @@ if isPostManagement
 			when 'Service' then 		@fieldName = $el.find('.fieldset.name').first().find('input')
 			when 'FAQ' then 			@fieldName = $el.find('.fieldset.question').first().find('input')
 			when 'FAQ Category' then 	@fieldName = $el.find('.fieldset.title').first().find('input')
+			when 'Exit Intent' then 	@fieldName = $el.find('.fieldset.name').first().find('input')
 
 		$el.data('item', @)
 		
@@ -209,7 +210,7 @@ if isPostManagement
 					'data': postData
 					'cb': (res)=>
 						if res.success
-							console.log("Page inserted successfuly!")
+							subnotify('success', "#{@single} \"#{@name}\" was successfuly inserted!")
 							if res.result?._id
 								@id = res.result._id
 
@@ -231,6 +232,10 @@ if isPostManagement
 					'data': postData
 					'cb': (res)=> 
 						state = if res.success then 'save_success' else 'save_error'
+						
+						if res.success
+							subnotify('success', "#{@single} \"#{@name}\" was successfuly updated!")
+						
 						@statusField.html res.message
 						
 						@el.removeClass('sending').addClass state

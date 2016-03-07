@@ -39,6 +39,7 @@ html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr'
 						each block in page.blocks
 							+renderSection(block)
 
+			include ./_parts-global/exit_intent.jade
 					
 			include ./_parts-page/footer.jade
 		script(type='text/javascript', src='/assets/js/'+bodyClass, async, defer)

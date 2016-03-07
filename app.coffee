@@ -99,7 +99,7 @@ app.use (req, res, next)->
 			logger.write('access', "[404] /#{slug} accessed by #{ipAddress}")
 			return res.status(404).render '404', {app:SETTINGS.app, markdown:markdown}
 		# return next()
-		renderPage = (pageType, faqs, faq_categories, pests, services)->
+		renderPage = (pageType, faqs, faq_categories, pests, services, exitIntent)->
 			currentPage = req.hostname + req.originalUrl
 			res.render pageType,
 				'page': page.variations[page.currentVariation]
@@ -114,6 +114,7 @@ app.use (req, res, next)->
 				'faq_categories': faq_categories
 				'pests': pests
 				'services': services
+				'exitIntent': exitIntent
 			logger.write('access', "/#{slug} accessed by #{ipAddress}")
 
 		pageIncludes = (page, slug)->
@@ -131,6 +132,7 @@ app.use (req, res, next)->
 			if pageIncludes(pageVariation, 'faqs') then includeFaqs = true
 			if pageIncludes(pageVariation, 'pests') then includePests = true
 			if pageIncludes(pageVariation, 'services') then includeServices = true
+			if pageVariation.exit_intent then includeExitIntent = true
 
 			getFaqs = ()->
 				new Promise (resolve)->
@@ -151,13 +153,19 @@ app.use (req, res, next)->
 				new Promise (resolve)->
 					if not includeServices then resolve()
 					else Posts.find {type:'service'}, (err, services)-> resolve(services)
+
+			getExitIntent = ()->
+				new Promise (resolve)->
+					if not includeExitIntent then resolve()
+					else Posts.findOne {type:'exit_intent', name:pageVariation.exit_intent}, (err, exitIntent)-> resolve(exitIntent)
 			
 			getFaqs().then (faqs)->
 				getFaqCats().then (faq_categories)->
 					getPests().then (pests)->
 						getServices().then (services)->
-							pageType = if page.type is 'standard' then 'page' else page.type
-							renderPage(pageType, faqs, faq_categories, pests, services)
+							getExitIntent().then (exitIntent)->
+								pageType = if page.type is 'standard' then 'page' else page.type
+								renderPage(pageType, faqs, faq_categories, pests, services, exitIntent)
 
 
 			if page.rotation

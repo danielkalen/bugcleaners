@@ -323,6 +323,8 @@ mixin fieldGenerator(options)
 				if options.has_title
 					div(class="#{className}-fieldset-repeater_group-title repeater-toggle")!=options.label
 					div(class="#{className}-fieldset-repeater_group-toggle repeater-toggle")
+					if options.desc
+						div(class="#{className}-fieldset-repeater_group-desc")!=options.desc
 				div(class="#{className}-fieldset-repeater_group repeater-container")
 					div(class="#{className}-fieldset-repeater_group-placeholder repeater-placeholder") Click/tap to start adding #{options.label.toLowerCase()}
 					div(class="#{className}-fieldset-repeater_group-template repeater-template")
@@ -393,6 +395,8 @@ mixin fieldGenerator(options)
 					}
 					resetRowPercentage()
 				div(class="#{className}-fieldset-repeater-title")!=options.label
+				if options.desc
+					div(class="#{className}-fieldset-repeater-desc")!=options.desc
 				div(class="#{className}-fieldset-toggle repeater-toggle")
 				div(class="#{className}-fieldset-repeater repeater-container")
 					div(class="#{className}-fieldset-repeater-template repeater-template")
@@ -443,6 +447,8 @@ mixin fieldGenerator(options)
 				if options.has_title
 					div(class="#{className}-fieldset-group-title group-toggle")!=options.label
 					div(class="#{className}-fieldset-group-toggle group-toggle")
+					if options.desc
+						div(class="#{className}-fieldset-group-desc")!=options.desc
 
 				div(class="#{className}-fieldset-group group-container")
 					-

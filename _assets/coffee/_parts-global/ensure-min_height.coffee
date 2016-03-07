@@ -15,8 +15,8 @@ do ($=jQuery)->
 		combinedHeight = headerHeight + footerHeight + heroHeight + ctaDividerHeight
 
 		
-		if pageHeight < windowHeight
-			$$('.page_innerwrap, .page').css 'min-height', windowHeight - combinedHeight
+		# if pageHeight < windowHeight
+		$$('.page_innerwrap, .page').css 'min-height', windowHeight - combinedHeight
 
 
 	$$(document).ready ensureFullHeight

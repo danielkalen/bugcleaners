@@ -1,0 +1,123 @@
+if page.exit_intent && exitIntent
+	-
+		var type = exitIntent.exit_intent_type,
+			steps = exitIntent.form_steps,
+			title = exitIntent.title,
+			subtitle = exitIntent.subtitle,
+			no_button = exitIntent.no_button,
+			introStep = exitIntent.intro_step,
+			curVariation = parseInt(currentVariation)+1;
+	
+	div(style="display:none")
+		.exit_intent.future_popup#exitIntent(class="type_#{type}" data-type=type)
+			form.exit_intent-form(data-action="cta_form" data-id=exitIntent._id novalidate)
+				.exit_intent-innerwrap
+
+					if type === 'tool'
+						.exit_intent-left
+							.exit_intent-left-innerwrap
+								.exit_intent-left-text
+									.exit_intent-left-text-title!=markdown.render(title).body
+									.exit_intent-left-text-subtitle!=markdown.render(subtitle).body
+						
+								.exit_intent-exit.no=no_button
+						
+						
+						.exit_intent-right
+							.exit_intent-right-innerwrap
+								each step,index in steps
+									-
+										var action = index === steps.length -1 ? 'submit' : 'next',
+											hasButton = step.field.type !== 'radio',
+											stepClasses = hasButton ? 'has_button':'',
+											buttonClasses = step.arrow ? action+' has_arrow' : action,
+											stepStyle = step.step_max_width ? 'max-width: '+step.step_max_width+'px':'',
+											titleStyle = step.title_max_width ? 'max-width: '+step.title_max_width+'px':'';
+									
+									.exit_intent-step.step(class=stepClasses style=stepStyle)
+										.exit_intent-step-innerwrap.step-innerwrap
+											.exit_intent-step-heading(style=titleStyle)
+												.exit_intent-step-heading-title=step.title
+												if step.subtitle
+													.exit_intent-step-heading-subtitle=step.subtitle
+												
+											- step.field.className = 'exit_intent';
+											- step.field.checkmark = true;
+											- step.field.required = typeof step.field.required !== 'undefined' ? step.field.required : true;
+											+fieldGenerator(step.field)
+											
+											if hasButton
+												.exit_intent-button(class=buttonClasses)
+													.exit_intent-button-text Next
+													.exit_intent-button-subtext or press ENTER
+				
+
+								.exit_intent-results.the_results.results
+						
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					else if type === 'stepped'
+						.exit_intent-step.step.intro_step
+							.exit_intent-step-innerwrap
+								.exit_intent-intro
+									each line in introStep.lines
+										.exit_intent-intro-line(class=line.size)!=markdown.render(line.line).body
+								
+								.exit_intent-cta
+									.exit_intent-cta-innerwrap.step-innerwrap
+										.exit_intent-cta-button.decision_button.next
+											.exit_intent-cta-button-large Yes
+											.exit_intent-cta-button-small!=markdown.render(introStep.yes_button).body
+							
+							.exit_intent-exit.no=introStep.no_button
+						
+
+
+
+						each step,index in steps
+							.exit_intent-step.step
+								.exit_intent-step-innerwrap
+									.exit_intent-intro
+										each line in step.lines
+											.exit_intent-intro-line(class=line.size)!=markdown.render(line.line).body
+									
+									.exit_intent-cta
+										.exit_intent-cta-innerwrap.step-innerwrap
+											each field in step.fields
+												-
+													field.className = 'exit_intent'
+													field.checkmark = true
+													field.required = typeof field.required !== 'undefined' ? field.required : true
+
+												+fieldGenerator(field)
+
+											- action = index === steps.length -1 ? 'submit' : 'next'
+											.exit_intent-cta-button-outerwrap
+												.exit_intent-cta-button(class=action)
+													.exit_intent-cta-button-text=step.button
+
+								.exit_intent-exit.no
+
+						
+						.exit_intent-results.the_results.results
+					
+					.exit_intent-exit.no.final-step-exit
+
+
+				input(type="hidden" name="currentVariation" value=curVariation)
+				input(type="hidden" name="source_page" value=currentPageSlug)
+				input(type="hidden" name="form_type" value="exit_intent-#{type}")

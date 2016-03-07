@@ -4,7 +4,8 @@
 			"pest":[],
 			"service":[],
 			"faq":[],
-			"faq_category":[]
+			"faq_category":[],
+			"exit_intent":[]
 		};
 
 	if posts.length
@@ -91,4 +92,24 @@
 
 		.manage-content-list-add.add
 			.manage-content-list-add-text Add Category
+
+
+
+
+
+
+
+
+	form.manage-content-list(id="exit_intent" class="exit_intent {{visibility}}")
+		h4.manage-content-list-title
+			.manage-content-list-title-text Exit Intents
+		
+		if POSTS.exit_intent.length
+			each exit_intent in POSTS.exit_intent
+				+renderPostExitIntent(exit_intent)
+		else
+			+renderPostExitIntent
+
+		.manage-content-list-add.add
+			.manage-content-list-add-text Add Exit Intent
 

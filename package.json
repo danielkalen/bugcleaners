@@ -39,7 +39,7 @@
     "server": "npm run db & npm run server:start",
       "server:local": "npm run db:local & npm run server:start:local",
       "server:start": "forever start -d -a -l /var/www/bugcleaners.com/logfile -c 'coffee' app.coffee",
-        "server:start:local": "nodemon -e coffee --ignore _assets/ --ignore node_modules/ --ignore _views/ app.coffee",
+        "server:start:local": "nodemon -e coffee,json --ignore _assets/ --ignore node_modules/ --ignore _views/ --ignore package.json app.coffee",
       "server:stop": "forever stop app.coffee",
       "server:restart": "npm run server:stop && npm run server:start",
     "db": "npm run db:mongo && npm run db:redis",

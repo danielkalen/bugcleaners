@@ -1,0 +1,43 @@
+&-left
+	position: relative
+	float: left
+	width: 50%
+	height: 100%
+	background-color: $primary
+	
+	&-text
+		position: absolute
+		+valign
+		left: 0
+		right: 0
+		max-width: 575px
+		padding: 0 20px
+		box-sizing: border-box
+		width: auto
+		+center
+		text-align: left
+
+		&-title
+			font-weight: 600
+			font-size: 46px
+			line-height: 60px
+
+		&-subtitle
+			margin-top: 10px
+			font-weight: 500
+			font-size: 28px
+			line-height: 36px
+			opacity: 0.75
+
+&-right
+	position: relative
+	float: left
+	width: 50%
+	height: 100%
+
+	&-innerwrap
+		position: relative
+		height: 420px
+		+valign
+		width: 100%
+		overflow: hidden

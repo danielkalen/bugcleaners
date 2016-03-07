@@ -32,7 +32,7 @@ if isPageManagement
 	Variation::clone = ()-> 
 		@page.addVariation(@)
 		@el.children('.toggle_open').first().trigger('click')
-		subnotify('info', "Variation was successfuly cloned. Don't forget to save it in order to apply the changes to the database", 5000)
+		subnotify('info', "Variation was successfuly cloned. Don't forget that images aren't cloned over and to save it in order to apply the changes to the database", 5000)
 	
 	Variation::disable = ()->
 		if @page.el.find('.manage-content-list-item').not('disabled').length > 1 # Make sure there are other non-disabled varirations

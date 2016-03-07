@@ -1,5 +1,4 @@
 do ($=jQuery)->
-	
 	formOptions = 
 		validateOnTyping: true
 		preserveValuesAfterRefresh: false
@@ -24,7 +23,7 @@ do ($=jQuery)->
 
 
 
-	applyAutoProceedLogicForToolForms = (form, formInstance)->
+	window.applyAutoProceedLogicForToolForms = (form, formInstance)->
 		form.on 'form_filled', util.debounce(()->
 			$activeStep = formInstance.step.current
 			hasButton = $activeStep.find('.next, .button, .submit').length != 0
