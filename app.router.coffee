@@ -29,7 +29,7 @@ router.get '/pests/:pest', (req,res)->
 
 	Posts.findOne {type:'pest', slug:slug}, (err, pest)->
 		if err then console.log(err)
-		if !pest then res.status(404).render '404'
+		if !pest then return res.status(404).render '404', {app:SETTINGS.app, markdown:markdown}
 		
 		res.render 'pest-single',
 			'pest': pest
@@ -62,8 +62,8 @@ router.get '/services/:service', (req,res)->
 
 	Posts.findOne {type:'service', slug:slug}, (err, service)->
 		if err then console.log(err)
-		if !service then res.status(404).render '404', {app:SETTINGS.app, markdown:markdown}
-		
+		if !service then return res.status(404).render '404', {app:SETTINGS.app, markdown:markdown}
+
 		res.render 'service-single',
 			'service': service
 			'production': inProduction
