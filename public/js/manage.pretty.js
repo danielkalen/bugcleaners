@@ -3952,7 +3952,7 @@ isPostManagement = $$('body').hasClass('posts');
 isLeadManagement = $$('body').hasClass('leads');
 
 (function($) {
-  var DB, PAGES, POSTTYPES, PageItem, Post, PostType, SIDEBAR, SidebarItem, Variation, alreadySetMinMax, appendDynamicBlocks, applicableLeads, fieldTemplates, generateNewSlug, initForm, initSortables, makeGroupSortable, setMinMax, setSidebarPosition, sidebarMinMax;
+  var DB, POSTTYPES, PageItem, Post, PostType, SidebarItem, Variation, alreadySetMinMax, appendDynamicBlocks, applicableLeads, fieldTemplates, generateNewSlug, initForm, initSortables, makeGroupSortable, setMinMax, setSidebarPosition, sidebarMinMax;
   fieldTemplates = {};
   $('#fieldTemplates').children().each(function() {
     var $template, name, template;
@@ -4134,7 +4134,7 @@ isLeadManagement = $$('body').hasClass('leads');
       return newSlug;
     }
   };
-  SIDEBAR = {
+  window.SIDEBAR = {
     'list': $('.manage-sidebar-list'),
     'template': $(fieldTemplates.sidebarItem),
     'items': [],
@@ -4193,9 +4193,9 @@ isLeadManagement = $$('body').hasClass('leads');
     return this.el.removeClass('active');
   };
   SidebarItem.prototype.remove = function() {
-    return this.el.removeClass('active').prev().addClass('active').end().remove();
+    return this.el.removeClass('active').siblings().first().addClass('active').end().end().remove();
   };
-  $('.manage-sidebar-list-item').each(function() {
+  $('.manage-sidebar').find('.manage-sidebar-list-item').each(function() {
     return SIDEBAR.addExisting($(this));
   });
 
@@ -4412,7 +4412,7 @@ isLeadManagement = $$('body').hasClass('leads');
     };
   }
   if (isPageManagement) {
-    PAGES = {
+    window.PAGES = {
       'list': $('.manage-content'),
       'template': $(fieldTemplates.page),
       'varTemplate': $(fieldTemplates.variation),
@@ -4575,7 +4575,9 @@ isLeadManagement = $$('body').hasClass('leads');
       cloneSidebar = SIDEBAR.add(cloneLabel, cloneSlug, this.sidebar.el);
       clonedItem = PAGES.add(cloneSidebar, this.el);
       clonedItem.show();
-      return clonedItem.save(true);
+      return setTimeout(function() {
+        return clonedItem.save(true);
+      }, 150);
     };
     PageItem.prototype.fetchValues = function() {
       var removeEmptyFileFields, variationsData;
@@ -4658,9 +4660,9 @@ isLeadManagement = $$('body').hasClass('leads');
                     text: "Page " + _this.name + " was successfuly deleted.",
                     time: 3000
                   });
-                  return _this.el.removeClass('show').prev().each(function() {
+                  return _this.el.removeClass('show').siblings().first().each(function() {
                     return $(this).data('item').show();
-                  }).end().remove();
+                  }).end().end().remove();
                 }
               }
             });

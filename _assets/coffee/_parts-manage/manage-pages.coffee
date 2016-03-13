@@ -1,5 +1,5 @@
 if isPageManagement
-	PAGES = 
+	window.PAGES = 
 		'list': $('.manage-content')
 		'template': $(fieldTemplates.page)
 		'varTemplate': $(fieldTemplates.variation)
@@ -145,7 +145,9 @@ if isPageManagement
 		cloneSidebar = SIDEBAR.add(cloneLabel, cloneSlug, @sidebar.el)
 		clonedItem = PAGES.add(cloneSidebar, @el)
 		clonedItem.show()
-		clonedItem.save(true)
+		setTimeout ()->
+			clonedItem.save(true)
+		, 150
 
 
 	PageItem::fetchValues = ()->
@@ -219,8 +221,10 @@ if isPageManagement
 							subnotify {type:'success', text:"Page #{@name} was successfuly deleted.", time:3000}
 							@el
 								.removeClass('show')
-								.prev()
-									.each(()-> $(@).data('item').show())
+								.siblings()
+									.first()
+										.each(()-> $(@).data('item').show())
+										.end()
 									.end()
 								.remove()
 

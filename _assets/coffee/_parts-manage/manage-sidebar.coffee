@@ -10,7 +10,7 @@ generateNewSlug = (index = 1)->
 
 
 
-SIDEBAR = 
+window.SIDEBAR = 
 	'list': $('.manage-sidebar-list')
 	'template': $(fieldTemplates.sidebarItem)
 	'items': []
@@ -81,13 +81,15 @@ SidebarItem::hide = ()->
 SidebarItem::remove = ()->
 	@el
 		.removeClass('active')
-		.prev()
-			.addClass('active')
+		.siblings()
+			.first()
+				.addClass('active')
+				.end()
 			.end()
 		.remove()
 
 
-$('.manage-sidebar-list-item').each ()-> SIDEBAR.addExisting $(@)
+$('.manage-sidebar').find('.manage-sidebar-list-item').each ()-> SIDEBAR.addExisting $(@)
 
 
 
