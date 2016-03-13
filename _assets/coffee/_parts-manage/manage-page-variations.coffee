@@ -32,7 +32,7 @@ if isPageManagement
 	Variation::clone = ()-> 
 		@page.addVariation(@)
 		@el.children('.toggle_open').first().trigger('click')
-		subnotify('info', "Variation was successfuly cloned. Don't forget that images aren't cloned over and to save it in order to apply the changes to the database", 5000)
+		subnotify({type:'info', text:"Variation was successfuly cloned. Don't forget that images aren't cloned over and to save it in order to apply the changes to the database", time:5000})
 	
 	Variation::disable = ()->
 		if @page.el.find('.manage-content-list-item').not('disabled').length > 1 # Make sure there are other non-disabled varirations
@@ -45,20 +45,20 @@ if isPageManagement
 				'data': data
 				'cb': (res)=> @el.toggleClass 'disabled' if res.success
 		else
-			notify 'ok', "Can't disable variation", 'You must have at least one variation enabled per page'
+			notify {type:'ok', title:"Can't disable variation", text:'You must have at least one variation enabled per page'}
 	
 
 	
 	Variation::delete = ()-> 
 		if @page.variations.length > 1
-			notify('yesno', "Delete Variation #{@index+1}",'Are you sure you want to delete this variation? This cannot be undone.').then ()=>
+			notify({type:'yesno', title:"Delete Variation #{@index+1}", text:'Are you sure you want to delete this variation? This cannot be undone.'}).then ()=>
 				@page.removeVariation(@)
 				DB.variation.remove
 					'id': @page.id
 					'index': @index
-					'cb': (res)=> subnotify('success', "Variation ##{@index+1} successfuly removed", 3000)
+					'cb': (res)=> subnotify({type:'success', text:"Variation ##{@index+1} successfuly removed", time:3000})
 
-		else notify 'ok', "Can't delete this variation", 'Each page must have at least one variation that\'s enabled'
+		else notify {type:'ok', title:"Can't delete this variation", text:'Each page must have at least one variation that\'s enabled'}
 
 
 
@@ -102,10 +102,10 @@ if isPageManagement
 					@statusField.html res.message
 
 					if res.success
-						subnotify('success', "Variation #{@index+1} of #{@page.name} was successfuly updated!")
+						subnotify({type:'success', text:"Variation #{@index+1} of #{@page.name} was successfuly updated!"})
 					else
 						serverMessage = if res?.message then "Here's what the server said: \"#{res.message}\"" else ''
-						subnotify('error', "There was an error when trying to save this variation. #{serverMessage}")
+						subnotify({type:'error', text:"There was an error when trying to save this variation. #{serverMessage}"})
 					
 					@el.removeClass('sending').addClass state
 				

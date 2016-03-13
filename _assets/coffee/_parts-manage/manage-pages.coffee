@@ -131,7 +131,7 @@ if isPageManagement
 	
 	PageItem::disable = ()->
 		@enabled = !@enabled
-		notify('yesno', "Disabling #{@name}", "Are you sure you want to disable this page? It won't be accessible on the front end.").then ()=>
+		notify({type:'yesno', title:"Disabling #{@name}", text:"Are you sure you want to disable this page? It won't be accessible on the front end."}).then ()=>
 			DB.page.update 
 				'id': @el.attr('id')
 				'name': 'enabled'
@@ -191,7 +191,7 @@ if isPageManagement
 				'data': data
 				'cb': (res)=>
 					if res.success 
-						subnotify 'success', 'Page created/added successfuly.', 3000
+						subnotify {type:'success', text:'Page created/added successfuly.', time:3000}
 						$.post '/api/get/pages', {slug: @slug}, (res)=>
 							@id = res[0]._id
 							@el.attr('id', res[0]._id)
@@ -206,9 +206,9 @@ if isPageManagement
 	PageItem::remove = ()->
 		isLastPage = !@sidebar.el.siblings().length
 
-		return notify('ok', 'Why would you do that?', 'You cannot delete the last page in the database.') if isLastPage
+		return notify({type:'ok', title:'Why would you do that?', text:'You cannot delete the last page in the database.'}) if isLastPage
 
-		notify('yesno', "Deleting #{@name}", 'Are you sure you want to delete this page from the database? This cannot be undone.').then ()=>
+		notify({type:'yesno', title:"Deleting #{@name}", text:'Are you sure you want to delete this page from the database? This cannot be undone.'}).then ()=>
 			PAGES.remove(@slug)
 			SIDEBAR.remove(@slug)
 			if @id
@@ -216,7 +216,7 @@ if isPageManagement
 					'id':@id
 					'cb':(res)=>
 						if res.success
-							subnotify 'success', "Page #{@name} was successfuly deleted.", 3000
+							subnotify {type:'success', text:"Page #{@name} was successfuly deleted.", time:3000}
 							@el
 								.removeClass('show')
 								.prev()

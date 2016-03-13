@@ -181,14 +181,14 @@ if isPostManagement
 	
 	Post::delete = ()-> 
 		if @postType.posts.length > 1
-			notify('yesno', "Deleting #{@name}", "Are you sure you want to delete this #{@single} from the database? This cannot be undone.").then ()=>
+			notify({type:'yesno', title:"Deleting #{@name}", text:"Are you sure you want to delete this #{@single} from the database? This cannot be undone."}).then ()=>
 				@postType.removePost(@)
 				if @id
 					DB.post.remove
 						'id': @id
-						'cb': (res)=> subnotify('success', "#{@name} was successfuly removed.") if res.success
+						'cb': (res)=> subnotify {type:'success', text:"#{@name} was successfuly removed."} if res.success
 
-		else notify 'ok', 'How will you explain this to your users?', "You must have at least one #{@single} in the database."
+		else notify {type:'ok', title:'How will you explain this to your users?', text:"You must have at least one #{@single} in the database."}
 
 
 
@@ -210,7 +210,7 @@ if isPostManagement
 					'data': postData
 					'cb': (res)=>
 						if res.success
-							subnotify('success', "#{@single} \"#{@name}\" was successfuly inserted!")
+							subnotify {type:'success', text:"#{@single} \"#{@name}\" was successfuly inserted!"}
 							if res.result?._id
 								@id = res.result._id
 
@@ -234,7 +234,7 @@ if isPostManagement
 						state = if res.success then 'save_success' else 'save_error'
 						
 						if res.success
-							subnotify('success', "#{@single} \"#{@name}\" was successfuly updated!")
+							subnotify {type:'success', text:"#{@single} \"#{@name}\" was successfuly updated!"}
 						
 						@statusField.html res.message
 						

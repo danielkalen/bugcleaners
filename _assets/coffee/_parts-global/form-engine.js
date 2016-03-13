@@ -2087,6 +2087,9 @@
      */
     Form.prototype.Prepare = function(firstTime) {
       var formClassName;
+      if (this.form.length === 0) {
+        return;
+      }
       if (this.form.find('.step').length === 0) {
         formClassName = this.form[0].className.split(' ')[1];
         this.form.wrapInner("<div class=\"" + formClassName + " step show\"></div>");

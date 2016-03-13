@@ -1,26 +1,26 @@
 =font-face($name, $font-file, $type, $base64: true, $eot: false, $weight: false, $style: false)
-  @if $type == 'woff'
-    $prefix: 'data:application/font-ttf;charset=utf-8;base64,'
-    $b64type: 'woff'
-  @elseif $type == 'ttf'
-    $prefix: 'data:application/font-ttf;charset=utf-8;base64,'
-    $b64type: 'truetype'
-  @elseif $type == 'eot'
-    $prefix: 'data:font/opentype;charset=utf-8;base64,'
-    $b64type: 'embedded-opentype'
-  $iefont: unquote("#{$eot}?#iefix")
-  @font-face
-    font-family: quote($name)
+	@if $type == 'woff'
+		$prefix: 'data:application/font-ttf;charset=utf-8;base64,'
+		$b64type: 'woff'
+	@elseif $type == 'ttf'
+		$prefix: 'data:application/font-ttf;charset=utf-8;base64,'
+		$b64type: 'truetype'
+	@elseif $type == 'eot'
+		$prefix: 'data:font/opentype;charset=utf-8;base64,'
+		$b64type: 'embedded-opentype'
+	$iefont: unquote("#{$eot}?#iefix")
+	@font-face
+		font-family: quote($name)
 
-    @if $base64
-      src: unquote("url(#{$prefix}#{$font-file})") unquote("format('#{$b64type}')")
-    @else
-      src: unquote("url(#{$font-file})") unquote("format('#{$b64type}')")
-    
-    @if $weight
-      font-weight: $weight
-    @if $style
-      font-style: $style
+		@if $base64
+			src: unquote("url(#{$prefix}#{$font-file})") unquote("format('#{$b64type}')")
+		@else
+			src: unquote("url(#{$font-file})") unquote("format('#{$b64type}')")
+		
+		@if $weight
+			font-weight: $weight
+		@if $style
+			font-style: $style
 
 
 
