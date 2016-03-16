@@ -31,9 +31,9 @@ passport.use new passportStrategy (email, password, done)->
 			console.log(err)
 			return done(err)
 		if !user
-			done(null, false)
+			return done(null, false)
 		if user.password isnt password
-			done(null, false)
+			return done(null, false)
 		
 		done(null, user)
 		logger.write 'access', "Login Success by #{email}"
