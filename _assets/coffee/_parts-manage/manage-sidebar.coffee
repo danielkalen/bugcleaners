@@ -45,16 +45,18 @@ window.SIDEBAR =
 
 
 	remove: (slug)->
-		itemInArray = @items.filter (item)-> item.slug is slug
-		indexOfItem = @items.indexOf itemInArray
+		itemsInArray = @items.filter (item)-> item.slug is slug
+		itemsInArray.forEach (item)=>
+			indexOfItem = @items.indexOf item
 
-		itemInArray[0].remove()
+			item.remove()
 
-		if indexOfItem isnt -1
-			@items.splice(indexOfItem, 1)
-			return true
-		else
-			return false
+			if indexOfItem isnt -1
+				@items.splice(indexOfItem, 1)
+				return true
+			else
+				return false
+
 
 
 SidebarItem = (slug, label, el, elTitle)->

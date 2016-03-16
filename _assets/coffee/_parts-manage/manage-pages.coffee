@@ -15,7 +15,7 @@ if isPageManagement
 		add: (sidebarItem, clone)->
 			$newItem = if clone then util.cloneSafe(clone, true) else util.cloneSafe(@template, true)
 			$newItem[0].className = 'manage-content-list {{slug}} {{visibility}}' if clone
-			newItem = new PageItem('', sidebarItem.slug, sidebarItem.label, clone.data('item')?.type, true, false, $newItem, sidebarItem)
+			newItem = new PageItem('', sidebarItem.slug, sidebarItem.label, clone?.data('item')?.type, true, false, $newItem, sidebarItem)
 			@items.push(newItem)
 			
 			newItem.el
@@ -36,7 +36,8 @@ if isPageManagement
 
 		remove: (slug)->
 			itemInArray = @items.filter (item)-> item.slug is slug
-			indexOfItem = @items.indexOf itemInArray
+			indexOfItem = @items.indexOf itemInArray[0]
+
 			if indexOfItem isnt -1
 				@items.splice(indexOfItem, 1)
 				return true
@@ -55,6 +56,7 @@ if isPageManagement
 		@enabled = !!enabled
 		@rotation = rotation
 		@visible = false
+		@firstTime = true
 		@form = el.data('Form')
 		@el = el
 		@elTitle = el.find('.manage-content-list-title-text').first()
@@ -86,21 +88,26 @@ if isPageManagement
 
 		SimplyBind('type').of(@).to('value').of(@fieldType).bothWays()
 		SimplyBind('value').of(@fieldType)
-			.to (newValue)=> DB.page.update {'id':@id, 'name':'type', 'value':newValue}
+			.to (newValue)=> DB.page.update {'id':@id, 'name':'type', 'value':newValue} if newValue
 		
 
 		SimplyBind('name').of(@).to('value').of(@fieldName).bothWays()
 		SimplyBind('value').of(@fieldName)
 			.to('textContent').of(@elTitle)
 			.and('label').of(@sidebar)
-			.and (newValue)=> DB.page.update {'id':@id, 'name':'name', 'value':newValue}
+			.and (newValue)=> DB.page.update {'id':@id, 'name':'name', 'value':newValue} if newValue
 		
-		
+
 		slugTransform = (val)-> val.toLowerCase().replace /\s/g, '-'
 		SimplyBind('slug').of(@)
 			.to('slug').of(@sidebar).bothWays()
 			.and('value').of(@fieldSlug).bothWays()
 			.transformAll slugTransform
+			.chainTo (slug)=>
+				filteredSlug = enforceUniqueSlug(slug, @firstTime)
+				unless slug is filteredSlug
+					@slug = filteredSlug
+					subnotify {type:'warning', text:"The slug \"#{slug}\" already exists, changed to \"#{filteredSlug}\".", time:3000}
 		
 		SimplyBind('value').of(@fieldSlug).to('class.slug').of(@el).transform slugTransform
 		SimplyBind('value').of(@fieldSlug).to (newValue)=> DB.page.update {'id':@id, 'name':'slug', 'value':slugTransform(newValue)}
@@ -116,6 +123,7 @@ if isPageManagement
 
 		SimplyBind.setOption('invokeOnBind', true)
 
+		@firstTime = false
 		return @
 
 
@@ -271,6 +279,17 @@ if isPageManagement
 
 
 
+
+
+
+	enforceUniqueSlug = (newSlug, firstTime)->
+		allSlugs = PAGES.items.map (item)-> item.slug
+		allowedCount = if firstTime then 0 else 1
+
+		if allSlugs.filter((item)-> item is newSlug).length > allowedCount
+			return newSlug+'-copy'
+		else
+			return newSlug
 
 
 

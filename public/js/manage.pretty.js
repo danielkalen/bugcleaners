@@ -3952,7 +3952,7 @@ isPostManagement = $$('body').hasClass('posts');
 isLeadManagement = $$('body').hasClass('leads');
 
 (function($) {
-  var DB, POSTTYPES, PageItem, Post, PostType, SidebarItem, Variation, alreadySetMinMax, appendDynamicBlocks, applicableLeads, fieldTemplates, generateNewSlug, initForm, initSortables, makeGroupSortable, setMinMax, setSidebarPosition, sidebarMinMax;
+  var DB, POSTTYPES, PageItem, Post, PostType, SidebarItem, Variation, alreadySetMinMax, appendDynamicBlocks, applicableLeads, enforceUniqueSlug, fieldTemplates, generateNewSlug, initForm, initSortables, makeGroupSortable, setMinMax, setSidebarPosition, sidebarMinMax;
   fieldTemplates = {};
   $('#fieldTemplates').children().each(function() {
     var $template, name, template;
@@ -4159,18 +4159,23 @@ isLeadManagement = $$('body').hasClass('leads');
       return newItem;
     },
     remove: function(slug) {
-      var indexOfItem, itemInArray;
-      itemInArray = this.items.filter(function(item) {
+      var itemsInArray;
+      itemsInArray = this.items.filter(function(item) {
         return item.slug === slug;
       });
-      indexOfItem = this.items.indexOf(itemInArray);
-      itemInArray[0].remove();
-      if (indexOfItem !== -1) {
-        this.items.splice(indexOfItem, 1);
-        return true;
-      } else {
-        return false;
-      }
+      return itemsInArray.forEach((function(_this) {
+        return function(item) {
+          var indexOfItem;
+          indexOfItem = _this.items.indexOf(item);
+          item.remove();
+          if (indexOfItem !== -1) {
+            _this.items.splice(indexOfItem, 1);
+            return true;
+          } else {
+            return false;
+          }
+        };
+      })(this));
     }
   };
   SidebarItem = function(slug, label, el, elTitle) {
@@ -4429,7 +4434,7 @@ isLeadManagement = $$('body').hasClass('leads');
         if (clone) {
           $newItem[0].className = 'manage-content-list {{slug}} {{visibility}}';
         }
-        newItem = new PageItem('', sidebarItem.slug, sidebarItem.label, (ref = clone.data('item')) != null ? ref.type : void 0, true, false, $newItem, sidebarItem);
+        newItem = new PageItem('', sidebarItem.slug, sidebarItem.label, clone != null ? (ref = clone.data('item')) != null ? ref.type : void 0 : void 0, true, false, $newItem, sidebarItem);
         this.items.push(newItem);
         newItem.el.data('show', true).data('new', true).data('slug', newItem.slug).attr('id', '').addClass(newItem.slug).find('.manage-content-list-item').data('closed', true).end().appendTo(PAGES.list);
         newItem.show();
@@ -4440,7 +4445,7 @@ isLeadManagement = $$('body').hasClass('leads');
         itemInArray = this.items.filter(function(item) {
           return item.slug === slug;
         });
-        indexOfItem = this.items.indexOf(itemInArray);
+        indexOfItem = this.items.indexOf(itemInArray[0]);
         if (indexOfItem !== -1) {
           this.items.splice(indexOfItem, 1);
           return true;
@@ -4459,6 +4464,7 @@ isLeadManagement = $$('body').hasClass('leads');
       this.enabled = !!enabled;
       this.rotation = rotation;
       this.visible = false;
+      this.firstTime = true;
       this.form = el.data('Form');
       this.el = el;
       this.elTitle = el.find('.manage-content-list-title-text').first();
@@ -4493,27 +4499,44 @@ isLeadManagement = $$('body').hasClass('leads');
       SimplyBind('type').of(this).to('value').of(this.fieldType).bothWays();
       SimplyBind('value').of(this.fieldType).to((function(_this) {
         return function(newValue) {
-          return DB.page.update({
-            'id': _this.id,
-            'name': 'type',
-            'value': newValue
-          });
+          if (newValue) {
+            return DB.page.update({
+              'id': _this.id,
+              'name': 'type',
+              'value': newValue
+            });
+          }
         };
       })(this));
       SimplyBind('name').of(this).to('value').of(this.fieldName).bothWays();
       SimplyBind('value').of(this.fieldName).to('textContent').of(this.elTitle).and('label').of(this.sidebar).and((function(_this) {
         return function(newValue) {
-          return DB.page.update({
-            'id': _this.id,
-            'name': 'name',
-            'value': newValue
-          });
+          if (newValue) {
+            return DB.page.update({
+              'id': _this.id,
+              'name': 'name',
+              'value': newValue
+            });
+          }
         };
       })(this));
       slugTransform = function(val) {
         return val.toLowerCase().replace(/\s/g, '-');
       };
-      SimplyBind('slug').of(this).to('slug').of(this.sidebar).bothWays().and('value').of(this.fieldSlug).bothWays().transformAll(slugTransform);
+      SimplyBind('slug').of(this).to('slug').of(this.sidebar).bothWays().and('value').of(this.fieldSlug).bothWays().transformAll(slugTransform).chainTo((function(_this) {
+        return function(slug) {
+          var filteredSlug;
+          filteredSlug = enforceUniqueSlug(slug, _this.firstTime);
+          if (slug !== filteredSlug) {
+            _this.slug = filteredSlug;
+            return subnotify({
+              type: 'warning',
+              text: "The slug \"" + slug + "\" already exists, changed to \"" + filteredSlug + "\".",
+              time: 3000
+            });
+          }
+        };
+      })(this));
       SimplyBind('value').of(this.fieldSlug).to('class.slug').of(this.el).transform(slugTransform);
       SimplyBind('value').of(this.fieldSlug).to((function(_this) {
         return function(newValue) {
@@ -4536,6 +4559,7 @@ isLeadManagement = $$('body').hasClass('leads');
       this.toggle[0].className = 'manage-content-list-variation_options-toggle rotation {{state}}';
       SimplyBind('rotation').of(this).to('class.state').of(this.toggle);
       SimplyBind.setOption('invokeOnBind', true);
+      this.firstTime = false;
       return this;
     };
     PageItem.prototype.show = function() {
@@ -4702,6 +4726,20 @@ isLeadManagement = $$('body').hasClass('leads');
       });
       this.fieldVar.prop('max', this.variations.length + 1);
       return this.form.RemoveStep(variation.index);
+    };
+    enforceUniqueSlug = function(newSlug, firstTime) {
+      var allSlugs, allowedCount;
+      allSlugs = PAGES.items.map(function(item) {
+        return item.slug;
+      });
+      allowedCount = firstTime ? 0 : 1;
+      if (allSlugs.filter(function(item) {
+        return item === newSlug;
+      }).length > allowedCount) {
+        return newSlug + '-copy';
+      } else {
+        return newSlug;
+      }
     };
     $('.manage-content').find('.manage-content-list').each(function() {
       return PAGES.addExisting($(this));

@@ -19,6 +19,7 @@ Posts = db.get('posts')
 Users = db.get('users')
 inProduction = if __dirname.includes('Projects') then false else true
 port = if inProduction then 7889 else 7889
+availPageTypes = Object.keys SETTINGS.fieldSchemas.page.pageData.type.values
 
 ### ==========================================================================
 	 Management page auth
@@ -95,7 +96,7 @@ app.use (req, res, next)->
 	ipAddress = req.headers['cf-connecting-ip'] or req.headers['x-forwarded-for'] or req.connection.remoteAddress
 
 	Pages.findOne {'slug':slug}, (err, page)->
-		if not page
+		if not page or not page.type or not availPageTypes.includes page.type
 			logger.write('access', "[404] /#{slug} accessed by #{ipAddress}")
 			return res.status(404).render '404', {app:SETTINGS.app, markdown:markdown}
 		# return next()
