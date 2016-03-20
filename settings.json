@@ -901,7 +901,8 @@
 					"defaultValue": "The Pest Authority Trusted By *Thousands*",
 					"depends_on": "type",
 					"conditionScope": "form",
-					"condition": "landing"
+					"condition": "standard",
+					"comparison": "!="
 				},
 				"exit_intent": {
 					"type": "select",

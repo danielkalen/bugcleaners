@@ -3,7 +3,8 @@ header#masthead.header
 
 		.header-logo
 			img.header-logo-img(src='/img/logo.png', width=app.logo.width, height=app.logo.height, alt=app.name, title=app.name+' Logo')
-
-		.header-text!=markdown.render(page.header_text).body
+		
+		if page.header_text
+			.header-text!=markdown.render(page.header_text).body
 
 	.header-mobile_nav
