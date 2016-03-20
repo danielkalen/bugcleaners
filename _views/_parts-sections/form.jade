@@ -64,7 +64,7 @@ mixin form(values)
 						h3.form_tool-heading-title(style=formTitleStyle)=values.title
 						p.form_tool-heading-subtitle(style=formSubtitleStyle)=values.subtitle
 					else
-						h3.form_tool-heading-title=markdown.render(values.title).body
+						h3.form_tool-heading-title!=markdown.render(values.title).body
 						p.form_tool-heading-subtitle=values.subtitle
 
 				form.form.form_tool-form(data-action="cta_form" data-variation=curVariation novalidate)
