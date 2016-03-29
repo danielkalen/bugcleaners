@@ -2585,7 +2585,9 @@
         return $(this).height($(this).data('height'));
       }).siblings('.step').height(stepClosedHeight);
       $steps.on('height_changed', function() {
-        return Form.utils.setSectionHeight($(this), false, true, stepClosedHeight);
+        var currentlyOpen;
+        currentlyOpen = $(this).height() > stepClosedHeight + 5;
+        return Form.utils.setSectionHeight($(this), false, true, stepClosedHeight, currentlyOpen);
       });
       return $window.on('resize', util.debounce(function() {
         Form.utils.saveSectionHeights($steps);
@@ -2608,7 +2610,7 @@
     	==================================
      */
     Form.utils = {
-      setSectionHeight: function($section, hideOthers, setNewHeight, hiddenHeight) {
+      setSectionHeight: function($section, hideOthers, setNewHeight, hiddenHeight, applyNewHeight) {
         if (hideOthers == null) {
           hideOthers = true;
         }
@@ -2618,10 +2620,15 @@
         if (hiddenHeight == null) {
           hiddenHeight = 40;
         }
+        if (applyNewHeight == null) {
+          applyNewHeight = true;
+        }
         if (setNewHeight) {
           $section.data('height', $section.children('.step-innerwrap').height() + 70);
         }
-        $section.height($section.data('height'));
+        if (applyNewHeight) {
+          $section.height($section.data('height'));
+        }
         if (hideOthers) {
           return $section.siblings('.step').css('height', hiddenHeight + "px");
         }

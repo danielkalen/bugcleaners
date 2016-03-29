@@ -61,7 +61,7 @@ mixin form(values)
 					- var formTitleStyle = values.title_max_width ? 'max-width: '+values.title_max_width+'px':'';
 					- var formSubtitleStyle = values.subtitle_max_width ? 'max-width: '+values.subtitle_max_width+'px':'';
 					if values.alignment === 'center'
-						h3.form_tool-heading-title(style=formTitleStyle)=values.title
+						h3.form_tool-heading-title(style=formTitleStyle)!=markdown.render(values.title).body
 						p.form_tool-heading-subtitle(style=formSubtitleStyle)=values.subtitle
 					else
 						h3.form_tool-heading-title!=markdown.render(values.title).body
