@@ -255,11 +255,11 @@ router.post '/ajax', (req, res)->
 			params.last_name = fullname.slice(1).join(' ').toLowerCase().replace(/^(.)/, (e,m)-> m.toUpperCase())
 
 		for param of params
-			if paramsToOmit.includes(param)
+			unless paramsToOmit.includes(param)
 				paramsToSubmit[param] = params[param]
 
-		for param of paramsToSubmit
-			messageToSubmit += '<p><b>' + param.replace('_', ' ').replace(/\b(.)/g, (e,m)-> m.toUpperCase()) + ': </b>' + paramsToSubmit[param] + '</p>'
+		for param,value of paramsToSubmit
+			messageToSubmit += '<p><b>'+ param.replace('_', ' ').replace(/\b(.)/g, (e,m)-> m.toUpperCase()) +": </b>#{value}</p>"
 	
 		params.status = params.status or 'pending'
 		params.date = new Date
