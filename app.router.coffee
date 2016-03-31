@@ -259,7 +259,7 @@ router.post '/ajax', (req, res)->
 				paramsToSubmit[param] = params[param]
 
 		for param,value of paramsToSubmit
-			messageToSubmit += '<p><b>'+ param.replace('_', ' ').replace(/\b(.)/g, (e,m)-> m.toUpperCase()) +": </b>#{value}</p>"
+			messageToSubmit += '<p><b>' + param.replace('_', ' ').replace(/\b(.)/g, (e,m)-> m.toUpperCase()) + ": </b>#{value}</p>"
 	
 		params.status = params.status or 'pending'
 		params.date = new Date
