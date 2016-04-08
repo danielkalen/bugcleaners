@@ -155,7 +155,7 @@ if isPageManagement
 		clonedItem.show()
 		setTimeout ()->
 			clonedItem.save(true)
-		, 150
+		, 450
 
 
 	PageItem::fetchValues = ()->

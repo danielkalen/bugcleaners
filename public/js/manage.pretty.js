@@ -3520,7 +3520,7 @@ if (!Promise) {
       if (this.options.dontDisableFields && !force) {
         return;
       }
-      if ($step === this.form || !this.multiStep) {
+      if (!$step || $step === this.form || !this.multiStep) {
         return this.fields.forEach(function(field) {
           return field.disable();
         });
@@ -3539,7 +3539,7 @@ if (!Promise) {
       }
     };
     Form.prototype.enableFields = function($step) {
-      if ($step === this.form || !this.multiStep) {
+      if (!$step || $step === this.form || !this.multiStep) {
         return this.fields.forEach(function(field) {
           return field.enable();
         });
@@ -3551,6 +3551,44 @@ if (!Promise) {
             if (_this.fieldsInSteps[stepIndex]) {
               return _this.fieldsInSteps[stepIndex].forEach(function(field) {
                 return field.enable();
+              });
+            }
+          };
+        })(this));
+      }
+    };
+    Form.prototype.unRequireFields = function($step) {
+      if (!$step || $step === this.form || !this.multiStep) {
+        return this.fields.forEach(function(field) {
+          return field.makeNotRequired();
+        });
+      } else {
+        return $step.each((function(_this) {
+          return function(i, el) {
+            var stepIndex;
+            stepIndex = $(el).index() - _this.stepIndexOffset;
+            if (_this.fieldsInSteps[stepIndex]) {
+              return _this.fieldsInSteps[stepIndex].forEach(function(field) {
+                return field.makeNotRequired();
+              });
+            }
+          };
+        })(this));
+      }
+    };
+    Form.prototype.requireFields = function($step) {
+      if (!$step || $step === this.form || !this.multiStep) {
+        return this.fields.forEach(function(field) {
+          return field.makeRequired();
+        });
+      } else {
+        return $step.each((function(_this) {
+          return function(i, el) {
+            var stepIndex;
+            stepIndex = $(el).index() - _this.stepIndexOffset;
+            if (_this.fieldsInSteps[stepIndex]) {
+              return _this.fieldsInSteps[stepIndex].forEach(function(field) {
+                return field.makeRequired();
               });
             }
           };
@@ -3620,7 +3658,9 @@ if (!Promise) {
         return $(this).height($(this).data('height'));
       }).siblings('.step').height(stepClosedHeight);
       $steps.on('height_changed', function() {
-        return Form.utils.setSectionHeight($(this), false, true, stepClosedHeight);
+        var currentlyOpen;
+        currentlyOpen = $(this).height() > stepClosedHeight + 5;
+        return Form.utils.setSectionHeight($(this), false, true, stepClosedHeight, currentlyOpen);
       });
       return $window.on('resize', util.debounce(function() {
         Form.utils.saveSectionHeights($steps);
@@ -3643,7 +3683,7 @@ if (!Promise) {
     	==================================
      */
     Form.utils = {
-      setSectionHeight: function($section, hideOthers, setNewHeight, hiddenHeight) {
+      setSectionHeight: function($section, hideOthers, setNewHeight, hiddenHeight, applyNewHeight) {
         if (hideOthers == null) {
           hideOthers = true;
         }
@@ -3653,10 +3693,15 @@ if (!Promise) {
         if (hiddenHeight == null) {
           hiddenHeight = 40;
         }
+        if (applyNewHeight == null) {
+          applyNewHeight = true;
+        }
         if (setNewHeight) {
           $section.data('height', $section.children('.step-innerwrap').height() + 70);
         }
-        $section.height($section.data('height'));
+        if (applyNewHeight) {
+          $section.height($section.data('height'));
+        }
         if (hideOthers) {
           return $section.siblings('.step').css('height', hiddenHeight + "px");
         }
@@ -4601,7 +4646,7 @@ isLeadManagement = $$('body').hasClass('leads');
       clonedItem.show();
       return setTimeout(function() {
         return clonedItem.save(true);
-      }, 150);
+      }, 450);
     };
     PageItem.prototype.fetchValues = function() {
       var removeEmptyFileFields, variationsData;
