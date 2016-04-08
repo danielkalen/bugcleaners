@@ -124,10 +124,22 @@ app.use (req, res, next)->
 				includesSlug = true if block.slug is slug			
 			return includesSlug
 
+		getInitialVariation = (variationToGet=page.currentVariation)->
+			page.currentVariation = variationToGet
+			variation = page.variations[variationToGet]
+			
+			if variation?
+				if variation.enabled
+					return variation
+				else
+					return getInitialVariation(++variationToGet)
+			else
+				return getInitialVariation(0)
 
-		pageVariation = page.variations[page.currentVariation]
-		if (!pageVariation and page.currentVariation > 0) or not pageVariation.enabled
-			pageVariation = page.variations[0]
+		# pageVariation = page.variations[page.currentVariation]
+		# if (!pageVariation and page.currentVariation > 0) or not pageVariation.enabled
+		# 	pageVariation = page.variations[0]
+		pageVariation = getInitialVariation()
 
 		if pageVariation and pageVariation.enabled
 			if pageIncludes(pageVariation, 'faqs') then includeFaqs = true
