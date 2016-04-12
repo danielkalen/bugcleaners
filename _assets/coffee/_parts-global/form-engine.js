@@ -2485,7 +2485,7 @@
       if (this.options.dontDisableFields && !force) {
         return;
       }
-      if ($step === this.form || !this.multiStep) {
+      if (!$step || $step === this.form || !this.multiStep) {
         return this.fields.forEach(function(field) {
           return field.disable();
         });
@@ -2504,7 +2504,7 @@
       }
     };
     Form.prototype.enableFields = function($step) {
-      if ($step === this.form || !this.multiStep) {
+      if (!$step || $step === this.form || !this.multiStep) {
         return this.fields.forEach(function(field) {
           return field.enable();
         });
@@ -2516,6 +2516,44 @@
             if (_this.fieldsInSteps[stepIndex]) {
               return _this.fieldsInSteps[stepIndex].forEach(function(field) {
                 return field.enable();
+              });
+            }
+          };
+        })(this));
+      }
+    };
+    Form.prototype.unRequireFields = function($step) {
+      if (!$step || $step === this.form || !this.multiStep) {
+        return this.fields.forEach(function(field) {
+          return field.makeNotRequired();
+        });
+      } else {
+        return $step.each((function(_this) {
+          return function(i, el) {
+            var stepIndex;
+            stepIndex = $(el).index() - _this.stepIndexOffset;
+            if (_this.fieldsInSteps[stepIndex]) {
+              return _this.fieldsInSteps[stepIndex].forEach(function(field) {
+                return field.makeNotRequired();
+              });
+            }
+          };
+        })(this));
+      }
+    };
+    Form.prototype.requireFields = function($step) {
+      if (!$step || $step === this.form || !this.multiStep) {
+        return this.fields.forEach(function(field) {
+          return field.makeRequired();
+        });
+      } else {
+        return $step.each((function(_this) {
+          return function(i, el) {
+            var stepIndex;
+            stepIndex = $(el).index() - _this.stepIndexOffset;
+            if (_this.fieldsInSteps[stepIndex]) {
+              return _this.fieldsInSteps[stepIndex].forEach(function(field) {
+                return field.makeRequired();
               });
             }
           };
