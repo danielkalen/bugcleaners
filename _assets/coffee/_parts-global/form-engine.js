@@ -32,7 +32,7 @@
       'callbackOnEventAttachment': function() {}
     };
     window.Form = function($formEl, options) {
-      this.options = $.extend(defaultOptions, options);
+      this.options = $.extend({}, defaultOptions, options);
       this.window = $window;
       this.skippedAStep = false;
       this.disabled = false;
@@ -145,6 +145,9 @@
         'deps': [],
         'callbacks': []
       };
+      if (this.name.includes('password' && (this.minimum == null))) {
+        this.minimum = 6;
+      }
       if (this.disabled) {
         this.disable();
       }
@@ -413,6 +416,12 @@
         this.disable();
         return this.revealed = false;
       },
+      blur: function() {
+        return this.input.trigger('blur');
+      },
+      focus: function() {
+        return this.input.trigger('focus');
+      },
       subscribe: function(dep, condition, comparison, callback) {
         if (condition == null) {
           condition = '*';
@@ -540,6 +549,20 @@
             return results;
           };
         })(this), 75);
+      },
+      destroy: function(stepIndex) {
+        var ref;
+        this.form.fields.splice(this.form.fields.indexOf(this), 1);
+        delete this.form.fieldsByName[this.name];
+        if (this.form.fieldsRequired.includes(this)) {
+          this.form.fieldsRequired.splice(this.form.fieldsRequired.indexOf(this), 1);
+        }
+        if (stepIndex) {
+          if ((ref = this.form.fieldsInSteps[stepIndex]) != null ? ref.includes(this) : void 0) {
+            this.form.fieldsInSteps[stepIndex].splice(this.form.fieldsInSteps[stepIndex].indexOf(this), 1);
+          }
+          return this.field.remove();
+        }
       }
     };
     defaultFns = {
@@ -951,16 +974,16 @@
       },
       'test': {
         input: function() {
-          var inputValue, passesTest, ref;
+          var inputValue, passedTest, ref;
           inputValue = typeof this.input[0].value === 'boolean' ? this.input[0].value : (ref = this.input[0].value) != null ? ref.replace(util.regEx.whiteSpace, '') : void 0;
-          passesTest = this.pattern ? this.pattern.test(inputValue) : inputValue;
+          passedTest = this.pattern ? this.pattern.test(inputValue) : inputValue;
           if (this.value !== inputValue) {
             this.value = inputValue;
           }
           if (this.disabledForever) {
-            passesTest = true;
+            passedTest = true;
           }
-          if (passesTest) {
+          if (passedTest) {
             return true;
           } else {
             return false;
@@ -1007,13 +1030,13 @@
         setValue: defaultFns.setValue.button,
         empty: defaultFns.empty.input,
         test: function() {
-          var inputValue, passesTest, ref;
+          var inputValue, passedTest, ref;
           inputValue = (ref = this.input[0].value) != null ? ref.replace(util.regEx.whiteSpace, '') : void 0;
           if (this.value !== inputValue) {
             this.value = inputValue;
           }
           if (this.disabledForever) {
-            passesTest = true;
+            passedTest = true;
           }
           return inputValue !== '' && util.regEx.fullName.test(inputValue);
         }
@@ -1029,18 +1052,21 @@
         setValue: defaultFns.setValue.button,
         empty: defaultFns.empty.input,
         test: function() {
-          var $passwordOrig, inputValue, passesTest, passwordOrigValue, ref;
+          var $passwordOrig, inputValue, passedTest, passwordOrigValue, ref, ref1;
           inputValue = (ref = this.input[0].value) != null ? ref.replace(util.regEx.whiteSpace, '') : void 0;
-          passesTest = inputValue;
+          passedTest = inputValue;
           if (this.value !== inputValue) {
             this.value = inputValue;
           }
           if (this.name.includes('password_confirm')) {
             $passwordOrig = this.form.form.find('.fieldset.fieldtype_password');
             passwordOrigValue = $passwordOrig.find('input').val();
-            passesTest = inputValue === passwordOrigValue;
+            passedTest = inputValue === passwordOrigValue;
           }
-          return passesTest;
+          if (this.minimum && ((ref1 = this.value) != null ? ref1.length : void 0) < this.minimum) {
+            passedTest = false;
+          }
+          return passedTest;
         }
       },
       'email': {
@@ -1054,13 +1080,13 @@
         setValue: defaultFns.setValue.button,
         empty: defaultFns.empty.input,
         test: function() {
-          var inputValue, passesTest, ref;
+          var inputValue, passedTest, ref;
           inputValue = (ref = this.input[0].value) != null ? ref.replace(util.regEx.whiteSpace, '') : void 0;
           if (this.value !== inputValue) {
             this.value = inputValue;
           }
           if (this.disabledForever) {
-            passesTest = true;
+            passedTest = true;
           }
           return inputValue && util.regEx.email.test(inputValue);
         }
@@ -1076,13 +1102,13 @@
         setValue: defaultFns.setValue.button,
         empty: defaultFns.empty.input,
         test: function() {
-          var inputValue, passesTest, ref;
+          var inputValue, passedTest, ref;
           inputValue = (ref = this.input[0].value) != null ? ref.replace(util.regEx.whiteSpace, '') : void 0;
           if (this.value !== inputValue) {
             this.value = inputValue;
           }
           if (this.disabledForever) {
-            passesTest = true;
+            passedTest = true;
           }
           return inputValue && inputValue.length >= 7 && util.regEx.phone.test(inputValue);
         }
@@ -2049,6 +2075,7 @@
       }
     };
     Form.prototype.fieldProtos.repeater_group = Form.prototype.fieldProtos.repeater;
+    Form.Field = Field;
     parseWidth = function(string) {
       var delim, split;
       delim = string.includes('/') ? '/' : '-';
@@ -2443,6 +2470,16 @@
         this.fieldsRequired.push(fieldInstance);
       }
       return this.fieldsByName[fieldInstance.name] = fieldInstance;
+    };
+    Form.prototype.removeFields = function(stepIndex, indexToStopAt) {
+      if (stepIndex == null) {
+        return false;
+      }
+      return this.fieldsInSteps[stepIndex].slice().forEach(function(field, fieldIndex) {
+        if (fieldIndex !== indexToStopAt) {
+          return field.destroy(stepIndex);
+        }
+      });
     };
     Form.prototype.fetchValues = function() {
       var values;
