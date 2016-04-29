@@ -23,6 +23,7 @@ isSettingsManagement = $$('body').hasClass('settings')
 do ($ = jQuery)->
 	# @import _parts-manage/field-templates.coffee
 	# @import _parts-manage/manage-init_forms.coffee
+	# @import _parts-manage/manage-block_appension.coffee
 	# @import _parts-manage/manage-db_queries.coffee
 	# @import _parts-manage/manage-logout.coffee
 	# @import _parts-manage/manage-sidebar.coffee
@@ -34,7 +35,6 @@ do ($ = jQuery)->
 	# @import _parts-manage/manage-page_actions.coffee
 	# @import _parts-manage/manage-post_actions.coffee
 	# @import _parts-manage/manage-page-variations_actions.coffee
-	# @import _parts-manage/manage-block_appension.coffee
 	# @import _parts-manage/manage-login.coffee
 	# @import _parts-manage/manage-item_opening.coffee
 	# @import _parts-manage/manage-sortable.coffee

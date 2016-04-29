@@ -48,7 +48,6 @@ if isPageManagement
 
 
 	PageItem = (id, slug, name, type, enabled, rotation, el, sidebar)->
-		initForm(el)
 		@id = id
 		@slug = slug
 		@name = name
@@ -57,7 +56,6 @@ if isPageManagement
 		@rotation = rotation
 		@visible = false
 		@firstTime = true
-		@form = el.data('Form')
 		@el = el
 		@elTitle = el.find('.manage-content-list-title-text').first()
 		@variations = el.find('.manage-content-list-item')
@@ -72,10 +70,6 @@ if isPageManagement
 		@variations = []
 
 		@collectVariations()
-
-		@form.addField @fieldName.parent()
-		@form.addField @fieldSlug.parent()
-		@form.addField @fieldType.parent()
 
 		@el.data('item', @)
 		@sidebar.assocItem = @
@@ -128,7 +122,19 @@ if isPageManagement
 
 
 
+	PageItem::init = ()->
+		@inited = true
+		initForm @el
+
+		@form = @el.data('Form')
+		@form.addField @fieldName.parent()
+		@form.addField @fieldSlug.parent()
+		@form.addField @fieldType.parent()
+		@el.find('[name="blocks---slug[]"]').not('.disabled_forever').each ()-> appendDynamicBlocks @
+	
+
 	PageItem::show = ()->
+		@init() unless @inited
 		@visible = true
 		@el.siblings().each ()->
 			$(@).data().item.hide()

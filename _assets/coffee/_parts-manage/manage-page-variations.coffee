@@ -21,7 +21,7 @@ if isPageManagement
 
 		SimplyBind('value').of(@fieldNotes)
 			.to('textContent.notes').of(@elNotes).bothWays()
-			.transform (newValue)-> if newValue.toString() then "(#{newValue})" else newValue.toString()
+				.transform (newValue)-> if newValue.toString() then "(#{newValue})" else newValue.toString() or ''
 			.update()
 
 

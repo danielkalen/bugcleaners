@@ -36,7 +36,7 @@ appendDynamicBlocks = (selectField, blockValues)->
 		$backupBlock.insertAfter($dynamicBlock)
 
 
-$('.manage-content').find('[name="blocks---slug[]"]').not('.disabled_forever').each ()-> appendDynamicBlocks @
+# $('.manage-content').find('[name="blocks---slug[]"]').not('.disabled_forever').each ()-> appendDynamicBlocks @
 
 
 

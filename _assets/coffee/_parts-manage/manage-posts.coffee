@@ -12,10 +12,8 @@ if isPostManagement
 
 
 	PostType = (type, name, el, sidebar)->
-		initForm(el)
 		@type = type
 		@name = name
-		@form = el.data('Form')
 		@visible = false
 		@el = el
 		@elTitle = el.find('.manage-content-list-title-text').first()
@@ -32,9 +30,19 @@ if isPostManagement
 
 		return @
 
+	PageItem::init = ()->
+		@inited = true
+		initForm @el
+
+		@form = @el.data('Form')
+		@form.addField @fieldName.parent()
+		@form.addField @fieldSlug.parent()
+		@form.addField @fieldType.parent()
+		@el.find('[name="blocks---slug[]"]').not('.disabled_forever').each ()-> appendDynamicBlocks @
 
 
 	PostType::show = ()->
+		@init() unless @inited
 		@visible = true
 		@el.siblings().each ()->
 			$(@).data().item.hide()
