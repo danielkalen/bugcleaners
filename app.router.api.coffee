@@ -61,6 +61,14 @@ router.post '/:action/:postType', (req, res)->
 
 	if action == 'get'
 		query = params or {}
+		if query.date
+			if typeof query.date is 'string'
+				query.date = new Date(parseFloat(query.date))
+
+			else if typeof query.date is 'object'
+				for key,dateString of query.date
+					query.date[key] = new Date(parseFloat(dateString))
+
 		db.get(postType).find query, (err, result)->
 			if err
 				res.json
@@ -68,7 +76,6 @@ router.post '/:action/:postType', (req, res)->
 					message: 'An Error Occured'
 					details: err
 				console.log(err, result)
-			
 			else res.json result
 
 
