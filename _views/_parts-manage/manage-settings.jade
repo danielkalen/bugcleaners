@@ -1,0 +1,16 @@
+.manage-content
+	form.manage-content-list
+		h4.manage-content-list-title
+			.manage-content-list-title-text Settings
+
+		.manage-content-settings
+			if miscSettings.length
+				each setting in miscSettings
+					if setting
+						+renderSetting(setting)
+
+			.manage-content-settings-button.submit
+				.manage-content-settings-button-text Apply Changes
+			
+			.manage-content-settings-status.status(class="{{state}}")
+				.manage-content-settings-status-text Updating...

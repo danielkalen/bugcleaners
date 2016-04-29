@@ -1,12 +1,12 @@
 SETTINGS = require('./settings.json')
 SETTINGSDB = require('./settings-db.json')
-fs = require('fs')
+fs = require('fs-extra')
 
 logger = new ()->
 	logStreams = 
-		'access': fs.createWriteStream('logs/access.log', {'flags':'a'})
-		'error': fs.createWriteStream('logs/error.log', {'flags':'a'})
-		'api': fs.createWriteStream('logs/api.log', {'flags':'a'})
+		'access': fs.createWriteStream('./logs/access.log', {'flags':'a'})
+		'error': fs.createWriteStream('./logs/error.log', {'flags':'a'})
+		'api': fs.createWriteStream('./logs/api.log', {'flags':'a'})
 
 
 	@write = (logName, data)->

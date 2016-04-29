@@ -18,6 +18,7 @@ isMobile = $$('html').hasClass('mobile')
 isPageManagement = $$('body').hasClass('pages')
 isPostManagement = $$('body').hasClass('posts')
 isLeadManagement = $$('body').hasClass('leads')
+isSettingsManagement = $$('body').hasClass('settings')
 
 do ($ = jQuery)->
 	# @import _parts-manage/field-templates.coffee
@@ -29,6 +30,7 @@ do ($ = jQuery)->
 	# @import _parts-manage/manage-pages.coffee
 	# @import _parts-manage/manage-posts.coffee
 	# @import _parts-manage/manage-leads.coffee
+	# @import _parts-manage/manage-settings.coffee
 	# @import _parts-manage/manage-page_actions.coffee
 	# @import _parts-manage/manage-post_actions.coffee
 	# @import _parts-manage/manage-page-variations_actions.coffee

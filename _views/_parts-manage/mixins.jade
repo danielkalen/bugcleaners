@@ -451,6 +451,55 @@ mixin renderPostExitIntent(exit_intent)
 
 
 
+mixin renderSetting(setting)
+	-
+		if (exit_intent) {
+			var	classDisabled = exit_intent.enabled ? '' : 'disabled',
+				attributes = {
+					'id': exit_intent._id,
+					'class': classDisabled,
+					'data-name': exit_intent.name,
+					'data-single': 'Exit Intent'
+				};
+		} else {
+			var attributes = {'data-name': 'New Exit Intent', 'data-single': 'Exit Intent', 'data-new':'true'};
+		}
+		resetRowPercentage();
+
+	.manage-content-settings-item(data-name=setting.name, data-type=setting.type)
+		.manage-content-settings-item-text
+			.manage-content-settings-item-text-title=setting.title
+			if setting.desc
+				.manage-content-settings-item-text-desc=setting.desc
+		
+		.manage-content-settings-item-value
+			if setting.type === 'toggle'
+				.manage-content-settings-item-value-toggle(id=setting._id, class="{{state}}", data-init-state=setting.value)
+					.manage-content-settings-item-value-toggle-ball
+			else
+				+fieldGenerator({
+					'className': 'manage-content-settings-item-value',
+					'type': setting.type,
+					'name': setting.name,
+					'label': setting.title,
+					'defaultValue': setting.value
+				})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

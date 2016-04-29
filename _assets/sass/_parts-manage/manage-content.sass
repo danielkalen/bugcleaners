@@ -1,17 +1,25 @@
 @import 'manage-content-mixins'
 
+
 &-content
 	position: relative
 	$faqcolor: lighten($black, 10)
 	float: right
 	width: 73%
+	.settings &
+		float: none
+		+center
+		+max(768)
+			width: 100%
 	+max(736)
 		width: 100%
-
+	
+	@import 'manage-content-settings'
+	
 	&-list
 		display: none
 		margin-bottom: 70px
-		&.show
+		&.show, .settings &
 			display: block
 		&:last-child
 			margin-bottom: 0

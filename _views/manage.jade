@@ -24,20 +24,26 @@ html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr'
 			main.main
 				.page_innerwrap.manage
 					-
-						var isLogin,isPages,isPosts,isLeads;
+						var isLogin,isPages,isPosts,isLeads, isSettings;
 						switch (bodyClass) {
-							case 'login':  isLogin = true; break;
-							case 'pages':  isPages = true; break;
-							case 'posts':  isPosts = true; break;
-							case 'leads':  isLeads = true; break;
+							case 'login':     isLogin = true; break;
+							case 'pages':     isPages = true; break;
+							case 'posts':     isPosts = true; break;
+							case 'leads':     isLeads = true; break;
+							case 'settings':  isSettings = true; break;
 						}
 						
 
 					if isLogin
 						include ./_parts-manage/manage-login.jade
+			
 					else
 						if isLeads
 							include ./_parts-manage/manage-leads.jade
+					
+						else if isSettings
+							include ./_parts-manage/manage-settings.jade
+					
 						else
 							include ./_parts-manage/manage-sidebar.jade
 							

@@ -75,10 +75,28 @@ DB =
 				url: '/api/updatemulti/pages'
 				data: dataToSubmit
 				contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
-				# contentType: 'application/json; charset=UTF-8'
 				success: callback
 				dataType: 'json'
 
+
+
+	'settings':
+		update: (fields, callback)->
+			dataToSubmit =
+				'queries': fields.map (field)->
+					'query':
+						'name': field.name
+					'updateQuery':
+						'$set': 'value': field.value
+			
+
+			$.ajax 
+				method: 'POST'
+				url: '/api/updatemulti/misc'
+				data: dataToSubmit
+				contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+				success: callback
+				dataType: 'json'
 
 
 

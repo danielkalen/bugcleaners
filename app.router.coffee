@@ -15,6 +15,7 @@ Posts = db.get('posts')
 Leads = db.get('leads')
 Emails = db.get('emails')
 Users = db.get('users')
+MiscData = db.get('misc')
 inProduction = if __dirname.includes('Projects') then false else true
 
 ### ==========================================================================
@@ -113,6 +114,22 @@ router.get '/manage/logout', (req, res)->
 
 
 
+router.get '/manage/settings', require('connect-ensure-login').ensureLoggedIn('/manage/login'), (req, res)->
+	currentPage = req.hostname + req.originalUrl
+	MiscData.find {}, {sort: {slug:1}}, (error, settings)->
+		res.render 'manage',
+			'miscSettings': settings
+			'production': inProduction
+			'fieldSchemas': SETTINGS.fieldSchemas
+			'currentPage': currentPage
+			'bodyClass': 'settings'
+			'settings': SETTINGS
+			'app': SETTINGS.app
+
+
+
+
+
 router.get '/manage/pages', require('connect-ensure-login').ensureLoggedIn('/manage/login'), (req, res)->
 	currentPage = req.hostname + req.originalUrl
 	Pages.find {}, {sort: {name:1}}, (error, pages)->
@@ -143,6 +160,7 @@ router.get '/manage/posts', require('connect-ensure-login').ensureLoggedIn('/man
 			'bodyClass': 'posts'
 			'settings': SETTINGS
 			'app': SETTINGS.app
+
 
 
 router.get '/manage/leads/:page?', require('connect-ensure-login').ensureLoggedIn('/manage/login'), (req, res)->
@@ -244,10 +262,16 @@ router.post '/ajax', (req, res)->
 		ua = uaParser(req.headers['user-agent'])
 		currentDate = new Date
 		ajaxResponse.success = true
-		ajaxResponse.message = 'Your request has been received. A dedicated specialist will contact you shortly to provide you with free pricing information.'
+		MiscData.findOne {name:'thanks_message'}, (err, thanksMessage)->
+			if err
+				console.log err
+				ajaxResponse.message = 'Your request has been received. A dedicated specialist will contact you shortly to provide you with free pricing information.'
+			else
+				ajaxResponse.message = thanksMessage.value
+
+			res.json ajaxResponse
 		
-		res.json ajaxResponse
-		
+
 		fullname = params.fullname or params.full_name
 		if fullname
 			fullname = fullname.split(/\s/)
@@ -297,6 +321,8 @@ router.post '/ajax', (req, res)->
 
 
 
+
+
 	if action == 'contact-email'
 		ajaxResponse = {}
 		ajaxResponse.success = true
@@ -314,6 +340,8 @@ router.post '/ajax', (req, res)->
 		sendEmail SETTINGS.admin.name, SETTINGS.admin.email, "[SUPPORT] Support Request", messageToSubmit, attachment
 
 
+
+
 	if action == 'contact-phone'
 		ajaxResponse = {}
 		ajaxResponse.success = true
@@ -328,7 +356,6 @@ router.post '/ajax', (req, res)->
 
 
 
-	res.end()
 module.exports = router
 
 
