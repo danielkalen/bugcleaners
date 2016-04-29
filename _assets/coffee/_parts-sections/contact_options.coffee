@@ -13,6 +13,9 @@ do ($=jQuery)->
 			@content = $$(".contact_options-content-item.#{@name}")
 			@contentHeight = util.getHiddenElementHeight(@content[0], '620px')
 
+			@content.find('form').each ()->
+				new Form $(@)
+
 			@reveal = ()->
 				initiated = $contentBox.data('inited')
 				@content.addClass 'active' if !initiated
@@ -111,3 +114,4 @@ do ($=jQuery)->
 
 		# ==== Init tabs =================================================================================
 		$$('.contact_options-tabs-item').each ()-> new TabItem(@)
+
