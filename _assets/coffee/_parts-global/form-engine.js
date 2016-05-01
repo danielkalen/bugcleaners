@@ -15,6 +15,7 @@
       'validateOnTyping': false,
       'preserveValuesAfterRefresh': true,
       'hasLoadingStep': true,
+      'singleStep': false,
       'forceAjaxSubmit': false,
       'submitOnEnter': true,
       'dontDisableFields': false,
@@ -61,6 +62,9 @@
       }
       this.resultsPlaceholder = this.form.find('.results');
       this.multiStep = this.form.find('.step').length > 1;
+      if (this.options.singleStep) {
+        this.multiStep = false;
+      }
       this.focused_atleast_once = false;
       if (!this.form.data('Form')) {
         this.form.data('Form', this);

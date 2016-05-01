@@ -3,6 +3,6 @@ do ($=jQuery)->
 		$form = $(@)
 	
 		if $form.hasClass('standard')
-			new Form $form, {'dontDisableFields':true}
+			new Form $form, {'dontDisableFields':true, 'singleStep':true}
 		else
 			new Form $form
