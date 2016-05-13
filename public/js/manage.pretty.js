@@ -1061,6 +1061,7 @@ function w(a){return new n(function(b,c){function d(c){return function(d){h[c]=d
       'validateOnTyping': false,
       'preserveValuesAfterRefresh': true,
       'hasLoadingStep': true,
+      'singleStep': false,
       'forceAjaxSubmit': false,
       'submitOnEnter': true,
       'dontDisableFields': false,
@@ -1107,6 +1108,9 @@ function w(a){return new n(function(b,c){function d(c){return function(d){h[c]=d
       }
       this.resultsPlaceholder = this.form.find('.results');
       this.multiStep = this.form.find('.step').length > 1;
+      if (this.options.singleStep) {
+        this.multiStep = false;
+      }
       this.focused_atleast_once = false;
       if (!this.form.data('Form')) {
         this.form.data('Form', this);
@@ -1191,7 +1195,7 @@ function w(a){return new n(function(b,c){function d(c){return function(d){h[c]=d
         'deps': [],
         'callbacks': []
       };
-      if (this.name.includes('password' && (this.minimum == null))) {
+      if (this.name.includes('password') && (this.minimum == null)) {
         this.minimum = 6;
       }
       if (this.disabled) {
@@ -2072,7 +2076,17 @@ function w(a){return new n(function(b,c){function d(c){return function(d){h[c]=d
         detach: defaultFns.detach.input,
         disable: defaultFns.disable.input,
         enable: defaultFns.enable.input,
-        fetchValue: defaultFns.fetchValue.button,
+        fetchValue: function() {
+          var fullname;
+          if (!this.value || typeof this.value === 'boolean') {
+            return this.value;
+          }
+          fullname = this.value.toLowerCase().split(/\s+/);
+          fullname.map(function(name) {
+            return name[0].toUpperCase() + name.slice(1);
+          });
+          return fullname.join(' ');
+        },
         setValue: defaultFns.setValue.button,
         empty: defaultFns.empty.input,
         test: function() {
@@ -3419,7 +3433,7 @@ function w(a){return new n(function(b,c){function d(c){return function(d){h[c]=d
     Form.prototype.Next = function() {
       if (!this.disabled) {
         if (this.options.customNext) {
-          this.options.customNext();
+          this.options.customNext.call(this);
         } else {
           if (this.Validate()) {
             this.revealSection(this.step.next);
@@ -3434,7 +3448,7 @@ function w(a){return new n(function(b,c){function d(c){return function(d){h[c]=d
     Form.prototype.Back = function() {
       if (!this.disabled) {
         if (this.options.customPrev) {
-          this.options.customPrev();
+          this.options.customPrev.call(this);
         } else {
           this.revealSection(this.step.prev);
           this.setCurrentStepTo('prev');
@@ -3447,7 +3461,7 @@ function w(a){return new n(function(b,c){function d(c){return function(d){h[c]=d
       if (!this.disabled) {
         if (this.Validate()) {
           if (this.options.customSubmit) {
-            return this.options.customSubmit();
+            return this.options.customSubmit.call(this);
           } else {
             this.form.addClass('loading final');
             if (this.action || this.options.forceAjaxSubmit) {
@@ -4993,13 +5007,10 @@ isSettingsManagement = $$('body').hasClass('settings');
       this.collectPosts();
       return this;
     };
-    PageItem.prototype.init = function() {
+    PostType.prototype.init = function() {
       this.inited = true;
       initForm(this.el);
       this.form = this.el.data('Form');
-      this.form.addField(this.fieldName.parent());
-      this.form.addField(this.fieldSlug.parent());
-      this.form.addField(this.fieldType.parent());
       return this.el.find('[name="blocks---slug[]"]').not('.disabled_forever').each(function() {
         return appendDynamicBlocks(this);
       });

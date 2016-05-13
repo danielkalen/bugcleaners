@@ -149,7 +149,7 @@
         'deps': [],
         'callbacks': []
       };
-      if (this.name.includes('password' && (this.minimum == null))) {
+      if (this.name.includes('password') && (this.minimum == null)) {
         this.minimum = 6;
       }
       if (this.disabled) {
@@ -1030,7 +1030,17 @@
         detach: defaultFns.detach.input,
         disable: defaultFns.disable.input,
         enable: defaultFns.enable.input,
-        fetchValue: defaultFns.fetchValue.button,
+        fetchValue: function() {
+          var fullname;
+          if (!this.value || typeof this.value === 'boolean') {
+            return this.value;
+          }
+          fullname = this.value.toLowerCase().split(/\s+/);
+          fullname.map(function(name) {
+            return name[0].toUpperCase() + name.slice(1);
+          });
+          return fullname.join(' ');
+        },
         setValue: defaultFns.setValue.button,
         empty: defaultFns.empty.input,
         test: function() {
@@ -2377,7 +2387,7 @@
     Form.prototype.Next = function() {
       if (!this.disabled) {
         if (this.options.customNext) {
-          this.options.customNext();
+          this.options.customNext.call(this);
         } else {
           if (this.Validate()) {
             this.revealSection(this.step.next);
@@ -2392,7 +2402,7 @@
     Form.prototype.Back = function() {
       if (!this.disabled) {
         if (this.options.customPrev) {
-          this.options.customPrev();
+          this.options.customPrev.call(this);
         } else {
           this.revealSection(this.step.prev);
           this.setCurrentStepTo('prev');
@@ -2405,7 +2415,7 @@
       if (!this.disabled) {
         if (this.Validate()) {
           if (this.options.customSubmit) {
-            return this.options.customSubmit();
+            return this.options.customSubmit.call(this);
           } else {
             this.form.addClass('loading final');
             if (this.action || this.options.forceAjaxSubmit) {

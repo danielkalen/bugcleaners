@@ -30,14 +30,14 @@ if isPostManagement
 
 		return @
 
-	PageItem::init = ()->
+	PostType::init = ()->
 		@inited = true
 		initForm @el
 
 		@form = @el.data('Form')
-		@form.addField @fieldName.parent()
-		@form.addField @fieldSlug.parent()
-		@form.addField @fieldType.parent()
+		# @form.addField @fieldName.parent()
+		# @form.addField @fieldSlug.parent()
+		# @form.addField @fieldType.parent()
 		@el.find('[name="blocks---slug[]"]').not('.disabled_forever').each ()-> appendDynamicBlocks @
 
 
