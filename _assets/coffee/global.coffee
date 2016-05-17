@@ -5,6 +5,7 @@
 # @import '_parts-global/_helpers.js'
 # @import '_parts-global/_polyfills.js'
 # @import '_parts-global/fonts_dynamic_loading.js'
+# @import '_parts-global/analytics.js'
 
 
 domReadyInterval = setInterval ()->
