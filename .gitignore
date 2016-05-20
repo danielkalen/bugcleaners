@@ -19,3 +19,11 @@ logs/error.log
 *.log
 
 settings-db.json
+
+data_import/db_import.min.js
+
+data_import/db_import_faqs.min.js
+
+data_import/db_import_faqs.js
+
+data_import/db_import.js

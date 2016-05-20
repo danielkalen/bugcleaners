@@ -25,6 +25,7 @@
     "jstransformer-markdown": "^1.1.0",
     "mongodb": "^2.1.6",
     "monkii": "^1.1.5",
+    "newrelic": "^1.27.2",
     "node-sass": "^3.4.2",
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",

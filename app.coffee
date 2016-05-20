@@ -1,3 +1,4 @@
+newrelic = require('./newrelic.js')
 SETTINGS = require('./settings.json')
 SETTINGSDB = require('./settings-db.json')
 logger = require('./app.logger')
