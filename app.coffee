@@ -91,15 +91,16 @@ app.use '/purge', routerpurge
 
 # ==== DB Pages && 404 page =================================================================================
 app.use (req, res, next)->
-	slug = req.url.slice(1)
+	slug = req.url.slice(1).split('?')[0]
 	slug = 'home' if slug is ''
 	ipAddress = req.headers['cf-connecting-ip'] or req.headers['x-forwarded-for'] or req.connection.remoteAddress
 
 	Pages.findOne {'slug':slug}, (err, page)->
 		if not page or not page.type or not availPageTypes.includes page.type
 			logger.write('access', "[404] /#{slug} accessed by #{ipAddress}")
-			return res.status(404).render '404', {app:SETTINGS.app, markdown:markdown}
-		# return next()
+			return render404Page(res)
+
+		
 		renderPage = (pageType, faqs, faq_categories, pests, services, exitIntent)->
 			currentPage = req.hostname + req.originalUrl
 			res.render pageType,
@@ -136,9 +137,12 @@ app.use (req, res, next)->
 			else
 				return getInitialVariation(0)
 
-		# pageVariation = page.variations[page.currentVariation]
-		# if (!pageVariation and page.currentVariation > 0) or not pageVariation.enabled
-		# 	pageVariation = page.variations[0]
+
+
+
+
+
+
 		pageVariation = getInitialVariation()
 
 		if pageVariation and pageVariation.enabled
@@ -199,15 +203,28 @@ app.use (req, res, next)->
 				Pages.update { slug: page.slug }, '$set': 'currentVariation': nextVariation
 		
 
-		else res.status(404).render '404'
+		else render404Page(res)
 		# next()
+
+
+
+
+
+render404Page = (res)->
+	res.status(404).render '404', 
+		'production': inProduction
+		'app': SETTINGS.app
+		'markdown': markdown
+
+
+
+
 
 
 
 ### ==========================================================================
 	 Init Server
 	========================================================================== ###
-
 server = app.listen port, ()->
 	host = server.address().address
 	port = server.address().port

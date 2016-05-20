@@ -15,9 +15,11 @@ html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr'
 		link(rel='stylesheet', href='/css/global.css', type='text/css')
 		link(rel='stylesheet', href='/css/404.css', type='text/css')
 		include ./_parts-global/takana.jade
+	
+
 	body.page_404
 		include ./_parts-global/field-generator.jade
-		#page
+		#page.page
 			include ./_parts-page/header.jade
 			main.main
 				section.error_404
@@ -63,6 +65,5 @@ html(lang='en-US', itemscope='', itemtype='http://schema.org/WebPage', dir='ltr'
 
 					
 			include ./_parts-page/footer.jade
-		script(type='text/javascript', src='js/global.js', async, defer)
-		script(type='text/javascript', src='js/404.js', async, defer)
+		script(type='text/javascript', src='js/404.pretty.js', async, defer)
 		include ./_parts-global/analytics.jade
