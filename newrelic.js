@@ -10,11 +10,11 @@ exports.config = {
   /**
    * Array of application names.
    */
-  app_name: ['My Application'],
+  app_name: ['BugCleaners'],
   /**
    * Your New Relic license key.
    */
-  license_key: 'license key here',
+  license_key: '997ad563ef8010039a71cf6a11f34c22e114aea2',
   logging: {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing
