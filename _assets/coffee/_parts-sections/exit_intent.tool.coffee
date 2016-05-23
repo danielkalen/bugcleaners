@@ -47,7 +47,7 @@ do ($=jQuery)->
 
 
 
-		$form = exitIntent.find('form')
+		$form = exitIntent.el.find('form')
 		
 		$form.on 'submitted', ()->
 			currentVariation = $form.children('input[name="currentVariation"]').val()
