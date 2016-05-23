@@ -43,8 +43,14 @@ do ($=jQuery)->
 
 	if $('.form_tool-form').length
 		$('.form_tool-form').each ()->
-			new Form $(@), formOptions
+			$form = $(@)
+			new Form $form, formOptions
 			formInstance = $(@).data('Form')
 			getQuoteBlock = formInstance.form
 			
 			applyAutoProceedLogicForToolForms getQuoteBlock, formInstance
+
+			$form.on 'submitted', ()->
+				currentVariation = $form.children('input[name="currentVariation"]').val()
+				ga?('send', 'event', 'Form', 'submitted', 'variation', currentVariation)
+				ga?('send', 'event', 'Form', 'submitted', 'form-type', 'Tool')

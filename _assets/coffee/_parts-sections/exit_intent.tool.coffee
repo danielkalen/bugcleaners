@@ -39,3 +39,17 @@ do ($=jQuery)->
 			, 150
 
 		, 120)
+
+
+
+
+
+
+
+
+		$form = exitIntent.find('form')
+		
+		$form.on 'submitted', ()->
+			currentVariation = $form.children('input[name="currentVariation"]').val()
+			ga?('send', 'event', 'Form', 'submitted', 'variation', currentVariation)
+			ga?('send', 'event', 'Form', 'submitted', 'form-type', 'Exit Intent (Tool)')
